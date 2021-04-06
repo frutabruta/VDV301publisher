@@ -25,12 +25,15 @@ public:
     void PostDoDispleje(QUrl adresaDispleje, QString dataDoPostu);
    // void ObnoveniServeru(QString dataDoServeru);
     //void novySubscriber(QUrl adresaSubscribera, QString struktura);
-    void OdeslatDataDoDispleju(QDomDocument prestupyDomDocument, int verzeVDV301, CestaUdaje &stav, QVector<SeznamZastavek> interniSeznamZastavek);
+
     void novySubscriber(Subscriber subscriber);
     int jeSubscriberNaSeznamu(QVector<Subscriber> seznam, Subscriber prvek);
     int odstranitSubscribera(int index);
     int nastavObsahTela(QString klic, QString obsah);
     QString globVerze="1.0";
+    void hromadneOdeslaniDoDispleje(QDomDocument prestupyDomDocument, CestaUdaje &stav, QVector<SeznamZastavek> interniSeznamZastavek);
+    void aktualizaceInternichPromennychOdeslat(QDomDocument prestupyDomDocument, int verzeVDV301, CestaUdaje &stav, QVector<SeznamZastavek> seznamZastavek);
+    QTimer *timer = new QTimer(this);
 private:
     QZeroConf zeroConf;
 
@@ -44,24 +47,30 @@ private:
     QString typSluzbyInterni="_ibisip_http._tcp";
     //int nastavHttpObsah(QString argumentXMLserveru);
     QByteArray vyrobHlavickuGet();
-    /*
-    int zkombinujHlavickaTeloGet(QString hlavicka, QString telo);
-
-    int zkombinujHlavickaTeloSubscribe(QString hlavicka, QString telo);
-    */
-    //QString vyrobGetResponseBody();
     QString vyrobHlavickuSubscribe();
     xmlGenerator TestXmlGenerator;
     QMap<QString,QString> obsahTelaPole;
 
+    QDomDocument prestupyDomDocumentInterni;
+    CestaUdaje stavInterni;
+    QVector<SeznamZastavek> seznamZastavekInterni ;
+
+
+
     int asocPoleDoServeru(QMap<QString, QString> pole);
+
+
 public slots:
     //void vypisObsahRequestu();
     void vypisObsahRequestu(QByteArray vysledek, QString struktura);
+     void tedOdesliNaPanely();
 
 signals:
     void pridejSubscribera(QUrl adresaSubscribera);
     void vypisSubscriberu(QVector<Subscriber> seznamSubscriberuInt);
+
+private slots:
+    void vyprseniCasovace();
 
 };
 

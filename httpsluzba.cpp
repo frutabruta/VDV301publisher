@@ -17,10 +17,15 @@ HttpSluzba::HttpSluzba(QString nazevSluzby,QString typSluzby, int cisloPortu,QSt
 
     //connect(&InstanceNovehoServeru,SIGNAL(zmenaObsahu()),this,SLOT(vypisObsahRequestu()));
     connect(&InstanceNovehoServeru,&NewHttpServer::zmenaObsahu,this,&HttpSluzba::vypisObsahRequestu);
+
+
 }
 
 
-
+void HttpSluzba::vyprseniCasovace()
+{
+    qDebug()<<"casovac vyrpsel";
+}
 
 
 /*
@@ -120,46 +125,53 @@ void HttpSluzba::vypisObsahRequestu(QByteArray vysledek,QString struktura)
 }
 
 
-void HttpSluzba::OdeslatDataDoDispleju(QDomDocument prestupyDomDocument, int verzeVDV301, CestaUdaje &stav, QVector<SeznamZastavek>  interniSeznamZastavek ) //novy
+void HttpSluzba::aktualizaceInternichPromennychOdeslat(QDomDocument prestupyDomDocument, int verzeVDV301, CestaUdaje &stav, QVector<SeznamZastavek>  seznamZastavek ) //novy
 {
-    qDebug()<<"HttpSluzba::OdeslatDataDoDispleju";
+    qDebug()<<"HttpSluzbaA::tualizaceInternichPromennychOdeslat";
+    prestupyDomDocumentInterni=prestupyDomDocument;
+    stavInterni=stav;
+    seznamZastavekInterni=seznamZastavek;
+    tedOdesliNaPanely();
+    timer->start(60000);
+
+
+}
+
+void HttpSluzba::tedOdesliNaPanely()
+{
+    qDebug()<<"HttpSluzba::tedOdesliNaPanely()";
+    hromadneOdeslaniDoDispleje(prestupyDomDocumentInterni,stavInterni,seznamZastavekInterni);
+}
+void HttpSluzba::hromadneOdeslaniDoDispleje(QDomDocument prestupyDomDocument, CestaUdaje &stav, QVector<SeznamZastavek>  seznamZastavek ) //novy
+{
+    qDebug()<<"HttpSluzba::hromadneOdeslaniDoDispleje"<<nazevSluzbyInterni<<" "<<globVerze;
     QByteArray zpracovanoMPV="";
     QString bodyAllData="";
     QString bodyCurrentDisplayContent="";
+    qDebug()<<"1";
     if (globVerze=="2.2CZ1.0")
     {
-        bodyAllData=TestXmlGenerator.AllData2_2CZ1_0( stav.indexAktZastavky,interniSeznamZastavek, stav.aktlinka, stav.doorState, stav.locationState,prestupyDomDocument);
-        bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,interniSeznamZastavek,stav);
-
+        qDebug()<<"2";
+        bodyAllData=TestXmlGenerator.AllData2_2CZ1_0( stav.indexAktZastavky,seznamZastavek, stav.aktlinka, stav.doorState, stav.locationState,prestupyDomDocument);
+        bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,seznamZastavek,stav);
     }
     else
     {
-        bodyAllData=TestXmlGenerator.AllData1_0( interniSeznamZastavek, stav.aktlinka, stav.doorState, stav.locationState,prestupyDomDocument,stav);
-        bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,interniSeznamZastavek, stav);
-        //QString vysledekCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stavSystemu.cislo,globalniSeznamZastavek, stavSystemu.aktlinka, stavSystemu.doorState, stavSystemu.locationState,prestupyDomDocument);
-
+        qDebug()<<"3";
+        bodyAllData=TestXmlGenerator.AllData1_0( seznamZastavek, stav.aktlinka, stav.doorState, stav.locationState,prestupyDomDocument,stav);
+        bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,seznamZastavek, stav);
     }
 
-
+    qDebug()<<"4";
     this->nastavObsahTela("AllData",bodyAllData);
     this->nastavObsahTela("CurrentDisplayContent",bodyCurrentDisplayContent);
     this->asocPoleDoServeru(obsahTelaPole);
-
-
-
-
-
+    qDebug()<<"5";
     for(int i=0;i<seznamSubscriberu.count();i++ )
     {
         PostDoDispleje(seznamSubscriberu[i].adresa,obsahTelaPole.value(seznamSubscriberu[i].struktura));
     }
-    //qDebug()<<"do displeje odeslano: "<<obsahTelaPole.value("CurrentDisplayContent");
-    // Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-    //PostDoDispleje(QUrl("http://192.168.2.37:80"),bodyCurrentDisplayContent);
-    //PostDoDispleje(QUrl("http://192.168.2.16:60012"),bodyCurrentDisplayContent);
-    //PostDoDispleje(QUrl("http://192.168.1.152:80"),bodyCurrentDisplayContent);
-    //qDebug()<<"do displeje odeslano: "<<bodyCurrentDisplayContent;
-    // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    qDebug()<<"6";
 }
 
 void HttpSluzba::PostDoDispleje(QUrl adresaDispleje, QString dataDoPostu)
