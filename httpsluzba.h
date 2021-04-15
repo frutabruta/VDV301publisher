@@ -8,7 +8,7 @@
 #include <QtHttpServer>
 #include "newhttpserver.h"
 #include "xmlgenerator.h"
-#include "cestaudaje.h"
+#include "../VDV301struktury/cestaudaje.h"
 #include "subscriber.h"
 
 class HttpSluzba: public QObject
