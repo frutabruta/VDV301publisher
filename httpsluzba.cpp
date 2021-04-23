@@ -113,9 +113,15 @@ void HttpSluzba::vypisObsahRequestu(QByteArray vysledek,QString struktura)
     QString port= xmlrequest.elementsByTagName("ReplyPort").at(0).toElement().firstChildElement().text() ;
     qDebug()<<"prvni element "<<adresa<<" "<<port;
     qDebug()<<"body pozadavku"<<posledniRequest;
-    qDebug()<<"vysledek"<<vysledek;
+    //qDebug()<<"vysledek"<<vysledek;
     QString kompletadresa="http://"+adresa+":"+port;
+    if(adresa.contains("%"))
+    {
+        qDebug()<<"detekovano procento";
+        kompletadresa="http://["+adresa+"]:"+port;
+    }
     QUrl adresaurl=kompletadresa;
+
     //pridejSubscribera(adresaurl);
     Subscriber kandidat;
     kandidat.adresa=adresaurl;
