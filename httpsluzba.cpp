@@ -17,7 +17,7 @@ HttpSluzba::HttpSluzba(QString nazevSluzby,QString typSluzby, int cisloPortu,QSt
 
     //connect(&InstanceNovehoServeru,SIGNAL(zmenaObsahu()),this,SLOT(vypisObsahRequestu()));
     connect(&InstanceNovehoServeru,&NewHttpServer::zmenaObsahu,this,&HttpSluzba::vypisObsahRequestu);
-
+    connect(&zeroConf,&QZeroConf::error,this,&HttpSluzba::vypisChybuZeroConfig);
 
 }
 
@@ -82,6 +82,14 @@ void HttpSluzba::bonjourStartPublish(QString nazevSluzby, QString typSluzby,int 
     qDebug()<<"HttpSluzba::bonjourStartPublish"<<nazevSluzby;
     instanceZeroConf.addServiceTxtRecord("ver", verze);
     instanceZeroConf.startServicePublish(nazevSluzby.toUtf8(), typSluzby.toUtf8(), "local", port);
+
+}
+
+
+
+void HttpSluzba::vypisChybuZeroConfig()
+{
+    qDebug()<<"HttpSluzba::vypisChybuZeroConfig";
 }
 
 QByteArray HttpSluzba::vyrobSubscribeResponseBody(int vysledek)

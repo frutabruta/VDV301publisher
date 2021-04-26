@@ -34,6 +34,7 @@ public:
     void hromadneOdeslaniDoDispleje(QDomDocument prestupyDomDocument, CestaUdaje &stav, QVector<SeznamZastavek> interniSeznamZastavek);
     void aktualizaceInternichPromennychOdeslat(QDomDocument prestupyDomDocument, int verzeVDV301, CestaUdaje &stav, QVector<SeznamZastavek> seznamZastavek);
     QTimer *timer = new QTimer(this);
+    void vypisChybuZeroConfig();
 private:
     QZeroConf zeroConf;
 
