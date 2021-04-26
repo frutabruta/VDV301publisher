@@ -89,7 +89,7 @@ void HttpSluzba::bonjourStartPublish(QString nazevSluzby, QString typSluzby,int 
 
 void HttpSluzba::vypisChybuZeroConfig()
 {
-    qDebug()<<"HttpSluzba::vypisChybuZeroConfig";
+    qDebug()<<"HttpSluzba::vypisChybuZeroConfig2";
 }
 
 QByteArray HttpSluzba::vyrobSubscribeResponseBody(int vysledek)
