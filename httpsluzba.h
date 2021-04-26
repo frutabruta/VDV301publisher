@@ -34,7 +34,7 @@ public:
     void hromadneOdeslaniDoDispleje(QDomDocument prestupyDomDocument, CestaUdaje &stav, QVector<SeznamZastavek> interniSeznamZastavek);
     void aktualizaceInternichPromennychOdeslat(QDomDocument prestupyDomDocument, int verzeVDV301, CestaUdaje &stav, QVector<SeznamZastavek> seznamZastavek);
     QTimer *timer = new QTimer(this);
-    void vypisChybuZeroConfig();
+
 private:
     QZeroConf zeroConf;
 
@@ -65,6 +65,7 @@ public slots:
     //void vypisObsahRequestu();
     void vypisObsahRequestu(QByteArray vysledek, QString struktura);
      void tedOdesliNaPanely();
+     void vypisChybuZeroConfig();
 
 signals:
     void pridejSubscribera(QUrl adresaSubscribera);
