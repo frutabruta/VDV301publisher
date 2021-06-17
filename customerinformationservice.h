@@ -7,7 +7,7 @@
 class CustomerInformationService : public HttpSluzba
 {
 public:
-    explicit CustomerInformationService(QString nazevSluzby, QString typSluzby, int cisloPortu, QString verze);;
+    explicit CustomerInformationService(QString nazevSluzby, QString typSluzby, int cisloPortu, QString verze);
 
 signals:
 
