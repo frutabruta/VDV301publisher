@@ -1,7 +1,7 @@
 #include "httpsluzba.h"
 
 #include "qtzeroconf/qzeroconf.h"
-
+#include "VDV301struktury/zastavkacil.h"
 
 
 
@@ -139,7 +139,7 @@ void HttpSluzba::vypisObsahRequestu(QByteArray vysledek,QString struktura)
 }
 
 
-void HttpSluzba::aktualizaceInternichPromennychOdeslat(QDomDocument prestupyDomDocument, int verzeVDV301, CestaUdaje &stav, QVector<SeznamZastavek>  seznamZastavek ) //novy
+void HttpSluzba::aktualizaceInternichPromennychOdeslat(QDomDocument prestupyDomDocument, int verzeVDV301, CestaUdaje &stav, QVector<ZastavkaCil>  seznamZastavek ) //novy
 {
     qDebug()<<"HttpSluzbaA::tualizaceInternichPromennychOdeslat";
     prestupyDomDocumentInterni=prestupyDomDocument;
@@ -156,7 +156,7 @@ void HttpSluzba::tedOdesliNaPanely()
     qDebug()<<"HttpSluzba::tedOdesliNaPanely()";
     hromadneOdeslaniDoDispleje(prestupyDomDocumentInterni,stavInterni,seznamZastavekInterni);
 }
-void HttpSluzba::hromadneOdeslaniDoDispleje(QDomDocument prestupyDomDocument, CestaUdaje &stav, QVector<SeznamZastavek>  seznamZastavek ) //novy
+void HttpSluzba::hromadneOdeslaniDoDispleje(QDomDocument prestupyDomDocument, CestaUdaje &stav, QVector<ZastavkaCil>  seznamZastavek ) //novy
 {
     qDebug()<<"HttpSluzba::hromadneOdeslaniDoDispleje"<<nazevSluzbyInterni<<" "<<globVerze;
     QByteArray zpracovanoMPV="";

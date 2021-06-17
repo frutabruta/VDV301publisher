@@ -9,6 +9,7 @@
 #include "newhttpserver.h"
 #include "xmlgenerator.h"
 #include "../VDV301struktury/cestaudaje.h"
+#include "../VDV301struktury/zastavkacil.h"
 #include "subscriber.h"
 
 class HttpSluzba: public QObject
@@ -31,8 +32,8 @@ public:
     int odstranitSubscribera(int index);
     int nastavObsahTela(QString klic, QString obsah);
     QString globVerze="1.0";
-    void hromadneOdeslaniDoDispleje(QDomDocument prestupyDomDocument, CestaUdaje &stav, QVector<SeznamZastavek> interniSeznamZastavek);
-    void aktualizaceInternichPromennychOdeslat(QDomDocument prestupyDomDocument, int verzeVDV301, CestaUdaje &stav, QVector<SeznamZastavek> seznamZastavek);
+    void hromadneOdeslaniDoDispleje(QDomDocument prestupyDomDocument, CestaUdaje &stav, QVector<ZastavkaCil> interniSeznamZastavek);
+    void aktualizaceInternichPromennychOdeslat(QDomDocument prestupyDomDocument, int verzeVDV301, CestaUdaje &stav, QVector<ZastavkaCil> seznamZastavek);
     QTimer *timer = new QTimer(this);
 
 private:
@@ -54,7 +55,7 @@ private:
 
     QDomDocument prestupyDomDocumentInterni;
     CestaUdaje stavInterni;
-    QVector<SeznamZastavek> seznamZastavekInterni ;
+    QVector<ZastavkaCil> seznamZastavekInterni ;
 
 
 
