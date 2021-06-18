@@ -173,6 +173,7 @@ void HttpSluzba::hromadneOdeslaniDoDispleje(QDomDocument prestupyDomDocument, Ce
     {
         qDebug()<<"3";
         bodyAllData=TestXmlGenerator.AllData1_0( seznamZastavek, stav.aktlinka, stav.doorState, stav.locationState,prestupyDomDocument,stav);
+        qDebug()<<"3,5";
         bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,seznamZastavek, stav);
     }
 
