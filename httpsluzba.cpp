@@ -139,60 +139,13 @@ void HttpSluzba::vypisObsahRequestu(QByteArray vysledek,QString struktura)
 }
 
 
-void HttpSluzba::aktualizaceInternichPromennychOdeslat(QDomDocument prestupyDomDocument, int verzeVDV301, CestaUdaje &stav, QVector<ZastavkaCil>  seznamZastavek ) //novy
-{
-    qDebug()<<"HttpSluzbaA::tualizaceInternichPromennychOdeslat";
-    prestupyDomDocumentInterni=prestupyDomDocument;
-    stavInterni=stav;
-    seznamZastavekInterni=seznamZastavek;
-    tedOdesliNaPanely();
-    timer->start(60000);
 
 
-}
-
-void HttpSluzba::tedOdesliNaPanely()
-{
-    qDebug()<<"HttpSluzba::tedOdesliNaPanely()";
-    hromadneOdeslaniDoDispleje(prestupyDomDocumentInterni,stavInterni,seznamZastavekInterni);
-}
-void HttpSluzba::hromadneOdeslaniDoDispleje(QDomDocument prestupyDomDocument, CestaUdaje &stav, QVector<ZastavkaCil>  seznamZastavek ) //novy
-{
-    qDebug()<<"HttpSluzba::hromadneOdeslaniDoDispleje"<<nazevSluzbyInterni<<" "<<globVerze;
-    QByteArray zpracovanoMPV="";
-    QString bodyAllData="";
-    QString bodyCurrentDisplayContent="";
-    qDebug()<<"1";
-    if (globVerze=="2.2CZ1.0")
-    {
-        qDebug()<<"2";
-        bodyAllData=TestXmlGenerator.AllData2_2CZ1_0( stav.indexAktZastavky,seznamZastavek, stav.aktlinka, stav.doorState, stav.locationState,prestupyDomDocument);
-        bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,seznamZastavek,stav);
-    }
-    else
-    {
-        qDebug()<<"3";
-        bodyAllData=TestXmlGenerator.AllData1_0( seznamZastavek, stav.aktlinka, stav.doorState, stav.locationState,prestupyDomDocument,stav);
-        qDebug()<<"3,5";
-        bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,seznamZastavek, stav);
-    }
-
-    qDebug()<<"4";
-    this->nastavObsahTela("AllData",bodyAllData);
-    this->nastavObsahTela("CurrentDisplayContent",bodyCurrentDisplayContent);
-    this->asocPoleDoServeru(obsahTelaPole);
-    qDebug()<<"5";
-    for(int i=0;i<seznamSubscriberu.count();i++ )
-    {
-        PostDoDispleje(seznamSubscriberu[i].adresa,obsahTelaPole.value(seznamSubscriberu[i].struktura));
-    }
-    qDebug()<<"6";
-}
 
 void HttpSluzba::PostDoDispleje(QUrl adresaDispleje, QString dataDoPostu)
 {
     qDebug()<<"HttpSluzba::PostDoDispleje";
-    QByteArray postDataSize = QByteArray::number(dataDoPostu.size());
+    //QByteArray postDataSize = QByteArray::number(dataDoPostu.size());
     QNetworkRequest pozadavekPOST(adresaDispleje);
 
     //pozadavekPOST.setRawHeader("Content-Length", postDataSize );
