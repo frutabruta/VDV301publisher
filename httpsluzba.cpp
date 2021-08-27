@@ -161,29 +161,33 @@ void HttpSluzba::PostDoDispleje(QUrl adresaDispleje, QString dataDoPostu)
 
 
 
-void HttpSluzba::novySubscriber(Subscriber subscriber)
+QString HttpSluzba::novySubscriber(Subscriber subscriber)
 {
     qDebug()<<"MainWindow::novySubsriber "<<subscriber.adresa;
-
+    QString vysledek;
     if(subscriber.adresa.toString()=="")
     {
-        qDebug()<<"spatna adresa";
-        return;
+        //qDebug()<<"spatna adresa";
+        vysledek="spatna adresa";
+        return vysledek;
     }
 
 
     if(jeSubscriberNaSeznamu(seznamSubscriberu,subscriber))
     {
-        qDebug()<<"subscriber uz je na seznamu "<<subscriber.adresa<<""<<subscriber.struktura;
+        vysledek="subscriber uz je na seznamu "+subscriber.adresa.toString()+""+subscriber.struktura;
+
     }
     else
     {
-        qDebug()<<"novy subscriber je "<<subscriber.adresa<<""<<subscriber.struktura;
+
         seznamSubscriberu.push_back(subscriber);
+        vysledek="novy subscriber je "+subscriber.adresa.toString()+""+subscriber.struktura;
     }
 
-
     emit vypisSubscriberu(seznamSubscriberu);
+    return vysledek;
+
 }
 
 int HttpSluzba::jeSubscriberNaSeznamu(QVector<Subscriber> seznam ,Subscriber prvek)

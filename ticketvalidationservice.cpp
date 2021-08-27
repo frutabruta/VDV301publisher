@@ -15,7 +15,7 @@ TicketValidationService::TicketValidationService(QString nazevSluzby, QString ty
 void TicketValidationService::aktualizaceIntProm(QDomDocument prestupyDomDocument, CestaUdaje &stav, QVector<ZastavkaCil>  seznamZastavek ) //novy
 {
     qDebug()<<"TicketValidationService::aktualizaceIntProm"<<nazevSluzbyInterni<<" "<<globVerze;
-    QByteArray zpracovanoMPV="";
+   // QByteArray zpracovanoMPV="";
     QString bodyCurrentTariffStopResponse="";
     QString bodyVehicleDataResponse="";
     QString bodyRazziaResponse="";
@@ -75,6 +75,4 @@ void TicketValidationService::aktualizaceObsahuSluzby(QDomDocument prestupyDomDo
     seznamZastavekInterni=seznamZastavek;
     tedOdesliNaPanelySlot();
     timer->start(60000);
-
-
 }

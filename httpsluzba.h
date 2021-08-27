@@ -27,7 +27,7 @@ public:
    // void ObnoveniServeru(QString dataDoServeru);
     //void novySubscriber(QUrl adresaSubscribera, QString struktura);
 
-    void novySubscriber(Subscriber subscriber);
+    QString novySubscriber(Subscriber subscriber);
     int jeSubscriberNaSeznamu(QVector<Subscriber> seznam, Subscriber prvek);
     int odstranitSubscribera(int index);
     int nastavObsahTela(QString klic, QString obsah);
