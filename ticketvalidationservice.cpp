@@ -12,7 +12,7 @@ TicketValidationService::TicketValidationService(QString nazevSluzby, QString ty
 
 
 
-void TicketValidationService::aktualizaceIntProm(QDomDocument prestupyDomDocument, CestaUdaje &stav, QVector<ZastavkaCil>  seznamZastavek ) //novy
+void TicketValidationService::aktualizaceIntProm(QVector<prestupMPV> prestupy, CestaUdaje &stav, QVector<ZastavkaCil>  seznamZastavek ) //novy
 {
     qDebug()<<"TicketValidationService::aktualizaceIntProm"<<nazevSluzbyInterni<<" "<<globVerze;
    // QByteArray zpracovanoMPV="";
@@ -28,7 +28,7 @@ void TicketValidationService::aktualizaceIntProm(QDomDocument prestupyDomDocumen
     {
         qDebug()<<"2";
         //bodyAllData=TestXmlGenerator.AllData2_2CZ1_0( stav.indexAktZastavky,seznamZastavek, stav.aktlinka, stav.doorState, stav.locationState,prestupyDomDocument);
-        bodyCurrentTariffStopResponse=TestXmlGenerator.TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(stav.indexAktZastavky,seznamZastavek,stav.aktlinka,stav.doorState,stav.locationState,prestupyDomDocument);
+        bodyCurrentTariffStopResponse=TestXmlGenerator.TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(stav.indexAktZastavky,seznamZastavek,stav.aktlinka,stav.doorState,stav.locationState,prestupy);
         bodyVehicleDataResponse=TestXmlGenerator.TicketValidationService_GetVehicleDataResponse2_2CZ1_0(stav);
         bodyRazziaResponse=TestXmlGenerator.TicketValidationService_GetRazziaResponse2_2CZ1_0(stav);
 
@@ -64,13 +64,13 @@ void TicketValidationService::aktualizaceIntProm(QDomDocument prestupyDomDocumen
 void TicketValidationService::tedOdesliNaPanelySlot()
 {
     qDebug()<<"CustomerInformationService::tedOdesliNaPanely()";
-    aktualizaceIntProm(prestupyDomDocumentInterni,stavInterni,seznamZastavekInterni);
+    aktualizaceIntProm( prestupyInterni,stavInterni,seznamZastavekInterni);
 }
 
-void TicketValidationService::aktualizaceObsahuSluzby(QDomDocument prestupyDomDocument, int verzeVDV301, CestaUdaje &stav, QVector<ZastavkaCil>  seznamZastavek ) //novy
+void TicketValidationService::aktualizaceObsahuSluzby(QVector<prestupMPV> prestupy, int verzeVDV301, CestaUdaje &stav, QVector<ZastavkaCil>  seznamZastavek ) //novy
 {
     qDebug()<<"CustomerInformationService::aktualizaceInternichPromennychOdeslat";
-    prestupyDomDocumentInterni=prestupyDomDocument;
+    prestupyInterni =prestupy;
     stavInterni=stav;
     seznamZastavekInterni=seznamZastavek;
     tedOdesliNaPanelySlot();

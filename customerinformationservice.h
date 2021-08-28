@@ -3,6 +3,7 @@
 
 
 #include "httpsluzba.h"
+#include "../prestupmpv.h"
 
 class CustomerInformationService : public HttpSluzba
 {
@@ -11,12 +12,13 @@ public:
 
     void tedOdesliNaPanelySlot();
 
-    void aktualizaceIntProm(QDomDocument prestupyDomDocument, CestaUdaje &stav, QVector<ZastavkaCil> seznamZastavek);
-    QDomDocument prestupyDomDocumentInterni;
+    void aktualizaceIntProm(QVector<prestupMPV> prestupy, CestaUdaje &stav, QVector<ZastavkaCil> seznamZastavek);
+    //QDomDocument prestupyDomDocumentInterni;
+    QVector<prestupMPV> prestupyInterni;
     CestaUdaje stavInterni;
 
     QVector<ZastavkaCil> seznamZastavekInterni ;
-    void aktualizaceObsahuSluzby(QDomDocument prestupyDomDocument, int verzeVDV301, CestaUdaje &stav, QVector <ZastavkaCil> seznamZastavek);
+    void aktualizaceObsahuSluzby(QVector<prestupMPV> prestup, int verzeVDV301, CestaUdaje &stav, QVector <ZastavkaCil> seznamZastavek);
 signals:
 
 };

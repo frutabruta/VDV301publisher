@@ -1,5 +1,6 @@
 #include "customerinformationservice.h"
 #include "httpsluzba.h"
+#include "./prestupmpv.h"
 
 
 CustomerInformationService::CustomerInformationService(QString nazevSluzby, QString typSluzby, int cisloPortu,QString verze):HttpSluzba( nazevSluzby,typSluzby, cisloPortu,verze)
@@ -14,9 +15,9 @@ CustomerInformationService::CustomerInformationService(QString nazevSluzby, QStr
 void CustomerInformationService::tedOdesliNaPanelySlot()
 {
     qDebug()<<"CustomerInformationService::tedOdesliNaPanely()";
-    aktualizaceIntProm(prestupyDomDocumentInterni,stavInterni,seznamZastavekInterni);
+    aktualizaceIntProm(prestupyInterni,stavInterni,seznamZastavekInterni);
 }
-void CustomerInformationService::aktualizaceIntProm(QDomDocument prestupyDomDocument, CestaUdaje &stav, QVector<ZastavkaCil>  seznamZastavek ) //novy
+void CustomerInformationService::aktualizaceIntProm(QVector<prestupMPV> prestupy, CestaUdaje &stav, QVector<ZastavkaCil>  seznamZastavek ) //novy
 {
     qDebug()<<"CustomerInformationService::aktualizaceIntProm"<<nazevSluzbyInterni<<" "<<globVerze;
     QByteArray zpracovanoMPV="";
@@ -27,13 +28,13 @@ void CustomerInformationService::aktualizaceIntProm(QDomDocument prestupyDomDocu
     {
         qDebug()<<"2";
         //bodyAllData=TestXmlGenerator.AllData2_2CZ1_0( stav.indexAktZastavky,seznamZastavek, stav.aktlinka, stav.doorState, stav.locationState,prestupyDomDocument);
-        bodyAllData=TestXmlGenerator.AllData2_2CZ1_0(seznamZastavek,prestupyDomDocument,stav);
+        bodyAllData=TestXmlGenerator.AllData2_2CZ1_0(seznamZastavek,prestupy,stav);
         bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,seznamZastavek,stav);
     }
     else
     {
         qDebug()<<"3";
-        bodyAllData=TestXmlGenerator.AllData1_0( seznamZastavek, stav.aktlinka, stav.doorState, stav.locationState,prestupyDomDocument,stav);
+        bodyAllData=TestXmlGenerator.AllData1_0( seznamZastavek, stav.aktlinka, stav.doorState, stav.locationState,prestupy,stav);
         qDebug()<<"3,5";
         bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,seznamZastavek, stav);
     }
@@ -50,10 +51,11 @@ void CustomerInformationService::aktualizaceIntProm(QDomDocument prestupyDomDocu
     qDebug()<<"6";
 }
 
-void CustomerInformationService::aktualizaceObsahuSluzby(QDomDocument prestupyDomDocument, int verzeVDV301, CestaUdaje &stav, QVector<ZastavkaCil>  seznamZastavek ) //novy
+void CustomerInformationService::aktualizaceObsahuSluzby(QVector<prestupMPV> prestup, int verzeVDV301, CestaUdaje &stav, QVector<ZastavkaCil>  seznamZastavek ) //novy
 {
     qDebug()<<"CustomerInformationService::aktualizaceInternichPromennychOdeslat";
-    prestupyDomDocumentInterni=prestupyDomDocument;
+   //prestupyDomDocumentInterni=prestupyDomDocument;
+   prestupyInterni=prestup;
     stavInterni=stav;
     seznamZastavekInterni=seznamZastavek;
     tedOdesliNaPanelySlot();
