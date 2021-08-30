@@ -21,6 +21,11 @@ HttpSluzba::HttpSluzba(QString nazevSluzby,QString typSluzby, int cisloPortu,QSt
 
 }
 
+HttpSluzba::~HttpSluzba()
+{
+    zastavBonjourSluzbu();
+    qDebug()<<"konec";
+}
 
 void HttpSluzba::vyprseniCasovace()
 {
@@ -237,4 +242,9 @@ int HttpSluzba::asocPoleDoServeru(QMap<QString,QString> pole)
     return 1;
 }
 
+void HttpSluzba::zastavBonjourSluzbu()
+{
+    qDebug()<<"HttpSluzba::zastavBonjourSluzbu"<<nazevSluzbyInterni<<" "<<globVerze<<" "<<cisloPortuInterni;
+    zeroConf.stopServicePublish();
+}
 

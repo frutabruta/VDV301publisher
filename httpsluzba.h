@@ -37,6 +37,7 @@ public:
     QTimer *timer = new QTimer(this);
     QString nazevSluzbyInterni="";
 
+    ~HttpSluzba();
 private:
     QZeroConf zeroConf;
 
@@ -56,6 +57,7 @@ private:
 
 
 
+    void zastavBonjourSluzbu();
 protected:
     xmlGenerator TestXmlGenerator;
     QMap<QString,QString> obsahTelaPole;
