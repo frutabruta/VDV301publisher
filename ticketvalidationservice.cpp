@@ -67,12 +67,12 @@ void TicketValidationService::tedOdesliNaPanelySlot()
     aktualizaceIntProm( prestupyInterni,stavInterni,seznamZastavekInterni);
 }
 
-void TicketValidationService::aktualizaceObsahuSluzby(QVector<prestupMPV> prestupy, int verzeVDV301, CestaUdaje &stav, QVector<ZastavkaCil>  seznamZastavek ) //novy
+void TicketValidationService::aktualizaceObsahuSluzby(QVector<prestupMPV> prestupy, int verzeVDV301, CestaUdaje &stav ) //novy
 {
     qDebug()<<"CustomerInformationService::aktualizaceInternichPromennychOdeslat";
     prestupyInterni =prestupy;
     stavInterni=stav;
-    seznamZastavekInterni=seznamZastavek;
+    seznamZastavekInterni=stav.aktObeh.seznamSpoju.at(stav.indexTripu).globalniSeznamZastavek;
     tedOdesliNaPanelySlot();
     timer->start(60000);
 }

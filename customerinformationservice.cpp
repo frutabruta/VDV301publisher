@@ -15,13 +15,13 @@ CustomerInformationService::CustomerInformationService(QString nazevSluzby, QStr
 void CustomerInformationService::tedOdesliNaPanelySlot()
 {
     qDebug()<<"CustomerInformationService::tedOdesliNaPanelySlot()";
-    aktualizaceIntProm(prestupyInterni,stavInterni,seznamTripuInterni);
+    aktualizaceIntProm(prestupyInterni,stavInterni,seznamSpojuInterni);
 }
-void CustomerInformationService::aktualizaceIntProm(QVector<prestupMPV> prestupy, CestaUdaje &stav, QVector<Trip>  seznamTripu ) //novy
+void CustomerInformationService::aktualizaceIntProm(QVector<prestupMPV> prestupy, CestaUdaje &stav, QVector<Spoj>  seznamSpoju ) //novy
 {
   qDebug()<<"CustomerInformationService::aktualizaceIntProm"<<nazevSluzbyInterni<<" "<<globVerze;
-  qDebug()<<"velikost seznamTripu"<<seznamTripu.size()<<" index"<<stav.indexTripu;
-    QVector<ZastavkaCil>  seznamZastavek=seznamTripu.at(stav.indexTripu).globalniSeznamZastavek;
+  qDebug()<<"velikost seznamTripu"<<seznamSpoju.size()<<" index"<<stav.indexTripu;
+    QVector<ZastavkaCil>  seznamZastavek=seznamSpoju.at(stav.indexTripu).globalniSeznamZastavek;
 
   //  QByteArray zpracovanoMPV="";
     QString bodyAllData="";
@@ -31,7 +31,7 @@ void CustomerInformationService::aktualizaceIntProm(QVector<prestupMPV> prestupy
     {
         qDebug()<<"2";
         //bodyAllData=TestXmlGenerator.AllData2_2CZ1_0( stav.indexAktZastavky,seznamZastavek, stav.aktlinka, stav.doorState, stav.locationState,prestupyDomDocument);
-        bodyAllData=TestXmlGenerator.AllData2_2CZ1_0(seznamTripu,prestupy,stav);
+        bodyAllData=TestXmlGenerator.AllData2_2CZ1_0(seznamSpoju,prestupy,stav);
         bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,seznamZastavek,stav);
     }
     else
@@ -54,7 +54,7 @@ void CustomerInformationService::aktualizaceIntProm(QVector<prestupMPV> prestupy
     qDebug()<<"6";
 }
 
-void CustomerInformationService::aktualizaceObsahuSluzby(QVector<prestupMPV> prestup, int verzeVDV301, CestaUdaje &stav, QVector<Trip>  seznamTripu ) //novy
+void CustomerInformationService::aktualizaceObsahuSluzby(QVector<prestupMPV> prestup, int verzeVDV301, CestaUdaje &stav ) //novy
 {
     qDebug()<<"CustomerInformationService::aktualizaceInternichPromennychOdeslat";
    //prestupyDomDocumentInterni=prestupyDomDocument;
@@ -64,7 +64,7 @@ void CustomerInformationService::aktualizaceObsahuSluzby(QVector<prestupMPV> pre
    prestupyInterni=prestup;
     stavInterni=stav;
     //seznamZastavekInterni=seznamZastavek;
-    seznamTripuInterni=seznamTripu;
+    seznamSpojuInterni=stav.aktObeh.seznamSpoju;
     tedOdesliNaPanelySlot();
     timer->start(60000);
 
