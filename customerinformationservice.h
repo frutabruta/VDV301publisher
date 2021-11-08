@@ -12,13 +12,14 @@ public:
 
     void tedOdesliNaPanelySlot();
 
-    void aktualizaceIntProm(QVector<prestupMPV> prestupy, CestaUdaje &stav, QVector<ZastavkaCil> seznamZastavek);
+    void aktualizaceIntProm(QVector<prestupMPV> prestupy, CestaUdaje &stav, QVector<Trip>  seznamTripu );
     //QDomDocument prestupyDomDocumentInterni;
     QVector<prestupMPV> prestupyInterni;
     CestaUdaje stavInterni;
 
-    QVector<ZastavkaCil> seznamZastavekInterni ;
-    void aktualizaceObsahuSluzby(QVector<prestupMPV> prestup, int verzeVDV301, CestaUdaje &stav, QVector <ZastavkaCil> seznamZastavek);
+    //QVector<ZastavkaCil> seznamZastavekInterni ;
+    QVector<Trip> seznamTripuInterni;
+    void aktualizaceObsahuSluzby(QVector<prestupMPV> prestup, int verzeVDV301, CestaUdaje &stav, QVector<Trip> seznamTripu);
 signals:
 
 };
