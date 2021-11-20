@@ -12,7 +12,7 @@ HttpSluzba::HttpSluzba(QString nazevSluzby,QString typSluzby, int cisloPortu,QSt
     nazevSluzbyInterni=nazevSluzby;
     typSluzbyInterni=typSluzby;
     globVerze=verze;
-    bonjourStartKomplet();
+   // this->start();
     //hlavickaInterni=vyrobHlavickuGet();
 
     //connect(&InstanceNovehoServeru,SIGNAL(zmenaObsahu()),this,SLOT(vypisObsahRequestu()));
@@ -84,8 +84,9 @@ void HttpSluzba::bonjourStartKomplet()
 
 void HttpSluzba::bonjourStartPublish(QString nazevSluzby, QString typSluzby,int port,QString verze, QZeroConf &instanceZeroConf)
 {
-    qDebug()<<"HttpSluzba::bonjourStartPublish"<<nazevSluzby;
+    qDebug()<<"HttpSluzba::bonjourStartPublish"<<nazevSluzby<<" "<<verze;
     instanceZeroConf.addServiceTxtRecord("ver", verze);
+
     instanceZeroConf.startServicePublish(nazevSluzby.toUtf8(), typSluzby.toUtf8(), "local", port);
 
 }
@@ -246,5 +247,24 @@ void HttpSluzba::zastavBonjourSluzbu()
 {
     qDebug()<<"HttpSluzba::zastavBonjourSluzbu"<<nazevSluzbyInterni<<" "<<globVerze<<" "<<cisloPortuInterni;
     zeroConf.stopServicePublish();
+
+}
+
+void HttpSluzba::start(bool parametr)
+{
+    qDebug()<<"spoustim sluzbu "<<this->nazevSluzbyInterni<<" "<<this->globVerze;
+    bonjourStartKomplet();
+    emit this->stavSignal(true);
+    //emit this->startSignal();
+
+}
+
+void HttpSluzba::stop(bool parametr)
+{
+    qDebug()<<"zastavuju sluzbu "<<this->nazevSluzbyInterni<<" "<<this->globVerze;
+    timer->stop();
+    zastavBonjourSluzbu();
+    emit this->stavSignal(false);
+    //emit this->stopSignal();
 }
 

@@ -21,6 +21,11 @@ void CustomerInformationService::aktualizaceIntProm(QVector<prestupMPV> prestupy
 {
   qDebug()<<"CustomerInformationService::aktualizaceIntProm"<<nazevSluzbyInterni<<" "<<globVerze;
   qDebug()<<"velikost seznamTripu"<<seznamSpoju.size()<<" index"<<stav.indexTripu;
+  if (seznamSpoju.isEmpty())
+  {
+      qDebug()<<"seznam spoju je prazdny, ukoncuji CustomerInformationService::aktualizaceIntProm";
+      return;
+  }
     QVector<ZastavkaCil>  seznamZastavek=seznamSpoju.at(stav.indexTripu).globalniSeznamZastavek;
 
   //  QByteArray zpracovanoMPV="";

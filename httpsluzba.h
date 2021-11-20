@@ -24,7 +24,7 @@ public:
     QVector<Subscriber> seznamSubscriberu;
 
     void PostDoDispleje(QUrl adresaDispleje, QString dataDoPostu);
-   // void ObnoveniServeru(QString dataDoServeru);
+    // void ObnoveniServeru(QString dataDoServeru);
     //void novySubscriber(QUrl adresaSubscribera, QString struktura);
 
     QString novySubscriber(Subscriber subscriber);
@@ -37,14 +37,16 @@ public:
     QTimer *timer = new QTimer(this);
     QString nazevSluzbyInterni="";
 
+
     ~HttpSluzba();
+
 private:
     QZeroConf zeroConf;
 
     NewHttpServer InstanceNovehoServeru;
     int cisloPortuInterni=0;
 
-   //QString obsahInterni="";
+    //QString obsahInterni="";
     QString hlavickaInterni="";
     int delkaObsahu=0;
     void bonjourStartPublish(QString nazevSluzby, QString typSluzby, int port, QString verze, QZeroConf &instanceZeroConf);
@@ -70,15 +72,22 @@ protected:
 public slots:
     //void vypisObsahRequestu();
     void vypisObsahRequestu(QByteArray vysledek, QString struktura);
-   //  void tedOdesliNaPanely();
-     void vypisChybuZeroConfig();
+    //  void tedOdesliNaPanely();
+    void vypisChybuZeroConfig();
 
+    //void start();
+    void stop(bool parametr);
+    void start(bool parametr);
 signals:
     void pridejSubscribera(QUrl adresaSubscribera);
     void vypisSubscriberu(QVector<Subscriber> seznamSubscriberuInt);
+    void stavSignal(bool stav);
+    void startSignal();
+    void stopSignal();
 
 private slots:
     void vyprseniCasovace();
+
 
 };
 
