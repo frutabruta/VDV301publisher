@@ -3,14 +3,19 @@
 
 #include <QObject>
 #include <QtXml>
+#include <QtHttpServer>
+
 #include "qzeroconf.h"
 
-#include <QtHttpServer>
+
 #include "newhttpserver.h"
 #include "xmlgenerator.h"
+#include "subscriber.h"
+
 #include "../VDV301struktury/cestaudaje.h"
 #include "../VDV301struktury/zastavkacil.h"
-#include "subscriber.h"
+
+
 
 class HttpSluzba: public QObject
 {
