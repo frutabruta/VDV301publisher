@@ -11,7 +11,7 @@ public:
     explicit TicketValidationService(QString nazevSluzby, QString typSluzby, int cisloPortu, QString verze);
    // void aktualizaceInternichPromennychOdeslat(QDomDocument prestupyDomDocument, int verzeVDV301, CestaUdaje &stav, QVector seznamZastavek);
     //void aktualizaceInternichPromennychOdeslat();
-    void aktualizaceObsahuSluzby(QVector<prestupMPV> prestupy, int verzeVDV301, CestaUdaje &stav);
+    void aktualizaceObsahuSluzby(QVector<prestupMPV> prestupy, CestaUdaje &stav);
     void tedOdesliNaPanelySlot();
     CestaUdaje stavInterni;
     QVector<ZastavkaCil> seznamZastavekInterni ;

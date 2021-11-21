@@ -19,7 +19,7 @@ public:
 
     //QVector<ZastavkaCil> seznamZastavekInterni ;
     QVector<Spoj> seznamSpojuInterni;
-    void aktualizaceObsahuSluzby(QVector<prestupMPV> prestup, int verzeVDV301, CestaUdaje &stav);
+    void aktualizaceObsahuSluzby(QVector<prestupMPV> prestup, CestaUdaje &stav);
 signals:
 
 };

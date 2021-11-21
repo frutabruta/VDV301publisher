@@ -59,7 +59,7 @@ void CustomerInformationService::aktualizaceIntProm(QVector<prestupMPV> prestupy
     qDebug()<<"6";
 }
 
-void CustomerInformationService::aktualizaceObsahuSluzby(QVector<prestupMPV> prestup, int verzeVDV301, CestaUdaje &stav ) //novy
+void CustomerInformationService::aktualizaceObsahuSluzby(QVector<prestupMPV> prestup, CestaUdaje &stav ) //novy
 {
     qDebug()<<"CustomerInformationService::aktualizaceInternichPromennychOdeslat";
    //prestupyDomDocumentInterni=prestupyDomDocument;

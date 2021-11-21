@@ -86,6 +86,7 @@ void HttpSluzba::bonjourStartPublish(QString nazevSluzby, QString typSluzby,int 
 {
     qDebug()<<"HttpSluzba::bonjourStartPublish"<<nazevSluzby<<" "<<verze;
     instanceZeroConf.addServiceTxtRecord("ver", verze);
+    qDebug()<<"Txt zaznam pridan";
 
     instanceZeroConf.startServicePublish(nazevSluzby.toUtf8(), typSluzby.toUtf8(), "local", port);
 

@@ -67,7 +67,7 @@ void TicketValidationService::tedOdesliNaPanelySlot()
     aktualizaceIntProm( prestupyInterni,stavInterni,seznamZastavekInterni);
 }
 
-void TicketValidationService::aktualizaceObsahuSluzby(QVector<prestupMPV> prestupy, int verzeVDV301, CestaUdaje &stav ) //novy
+void TicketValidationService::aktualizaceObsahuSluzby(QVector<prestupMPV> prestupy, CestaUdaje &stav ) //novy
 {
     qDebug()<<"CustomerInformationService::aktualizaceInternichPromennychOdeslat";
     prestupyInterni =prestupy;
