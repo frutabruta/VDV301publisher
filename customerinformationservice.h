@@ -8,18 +8,19 @@
 class CustomerInformationService : public HttpSluzba
 {
 public:
+    //konstruktor
     explicit CustomerInformationService(QString nazevSluzby, QString typSluzby, int cisloPortu, QString verze);
 
-    void tedOdesliNaPanelySlot();
-
-    void aktualizaceIntProm(QVector<prestupMPV> prestupy, CestaUdaje &stav, QVector<Spoj> seznamSpoju );
-    //QDomDocument prestupyDomDocumentInterni;
+    //struktury
     QVector<prestupMPV> prestupyInterni;
+    QVector<Spoj> seznamSpojuInterni;
     CestaUdaje stavInterni;
 
-    //QVector<ZastavkaCil> seznamZastavekInterni ;
-    QVector<Spoj> seznamSpojuInterni;
+    //funkce
+    void tedOdesliNaPanelySlot();
+    void aktualizaceIntProm(QVector<prestupMPV> prestupy, CestaUdaje &stav, QVector<Spoj> seznamSpoju );
     void aktualizaceObsahuSluzby(QVector<prestupMPV> prestup, CestaUdaje &stav);
+
 signals:
 
 };

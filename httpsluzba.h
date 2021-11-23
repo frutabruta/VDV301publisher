@@ -22,67 +22,63 @@ class HttpSluzba: public QObject
     Q_OBJECT
 public:
     HttpSluzba(QString nazevSluzby, QString typSluzby, int cisloPortu, QString verze);
-    void bonjourStartKomplet();
-    int aktualizuj();
-    QByteArray vyrobSubscribeResponseBody(int vysledek);
-    //QVector<QUrl> seznamSubscriberu;
-    QVector<Subscriber> seznamSubscriberu;
 
+    //struktury
+    QVector<Subscriber> seznamSubscriberu;
+    QString globVerze="1.0";
+    QString nazevSluzbyInterni="";
+
+    //funkce
     void PostDoDispleje(QUrl adresaDispleje, QString dataDoPostu);
-    // void ObnoveniServeru(QString dataDoServeru);
-    //void novySubscriber(QUrl adresaSubscribera, QString struktura);
+    int nastavObsahTela(QString klic, QString obsah);
+    void aktualizaceIntProm(QDomDocument prestupyDomDocument, CestaUdaje &stav, QVector<ZastavkaCil> interniSeznamZastavek);
+    void aktualizaceInternichPromennychOdeslat(QDomDocument prestupyDomDocument, int verzeVDV301, CestaUdaje &stav, QVector<ZastavkaCil> seznamZastavek);
+
 
     QString novySubscriber(Subscriber subscriber);
     int jeSubscriberNaSeznamu(QVector<Subscriber> seznam, Subscriber prvek);
     int odstranitSubscribera(int index);
-    int nastavObsahTela(QString klic, QString obsah);
-    QString globVerze="1.0";
-    void aktualizaceIntProm(QDomDocument prestupyDomDocument, CestaUdaje &stav, QVector<ZastavkaCil> interniSeznamZastavek);
-    void aktualizaceInternichPromennychOdeslat(QDomDocument prestupyDomDocument, int verzeVDV301, CestaUdaje &stav, QVector<ZastavkaCil> seznamZastavek);
+    QByteArray vyrobSubscribeResponseBody(int vysledek);
+
+    void bonjourStartKomplet();
+    int aktualizuj();
+
+
     QTimer *timer = new QTimer(this);
-    QString nazevSluzbyInterni="";
 
 
     ~HttpSluzba();
 
+
 private:
+    //instance knihoven
     QZeroConf zeroConf;
-
     NewHttpServer InstanceNovehoServeru;
-    int cisloPortuInterni=0;
 
-    //QString obsahInterni="";
+    //promenne
+    int cisloPortuInterni=0;
     QString hlavickaInterni="";
     int delkaObsahu=0;
-    void bonjourStartPublish(QString nazevSluzby, QString typSluzby, int port, QString verze, QZeroConf &instanceZeroConf);
     QString typSluzbyInterni="_ibisip_http._tcp";
-    //int nastavHttpObsah(QString argumentXMLserveru);
+
+    //funkce
+    void bonjourStartPublish(QString nazevSluzby, QString typSluzby, int port, QString verze, QZeroConf &instanceZeroConf);
     QByteArray vyrobHlavickuGet();
     QString vyrobHlavickuSubscribe();
-
-
-
-
-
     void zastavBonjourSluzbu();
+
 protected:
     xmlGenerator TestXmlGenerator;
     QMap<QString,QString> obsahTelaPole;
     int asocPoleDoServeru(QMap<QString, QString> pole);
 
-
-
-
-
 public slots:
-    //void vypisObsahRequestu();
     void vypisObsahRequestu(QByteArray vysledek, QString struktura);
-    //  void tedOdesliNaPanely();
     void vypisChybuZeroConfig();
-
-    //void start();
     void stop(bool parametr);
     void start(bool parametr);
+    void vymazSubscribery();
+
 signals:
     void pridejSubscribera(QUrl adresaSubscribera);
     void vypisSubscriberu(QVector<Subscriber> seznamSubscriberuInt);

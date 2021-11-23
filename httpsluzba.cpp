@@ -4,7 +4,6 @@
 #include "VDV301struktury/zastavkacil.h"
 
 
-
 HttpSluzba::HttpSluzba(QString nazevSluzby,QString typSluzby, int cisloPortu,QString verze):InstanceNovehoServeru(cisloPortu)
 {
     qDebug()<<"HttpSluzba::HttpSluzba";
@@ -267,5 +266,13 @@ void HttpSluzba::stop(bool parametr)
     zastavBonjourSluzbu();
     emit this->stavSignal(false);
     //emit this->stopSignal();
+}
+
+void HttpSluzba::vymazSubscribery()
+{
+    qDebug()<<"HttpSluzba::vymazSubscribery";
+    seznamSubscriberu.clear();
+
+
 }
 
