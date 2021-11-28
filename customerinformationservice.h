@@ -17,9 +17,13 @@ public:
     CestaUdaje stavInterni;
 
     //funkce
-    void tedOdesliNaPanelySlot();
+
     void aktualizaceIntProm(QVector<prestupMPV> prestupy, CestaUdaje &stav, QVector<Spoj> seznamSpoju );
     void aktualizaceObsahuSluzby(QVector<prestupMPV> prestup, CestaUdaje &stav);
+
+    void aktualizaceIntPromEmpty(CestaUdaje &stav, QVector<Spoj> seznamSpoju);
+public slots:
+    void slotTedOdesliNaPanely();
 
 signals:
 

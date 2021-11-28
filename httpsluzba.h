@@ -34,16 +34,17 @@ public:
     void aktualizaceIntProm(QDomDocument prestupyDomDocument, CestaUdaje &stav, QVector<ZastavkaCil> interniSeznamZastavek);
     void aktualizaceInternichPromennychOdeslat(QDomDocument prestupyDomDocument, int verzeVDV301, CestaUdaje &stav, QVector<ZastavkaCil> seznamZastavek);
 
-
+    //funkce subscriber
     QString novySubscriber(Subscriber subscriber);
     int jeSubscriberNaSeznamu(QVector<Subscriber> seznam, Subscriber prvek);
     int odstranitSubscribera(int index);
     QByteArray vyrobSubscribeResponseBody(int vysledek);
 
     void bonjourStartKomplet();
+
     int aktualizuj();
 
-
+    //casovac pro periodicke odesilani dat
     QTimer *timer = new QTimer(this);
 
 
@@ -66,6 +67,7 @@ private:
     QByteArray vyrobHlavickuGet();
     QString vyrobHlavickuSubscribe();
     void zastavBonjourSluzbu();
+    QNetworkAccessManager *manager2 = new QNetworkAccessManager();
 
 protected:
     xmlGenerator TestXmlGenerator;
@@ -73,21 +75,26 @@ protected:
     int asocPoleDoServeru(QMap<QString, QString> pole);
 
 public slots:
-    void vypisObsahRequestu(QByteArray vysledek, QString struktura);
-    void vypisChybuZeroConfig();
-    void stop(bool parametr);
-    void start(bool parametr);
-    void vymazSubscribery();
+    void slotVypisObsahRequestu(QByteArray vysledek, QString struktura);
+    void slotVypisChybuZeroConfig();
+    void slotStop(bool parametr);
+    void slotStart(bool parametr);
+    void slotVymazSubscribery();
+    void slotZastavCasovac();
 
-signals:
-    void pridejSubscribera(QUrl adresaSubscribera);
-    void vypisSubscriberu(QVector<Subscriber> seznamSubscriberuInt);
-    void stavSignal(bool stav);
-    void startSignal();
-    void stopSignal();
 
 private slots:
-    void vyprseniCasovace();
+    void slotVyprseniCasovace();
+    void slotPrislaOdpovedNaPost(QNetworkReply *reply);
+
+
+signals:
+    void signalPridejSubscribera(QUrl adresaSubscribera);
+    void signalVypisSubscriberu(QVector<Subscriber> seznamSubscriberuInt);
+    void signalStav(bool stav);
+    void signalStart();
+    void signalStop();
+    void signalOdpovedNaPost(QNetworkReply *reply);
 
 
 };

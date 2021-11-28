@@ -5,17 +5,29 @@
 
 CustomerInformationService::CustomerInformationService(QString nazevSluzby, QString typSluzby, int cisloPortu,QString verze):HttpSluzba( nazevSluzby,typSluzby, cisloPortu,verze)
 {
-    connect(timer, &QTimer::timeout, this, &CustomerInformationService::tedOdesliNaPanelySlot);
+    qDebug()<<"CustomerInformationService::CustomerInformationService "<<nazevSluzby<<" "<<verze;
+    connect(timer, &QTimer::timeout, this, &CustomerInformationService::slotTedOdesliNaPanely);
+
+    //naplnění prázdných struktur
+    aktualizaceIntPromEmpty(stavInterni,seznamSpojuInterni);
+    //nastartování periodického zasílání
     timer->start(60000);
 
 }
 
 
 
-void CustomerInformationService::tedOdesliNaPanelySlot()
+void CustomerInformationService::slotTedOdesliNaPanely()
 {
-    qDebug()<<"CustomerInformationService::tedOdesliNaPanelySlot()";
+    qDebug()<<"CustomerInformationService::slotTedOdesliNaPanely";
+    if (seznamSpojuInterni.isEmpty())
+    {
+        aktualizaceIntPromEmpty(stavInterni,seznamSpojuInterni);
+    }
+    else
+    {
     aktualizaceIntProm(prestupyInterni,stavInterni,seznamSpojuInterni);
+    }
 }
 void CustomerInformationService::aktualizaceIntProm(QVector<prestupMPV> prestupy, CestaUdaje &stav, QVector<Spoj>  seznamSpoju ) //novy
 {
@@ -59,6 +71,51 @@ void CustomerInformationService::aktualizaceIntProm(QVector<prestupMPV> prestupy
     qDebug()<<"6";
 }
 
+void CustomerInformationService::aktualizaceIntPromEmpty(CestaUdaje &stav, QVector<Spoj>  seznamSpoju ) //novy
+{
+  qDebug()<<"CustomerInformationService::aktualizaceIntPromEmpty"<<nazevSluzbyInterni<<" "<<globVerze;
+  qDebug()<<"velikost seznamTripu"<<seznamSpoju.size()<<" index"<<stav.indexTripu;
+ /* if (seznamSpoju.isEmpty())
+  {
+      qDebug()<<"seznam spoju je prazdny, ukoncuji CustomerInformationService::aktualizaceIntProm";
+      return;
+  }
+  */
+  //  QVector<ZastavkaCil>  seznamZastavek=seznamSpoju.at(stav.indexTripu).globalniSeznamZastavek;
+
+  //  QByteArray zpracovanoMPV="";
+    QString bodyAllData="";
+    QString bodyCurrentDisplayContent="";
+    qDebug()<<"1";
+    if (globVerze=="2.2CZ1.0")
+    {
+        qDebug()<<"2";
+        //bodyAllData=TestXmlGenerator.AllData2_2CZ1_0( stav.indexAktZastavky,seznamZastavek, stav.aktlinka, stav.doorState, stav.locationState,prestupyDomDocument);
+        bodyAllData=TestXmlGenerator.AllDataEmpty2_2CZ1_0();
+     //   bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,seznamZastavek,stav);
+    }
+    else
+    {
+        qDebug()<<"3";
+        bodyAllData=TestXmlGenerator.AllData_empty_1_0();
+        qDebug()<<"3,5";
+      //  bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,seznamZastavek, stav);
+    }
+
+    qDebug()<<"4";
+    this->nastavObsahTela("AllData",bodyAllData);
+    this->nastavObsahTela("CurrentDisplayContent",bodyCurrentDisplayContent);
+    this->asocPoleDoServeru(obsahTelaPole);
+    qDebug()<<"5";
+    for(int i=0;i<seznamSubscriberu.count();i++ )
+    {
+        PostDoDispleje(seznamSubscriberu[i].adresa,obsahTelaPole.value(seznamSubscriberu[i].struktura));
+    }
+    qDebug()<<"6";
+}
+
+
+
 void CustomerInformationService::aktualizaceObsahuSluzby(QVector<prestupMPV> prestup, CestaUdaje &stav ) //novy
 {
     qDebug()<<"CustomerInformationService::aktualizaceInternichPromennychOdeslat";
@@ -70,7 +127,7 @@ void CustomerInformationService::aktualizaceObsahuSluzby(QVector<prestupMPV> pre
     stavInterni=stav;
     //seznamZastavekInterni=seznamZastavek;
     seznamSpojuInterni=stav.aktObeh.seznamSpoju;
-    tedOdesliNaPanelySlot();
+    slotTedOdesliNaPanely();
     timer->start(60000);
 
 
