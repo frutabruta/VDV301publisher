@@ -32,17 +32,14 @@ public:
     void PostDoDispleje(QUrl adresaDispleje, QString dataDoPostu);
     int nastavObsahTela(QString klic, QString obsah);
     void aktualizaceIntProm(QDomDocument prestupyDomDocument, CestaUdaje &stav, QVector<ZastavkaCil> interniSeznamZastavek);
-    void aktualizaceInternichPromennychOdeslat(QDomDocument prestupyDomDocument, int verzeVDV301, CestaUdaje &stav, QVector<ZastavkaCil> seznamZastavek);
+    void bonjourStartKomplet();
 
     //funkce subscriber
     QString novySubscriber(Subscriber subscriber);
     int jeSubscriberNaSeznamu(QVector<Subscriber> seznam, Subscriber prvek);
     int odstranitSubscribera(int index);
-    QByteArray vyrobSubscribeResponseBody(int vysledek);
 
-    void bonjourStartKomplet();
-
-    int aktualizuj();
+    QByteArray vyrobSubscribeResponseBody(int vysledek);  //nepouzito
 
     //casovac pro periodicke odesilani dat
     QTimer *timer = new QTimer(this);
@@ -55,23 +52,26 @@ private:
     //instance knihoven
     QZeroConf zeroConf;
     NewHttpServer InstanceNovehoServeru;
+    QNetworkAccessManager *manager2 = new QNetworkAccessManager();
 
     //promenne
     int cisloPortuInterni=0;
-    QString hlavickaInterni="";
-    int delkaObsahu=0;
+    //QString hlavickaInterni="";
+    //int delkaObsahu=0;
     QString typSluzbyInterni="_ibisip_http._tcp";
 
     //funkce
     void bonjourStartPublish(QString nazevSluzby, QString typSluzby, int port, QString verze, QZeroConf &instanceZeroConf);
-    QByteArray vyrobHlavickuGet();
-    QString vyrobHlavickuSubscribe();
     void zastavBonjourSluzbu();
-    QNetworkAccessManager *manager2 = new QNetworkAccessManager();
+
+    QByteArray vyrobHlavickuGet(); //nepouzito
+    QString vyrobHlavickuSubscribe();
+
+
 
 protected:
     xmlGenerator TestXmlGenerator;
-    QMap<QString,QString> obsahTelaPole;
+    QMap<QString,QString> obsahTelaPole; //obsahuje payload a klíč, pod kterým je uložený
     int asocPoleDoServeru(QMap<QString, QString> pole);
 
 public slots:
@@ -84,16 +84,16 @@ public slots:
 
 
 private slots:
-    void slotVyprseniCasovace();
+    void slotVyprseniCasovace(); //nepouzito
     void slotPrislaOdpovedNaPost(QNetworkReply *reply);
 
 
 signals:
-    void signalPridejSubscribera(QUrl adresaSubscribera);
+    void signalPridejSubscribera(QUrl adresaSubscribera); //nepouzito
     void signalVypisSubscriberu(QVector<Subscriber> seznamSubscriberuInt);
     void signalStav(bool stav);
-    void signalStart();
-    void signalStop();
+    void signalStart(); //nepouzito
+    void signalStop(); //nepouzio
     void signalOdpovedNaPost(QNetworkReply *reply);
 
 

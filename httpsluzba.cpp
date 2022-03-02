@@ -3,7 +3,13 @@
 #include "qtzeroconf/qzeroconf.h"
 #include "VDV301struktury/zastavkacil.h"
 
-
+/*!
+ * \brief HttpSluzba::HttpSluzba
+ * \param nazevSluzby
+ * \param typSluzby
+ * \param cisloPortu
+ * \param verze
+ */
 HttpSluzba::HttpSluzba(QString nazevSluzby,QString typSluzby, int cisloPortu,QString verze):InstanceNovehoServeru(cisloPortu)
 {
     qDebug()<<"HttpSluzba::HttpSluzba";
@@ -21,12 +27,19 @@ HttpSluzba::HttpSluzba(QString nazevSluzby,QString typSluzby, int cisloPortu,QSt
 
 }
 
+/*!
+ * \brief HttpSluzba::~HttpSluzba
+ */
 HttpSluzba::~HttpSluzba()
 {
     zastavBonjourSluzbu();
     qDebug()<<"konec";
 }
 
+
+/*!
+ * \brief HttpSluzba::slotVyprseniCasovace
+ */
 void HttpSluzba::slotVyprseniCasovace()
 {
     qDebug()<<"casovac vyrpsel";
@@ -42,6 +55,11 @@ int HttpSluzba::aktualizuj()
     return 1;
 } */
 
+
+/*!
+ * \brief HttpSluzba::vyrobHlavickuGet
+ * \return
+ */
 QByteArray HttpSluzba::vyrobHlavickuGet()
 {
     qDebug()<<"HttpSluzba::vyrobHlavicku()";
@@ -55,6 +73,13 @@ QByteArray HttpSluzba::vyrobHlavickuGet()
     hlavicka+=("\r\n");
     return hlavicka;
 }
+
+
+/*!
+ * \brief HttpSluzba::vyrobHlavickuSubscribe
+ * \return
+ */
+
 
 QString HttpSluzba::vyrobHlavickuSubscribe()
 {
@@ -71,6 +96,9 @@ QString HttpSluzba::vyrobHlavickuSubscribe()
 }
 
 
+/*!
+ * \brief HttpSluzba::bonjourStartKomplet
+ */
 
 
 void HttpSluzba::bonjourStartKomplet()
@@ -81,7 +109,14 @@ void HttpSluzba::bonjourStartKomplet()
 }
 
 
-
+/*!
+ * \brief HttpSluzba::bonjourStartPublish
+ * \param nazevSluzby
+ * \param typSluzby
+ * \param port
+ * \param verze
+ * \param instanceZeroConf
+ */
 void HttpSluzba::bonjourStartPublish(QString nazevSluzby, QString typSluzby,int port,QString verze, QZeroConf &instanceZeroConf)
 {
     qDebug()<<"HttpSluzba::bonjourStartPublish"<<nazevSluzby<<" "<<verze;
@@ -93,14 +128,24 @@ void HttpSluzba::bonjourStartPublish(QString nazevSluzby, QString typSluzby,int 
 }
 
 
-
+/*!
+ * \brief HttpSluzba::slotVypisChybuZeroConfig
+ */
 void HttpSluzba::slotVypisChybuZeroConfig()
 {
     qDebug()<<"HttpSluzba::vypisChybuZeroConfig2";
 }
 
+
+/*!
+ * \brief HttpSluzba::vyrobSubscribeResponseBody
+ * nikde nepouzito
+ * \param vysledek
+ * \return
+ */
 QByteArray HttpSluzba::vyrobSubscribeResponseBody(int vysledek)
 {
+
     qDebug()<<"HttpSluzba::vyrobSubscribeResponseBody";
     QByteArray textVysledek="true";
     if (vysledek!=1)
@@ -118,6 +163,11 @@ QByteArray HttpSluzba::vyrobSubscribeResponseBody(int vysledek)
 }
 
 
+/*!
+ * \brief HttpSluzba::slotVypisObsahRequestu
+ * \param vysledek
+ * \param struktura
+ */
 void HttpSluzba::slotVypisObsahRequestu(QByteArray vysledek,QString struktura)
 {
     qDebug()<<"HttpSluzba::HttpSluzba::vypisObsahRequestu";
@@ -147,7 +197,12 @@ void HttpSluzba::slotVypisObsahRequestu(QByteArray vysledek,QString struktura)
 
 
 
-
+/*!
+ * \brief HttpSluzba::PostDoDispleje
+ * odesílá jeden payload na jednu adresu
+ * \param adresaDispleje
+ * \param dataDoPostu
+ */
 
 void HttpSluzba::PostDoDispleje(QUrl adresaDispleje, QString dataDoPostu)
 {
@@ -167,6 +222,13 @@ void HttpSluzba::PostDoDispleje(QUrl adresaDispleje, QString dataDoPostu)
 
 }
 
+
+
+/*!
+ * \brief HttpSluzba::slotPrislaOdpovedNaPost
+ * \param reply
+ */
+
 void HttpSluzba::slotPrislaOdpovedNaPost(QNetworkReply* reply)
 {
     qDebug()<<"HttpSluzba::slotPrislaOdpovedNaPost";
@@ -174,29 +236,30 @@ void HttpSluzba::slotPrislaOdpovedNaPost(QNetworkReply* reply)
 }
 
 
-
+/*!
+ * \brief HttpSluzba::novySubscriber
+ * \param subscriber
+ * \return
+ */
 QString HttpSluzba::novySubscriber(Subscriber subscriber)
 {
     qDebug()<<"MainWindow::novySubsriber "<<subscriber.adresa;
     QString vysledek;
     if(subscriber.adresa.toString()=="")
     {
-        //qDebug()<<"spatna adresa";
         vysledek="spatna adresa";
         return vysledek;
     }
 
-
     if(jeSubscriberNaSeznamu(seznamSubscriberu,subscriber))
     {
         vysledek="subscriber uz je na seznamu "+subscriber.adresa.toString()+""+subscriber.struktura;
-
     }
     else
     {
-
         seznamSubscriberu.push_back(subscriber);
         vysledek="novy subscriber je "+subscriber.adresa.toString()+""+subscriber.struktura;
+        PostDoDispleje(subscriber.adresa,obsahTelaPole.value(subscriber.struktura)); //odeslání dat do zařízení hned po odběru
     }
 
     emit signalVypisSubscriberu(seznamSubscriberu);
@@ -204,6 +267,14 @@ QString HttpSluzba::novySubscriber(Subscriber subscriber)
 
 }
 
+
+
+/*!
+ * \brief HttpSluzba::jeSubscriberNaSeznamu
+ * \param seznam
+ * \param prvek
+ * \return
+ */
 int HttpSluzba::jeSubscriberNaSeznamu(QVector<Subscriber> seznam ,Subscriber prvek)
 {
     qDebug()<<"HttpSluzba::jeSubscriberNaSeznamu";
@@ -216,6 +287,11 @@ int HttpSluzba::jeSubscriberNaSeznamu(QVector<Subscriber> seznam ,Subscriber prv
 }
 
 
+/*!
+ * \brief HttpSluzba::odstranitSubscribera
+ * \param index
+ * \return
+ */
 int HttpSluzba::odstranitSubscribera(int index)
 {
     qDebug()<<"HttpSluzba::odstranitSubscribera";
@@ -233,24 +309,43 @@ int HttpSluzba::odstranitSubscribera(int index)
     return 0;
 }
 
+
+
+/*!
+ * \brief HttpSluzba::nastavObsahTela
+ * \param klic
+ * \param obsah
+ * \return
+ */
 int HttpSluzba::nastavObsahTela(QString klic, QString obsah)
 {
 
     qDebug()<<"HttpSluzba::nastavObsahTela";
     obsahTelaPole.insert(klic,obsah);
 
-//qDebug()<<"hh "<<obsahTelaPole.value("xx");
 
-
-return 1;
+    return 1;
 }
 
+
+
+
+/*!
+ * \brief HttpSluzba::asocPoleDoServeru
+ * \param pole
+ * \return
+ */
 int HttpSluzba::asocPoleDoServeru(QMap<QString,QString> pole)
 {
     InstanceNovehoServeru.nastavObsahTela(pole);
     return 1;
 }
 
+
+
+/*!
+ * \brief HttpSluzba::zastavBonjourSluzbu
+ */
 void HttpSluzba::zastavBonjourSluzbu()
 {
     qDebug()<<"HttpSluzba::zastavBonjourSluzbu"<<nazevSluzbyInterni<<" "<<globVerze<<" "<<cisloPortuInterni;
@@ -258,6 +353,12 @@ void HttpSluzba::zastavBonjourSluzbu()
 
 }
 
+
+
+/*!
+ * \brief HttpSluzba::slotStart
+ * \param parametr
+ */
 void HttpSluzba::slotStart(bool parametr)
 {
     qDebug()<<"spoustim sluzbu "<<this->nazevSluzbyInterni<<" "<<this->globVerze;
@@ -267,6 +368,11 @@ void HttpSluzba::slotStart(bool parametr)
 
 }
 
+
+/*!
+ * \brief HttpSluzba::slotStop
+ * \param parametr
+ */
 void HttpSluzba::slotStop(bool parametr)
 {
     qDebug()<<"zastavuju sluzbu "<<this->nazevSluzbyInterni<<" "<<this->globVerze;
@@ -276,6 +382,13 @@ void HttpSluzba::slotStop(bool parametr)
     //emit this->stopSignal();
 }
 
+
+/*!
+ *
+ * \brief HttpSluzba::slotVymazSubscribery
+ *  vyprázdní všechny subscribery
+ *
+ */
 void HttpSluzba::slotVymazSubscribery()
 {
     qDebug()<<"HttpSluzba::vymazSubscribery";
@@ -284,9 +397,14 @@ void HttpSluzba::slotVymazSubscribery()
 
 }
 
+
+/*!
+ * \brief HttpSluzba::slotZastavCasovac
+ */
 void HttpSluzba::slotZastavCasovac()
 {
     qDebug()<<"HttpSluzba::slotZastavCasovac()";
     timer->stop();
+
 }
 
