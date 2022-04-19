@@ -49,13 +49,13 @@ void CustomerInformationService::slotTedOdesliNaPanely()
 void CustomerInformationService::aktualizaceIntProm(QVector<prestupMPV> prestupy, CestaUdaje &stav, QVector<Spoj>  seznamSpoju ) //novy
 {
     qDebug()<<"CustomerInformationService::aktualizaceIntProm"<<nazevSluzbyInterni<<" "<<globVerze;
-    qDebug()<<"velikost seznamTripu"<<seznamSpoju.size()<<" index"<<stav.indexTripu;
+    qDebug()<<"velikost seznamTripu"<<seznamSpoju.size()<<" index"<<stav.indexSpojeNaObehu;
     if (seznamSpoju.isEmpty())
     {
         qDebug()<<"seznam spoju je prazdny, ukoncuji CustomerInformationService::aktualizaceIntProm";
         return;
     }
-    QVector<ZastavkaCil>  seznamZastavek=seznamSpoju.at(stav.indexTripu).globalniSeznamZastavek;
+    QVector<ZastavkaCil>  seznamZastavek=seznamSpoju.at(stav.indexSpojeNaObehu).globalniSeznamZastavek;
     QString bodyAllData="";
     QString bodyCurrentDisplayContent="";
     qDebug()<<"1";
@@ -94,7 +94,7 @@ void CustomerInformationService::aktualizaceIntProm(QVector<prestupMPV> prestupy
 void CustomerInformationService::aktualizaceIntPromEmpty(CestaUdaje &stav, QVector<Spoj>  seznamSpoju ) //novy
 {
     qDebug()<<"CustomerInformationService::aktualizaceIntPromEmpty"<<nazevSluzbyInterni<<" "<<globVerze;
-    qDebug()<<"velikost seznamTripu"<<seznamSpoju.size()<<" index"<<stav.indexTripu;
+    qDebug()<<"velikost seznamTripu"<<seznamSpoju.size()<<" index"<<stav.indexSpojeNaObehu;
     /* if (seznamSpoju.isEmpty())
   {
       qDebug()<<"seznam spoju je prazdny, ukoncuji CustomerInformationService::aktualizaceIntProm";
