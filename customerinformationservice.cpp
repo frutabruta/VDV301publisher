@@ -58,31 +58,27 @@ void CustomerInformationService::aktualizaceIntProm(QVector<prestupMPV> prestupy
     QVector<ZastavkaCil>  seznamZastavek=seznamSpoju.at(stav.indexSpojeNaObehu).globalniSeznamZastavek;
     QString bodyAllData="";
     QString bodyCurrentDisplayContent="";
-    qDebug()<<"1";
+
     if (globVerze=="2.2CZ1.0")
-    {
-        qDebug()<<"2";
+    {   
         bodyAllData=TestXmlGenerator.AllData2_2CZ1_0(seznamSpoju,prestupy,stav);
         bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,seznamZastavek,stav);
     }
     else
-    {
-        qDebug()<<"3";
+    {    
         bodyAllData=TestXmlGenerator.AllData1_0( seznamZastavek, stav.aktlinka, stav.doorState, stav.locationState,prestupy,stav);
-        qDebug()<<"3,5";
         bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,seznamZastavek, stav);
     }
 
-    qDebug()<<"4";
     this->nastavObsahTela("AllData",bodyAllData);
     this->nastavObsahTela("CurrentDisplayContent",bodyCurrentDisplayContent);
     this->asocPoleDoServeru(obsahTelaPole);
-    qDebug()<<"5";
+
     for(int i=0;i<seznamSubscriberu.count();i++ )
     {
         PostDoDispleje(seznamSubscriberu[i].adresa,obsahTelaPole.value(seznamSubscriberu[i].struktura));
     }
-    qDebug()<<"6";
+
 }
 
 
@@ -104,29 +100,29 @@ void CustomerInformationService::aktualizaceIntPromEmpty(CestaUdaje &stav, QVect
 
     QString bodyAllData="";
     QString bodyCurrentDisplayContent="";
-    qDebug()<<"1";
+
     if (globVerze=="2.2CZ1.0")
     {
-        qDebug()<<"2";
+
         bodyAllData=TestXmlGenerator.AllDataEmpty2_2CZ1_0();
     }
     else
     {
-        qDebug()<<"3";
+
         bodyAllData=TestXmlGenerator.AllData_empty_1_0();
-        qDebug()<<"3,5";
+
     }
 
-    qDebug()<<"4";
+
     this->nastavObsahTela("AllData",bodyAllData);
     this->nastavObsahTela("CurrentDisplayContent",bodyCurrentDisplayContent);
     this->asocPoleDoServeru(obsahTelaPole);
-    qDebug()<<"5";
+
     for(int i=0;i<seznamSubscriberu.count();i++ )
     {
         PostDoDispleje(seznamSubscriberu[i].adresa,obsahTelaPole.value(seznamSubscriberu[i].struktura));
     }
-    qDebug()<<"6";
+
 }
 
 
