@@ -320,7 +320,7 @@ int HttpSluzba::odstranitSubscribera(int index)
 int HttpSluzba::nastavObsahTela(QString klic, QString obsah)
 {
 
-    qDebug()<<"HttpSluzba::nastavObsahTela";
+    qDebug()<<"HttpSluzba::nastavObsahTela "<<klic;
     obsahTelaPole.insert(klic,obsah);
 
 

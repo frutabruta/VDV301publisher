@@ -23,10 +23,9 @@ void TicketValidationService::aktualizaceIntProm(QVector<prestupMPV> prestupy, C
 
 
 
-    qDebug()<<"1";
     if (globVerze=="2.2CZ1.0")
     {
-        qDebug()<<"2";
+
         //bodyAllData=TestXmlGenerator.AllData2_2CZ1_0( stav.indexAktZastavky,seznamZastavek, stav.aktlinka, stav.doorState, stav.locationState,prestupyDomDocument);
         bodyCurrentTariffStopResponse=TestXmlGenerator.TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(stav.indexAktZastavky,seznamZastavek,stav.aktlinka,stav.doorState,stav.locationState,prestupy);
         bodyVehicleDataResponse=TestXmlGenerator.TicketValidationService_GetVehicleDataResponse2_2CZ1_0(stav);
@@ -46,17 +45,17 @@ void TicketValidationService::aktualizaceIntProm(QVector<prestupMPV> prestupy, C
         */
     }
 
-    qDebug()<<"4";
+
     this->nastavObsahTela("CurrentTariffStopResponse",bodyCurrentTariffStopResponse);
     this->nastavObsahTela("VehicleDataResponse",bodyVehicleDataResponse);
     this->nastavObsahTela("RazziaResponse",bodyRazziaResponse);
     this->asocPoleDoServeru(obsahTelaPole);
-    qDebug()<<"5";
+
     for(int i=0;i<seznamSubscriberu.count();i++ )
     {
         PostDoDispleje(seznamSubscriberu[i].adresa,obsahTelaPole.value(seznamSubscriberu[i].struktura));
     }
-    qDebug()<<"6";
+
 }
 
 

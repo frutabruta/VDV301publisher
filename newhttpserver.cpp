@@ -17,15 +17,12 @@ int NewHttpServer::proved()
 
 
 
-    /*QHostAddress test;
-test.setAddress("127.0.0.1:47474");*/
-
     this->route(obsahGet,obsahTelaPole);
     this->listen();
 
     return 1;
 }
-//return app.exec();
+
 
 
 
@@ -51,11 +48,10 @@ int NewHttpServer::route(QString &intObsahGet,  QMap<QString,QString> &obsahyBod
         this->bodyPozadavku=request.body();
         QString struktura="AllData";
         emit zmenaObsahu(request.body(),struktura);
-        //odpoved=this->obsahSubscribe;
+
 
         return this->obsahSubscribe;
-        //return odpoved;
-        //return "Hello world";
+
     });
     httpServer.route("/CustomerInformationService/SubscribeCurrentDisplayContent", [this ](const QHttpServerRequest &request)
     {
@@ -76,26 +72,25 @@ int NewHttpServer::route(QString &intObsahGet,  QMap<QString,QString> &obsahyBod
         this->bodyPozadavku=request.body();
         QString struktura="CurrentDisplayContent";
         emit zmenaObsahu(request.body(),struktura);
-        //odpoved=this->obsahSubscribe;
+
 
         return this->obsahSubscribe;
-        //return odpoved;
-        //return "Hello world";
+
     });
 
-    qDebug()<<"vnejsi intObsahGet="<<intObsahGet;
+   // qDebug()<<"vnejsi intObsahGet="<<intObsahGet;
     httpServer.route("/CustomerInformationService/Get<arg>", [&obsahyBody](const QUrl &url,const QHttpServerRequest &request)
     {
 
 
         QString struktura= QStringLiteral("%1").arg(url.path());
-        qDebug()<<"argument "<<struktura;
+        //qDebug()<<"argument "<<struktura;
 
-        qDebug()<<"request "<<"/CustomerInformationService/Get<arg>";
-        //qDebug()<<request.body();
-        //return obsahyBody.value("AllData");
+        //qDebug()<<"request "<<"/CustomerInformationService/Get<arg>";
+
+
         return obsahyBody.value(struktura);
-        //return intObsahGet;
+
     });
 
     httpServer.route("/TicketValidationService/Get<arg>", [&obsahyBody](const QUrl &url,const QHttpServerRequest &request)
@@ -175,7 +170,6 @@ int NewHttpServer::nastavObsahTela(QMap<QString,QString> vstup )
     obsahTelaPole=vstup;
 
 
-    //qDebug()<<"obsah CDC z pole: "<<obsahTelaPole.value("CurrentDisplayContent");
 
     return 1;
 }
@@ -185,7 +179,6 @@ QString NewHttpServer::vyrobHlavickuOk()
 {
     qDebug()<<"HttpSluzba::vyrobHlavicku()";
     QString hlavicka;
-    //this->hlavickaInterni="";
     QByteArray argumentXMLserveru = "";
     hlavicka+=("HTTP/1.1 200 OK\r\n");       // \r needs to be before \n
     hlavicka+=("Content-Type: application/xml\r\n");
