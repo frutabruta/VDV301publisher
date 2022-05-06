@@ -27,7 +27,7 @@ void TicketValidationService::aktualizaceIntProm(QVector<prestupMPV> prestupy, C
     {
 
         //bodyAllData=TestXmlGenerator.AllData2_2CZ1_0( stav.indexAktZastavky,seznamZastavek, stav.aktlinka, stav.doorState, stav.locationState,prestupyDomDocument);
-        bodyCurrentTariffStopResponse=TestXmlGenerator.TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(stav.indexAktZastavky,seznamZastavek,stav.aktlinka,stav.doorState,stav.locationState,prestupy);
+        bodyCurrentTariffStopResponse=TestXmlGenerator.TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(stav.indexAktZastavky,seznamZastavek,stav.doorState,stav.locationState,prestupy);
         bodyVehicleDataResponse=TestXmlGenerator.TicketValidationService_GetVehicleDataResponse2_2CZ1_0(stav);
         bodyRazziaResponse=TestXmlGenerator.TicketValidationService_GetRazziaResponse2_2CZ1_0(stav);
 

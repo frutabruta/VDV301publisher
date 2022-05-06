@@ -66,7 +66,7 @@ void CustomerInformationService::aktualizaceIntProm(QVector<prestupMPV> prestupy
     }
     else
     {    
-        bodyAllData=TestXmlGenerator.AllData1_0( seznamZastavek, stav.aktlinka, stav.doorState, stav.locationState,prestupy,stav);
+        bodyAllData=TestXmlGenerator.AllData1_0( seznamZastavek, stav.doorState, stav.locationState,prestupy,stav);
         bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,seznamZastavek, stav);
     }
 
