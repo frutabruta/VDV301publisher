@@ -4,6 +4,7 @@
 
 #include "httpsluzba.h"
 #include "../prestupmpv.h"
+#include "./mainwindowpomocne.h"
 
 class CustomerInformationService : public HttpSluzba
 {
