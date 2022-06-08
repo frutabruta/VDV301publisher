@@ -57,7 +57,7 @@ void CustomerInformationService::aktualizaceIntProm(QVector<prestupMPV> prestupy
         return;
     }
 
-    if(!MainWindowPomocne::jeVRozsahu(stav.indexSpojeNaObehu,seznamSpoju.size()))
+    if(!MainWindowPomocne::jeVRozsahu(stav.indexSpojeNaObehu,seznamSpoju.size(),"CustomerInformationService::aktualizaceIntProm"))
     {
         return;
     }
