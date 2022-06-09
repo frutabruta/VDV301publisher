@@ -12,7 +12,7 @@ TicketValidationService::TicketValidationService(QString nazevSluzby, QString ty
 
 
 
-void TicketValidationService::aktualizaceIntProm(QVector<prestupMPV> prestupy, CestaUdaje &stav, QVector<ZastavkaCil>  seznamZastavek ) //novy
+void TicketValidationService::aktualizaceIntProm(QVector<PrestupMPV> prestupy, CestaUdaje &stav, QVector<ZastavkaCil>  seznamZastavek ) //novy
 {
     qDebug()<<"TicketValidationService::aktualizaceIntProm"<<nazevSluzbyInterni<<" "<<globVerze;
    // QByteArray zpracovanoMPV="";
@@ -66,7 +66,7 @@ void TicketValidationService::tedOdesliNaPanelySlot()
     aktualizaceIntProm( prestupyInterni,stavInterni,seznamZastavekInterni);
 }
 
-void TicketValidationService::aktualizaceObsahuSluzby(QVector<prestupMPV> prestupy, CestaUdaje &stav ) //novy
+void TicketValidationService::aktualizaceObsahuSluzby(QVector<PrestupMPV> prestupy, CestaUdaje &stav ) //novy
 {
     qDebug()<<"CustomerInformationService::aktualizaceInternichPromennychOdeslat";
     prestupyInterni =prestupy;

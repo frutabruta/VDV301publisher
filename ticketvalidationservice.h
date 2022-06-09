@@ -10,7 +10,7 @@ public:
     TicketValidationService();
     explicit TicketValidationService(QString nazevSluzby, QString typSluzby, int cisloPortu, QString verze);
 
-    void aktualizaceObsahuSluzby(QVector<prestupMPV> prestupy, CestaUdaje &stav);
+    void aktualizaceObsahuSluzby(QVector<PrestupMPV> prestupy, CestaUdaje &stav);
     void tedOdesliNaPanelySlot();
 
 
@@ -19,8 +19,8 @@ public:
 
 
 private:
-    void aktualizaceIntProm(QVector<prestupMPV> prestupy, CestaUdaje &stav, QVector<ZastavkaCil> seznamZastavek);
-    QVector<prestupMPV> prestupyInterni;
+    void aktualizaceIntProm(QVector<PrestupMPV> prestupy, CestaUdaje &stav, QVector<ZastavkaCil> seznamZastavek);
+    QVector<PrestupMPV> prestupyInterni;
 };
 
 #endif // TICKETVALIDATIONSERVICE_H

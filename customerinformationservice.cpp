@@ -46,7 +46,7 @@ void CustomerInformationService::slotTedOdesliNaPanely()
  * \param stav
  * \param seznamSpoju
  */
-void CustomerInformationService::aktualizaceIntProm(QVector<prestupMPV> prestupy, CestaUdaje &stav, QVector<Spoj>  seznamSpoju ) //novy
+void CustomerInformationService::aktualizaceIntProm(QVector<PrestupMPV> prestupy, CestaUdaje &stav, QVector<Spoj>  seznamSpoju ) //novy
 {
     qDebug()<<"CustomerInformationService::aktualizaceIntProm"<<nazevSluzbyInterni<<" "<<globVerze;
     qDebug()<<"velikost seznamTripu"<<seznamSpoju.size()<<" index"<<stav.indexSpojeNaObehu;
@@ -140,7 +140,7 @@ void CustomerInformationService::aktualizaceIntPromEmpty(CestaUdaje &stav, QVect
  * \param stav
  */
 
-void CustomerInformationService::aktualizaceObsahuSluzby(QVector<prestupMPV> prestup, CestaUdaje &stav ) //novy
+void CustomerInformationService::aktualizaceObsahuSluzby(QVector<PrestupMPV> prestup, CestaUdaje &stav ) //novy
 {
     qDebug()<<"CustomerInformationService::aktualizaceInternichPromennychOdeslat";
     prestupyInterni=prestup;
