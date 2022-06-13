@@ -70,7 +70,7 @@ private:
 
 
 protected:
-    xmlGenerator TestXmlGenerator;
+    XmlGenerator TestXmlGenerator;
     QMap<QString,QString> obsahTelaPole; //obsahuje payload a klíč, pod kterým je uložený
     int asocPoleDoServeru(QMap<QString, QString> pole);
 
