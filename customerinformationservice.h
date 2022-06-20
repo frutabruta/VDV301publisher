@@ -23,6 +23,7 @@ public:
     void aktualizaceObsahuSluzby(QVector<PrestupMPV> prestup, CestaUdaje &stav);
 
     void aktualizaceIntPromEmpty(CestaUdaje &stav, QVector<Spoj> seznamSpoju);
+    void mimoVydej();
 public slots:
     void slotTedOdesliNaPanely();
 

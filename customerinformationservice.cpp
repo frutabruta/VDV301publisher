@@ -16,12 +16,20 @@ CustomerInformationService::CustomerInformationService(QString nazevSluzby, QStr
     connect(timer, &QTimer::timeout, this, &CustomerInformationService::slotTedOdesliNaPanely);
 
     //naplnění prázdných struktur
-    aktualizaceIntPromEmpty(stavInterni,seznamSpojuInterni);
+
+    mimoVydej();
     //nastartování periodického zasílání
     timer->start(60000);
 
 }
 
+
+
+void CustomerInformationService::mimoVydej()
+{
+    aktualizaceIntPromEmpty(stavInterni,seznamSpojuInterni);
+
+}
 /*!
  * \brief CustomerInformationService::slotTedOdesliNaPanely
  */
@@ -98,6 +106,7 @@ void CustomerInformationService::aktualizaceIntProm(QVector<PrestupMPV> prestupy
 void CustomerInformationService::aktualizaceIntPromEmpty(CestaUdaje &stav, QVector<Spoj>  seznamSpoju ) //novy
 {
     qDebug()<<"CustomerInformationService::aktualizaceIntPromEmpty"<<nazevSluzbyInterni<<" "<<globVerze;
+
     qDebug()<<"velikost seznamTripu"<<seznamSpoju.size()<<" index"<<stav.indexSpojeNaObehu;
     /* if (seznamSpoju.isEmpty())
   {
