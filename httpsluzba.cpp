@@ -170,27 +170,35 @@ QByteArray HttpSluzba::vyrobSubscribeResponseBody(int vysledek)
  */
 void HttpSluzba::slotVypisObsahRequestu(QByteArray vysledek,QString struktura)
 {
-    qDebug()<<"HttpSluzba::HttpSluzba::vypisObsahRequestu";
+    qDebug()<<"HttpSluzba::slotVypisObsahRequestu";
     QByteArray posledniRequest=InstanceNovehoServeru.bodyPozadavku;
     QDomDocument xmlrequest;
     xmlrequest.setContent(vysledek);
-    QString adresa= xmlrequest.elementsByTagName("Client-IP-Address").at(0).toElement().firstChildElement().text() ;
-    QString port= xmlrequest.elementsByTagName("ReplyPort").at(0).toElement().firstChildElement().text() ;
-    qDebug()<<"prvni element "<<adresa<<" "<<port;
+
+    QDomElement subscribeRequest=xmlrequest.firstChildElement("SubscribeRequest");
+
+    QString adresa= subscribeRequest.firstChildElement("Client-IP-Address").firstChildElement().text() ;
+    QString port= subscribeRequest.elementsByTagName("ReplyPort").at(0).toElement().firstChildElement().text() ;
+    QString cesta=subscribeRequest.firstChildElement("ReplyPath").toElement().firstChildElement("Value").firstChild().nodeValue();
+
+   // cesta="CustomerInformationService";
     qDebug()<<"body pozadavku"<<posledniRequest;
     //qDebug()<<"vysledek"<<vysledek;
-    QString kompletadresa="http://"+adresa+":"+port;
+    QString kompletadresa="http://"+adresa+":"+port+"/"+cesta;
     if(adresa.contains("%"))
     {
         qDebug()<<"detekovano procento";
         kompletadresa="http://["+adresa+"]:"+port;
     }
+
     QUrl adresaurl=kompletadresa;
+    qDebug()<<"komplet adresa subscribera "<<kompletadresa;
 
     //pridejSubscribera(adresaurl);
     Subscriber kandidat;
     kandidat.adresa=adresaurl;
     kandidat.struktura=struktura;
+    //kandidat.cesta=cesta;
     novySubscriber(kandidat);
     //qDebug()<<obsahBody;
 }
