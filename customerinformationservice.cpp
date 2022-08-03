@@ -1,6 +1,6 @@
 #include "customerinformationservice.h"
 #include "httpsluzba.h"
-#include "./prestupmpv.h"
+#include "VDV301struktury/prestupmpv.h"
 
 
 /*!
@@ -65,10 +65,12 @@ void CustomerInformationService::aktualizaceIntProm(QVector<PrestupMPV> prestupy
         return;
     }
 
+    /*
     if(!MainWindowPomocne::jeVRozsahu(stav.indexSpojeNaObehu,seznamSpoju.size(),"CustomerInformationService::aktualizaceIntProm"))
     {
         return;
     }
+    */
 
 
     QVector<ZastavkaCil>  seznamZastavek=seznamSpoju.at(stav.indexSpojeNaObehu).globalniSeznamZastavek;
@@ -77,13 +79,13 @@ void CustomerInformationService::aktualizaceIntProm(QVector<PrestupMPV> prestupy
 
     if (globVerze=="2.2CZ1.0")
     {   
-        bodyAllData=TestXmlGenerator.AllData2_2CZ1_0(seznamSpoju,prestupy,stav);
-        bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,seznamZastavek,stav);
+        bodyAllData=xmlGenerator.AllData2_2CZ1_0(seznamSpoju,prestupy,stav);
+        bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,seznamZastavek,stav);
     }
     else
     {    
-        bodyAllData=TestXmlGenerator.AllData1_0( seznamZastavek, stav.doorState, stav.locationState,prestupy,stav);
-        bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,seznamZastavek, stav);
+        bodyAllData=xmlGenerator.AllData1_0( seznamZastavek, stav.doorState, stav.locationState,prestupy,stav);
+        bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,seznamZastavek, stav);
     }
 
     this->nastavObsahTela("AllData",bodyAllData);
@@ -121,12 +123,12 @@ void CustomerInformationService::aktualizaceIntPromEmpty(CestaUdaje &stav, QVect
     if (globVerze=="2.2CZ1.0")
     {
 
-        bodyAllData=TestXmlGenerator.AllDataEmpty2_2CZ1_0();
+        bodyAllData=xmlGenerator.AllDataEmpty2_2CZ1_0();
     }
     else
     {
 
-        bodyAllData=TestXmlGenerator.AllData_empty_1_0();
+        bodyAllData=xmlGenerator.AllData_empty_1_0();
 
     }
 

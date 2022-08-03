@@ -27,9 +27,9 @@ void TicketValidationService::aktualizaceIntProm(QVector<PrestupMPV> prestupy, C
     {
 
         //bodyAllData=TestXmlGenerator.AllData2_2CZ1_0( stav.indexAktZastavky,seznamZastavek, stav.aktlinka, stav.doorState, stav.locationState,prestupyDomDocument);
-        bodyCurrentTariffStopResponse=TestXmlGenerator.TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(stav.indexAktZastavky,seznamZastavek,stav.doorState,stav.locationState,prestupy);
-        bodyVehicleDataResponse=TestXmlGenerator.TicketValidationService_GetVehicleDataResponse2_2CZ1_0(stav);
-        bodyRazziaResponse=TestXmlGenerator.TicketValidationService_GetRazziaResponse2_2CZ1_0(stav);
+        bodyCurrentTariffStopResponse=xmlGenerator.TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(stav.indexAktZastavky,seznamZastavek,stav.doorState,stav.locationState,prestupy);
+        bodyVehicleDataResponse=xmlGenerator.TicketValidationService_GetVehicleDataResponse2_2CZ1_0(stav);
+        bodyRazziaResponse=xmlGenerator.TicketValidationService_GetRazziaResponse2_2CZ1_0(stav);
 
                 //bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,seznamZastavek,stav);
         //bodyVehicleDataResponse=TestXmlGenerator.tick
@@ -75,3 +75,5 @@ void TicketValidationService::aktualizaceObsahuSluzby(QVector<PrestupMPV> prestu
     tedOdesliNaPanelySlot();
     timer->start(60000);
 }
+
+

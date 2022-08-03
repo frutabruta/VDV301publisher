@@ -2,13 +2,16 @@
 #define TICKETVALIDATIONSERVICE_H
 
 #include "httpsluzba.h"
-#include "../prestupmpv.h"
+#include "xmlticketvalidationservice.h"
+#include "VDV301struktury/prestupmpv.h"
 
 class TicketValidationService : public HttpSluzba
 {
 public:
     TicketValidationService();
     explicit TicketValidationService(QString nazevSluzby, QString typSluzby, int cisloPortu, QString verze);
+
+    XmlTicketValidationService xmlGenerator;
 
     void aktualizaceObsahuSluzby(QVector<PrestupMPV> prestupy, CestaUdaje &stav);
     void tedOdesliNaPanelySlot();

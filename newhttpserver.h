@@ -2,7 +2,7 @@
 #define NEWHTTPSERVER_H
 
 #include <QObject>
-#include <QWidget>
+//#include <QWidget>
 
 #include <QtHttpServer>
 

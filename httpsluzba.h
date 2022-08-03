@@ -9,7 +9,6 @@
 
 
 #include "newhttpserver.h"
-#include "xmlgenerator.h"
 #include "subscriber.h"
 
 #include "../VDV301struktury/cestaudaje.h"
@@ -70,7 +69,7 @@ private:
 
 
 protected:
-    XmlGenerator TestXmlGenerator;
+
     QMap<QString,QString> obsahTelaPole; //obsahuje payload a klíč, pod kterým je uložený
     int asocPoleDoServeru(QMap<QString, QString> pole);
 

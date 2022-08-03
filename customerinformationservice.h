@@ -3,14 +3,18 @@
 
 
 #include "httpsluzba.h"
-#include "../prestupmpv.h"
-#include "./mainwindowpomocne.h"
+#include "VDV301struktury/prestupmpv.h"
+
+#include "xmlcustomerinformationservice.h"
 
 class CustomerInformationService : public HttpSluzba
 {
 public:
     //konstruktor
     explicit CustomerInformationService(QString nazevSluzby, QString typSluzby, int cisloPortu, QString verze);
+
+    //instance trid
+    XmlCustomerInformationService xmlGenerator;
 
     //struktury
     QVector<PrestupMPV> prestupyInterni;
