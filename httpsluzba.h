@@ -5,14 +5,15 @@
 #include <QtXml>
 #include <QtHttpServer>
 
-#include "qzeroconf.h"
+#include "QtZeroConf/qzeroconf.h"
 
 
 #include "newhttpserver.h"
 #include "subscriber.h"
 
-#include "../VDV301struktury/cestaudaje.h"
-#include "../VDV301struktury/zastavkacil.h"
+#include "VDV301struktury/cestaudaje.h"
+#include "VDV301struktury/zastavkacil.h"
+
 
 
 

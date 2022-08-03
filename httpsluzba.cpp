@@ -1,7 +1,7 @@
 #include "httpsluzba.h"
 
-#include "qtzeroconf/qzeroconf.h"
-#include "VDV301struktury/zastavkacil.h"
+
+
 
 /*!
  * \brief HttpSluzba::HttpSluzba
