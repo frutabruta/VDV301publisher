@@ -8,7 +8,7 @@
 #include "QtZeroConf/qzeroconf.h"
 
 
-#include "newhttpserver.h"
+#include "httpserverpublisher.h"
 #include "subscriber.h"
 
 #include "VDV301struktury/cestaudaje.h"
@@ -51,7 +51,7 @@ public:
 private:
     //instance knihoven
     QZeroConf zeroConf;
-    NewHttpServer InstanceNovehoServeru;
+    HttpServerPublisher InstanceNovehoServeru;
     QNetworkAccessManager *manager2 = new QNetworkAccessManager();
 
     //promenne

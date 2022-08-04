@@ -1,6 +1,6 @@
-#include "newhttpserver.h"
+#include "httpserverpublisher.h"
 
-NewHttpServer::NewHttpServer(quint16 ppp)
+HttpServerPublisher::HttpServerPublisher(quint16 ppp)
 {
     cisloPortu=ppp;
     obsahRoot=vyrobHlavickuOk();
@@ -11,7 +11,7 @@ NewHttpServer::NewHttpServer(quint16 ppp)
 
 
 
-int NewHttpServer::proved()
+int HttpServerPublisher::proved()
 {
     qDebug()<<"NewHttpServer::proved()";
 
@@ -26,7 +26,7 @@ int NewHttpServer::proved()
 
 
 
-int NewHttpServer::route(QString &intObsahGet,  QMap<QString,QString> &obsahyBody)
+int HttpServerPublisher::route(QString &intObsahGet,  QMap<QString,QString> &obsahyBody)
 {
 
     qDebug() <<"NewHttpServer::route";
@@ -128,7 +128,7 @@ int NewHttpServer::route(QString &intObsahGet,  QMap<QString,QString> &obsahyBod
 }
 
 
-int NewHttpServer::listen()
+int HttpServerPublisher::listen()
 {
     qDebug() <<"NewHttpServer::listen";
     const auto port = httpServer.listen(QHostAddress::Any,cisloPortu);
@@ -151,20 +151,20 @@ int NewHttpServer::listen()
 }
 
 
-void NewHttpServer::zapisDoPromenneGet(QString vstup)
+void HttpServerPublisher::zapisDoPromenneGet(QString vstup)
 {
     qDebug() <<"NewHttpServer::zapisDoPromenneGet";
     this->obsahGet=vstup;
 
 }
 
-void NewHttpServer::zapisDoSubscribe(QString vstup)
+void HttpServerPublisher::zapisDoSubscribe(QString vstup)
 {
     qDebug() << "NewHttpServer::zapisDoSubscribe";
     this->obsahSubscribe=vstup;
 }
 
-int NewHttpServer::nastavObsahTela(QMap<QString,QString> vstup )
+int HttpServerPublisher::nastavObsahTela(QMap<QString,QString> vstup )
 {
     qDebug()<<"NewHttpServer::nastavObsahTela";
     obsahTelaPole=vstup;
@@ -175,7 +175,7 @@ int NewHttpServer::nastavObsahTela(QMap<QString,QString> vstup )
 }
 
 
-QString NewHttpServer::vyrobHlavickuOk()
+QString HttpServerPublisher::vyrobHlavickuOk()
 {
     qDebug()<<"HttpSluzba::vyrobHlavicku()";
     QString hlavicka;
