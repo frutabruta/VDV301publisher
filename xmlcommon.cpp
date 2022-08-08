@@ -55,6 +55,7 @@ QDomElement XmlCommon::TripInformation2_2CZ1_0(QVector<Spoj> docasnySeznamSpoju,
         QString specialniOznameni=docasnySeznamZastavek.at(currentStopIndex).zastavka.additionalTextMessage;
         qDebug()<<"spec oznameni="<<specialniOznameni;
 
+
         if(stav.jeSpecialniHlaseni)
         {
             dTripInformation.appendChild(AdditionalTextMessage2_2CZ1_0(stav.aktivniSpecialniHlaseni.type, stav.aktivniSpecialniHlaseni.title, stav.aktivniSpecialniHlaseni.text));
@@ -62,7 +63,7 @@ QDomElement XmlCommon::TripInformation2_2CZ1_0(QVector<Spoj> docasnySeznamSpoju,
 
         if (specialniOznameni!="")
         {
-            dTripInformation.appendChild(AdditionalTextMessage2_2CZ1_0(specialniOznameni));
+         //   dTripInformation.appendChild(AdditionalTextMessage2_2CZ1_0(specialniOznameni));
         }
     }
 
@@ -447,7 +448,7 @@ QDomElement XmlCommon::DisplayContent2_2CZ1_0(QString tagName,QVector<ZastavkaCi
 
     QDomElement dDestination=xmlko.createElement("Destination");
 
-    dDestination.appendChild(xxxProperty2_2CZ1_0("DestinationProperty",aktZastavkaCil.cil.naZnameni,"RequestStop"));
+  //  dDestination.appendChild(xxxProperty2_2CZ1_0("DestinationProperty",aktZastavkaCil.cil.naZnameni,"RequestStop"));
     dDestination.appendChild(xxxProperty2_2CZ1_0("DestinationProperty",aktZastavkaCil.cil.prestupLetadlo ,"Air"));
     dDestination.appendChild(xxxProperty2_2CZ1_0("DestinationProperty",aktZastavkaCil.cil.prestupPrivoz ,"Ferry"));
     dDestination.appendChild(xxxProperty2_2CZ1_0("DestinationProperty",aktZastavkaCil.cil.prestupMetroA ,"UndergroundA"));
