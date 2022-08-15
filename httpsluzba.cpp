@@ -12,7 +12,7 @@
  */
 HttpSluzba::HttpSluzba(QString nazevSluzby,QString typSluzby, int cisloPortu,QString verze):InstanceNovehoServeru(cisloPortu)
 {
-    qDebug()<<"HttpSluzba::HttpSluzba";
+    qDebug() <<  Q_FUNC_INFO;
     cisloPortuInterni=cisloPortu;
     nazevSluzbyInterni=nazevSluzby;
     typSluzbyInterni=typSluzby;
@@ -42,7 +42,7 @@ HttpSluzba::~HttpSluzba()
  */
 void HttpSluzba::slotVyprseniCasovace()
 {
-    qDebug()<<"casovac vyrpsel";
+    qDebug() <<  Q_FUNC_INFO;
 }
 
 
@@ -62,7 +62,7 @@ int HttpSluzba::aktualizuj()
  */
 QByteArray HttpSluzba::vyrobHlavickuGet()
 {
-    qDebug()<<"HttpSluzba::vyrobHlavicku()";
+   qDebug() <<  Q_FUNC_INFO;
     QByteArray hlavicka;
     //this->hlavickaInterni="";
     QByteArray argumentXMLserveru = "";
@@ -83,7 +83,7 @@ QByteArray HttpSluzba::vyrobHlavickuGet()
 
 QString HttpSluzba::vyrobHlavickuSubscribe()
 {
-    qDebug()<<"HttpSluzba::vyrobHlavicku()";
+    qDebug() <<  Q_FUNC_INFO;
     QByteArray hlavicka;
     //this->hlavickaInterni="";
     QByteArray argumentXMLserveru = "";
@@ -103,7 +103,7 @@ QString HttpSluzba::vyrobHlavickuSubscribe()
 
 void HttpSluzba::bonjourStartKomplet()
 {
-    qDebug()<<"HttpSluzba::bonjourStartKomplet";
+    qDebug() <<  Q_FUNC_INFO;
     //zeroConf.clearServiceTxtRecords();
     this->bonjourStartPublish(this->nazevSluzbyInterni,this->typSluzbyInterni,this->cisloPortuInterni,this->globVerze ,zeroConf);
 }
@@ -119,7 +119,10 @@ void HttpSluzba::bonjourStartKomplet()
  */
 void HttpSluzba::bonjourStartPublish(QString nazevSluzby, QString typSluzby,int port,QString verze, QZeroConf &instanceZeroConf)
 {
-    qDebug()<<"HttpSluzba::bonjourStartPublish"<<nazevSluzby<<" "<<verze;
+    qDebug() <<  Q_FUNC_INFO<<" "<<nazevSluzby<<" "<<verze<<" "<<typSluzby<<" "<<port;
+
+
+    instanceZeroConf.clearServiceTxtRecords();
     instanceZeroConf.addServiceTxtRecord("ver", verze);
     qDebug()<<"Txt zaznam pridan";
 
@@ -133,7 +136,7 @@ void HttpSluzba::bonjourStartPublish(QString nazevSluzby, QString typSluzby,int 
  */
 void HttpSluzba::slotVypisChybuZeroConfig()
 {
-    qDebug()<<"HttpSluzba::vypisChybuZeroConfig2";
+    qDebug() <<  Q_FUNC_INFO;
 }
 
 
@@ -146,7 +149,7 @@ void HttpSluzba::slotVypisChybuZeroConfig()
 QByteArray HttpSluzba::vyrobSubscribeResponseBody(int vysledek)
 {
 
-    qDebug()<<"HttpSluzba::vyrobSubscribeResponseBody";
+    qDebug() <<  Q_FUNC_INFO;
     QByteArray textVysledek="true";
     if (vysledek!=1)
     {
@@ -170,7 +173,7 @@ QByteArray HttpSluzba::vyrobSubscribeResponseBody(int vysledek)
  */
 void HttpSluzba::slotVypisObsahRequestu(QByteArray vysledek,QString struktura)
 {
-    qDebug()<<"HttpSluzba::slotVypisObsahRequestu";
+    qDebug() <<  Q_FUNC_INFO;
     QByteArray posledniRequest=InstanceNovehoServeru.bodyPozadavku;
     QDomDocument xmlrequest;
     xmlrequest.setContent(vysledek);
@@ -214,7 +217,7 @@ void HttpSluzba::slotVypisObsahRequestu(QByteArray vysledek,QString struktura)
 
 void HttpSluzba::PostDoDispleje(QUrl adresaDispleje, QString dataDoPostu)
 {
-    qDebug()<<"HttpSluzba::PostDoDispleje";
+    qDebug() <<  Q_FUNC_INFO;
     //QByteArray postDataSize = QByteArray::number(dataDoPostu.size());
     QNetworkRequest pozadavekPOST(adresaDispleje);
 
@@ -239,7 +242,7 @@ void HttpSluzba::PostDoDispleje(QUrl adresaDispleje, QString dataDoPostu)
 
 void HttpSluzba::slotPrislaOdpovedNaPost(QNetworkReply* reply)
 {
-    qDebug()<<"HttpSluzba::slotPrislaOdpovedNaPost";
+    qDebug() <<  Q_FUNC_INFO;
     emit this->signalOdpovedNaPost(reply);
 }
 
@@ -251,7 +254,7 @@ void HttpSluzba::slotPrislaOdpovedNaPost(QNetworkReply* reply)
  */
 QString HttpSluzba::novySubscriber(Subscriber subscriber)
 {
-    qDebug()<<"MainWindow::novySubsriber "<<subscriber.adresa;
+    qDebug() <<  Q_FUNC_INFO<<" "<<subscriber.adresa;
     QString vysledek;
     if(subscriber.adresa.toString()=="")
     {
@@ -285,7 +288,7 @@ QString HttpSluzba::novySubscriber(Subscriber subscriber)
  */
 int HttpSluzba::jeSubscriberNaSeznamu(QVector<Subscriber> seznam ,Subscriber prvek)
 {
-    qDebug()<<"HttpSluzba::jeSubscriberNaSeznamu";
+    qDebug() <<  Q_FUNC_INFO;
     for(int i =0;i<seznam.length();i++)
     {
         if((seznam[i].adresa==prvek.adresa)&&(seznam[i].struktura==prvek.struktura ))
@@ -302,7 +305,7 @@ int HttpSluzba::jeSubscriberNaSeznamu(QVector<Subscriber> seznam ,Subscriber prv
  */
 int HttpSluzba::odstranitSubscribera(int index)
 {
-    qDebug()<<"HttpSluzba::odstranitSubscribera";
+    qDebug() <<  Q_FUNC_INFO;
     if ((index<seznamSubscriberu.size())&&(index>=0))
     {
         qDebug()<<"mazu "<<seznamSubscriberu.at(index).adresa<<seznamSubscriberu.at(index).struktura;
@@ -328,7 +331,7 @@ int HttpSluzba::odstranitSubscribera(int index)
 int HttpSluzba::nastavObsahTela(QString klic, QString obsah)
 {
 
-    qDebug()<<"HttpSluzba::nastavObsahTela "<<klic;
+    qDebug() <<  Q_FUNC_INFO<<" "<<klic;
     obsahTelaPole.insert(klic,obsah);
 
 
@@ -356,7 +359,7 @@ int HttpSluzba::asocPoleDoServeru(QMap<QString,QString> pole)
  */
 void HttpSluzba::zastavBonjourSluzbu()
 {
-    qDebug()<<"HttpSluzba::zastavBonjourSluzbu"<<nazevSluzbyInterni<<" "<<globVerze<<" "<<cisloPortuInterni;
+    qDebug() <<  Q_FUNC_INFO<<nazevSluzbyInterni<<" "<<globVerze<<" "<<cisloPortuInterni;
     zeroConf.stopServicePublish();
 
 }
@@ -369,7 +372,7 @@ void HttpSluzba::zastavBonjourSluzbu()
  */
 void HttpSluzba::slotStart(bool parametr)
 {
-    qDebug()<<"spoustim sluzbu "<<this->nazevSluzbyInterni<<" "<<this->globVerze;
+    qDebug() <<  Q_FUNC_INFO<<" "<<this->nazevSluzbyInterni<<" "<<this->globVerze;
     bonjourStartKomplet();
     emit this->signalStav(true);
     //emit this->startSignal();
@@ -383,7 +386,7 @@ void HttpSluzba::slotStart(bool parametr)
  */
 void HttpSluzba::slotStop(bool parametr)
 {
-    qDebug()<<"zastavuju sluzbu "<<this->nazevSluzbyInterni<<" "<<this->globVerze;
+    qDebug() <<  Q_FUNC_INFO<<" "<<this->nazevSluzbyInterni<<" "<<this->globVerze;
     timer->stop();
     zastavBonjourSluzbu();
     emit this->signalStav(false);
@@ -399,7 +402,7 @@ void HttpSluzba::slotStop(bool parametr)
  */
 void HttpSluzba::slotVymazSubscribery()
 {
-    qDebug()<<"HttpSluzba::vymazSubscribery";
+    qDebug() <<  Q_FUNC_INFO;
     seznamSubscriberu.clear();
 
 
@@ -411,7 +414,7 @@ void HttpSluzba::slotVymazSubscribery()
  */
 void HttpSluzba::slotZastavCasovac()
 {
-    qDebug()<<"HttpSluzba::slotZastavCasovac()";
+    qDebug() <<  Q_FUNC_INFO;
     timer->stop();
 
 }
