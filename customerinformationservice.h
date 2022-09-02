@@ -14,20 +14,31 @@ public:
     explicit CustomerInformationService(QString nazevSluzby, QString typSluzby, int cisloPortu, QString verze);
 
     //instance trid
-    XmlCustomerInformationService xmlGenerator;
 
     //struktury
+
+    //funkce
+
+private:
+
+    //instance trid
+    XmlCustomerInformationService xmlGenerator;
+    //promenne
     QVector<PrestupMPV> prestupyInterni;
     QVector<Spoj> seznamSpojuInterni;
     CestaUdaje stavInterni;
 
-    //funkce
 
+    //funkce
     void aktualizaceIntProm(QVector<PrestupMPV> prestupy, CestaUdaje &stav, QVector<Spoj> seznamSpoju );
+    void aktualizaceIntPromEmpty(CestaUdaje &stav, QVector<Spoj> seznamSpoju);
     void aktualizaceObsahuSluzby(QVector<PrestupMPV> prestup, CestaUdaje &stav);
 
-    void aktualizaceIntPromEmpty(CestaUdaje &stav, QVector<Spoj> seznamSpoju);
+
     void mimoVydej();
+
+
+
 public slots:
     void slotTedOdesliNaPanely();
 

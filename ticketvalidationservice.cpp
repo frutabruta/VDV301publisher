@@ -4,7 +4,7 @@
 
 TicketValidationService::TicketValidationService(QString nazevSluzby, QString typSluzby, int cisloPortu,QString verze):HttpSluzba( nazevSluzby,typSluzby, cisloPortu,verze)
 {
-   connect(timer, &QTimer::timeout, this, &TicketValidationService::tedOdesliNaPanelySlot);
+   connect(timer, &QTimer::timeout, this, &TicketValidationService::slotTedOdesliNaPanely);
    timer->start(60000);
 
 }
@@ -60,7 +60,7 @@ void TicketValidationService::aktualizaceIntProm(QVector<PrestupMPV> prestupy, C
 
 
 
-void TicketValidationService::tedOdesliNaPanelySlot()
+void TicketValidationService::slotTedOdesliNaPanely()
 {
     qDebug()<<"CustomerInformationService::tedOdesliNaPanely()";
     aktualizaceIntProm( prestupyInterni,stavInterni,seznamZastavekInterni);
@@ -72,7 +72,7 @@ void TicketValidationService::aktualizaceObsahuSluzby(QVector<PrestupMPV> prestu
     prestupyInterni =prestupy;
     stavInterni=stav;
     seznamZastavekInterni=stav.aktObeh.seznamSpoju.at(stav.indexSpojeNaObehu).globalniSeznamZastavek;
-    tedOdesliNaPanelySlot();
+    slotTedOdesliNaPanely();
     timer->start(60000);
 }
 

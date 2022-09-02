@@ -2,32 +2,41 @@
 #define HTTPSERVERPUBLISHER_H
 
 #include <QObject>
-//#include <QWidget>
-
 #include <QtHttpServer>
 
 class HttpServerPublisher: public QObject
 {
     Q_OBJECT
 public:
-    HttpServerPublisher(quint16 ppp);
+    //konstruktor
+    HttpServerPublisher(quint16 ppp, QString vstupSlozkaSluzby);
+
+    //promenne
+    QByteArray bodyPozadavku="xx";
+
+    //funkce
+    int nastavObsahTela(QMap<QString, QString> vstup);
+
+private:    
+
+    //instance knihoven
     QHttpServer httpServer;
-    int proved();
+
+    //promenne
     quint16 cisloPortu=0;
+    QString slozkaSluzby="obsahGet";
+    QString obsahRoot="";
+    QString obsahSubscribe="<SubscribeResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><Active><Value>true</Value></Active></SubscribeResponse>";
+    QMap<QString,QString> obsahTelaPole;
+
+    //funkce
+    int listen();
+    int proved();
+    int route(QString &slozkaSluzby, QMap<QString, QString> &obsahyBody);
+    QString vyrobHlavickuOk();
     void zapisDoPromenneGet(QString vstup);
     void zapisDoSubscribe(QString vstup);
-    QString obsahGet="obsahGet";
-    QString obsahSubscribe="<SubscribeResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><Active><Value>true</Value></Active></SubscribeResponse>";
-    int route(QString &intObsahGet, QMap<QString, QString> &obsahyBody);
-    int listen();
-    QByteArray bodyPozadavku="xx";
-    QString obsahRoot="";
 
-
-    int nastavObsahTela(QMap<QString, QString> vstup);
-private:
-    QString vyrobHlavickuOk();
-    QMap<QString,QString> obsahTelaPole;
 signals:
     void zmenaObsahu(QByteArray vysledek,QString struktura) ;
     void prijemDat(QString vysledek) ;

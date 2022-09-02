@@ -8,22 +8,36 @@
 class TicketValidationService : public HttpSluzba
 {
 public:
-    TicketValidationService();
+    //konstruktor
+    TicketValidationService();    
     explicit TicketValidationService(QString nazevSluzby, QString typSluzby, int cisloPortu, QString verze);
 
+
+    //instance knihoven
+
+
+    //promenne
+
+
+    //funkce
+
+private:
+
+    //instance knihoven
     XmlTicketValidationService xmlGenerator;
 
-    void aktualizaceObsahuSluzby(QVector<PrestupMPV> prestupy, CestaUdaje &stav);
-    void tedOdesliNaPanelySlot();
-
-
+    //promenne
     CestaUdaje stavInterni;
     QVector<ZastavkaCil> seznamZastavekInterni ;
 
-
-private:
+    //funkce
     void aktualizaceIntProm(QVector<PrestupMPV> prestupy, CestaUdaje &stav, QVector<ZastavkaCil> seznamZastavek);
+    void aktualizaceObsahuSluzby(QVector<PrestupMPV> prestupy, CestaUdaje &stav);
+
     QVector<PrestupMPV> prestupyInterni;
+
+private slots:
+    void slotTedOdesliNaPanely();
 };
 
 #endif // TICKETVALIDATIONSERVICE_H

@@ -10,7 +10,7 @@
  * \param cisloPortu
  * \param verze
  */
-HttpSluzba::HttpSluzba(QString nazevSluzby,QString typSluzby, int cisloPortu,QString verze):InstanceNovehoServeru(cisloPortu)
+HttpSluzba::HttpSluzba(QString nazevSluzby,QString typSluzby, int cisloPortu,QString verze):InstanceNovehoServeru(cisloPortu,nazevSluzby)
 {
     qDebug() <<  Q_FUNC_INFO;
     cisloPortuInterni=cisloPortu;
@@ -18,13 +18,10 @@ HttpSluzba::HttpSluzba(QString nazevSluzby,QString typSluzby, int cisloPortu,QSt
     typSluzbyInterni=typSluzby;
     globVerze=verze;
 
-
-    //connect(&InstanceNovehoServeru,SIGNAL(zmenaObsahu()),this,SLOT(vypisObsahRequestu()));
     connect(&InstanceNovehoServeru,&HttpServerPublisher::zmenaObsahu,this,&HttpSluzba::slotVypisObsahRequestu);
     connect(&zeroConf,&QZeroConf::error,this,&HttpSluzba::slotVypisChybuZeroConfig);
 
     connect(manager2,&QNetworkAccessManager::finished,this,&HttpSluzba::slotPrislaOdpovedNaPost);
-
 }
 
 /*!
@@ -46,15 +43,6 @@ void HttpSluzba::slotVyprseniCasovace()
 }
 
 
-/*
-int HttpSluzba::aktualizuj()
-{
-    qDebug()<<"HttpSluzba::aktualizuj()";
-    //InstanceNovehoServeru.zapisDoPromenneGet(vyrobGetResponseBody());
-    InstanceNovehoServeru.zapisDoSubscribe(vyrobSubscribeResponseBody(1));
-    return 1;
-} */
-
 
 /*!
  * \brief HttpSluzba::vyrobHlavickuGet
@@ -64,8 +52,7 @@ QByteArray HttpSluzba::vyrobHlavickuGet()
 {
    qDebug() <<  Q_FUNC_INFO;
     QByteArray hlavicka;
-    //this->hlavickaInterni="";
-    QByteArray argumentXMLserveru = "";
+
     hlavicka+=("HTTP/1.1 200 OK\r\n");       // \r needs to be before \n
     hlavicka+=("Content-Type: application/xml\r\n");
     hlavicka+=("Connection: close\r\n");

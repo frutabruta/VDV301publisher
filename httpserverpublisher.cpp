@@ -1,35 +1,28 @@
 #include "httpserverpublisher.h"
 
-HttpServerPublisher::HttpServerPublisher(quint16 ppp)
+HttpServerPublisher::HttpServerPublisher(quint16 ppp,QString vstupSlozkaSluzby)
 {
+    qDebug() <<  Q_FUNC_INFO;
     cisloPortu=ppp;
     obsahRoot=vyrobHlavickuOk();
+    slozkaSluzby=vstupSlozkaSluzby;
     proved();
-
 }
-
-
-
 
 int HttpServerPublisher::proved()
 {
-    qDebug()<<"NewHttpServer::proved()";
+    qDebug() <<  Q_FUNC_INFO;
 
-
-
-    this->route(obsahGet,obsahTelaPole);
+    this->route(slozkaSluzby,obsahTelaPole);
     this->listen();
 
     return 1;
 }
 
-
-
-
-int HttpServerPublisher::route(QString &intObsahGet,  QMap<QString,QString> &obsahyBody)
+int HttpServerPublisher::route(QString &slozkaSluzby,  QMap<QString,QString> &obsahyBody)
 {
 
-    qDebug() <<"NewHttpServer::route";
+    qDebug() <<  Q_FUNC_INFO;
     httpServer.route("/CustomerInformationService/SubscribeAllData", [this ](const QHttpServerRequest &request)
     {
         qDebug()<<"request "<<"/CustomerInformationService/SubscribeAllData";
@@ -48,8 +41,6 @@ int HttpServerPublisher::route(QString &intObsahGet,  QMap<QString,QString> &obs
         this->bodyPozadavku=request.body();
         QString struktura="AllData";
         emit zmenaObsahu(request.body(),struktura);
-
-
         return this->obsahSubscribe;
 
     });
@@ -72,18 +63,17 @@ int HttpServerPublisher::route(QString &intObsahGet,  QMap<QString,QString> &obs
         this->bodyPozadavku=request.body();
         QString struktura="CurrentDisplayContent";
         emit zmenaObsahu(request.body(),struktura);
-
-
         return this->obsahSubscribe;
 
     });
 
-   // qDebug()<<"vnejsi intObsahGet="<<intObsahGet;
-    httpServer.route("/CustomerInformationService/Get<arg>", [&obsahyBody](const QUrl &url,const QHttpServerRequest &request)
+    // qDebug()<<"vnejsi intObsahGet="<<intObsahGet;
+    httpServer.route("/"+slozkaSluzby+"/Get<arg>", [&obsahyBody](const QUrl &url,const QHttpServerRequest &request)
     {
 
 
         QString struktura= QStringLiteral("%1").arg(url.path());
+        qDebug()<<"request "<<struktura;
         //qDebug()<<"argument "<<struktura;
 
         //qDebug()<<"request "<<"/CustomerInformationService/Get<arg>";
@@ -93,19 +83,6 @@ int HttpServerPublisher::route(QString &intObsahGet,  QMap<QString,QString> &obs
 
     });
 
-    httpServer.route("/TicketValidationService/Get<arg>", [&obsahyBody](const QUrl &url,const QHttpServerRequest &request)
-    {
-
-
-        QString struktura= QStringLiteral("%1").arg(url.path());
-        qDebug()<<"argument "<<struktura;
-
-        qDebug()<<"request "<<"/TicketValidationService/Get<arg>";
-        //qDebug()<<request.body();
-        //return obsahyBody.value("AllData");
-        return obsahyBody.value(struktura);
-        //return intObsahGet;
-    });
 
 
     httpServer.route("/", [this](const QHttpServerRequest &request)
@@ -130,7 +107,7 @@ int HttpServerPublisher::route(QString &intObsahGet,  QMap<QString,QString> &obs
 
 int HttpServerPublisher::listen()
 {
-    qDebug() <<"NewHttpServer::listen";
+    qDebug() <<  Q_FUNC_INFO;
     const auto port = httpServer.listen(QHostAddress::Any,cisloPortu);
     if (!port)
     {
@@ -153,33 +130,30 @@ int HttpServerPublisher::listen()
 
 void HttpServerPublisher::zapisDoPromenneGet(QString vstup)
 {
-    qDebug() <<"NewHttpServer::zapisDoPromenneGet";
-    this->obsahGet=vstup;
+    qDebug() <<  Q_FUNC_INFO;
+    this->slozkaSluzby=vstup;
 
 }
 
 void HttpServerPublisher::zapisDoSubscribe(QString vstup)
 {
-    qDebug() << "NewHttpServer::zapisDoSubscribe";
+    qDebug() <<  Q_FUNC_INFO;
     this->obsahSubscribe=vstup;
 }
 
 int HttpServerPublisher::nastavObsahTela(QMap<QString,QString> vstup )
 {
-    qDebug()<<"NewHttpServer::nastavObsahTela";
+    qDebug() <<  Q_FUNC_INFO;
     obsahTelaPole=vstup;
-
-
-
     return 1;
 }
 
 
 QString HttpServerPublisher::vyrobHlavickuOk()
 {
-    qDebug()<<"HttpSluzba::vyrobHlavicku()";
+    qDebug() <<  Q_FUNC_INFO;
     QString hlavicka;
-    QByteArray argumentXMLserveru = "";
+
     hlavicka+=("HTTP/1.1 200 OK\r\n");       // \r needs to be before \n
     hlavicka+=("Content-Type: application/xml\r\n");
     hlavicka+=("Connection: close\r\n");
@@ -187,8 +161,3 @@ QString HttpServerPublisher::vyrobHlavickuOk()
     hlavicka+=("\r\n");
     return hlavicka;
 }
-
-
-
-
-
