@@ -18,6 +18,8 @@ public:
     //struktury
 
     //funkce
+    void aktualizaceObsahuSluzby(QVector<PrestupMPV> prestup, CestaUdaje &stav);
+    void mimoVydej();
 
 private:
 
@@ -32,10 +34,10 @@ private:
     //funkce
     void aktualizaceIntProm(QVector<PrestupMPV> prestupy, CestaUdaje &stav, QVector<Spoj> seznamSpoju );
     void aktualizaceIntPromEmpty(CestaUdaje &stav, QVector<Spoj> seznamSpoju);
-    void aktualizaceObsahuSluzby(QVector<PrestupMPV> prestup, CestaUdaje &stav);
 
 
-    void mimoVydej();
+
+
 
 
 

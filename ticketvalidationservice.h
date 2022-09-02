@@ -20,6 +20,8 @@ public:
 
 
     //funkce
+    void aktualizaceObsahuSluzby(QVector<PrestupMPV> prestupy, CestaUdaje &stav);
+
 
 private:
 
@@ -32,7 +34,6 @@ private:
 
     //funkce
     void aktualizaceIntProm(QVector<PrestupMPV> prestupy, CestaUdaje &stav, QVector<ZastavkaCil> seznamZastavek);
-    void aktualizaceObsahuSluzby(QVector<PrestupMPV> prestupy, CestaUdaje &stav);
 
     QVector<PrestupMPV> prestupyInterni;
 

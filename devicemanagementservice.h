@@ -9,11 +9,13 @@ class DeviceManagementService : public HttpSluzba
 public:
     explicit DeviceManagementService(QString nazevSluzby, QString typSluzby, int cisloPortu, QString verze);
 
+    void aktualizaceObsahuSluzby();
 
-    XmlDeviceManagementService xmlGenerator;
 
-    void aktualizaceIntProm();
+
 private:
+    void aktualizaceIntProm();
+    XmlDeviceManagementService xmlGenerator;
 
 };
 

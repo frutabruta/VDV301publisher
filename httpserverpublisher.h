@@ -37,6 +37,7 @@ private:
     void zapisDoPromenneGet(QString vstup);
     void zapisDoSubscribe(QString vstup);
 
+    QString vyrobSubscribeResponse(QString result);
 signals:
     void zmenaObsahu(QByteArray vysledek,QString struktura) ;
     void prijemDat(QString vysledek) ;

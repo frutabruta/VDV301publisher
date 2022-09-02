@@ -8,6 +8,12 @@ DeviceManagementService::DeviceManagementService(QString nazevSluzby, QString ty
 
 }
 
+void DeviceManagementService::aktualizaceObsahuSluzby()
+{
+qDebug() <<  Q_FUNC_INFO;
+
+}
+
 
 
 

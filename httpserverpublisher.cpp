@@ -23,62 +23,28 @@ int HttpServerPublisher::route(QString &slozkaSluzby,  QMap<QString,QString> &ob
 {
 
     qDebug() <<  Q_FUNC_INFO;
-    httpServer.route("/CustomerInformationService/SubscribeAllData", [this ](const QHttpServerRequest &request)
+    qDebug() << slozkaSluzby;
+
+    httpServer.route("/"+slozkaSluzby+"/Subscribe<arg>", [this ](const QUrl &url,const QHttpServerRequest &request)
     {
-        qDebug()<<"request "<<"/CustomerInformationService/SubscribeAllData";
-        //qDebug()<<request.headers()["Connection"].isNull();
-        qDebug()<<request.body();
-        qDebug()<<"tady se mel spustit emit";
-
+        QString struktura= QStringLiteral("%1").arg(url.path());
+        qDebug()<<"subscribe pozadavek "<<struktura;
+        qDebug().noquote()<<request.body();
+    /*
         QString textVysledek="true";
-        QString odpoved="";
-        odpoved+="<?xml version=\"1.0\" encoding=\"utf-16\"?>";
-        odpoved+="<SubscribeResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">";
-        odpoved+="<Active><Value>";
-        odpoved+=textVysledek;
-        odpoved+="</Value></Active>";
-        odpoved+="</SubscribeResponse>";
+        QString odpoved=vyrobSubscribeResponse(textVysledek);
+    */
         this->bodyPozadavku=request.body();
-        QString struktura="AllData";
-        emit zmenaObsahu(request.body(),struktura);
-        return this->obsahSubscribe;
-
-    });
-    httpServer.route("/CustomerInformationService/SubscribeCurrentDisplayContent", [this ](const QHttpServerRequest &request)
-    {
-        //qDebug()<<request.headers()["Connection"].isNull();
-        qDebug()<<"request "<<"/CustomerInformationService/SubscribeCurrentDisplayContent";
-        qDebug()<<request.body();
-
-        qDebug()<<"tady se mel spustit emit";
-
-        QString textVysledek="true";
-        QString odpoved="";
-        odpoved+="<?xml version=\"1.0\" encoding=\"utf-16\"?>";
-        odpoved+="<SubscribeResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">";
-        odpoved+="<Active><Value>";
-        odpoved+=textVysledek;
-        odpoved+="</Value></Active>";
-        odpoved+="</SubscribeResponse>";
-        this->bodyPozadavku=request.body();
-        QString struktura="CurrentDisplayContent";
         emit zmenaObsahu(request.body(),struktura);
         return this->obsahSubscribe;
 
     });
 
-    // qDebug()<<"vnejsi intObsahGet="<<intObsahGet;
     httpServer.route("/"+slozkaSluzby+"/Get<arg>", [&obsahyBody](const QUrl &url,const QHttpServerRequest &request)
     {
 
-
         QString struktura= QStringLiteral("%1").arg(url.path());
         qDebug()<<"request "<<struktura;
-        //qDebug()<<"argument "<<struktura;
-
-        //qDebug()<<"request "<<"/CustomerInformationService/Get<arg>";
-
-
         return obsahyBody.value(struktura);
 
     });
@@ -87,12 +53,10 @@ int HttpServerPublisher::route(QString &slozkaSluzby,  QMap<QString,QString> &ob
 
     httpServer.route("/", [this](const QHttpServerRequest &request)
     {
-        //this->obsahRoot;
         qDebug()<<"request HEAD "<<request.headers();
         qDebug()<<"request BODY "<<request.body();
         emit prijemDat(request.body());
         return this->obsahRoot;
-        //return intObsahGet;
     });
 
     httpServer.afterRequest([](QHttpServerResponse &&resp)
@@ -108,22 +72,35 @@ int HttpServerPublisher::route(QString &slozkaSluzby,  QMap<QString,QString> &ob
 int HttpServerPublisher::listen()
 {
     qDebug() <<  Q_FUNC_INFO;
-    const auto port = httpServer.listen(QHostAddress::Any,cisloPortu);
-    if (!port)
+
+
+    if (cisloPortu!=0)
     {
-        qDebug() << QCoreApplication::translate(
-                        "QHttpServerExample", "Server failed to listen on a port.");
-        return 0;
+        /* manuální volba portu*/
+        const auto port = httpServer.listen(QHostAddress::Any,cisloPortu);
+        if (!port)
+        {
+            qDebug() << QCoreApplication::translate(
+                            "QHttpServerExample", "Server failed to listen on a port.");
+            return 0;
+        }
+        qDebug() << QCoreApplication::translate("QHttpServerExample", "Running on http://127.0.0.1:%1/ (Press CTRL+C to quit)").arg(port);
+
     }
-    /* automaticky port
-     const auto port = httpServer.listen(QHostAddress::Any);
-    if (!port) {
-        qDebug() << QCoreApplication::translate(
-                "QHttpServerExample", "Server failed to listen on a port.");
-        return 0;
+    else
+    {
+        /* automaticky port */
+         const auto port = httpServer.listen(QHostAddress::Any);
+        if (!port) {
+            qDebug() << QCoreApplication::translate(
+                    "QHttpServerExample", "Server failed to listen on a port.");
+            return 0;
+        }
+
+        qDebug() << QCoreApplication::translate("QHttpServerExample", "Running on http://127.0.0.1:%1/ (Press CTRL+C to quit)").arg(port);
+
     }
-    */
-    qDebug() << QCoreApplication::translate("QHttpServerExample", "Running on http://127.0.0.1:%1/ (Press CTRL+C to quit)").arg(port);
+
     return 1;
 }
 
@@ -160,4 +137,16 @@ QString HttpServerPublisher::vyrobHlavickuOk()
     hlavicka+=("Pragma: no-cache\r\n");
     hlavicka+=("\r\n");
     return hlavicka;
+}
+
+QString HttpServerPublisher::vyrobSubscribeResponse(QString result)
+{
+    QString odpoved;
+    odpoved+="<?xml version=\"1.0\" encoding=\"utf-16\"?>";
+    odpoved+="<SubscribeResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">";
+    odpoved+="<Active><Value>";
+    odpoved+=result;
+    odpoved+="</Value></Active>";
+    odpoved+="</SubscribeResponse>";
+    return odpoved;
 }
