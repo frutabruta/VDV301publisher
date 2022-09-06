@@ -2,14 +2,14 @@
 
 XmlDeviceManagementService::XmlDeviceManagementService()
 {
-  qDebug() <<  Q_FUNC_INFO;
-  qDebug().noquote()<<"devifnormationtest "<<DeviceInformation("jmeno","vyrobce","XXX112233") ;
+    qDebug() <<  Q_FUNC_INFO;
+    qDebug().noquote()<<"devifnormationtest "<<DeviceInformation("jmeno","vyrobce","XXX112233") ;
 }
 
 
 QString XmlDeviceManagementService::devStatus()
 {
-      qDebug() <<  Q_FUNC_INFO;
+    qDebug() <<  Q_FUNC_INFO;
     QString  pozadavek ="";
     QString  hlavicka="";
     QString  telo="";
@@ -33,6 +33,26 @@ QString XmlDeviceManagementService::devStatus()
     return pozadavek;
 }
 
+QDomElement XmlDeviceManagementService::DeviceConfiguration()
+{
+    QDomElement vystup;
+    QDomDocument xmlko;
+    return vystup;
+}
+
+QDomElement XmlDeviceManagementService::DeviceConfigurationResponseDataStructure()
+{
+    QDomElement vystup;
+    QDomDocument xmlko;
+
+    vystup=xmlko.createElement("DeviceManagementService.GetDeviceConfigurationResponseData");
+    vystup.appendChild(TimeStampTag1_0(xmlko));
+
+
+
+    return vystup;
+}
+
 QString XmlDeviceManagementService::DeviceInformation(QString deviceName,QString manufacturer, QString serialNumber)
 {
     QDomDocument xmlko;
@@ -52,61 +72,18 @@ QString XmlDeviceManagementService::DeviceInformation(QString deviceName,QString
 QDomElement XmlDeviceManagementService::DeviceInformationGroup(QString deviceName,QString manufacturer, QString serialNumber)
 {
     QDomDocument xmlko;
-     QDomElement vystup=xmlko.createElement("DeviceInformation");
-     vystup.appendChild(DeviceName(deviceName));
-     vystup.appendChild(Manufacturer(manufacturer));
-     vystup.appendChild(SerialNumber(serialNumber));
-
-
+    QDomElement vystup=xmlko.createElement("DeviceInformation");
+    vystup.appendChild(DeviceName(deviceName));
+    vystup.appendChild(Manufacturer(manufacturer));
+    vystup.appendChild(SerialNumber(serialNumber));
     return vystup;
 }
 
 QDomElement XmlDeviceManagementService::DeviceName(QString vstup)
 {
     QDomDocument xmlko;
-     QDomElement vystup=xmlko.createElement("DeviceName");
-     QDomElement value=xmlko.createElement("Value");
-     value.appendChild(xmlko.createTextNode(vstup));
-     vystup.appendChild(value);
 
-
-    return vystup;
-}
-
-QDomElement XmlDeviceManagementService::Manufacturer(QString vstup)
-{
-    QDomDocument xmlko;
-     QDomElement vystup=xmlko.createElement("Manufacturer");
-     QDomElement value=xmlko.createElement("Value");
-     value.appendChild(xmlko.createTextNode(vstup));
-     vystup.appendChild(value);
-
-    return vystup;
-}
-
-QDomElement XmlDeviceManagementService::SerialNumber(QString vstup)
-{
-        QDomDocument xmlko;
-     QDomElement vystup=xmlko.createElement("SerialNumber");
-     QDomElement value=xmlko.createElement("Value");
-     value.appendChild(xmlko.createTextNode(vstup));
-     vystup.appendChild(value);
-
-
-    return vystup;
-}
-
-
-
-
-
-
-
-
-QDomElement XmlDeviceManagementService::DeviceConfiguration()
-{
-    QDomElement vystup;
-    QDomDocument xmlko;
+    QDomElement vystup=Value(xmlko,"DeviceName",vstup);
 
     return vystup;
 }
@@ -115,6 +92,25 @@ QDomElement XmlDeviceManagementService::DeviceStatus()
 {
     QDomElement vystup;
 
+    return vystup;
+}
+
+
+QDomElement XmlDeviceManagementService::Manufacturer(QString vstup)
+{
+    QDomDocument xmlko;
+    QDomElement vystup=Value(xmlko,"Manufacturer",vstup);
+
+    return vystup;
+}
+
+QDomElement XmlDeviceManagementService::SerialNumber(QString vstup)
+{
+    QDomDocument xmlko;
+    QDomElement vystup=xmlko.createElement("SerialNumber");
+    QDomElement value=xmlko.createElement("Value");
+    value.appendChild(xmlko.createTextNode(vstup));
+    vystup.appendChild(value);
     return vystup;
 }
 

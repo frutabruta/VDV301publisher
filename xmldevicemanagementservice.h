@@ -16,6 +16,7 @@ public:
     QDomElement DeviceName(QString vstup);
     QDomElement Manufacturer(QString vstup);
     QDomElement SerialNumber(QString vstup);
+    QDomElement DeviceConfigurationResponseDataStructure();
 private:
 
 };

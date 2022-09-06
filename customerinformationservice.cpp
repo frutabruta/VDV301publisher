@@ -85,7 +85,7 @@ void CustomerInformationService::aktualizaceIntProm(QVector<PrestupMPV> prestupy
     }
     else
     {    
-        bodyAllData=xmlGenerator.AllData1_0( seznamZastavek, stav.doorState, stav.locationState,prestupy,stav);
+        bodyAllData=xmlGenerator.AllData1_0(seznamSpoju,prestupy,stav);
         bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,seznamZastavek, stav);
     }
 
@@ -124,7 +124,7 @@ void CustomerInformationService::aktualizaceIntPromEmpty(CestaUdaje &stav, QVect
     if (globVerze=="2.2CZ1.0")
     {
 
-        bodyAllData=xmlGenerator.AllDataEmpty2_2CZ1_0();
+        bodyAllData=xmlGenerator.AllData_empty2_2CZ1_0();
     }
     else
     {
