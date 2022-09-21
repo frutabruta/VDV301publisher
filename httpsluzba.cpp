@@ -165,6 +165,8 @@ void HttpSluzba::slotVypisObsahRequestu(QByteArray vysledek,QString struktura)
     QDomDocument xmlrequest;
     xmlrequest.setContent(vysledek);
 
+
+
     QDomElement subscribeRequest=xmlrequest.firstChildElement("SubscribeRequest");
 
     QString adresa= subscribeRequest.firstChildElement("Client-IP-Address").firstChildElement().text() ;

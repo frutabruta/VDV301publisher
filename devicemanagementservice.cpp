@@ -20,8 +20,7 @@ qDebug() <<  Q_FUNC_INFO;
 void DeviceManagementService::aktualizaceIntProm()
 {
     qDebug() <<  Q_FUNC_INFO<<" "<<nazevSluzbyInterni<<" "<<globVerze;
-    // QByteArray zpracovanoMPV="";
-    //QString bodyCurrentTariffStopResponse="";
+
     QString bodyDeviceInformationResponse="";
     QString bodyAllSubdeviceInformationResponse="";
     QString bodyDeviceConfigurationResponse="";
@@ -32,23 +31,19 @@ void DeviceManagementService::aktualizaceIntProm()
     QString bodyServiceStatusResponse="";
     QString bodyRestartDeviceResponse="";
 
-
-
     if (globVerze=="2.2CZ1.0")
     {
-        bodyDeviceInformationResponse=xmlGenerator.DeviceInformation("LCD panel","vyrobce","123456789");
-
-
+        bodyDeviceInformationResponse=xmlGenerator.DeviceInformationResponse1_0(deviceName,deviceManufacturer,deviceSerialNumber,deviceClass,swVersion);
+        bodyDeviceConfigurationResponse=xmlGenerator.DeviceConfigurationResponseStructure1_0(deviceId);
     }
     else
     {
-        bodyDeviceInformationResponse=xmlGenerator.DeviceInformation("LCD panel","vyrobce","123456789");
-
-
+        bodyDeviceInformationResponse=xmlGenerator.DeviceInformationResponse1_0(deviceName,deviceManufacturer,deviceSerialNumber,deviceClass,swVersion);
+        bodyDeviceConfigurationResponse=xmlGenerator.DeviceConfigurationResponseStructure1_0(deviceId);
     }
 
-
     this->nastavObsahTela("DeviceInformation",bodyDeviceInformationResponse);
+    this->nastavObsahTela("DeviceConfiguration",bodyDeviceConfigurationResponse);
 
     this->asocPoleDoServeru(obsahTelaPole);
 
@@ -57,5 +52,10 @@ void DeviceManagementService::aktualizaceIntProm()
         PostDoDispleje(seznamSubscriberu[i].adresa,obsahTelaPole.value(seznamSubscriberu[i].struktura));
     }
 
+}
+
+void DeviceManagementService::slotAktualizaceDat()
+{
+    aktualizaceIntProm();
 }
 

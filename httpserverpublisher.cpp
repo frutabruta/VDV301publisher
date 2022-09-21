@@ -42,11 +42,18 @@ int HttpServerPublisher::route(QString &slozkaSluzby,  QMap<QString,QString> &ob
 
     httpServer.route("/"+slozkaSluzby+"/Get<arg>", [&obsahyBody](const QUrl &url,const QHttpServerRequest &request)
     {
-
         QString struktura= QStringLiteral("%1").arg(url.path());
-        qDebug()<<"request "<<struktura;
+        qDebug().noquote()<<"request Get"<<struktura;
         return obsahyBody.value(struktura);
+    });
 
+    httpServer.route("/"+slozkaSluzby+"/Set<arg>", [this](const QUrl &url,const QHttpServerRequest &request)
+    {
+        QString struktura= QStringLiteral("%1").arg(url.path());
+        qDebug().noquote()<<"request Set"<<struktura;
+        this->bodyPozadavku=request.body();
+        emit zmenaObsahu(request.body(),struktura);
+        return this->obsahSet;
     });
 
 

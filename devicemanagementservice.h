@@ -11,10 +11,18 @@ public:
 
     void aktualizaceObsahuSluzby();
 
+    QString deviceName="";
+    QString deviceManufacturer="";
+    QString deviceSerialNumber="";
+    QString deviceClass="";
+    QString deviceId=0;
+    QString swVersion="";
 
-
+public slots:
+    void slotAktualizaceDat();
 private:
     void aktualizaceIntProm();
+
     XmlDeviceManagementService xmlGenerator;
 
 };

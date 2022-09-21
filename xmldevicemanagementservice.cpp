@@ -3,83 +3,106 @@
 XmlDeviceManagementService::XmlDeviceManagementService()
 {
     qDebug() <<  Q_FUNC_INFO;
-    qDebug().noquote()<<"devifnormationtest "<<DeviceInformation("jmeno","vyrobce","XXX112233") ;
+   // qDebug().noquote()<<"devifnormationtest "<<DeviceInformationResponse1_0("jmeno","vyrobce","XXX112233","InteriorDisplay","v1.2") ;
 }
 
 
-QString XmlDeviceManagementService::devStatus()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    QString  pozadavek ="";
-    QString  hlavicka="";
-    QString  telo="";
-    QString  deviceState="running";
-    QString  TgetDeviceStatusResponse="";
-    QString  TgetDeviceStatusResponseData="";
-    QString  TtimeStamp="";
-    QString  TdeviceState="";
 
-    TtimeStamp+="<TimeStamp>"+this->createTimestamp()+"</TimeStamp>";
-    TdeviceState+="<DeviceState>"+deviceState+"</DeviceState>";
-    TgetDeviceStatusResponseData+="<DeviceManagementService.GetDeviceStatusResponseData>"+TtimeStamp+TdeviceState+"</DeviceManagementService.GetDeviceStatusResponseData>";
-    TgetDeviceStatusResponse+="<DeviceManagementService.GetDeviceStatusResponse>"+TgetDeviceStatusResponseData+"</DeviceManagementService.GetDeviceStatusResponse>";
-    hlavicka+=("HTTP/1.1 200 OK\r\n");       // \r needs to be before \n
-    hlavicka+=("Content-Type: application/xml\r\n");
-    hlavicka+=("Connection: close\r\n");
-    hlavicka+=("Pragma: no-cache\r\n");
-    hlavicka+=("\r\n");
-    telo+=("<?xml version=\"1.0\" encoding=\"UTF-8\"?>  ")+TgetDeviceStatusResponse;
-    pozadavek=hlavicka+telo;
-    return pozadavek;
-}
-
-QDomElement XmlDeviceManagementService::DeviceConfiguration()
+QDomElement XmlDeviceManagementService::DataVersionList1_0(QDomDocument xmlko, QString tagName, QVector<VerzeDat> verzeDat )
 {
     QDomElement vystup;
-    QDomDocument xmlko;
+    vystup=xmlko.createElement(tagName);
+
+    foreach (VerzeDat jednaVerze, verzeDat)
+    {
+     vystup.appendChild(DataVersionStructure1_0(xmlko,"DataVersion",jednaVerze));
+    }
+
     return vystup;
 }
 
-QDomElement XmlDeviceManagementService::DeviceConfigurationResponseDataStructure()
+QDomElement XmlDeviceManagementService::DataVersionStructure1_0(QDomDocument xmlko, QString tagName, VerzeDat verzeDat )
+{
+    QDomElement vystup;
+    vystup=xmlko.createElement(tagName);
+
+    vystup.appendChild(Value(xmlko,"DataType",verzeDat.dataType ));
+    vystup.appendChild(Value(xmlko,"VersionRef",verzeDat.versionRef ));
+
+    return vystup;
+}
+
+QDomElement XmlDeviceManagementService::DeviceClass1_0(QString vstup)
+{
+    QDomDocument xmlko;
+
+    QDomElement vystup=Value(xmlko,"DeviceClass",vstup);
+
+    return vystup;
+}
+
+QString XmlDeviceManagementService::DeviceConfigurationResponseStructure1_0(QString deviceId)
+{
+    qDebug() << Q_FUNC_INFO;
+
+    QDomDocument xmlko;
+    QDomElement vystup;
+
+    vystup=xmlko.createElement("DeviceManagementService.GetDeviceConfigurationResponse");
+    xmlko.appendChild(vystup);
+    vystup.appendChild(DeviceConfigurationResponseDataStructure1_0("DeviceManagementService.GetDeviceConfigurationResponseData",deviceId));
+    QString retezec=xmlko.toString();
+    qDebug()<<"test"<<retezec;
+    return xmlko.toString();
+}
+
+QDomElement XmlDeviceManagementService::DeviceConfigurationResponseDataStructure1_0(QString tagName, QString deviceId)
 {
     QDomElement vystup;
     QDomDocument xmlko;
 
-    vystup=xmlko.createElement("DeviceManagementService.GetDeviceConfigurationResponseData");
+    vystup=xmlko.createElement(tagName);
     vystup.appendChild(TimeStampTag1_0(xmlko));
-
-
+    vystup.appendChild(Value(xmlko,"DeviceID",deviceId));
 
     return vystup;
 }
 
-QString XmlDeviceManagementService::DeviceInformation(QString deviceName,QString manufacturer, QString serialNumber)
+QString XmlDeviceManagementService::DeviceInformationResponse1_0(QString deviceName,QString manufacturer, QString serialNumber,QString deviceClass,QString swVersion)
 {
     QDomDocument xmlko;
     QDomElement vystup=xmlko.createElement("DeviceManagementService.GetDeviceInformationResponse");
     xmlko.appendChild(vystup);
 
-
-    QDomElement getDeviceInformationData=xmlko.createElement("GetDeviceInformationData");
+    QDomElement getDeviceInformationData=xmlko.createElement("DeviceManagementService.GetDeviceInformationResponseData");
 
     getDeviceInformationData.appendChild(TimeStampTag1_0(xmlko));
-    getDeviceInformationData.appendChild(DeviceInformationGroup(deviceName,manufacturer,serialNumber));
+    getDeviceInformationData.appendChild(DeviceInformationGroup1_0(deviceName,manufacturer,serialNumber,deviceClass,swVersion));
     vystup.appendChild(getDeviceInformationData);
 
     return xmlko.toString();
 }
 
-QDomElement XmlDeviceManagementService::DeviceInformationGroup(QString deviceName,QString manufacturer, QString serialNumber)
+QDomElement XmlDeviceManagementService::DeviceInformationGroup1_0(QString deviceName,QString manufacturer, QString serialNumber,QString deviceClass,QString swVersion)
 {
     QDomDocument xmlko;
     QDomElement vystup=xmlko.createElement("DeviceInformation");
-    vystup.appendChild(DeviceName(deviceName));
-    vystup.appendChild(Manufacturer(manufacturer));
-    vystup.appendChild(SerialNumber(serialNumber));
+    QVector<VerzeDat> versionVector;
+
+   VerzeDat aktVerze;
+   aktVerze.dataType="SwVersion";
+   aktVerze.versionRef=swVersion;
+   versionVector.append(aktVerze);
+
+    vystup.appendChild(DeviceName1_0(deviceName));
+    vystup.appendChild(Manufacturer1_0(manufacturer));
+    vystup.appendChild(SerialNumber1_0(serialNumber));
+    vystup.appendChild(DeviceClass1_0(deviceClass));
+    vystup.appendChild(DataVersionList1_0(xmlko,"DataVersionList",versionVector));
     return vystup;
 }
 
-QDomElement XmlDeviceManagementService::DeviceName(QString vstup)
+QDomElement XmlDeviceManagementService::DeviceName1_0(QString vstup)
 {
     QDomDocument xmlko;
 
@@ -96,7 +119,7 @@ QDomElement XmlDeviceManagementService::DeviceStatus()
 }
 
 
-QDomElement XmlDeviceManagementService::Manufacturer(QString vstup)
+QDomElement XmlDeviceManagementService::Manufacturer1_0(QString vstup)
 {
     QDomDocument xmlko;
     QDomElement vystup=Value(xmlko,"Manufacturer",vstup);
@@ -104,7 +127,7 @@ QDomElement XmlDeviceManagementService::Manufacturer(QString vstup)
     return vystup;
 }
 
-QDomElement XmlDeviceManagementService::SerialNumber(QString vstup)
+QDomElement XmlDeviceManagementService::SerialNumber1_0(QString vstup)
 {
     QDomDocument xmlko;
     QDomElement vystup=xmlko.createElement("SerialNumber");
@@ -120,36 +143,3 @@ QDomElement XmlDeviceManagementService::Restart()
 
     return vystup;
 }
-
-/*
-<?xml version="1.0" encoding="utf-8"?>
-<DeviceManagementService.GetDeviceInformationResponse>
-    <DeviceManagementService.GetDeviceInformationResponseData>
-        <TimeStamp>
-            <Value>2019-08-02T10:04:20.1863897+02:00</Value>
-        </TimeStamp>
-        <DeviceInformation>
-            <DeviceName>
-                <Value>TFT_LCD</Value>
-            </DeviceName>
-            <Manufacturer>
-                <Value>Bustec</Value>
-            </Manufacturer>
-            <SerialNumber>
-                <Value>0</Value>
-            </SerialNumber>
-            <DeviceClass>InteriorDisplay</DeviceClass>
-            <DataVersionList>
-                <DataVersion>
-                    <DataType>
-                        <Value>SwVersion</Value>
-                    </DataType>
-                    <VersionRef>
-                        <Value>0.11.1684.18065</Value>
-                    </VersionRef>
-                </DataVersion>
-            </DataVersionList>
-        </DeviceInformation>
-    </DeviceManagementService.GetDeviceInformationResponseData>
-</DeviceManagementService.GetDeviceInformationResponse>
-*/
