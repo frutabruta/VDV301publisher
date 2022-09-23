@@ -163,36 +163,63 @@ void HttpSluzba::slotVypisObsahRequestu(QByteArray vysledek,QString struktura)
     qDebug() <<  Q_FUNC_INFO;
     QByteArray posledniRequest=InstanceNovehoServeru.bodyPozadavku;
     QDomDocument xmlrequest;
-    xmlrequest.setContent(vysledek);
+    qDebug()<<"delka posledniRequest "<<QString::number(posledniRequest.length())<<" delka Vysledek "<<QString::number(vysledek.length());
 
 
-
-    QDomElement subscribeRequest=xmlrequest.firstChildElement("SubscribeRequest");
-
-    QString adresa= subscribeRequest.firstChildElement("Client-IP-Address").firstChildElement().text() ;
-    QString port= subscribeRequest.elementsByTagName("ReplyPort").at(0).toElement().firstChildElement().text() ;
-    QString cesta=subscribeRequest.firstChildElement("ReplyPath").toElement().firstChildElement("Value").firstChild().nodeValue();
-
-   // cesta="CustomerInformationService";
-    qDebug()<<"body pozadavku"<<posledniRequest;
-    //qDebug()<<"vysledek"<<vysledek;
-    QString kompletadresa="http://"+adresa+":"+port+"/"+cesta;
-    if(adresa.contains("%"))
+    if(!xmlrequest.setContent(QString(vysledek))) //úprava kvůli UTF-16
     {
-        qDebug()<<"detekovano procento";
-        kompletadresa="http://["+adresa+"]:"+port;
+        qDebug()<<"QByteArray se nepovedlo importovat do QDomDocument";
+        return;
     }
 
-    QUrl adresaurl=kompletadresa;
-    qDebug()<<"komplet adresa subscribera "<<kompletadresa;
+    QString prvniTag=xmlrequest.firstChildElement().tagName();
+    qDebug().noquote()<<"prvni tag "<<prvniTag;
+    qDebug().noquote()<<"body pozadavku"<<posledniRequest;
 
-    //pridejSubscribera(adresaurl);
-    Subscriber kandidat;
-    kandidat.adresa=adresaurl;
-    kandidat.struktura=struktura;
-    //kandidat.cesta=cesta;
-    novySubscriber(kandidat);
-    //qDebug()<<obsahBody;
+
+
+    if(prvniTag=="SubscribeRequest")
+    {
+        QDomElement subscribeRequest=xmlrequest.firstChildElement("SubscribeRequest");
+
+        QString adresa=subscribeRequest.firstChildElement("Client-IP-Address").firstChildElement().text() ;
+        QString port=subscribeRequest.elementsByTagName("ReplyPort").at(0).toElement().firstChildElement().text() ;
+        QString cesta=subscribeRequest.firstChildElement("ReplyPath").toElement().firstChildElement("Value").firstChild().nodeValue();
+        QString kompletadresa="http://"+adresa+":"+port+"/"+cesta;
+
+        if(adresa.contains("%"))
+        {
+            qDebug()<<"detekovano procento";
+            kompletadresa="http://["+adresa+"]:"+port;
+        }
+
+        QUrl adresaurl=kompletadresa;
+        qDebug()<<"komplet adresa subscribera "<<kompletadresa;
+
+        Subscriber kandidat;
+        kandidat.adresa=adresaurl;
+        kandidat.struktura=struktura;
+        novySubscriber(kandidat);
+    }    
+    else if(prvniTag=="DeviceManagementService.SetDeviceConfigurationRequest")
+    {
+            QDomElement subscribeRequest=xmlrequest.firstChildElement("DeviceManagementService.SetDeviceConfigurationRequest");
+            QDomNodeList parametry=subscribeRequest.childNodes();
+
+            for(int i=0;i<parametry.count();i++)
+            {
+                QDomNode parametr=parametry.at(i);
+
+                qDebug()<<"parametr: "<<parametr.nodeName()<<" "<<parametr.firstChildElement("Value").firstChild().nodeValue();
+            }
+    }
+    else
+    {
+        qDebug()<<"neznamy pozadavek";
+    }
+
+
+
 }
 
 

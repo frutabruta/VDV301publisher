@@ -18,6 +18,8 @@ public:
     QString deviceId=0;
     QString swVersion="";
 
+    QMap<QString,QString> parametry;
+
 public slots:
     void slotAktualizaceDat();
 private:

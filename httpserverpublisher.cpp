@@ -25,7 +25,7 @@ int HttpServerPublisher::route(QString &slozkaSluzby,  QMap<QString,QString> &ob
     qDebug() <<  Q_FUNC_INFO;
     qDebug() << slozkaSluzby;
 
-    httpServer.route("/"+slozkaSluzby+"/Subscribe<arg>", [this ](const QUrl &url,const QHttpServerRequest &request)
+    httpServer.route("/"+slozkaSluzby+"/Subscribe<arg>", [this](const QUrl &url,const QHttpServerRequest &request)
     {
         QString struktura= QStringLiteral("%1").arg(url.path());
         qDebug()<<"subscribe pozadavek "<<struktura;
@@ -40,13 +40,6 @@ int HttpServerPublisher::route(QString &slozkaSluzby,  QMap<QString,QString> &ob
 
     });
 
-    httpServer.route("/"+slozkaSluzby+"/Get<arg>", [&obsahyBody](const QUrl &url,const QHttpServerRequest &request)
-    {
-        QString struktura= QStringLiteral("%1").arg(url.path());
-        qDebug().noquote()<<"request Get"<<struktura;
-        return obsahyBody.value(struktura);
-    });
-
     httpServer.route("/"+slozkaSluzby+"/Set<arg>", [this](const QUrl &url,const QHttpServerRequest &request)
     {
         QString struktura= QStringLiteral("%1").arg(url.path());
@@ -56,12 +49,19 @@ int HttpServerPublisher::route(QString &slozkaSluzby,  QMap<QString,QString> &ob
         return this->obsahSet;
     });
 
+    httpServer.route("/"+slozkaSluzby+"/Get<arg>", [&obsahyBody](const QUrl &url,const QHttpServerRequest &request)
+    {
+        QString struktura= QStringLiteral("%1").arg(url.path());
+        qDebug().noquote()<<"request Get"<<struktura;
+        return obsahyBody.value(struktura);
+    });
 
 
     httpServer.route("/", [this](const QHttpServerRequest &request)
     {
         qDebug()<<"request HEAD "<<request.headers();
         qDebug()<<"request BODY "<<request.body();
+
         emit prijemDat(request.body());
         return this->obsahRoot;
     });
