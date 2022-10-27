@@ -1,20 +1,27 @@
 #include "httpserverpublisher.h"
 
-HttpServerPublisher::HttpServerPublisher(quint16 ppp,QString vstupSlozkaSluzby)
+HttpServerPublisher::HttpServerPublisher(quint16 portVstup,QString vstupSlozkaSluzby)
 {
     qDebug() <<  Q_FUNC_INFO;
-    cisloPortu=ppp;
+    cisloPortu=portVstup;
     obsahRoot=vyrobHlavickuOk();
     slozkaSluzby=vstupSlozkaSluzby;
-    proved();
+    connect(this,&HttpServerPublisher::signalServerBezi,this,&HttpServerPublisher::slotTest);
+
+ //   slotStartServer();
+
+
+
 }
 
-int HttpServerPublisher::proved()
+int HttpServerPublisher::slotStartServer()
 {
     qDebug() <<  Q_FUNC_INFO;
 
     this->route(slozkaSluzby,obsahTelaPole);
-    this->listen();
+    cisloPortu=this->listen();
+
+    emit signalServerBezi(cisloPortu);
 
     return 1;
 }
@@ -89,8 +96,12 @@ int HttpServerPublisher::listen()
         {
             qDebug() << QCoreApplication::translate(
                             "QHttpServerExample", "Server failed to listen on a port.");
-            return 0;
+
         }
+
+        qDebug()<<"YYY"<<QString::number(port);
+        return port;
+
         qDebug() << QCoreApplication::translate("QHttpServerExample", "Running on http://127.0.0.1:%1/ (Press CTRL+C to quit)").arg(port);
 
     }
@@ -101,12 +112,15 @@ int HttpServerPublisher::listen()
         if (!port) {
             qDebug() << QCoreApplication::translate(
                     "QHttpServerExample", "Server failed to listen on a port.");
-            return 0;
+
         }
+
+        return port;
 
         qDebug() << QCoreApplication::translate("QHttpServerExample", "Running on http://127.0.0.1:%1/ (Press CTRL+C to quit)").arg(port);
 
     }
+
 
     return 1;
 }
@@ -156,4 +170,9 @@ QString HttpServerPublisher::vyrobSubscribeResponse(QString result)
     odpoved+="</Value></Active>";
     odpoved+="</SubscribeResponse>";
     return odpoved;
+}
+
+void HttpServerPublisher::slotTest(int port)
+{
+    qDebug()<<Q_FUNC_INFO<<" "<<QString::number(port);
 }

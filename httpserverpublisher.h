@@ -9,13 +9,15 @@ class HttpServerPublisher: public QObject
     Q_OBJECT
 public:
     //konstruktor
-    HttpServerPublisher(quint16 ppp, QString vstupSlozkaSluzby);
+    HttpServerPublisher(quint16 portVstup, QString vstupSlozkaSluzby);
 
     //promenne
     QByteArray bodyPozadavku="xx";
 
     //funkce
     int nastavObsahTela(QMap<QString, QString> vstup);
+
+    //
 
 private:    
 
@@ -32,7 +34,7 @@ private:
 
     //funkce
     int listen();
-    int proved();
+
     int route(QString &slozkaSluzby, QMap<QString, QString> &obsahyBody);
     QString vyrobHlavickuOk();
     void zapisDoPromenneGet(QString vstup);
@@ -42,7 +44,12 @@ private:
 signals:
     void zmenaObsahu(QByteArray vysledek,QString struktura) ;
     void prijemDat(QString vysledek) ;
+    void signalServerBezi(int cisloPortu);
     //void zmenaObsahu() ;
+
+public slots:
+    void slotTest(int port);
+    int slotStartServer();
 };
 
 #endif // HTTPSERVERPUBLISHER_H

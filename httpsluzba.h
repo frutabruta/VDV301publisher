@@ -78,14 +78,18 @@ public slots:
     void slotVypisObsahRequestu(QByteArray vysledek, QString struktura);
     void slotVypisChybuZeroConfig();
     void slotStop(bool parametr);
-    void slotStart(bool parametr);
+    void slotStartDnsSd(bool parametr);
     void slotVymazSubscribery();
     void slotZastavCasovac();
+    void slotServerReady(int portVstup);
+    void slotStartServer();
 
 
 private slots:
     void slotVyprseniCasovace(); //nepouzito
     void slotPrislaOdpovedNaPost(QNetworkReply *reply);
+
+
 
 
 signals:

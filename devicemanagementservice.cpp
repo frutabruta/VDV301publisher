@@ -3,6 +3,7 @@
 
 DeviceManagementService::DeviceManagementService(QString nazevSluzby, QString typSluzby, int cisloPortu,QString verze):HttpSluzba( nazevSluzby,typSluzby, cisloPortu,verze)
 {
+    qDebug()<<Q_FUNC_INFO;
     // connect(timer, &QTimer::timeout, this, &CustomerInformationService::slotTedOdesliNaPanely);
     aktualizaceIntProm();
 

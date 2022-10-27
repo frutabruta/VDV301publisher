@@ -12,16 +12,22 @@
  */
 HttpSluzba::HttpSluzba(QString nazevSluzby,QString typSluzby, int cisloPortu,QString verze):InstanceNovehoServeru(cisloPortu,nazevSluzby)
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qDebug() <<  Q_FUNC_INFO <<" "<< nazevSluzby <<" "<<QString::number(cisloPortu);
     cisloPortuInterni=cisloPortu;
     nazevSluzbyInterni=nazevSluzby;
     typSluzbyInterni=typSluzby;
     globVerze=verze;
 
+    qDebug()<<"xxx"<<connect(&InstanceNovehoServeru,&HttpServerPublisher::signalServerBezi ,this,&HttpSluzba::slotServerReady, Qt::QueuedConnection);
+
     connect(&InstanceNovehoServeru,&HttpServerPublisher::zmenaObsahu,this,&HttpSluzba::slotVypisObsahRequestu);
+
     connect(&zeroConf,&QZeroConf::error,this,&HttpSluzba::slotVypisChybuZeroConfig);
 
     connect(manager2,&QNetworkAccessManager::finished,this,&HttpSluzba::slotPrislaOdpovedNaPost);
+
+
+
 }
 
 /*!
@@ -87,6 +93,13 @@ QString HttpSluzba::vyrobHlavickuSubscribe()
  * \brief HttpSluzba::bonjourStartKomplet
  */
 
+
+void HttpSluzba::slotServerReady(int portVstup)
+{
+      qDebug() <<  Q_FUNC_INFO << " "<<QString::number(portVstup);
+    cisloPortuInterni=portVstup;
+    slotStartDnsSd(true);
+}
 
 void HttpSluzba::bonjourStartKomplet()
 {
@@ -386,7 +399,14 @@ void HttpSluzba::zastavBonjourSluzbu()
  * \brief HttpSluzba::slotStart
  * \param parametr
  */
-void HttpSluzba::slotStart(bool parametr)
+
+void HttpSluzba::slotStartServer()
+{
+    InstanceNovehoServeru.slotStartServer();
+}
+
+
+void HttpSluzba::slotStartDnsSd(bool parametr)
 {
     qDebug() <<  Q_FUNC_INFO<<" "<<this->nazevSluzbyInterni<<" "<<this->globVerze;
     bonjourStartKomplet();
