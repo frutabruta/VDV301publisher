@@ -145,21 +145,21 @@ QVector<QDomElement> XmlCommon::Connections1_0( QVector<PrestupMPV> seznamPrestu
 }
 
 
-QVector<QDomElement> XmlCommon::Connections2_2CZ1_0( QVector<PrestupMPV> seznamPrestupu)
+QVector<QDomElement> XmlCommon::Connections2_2CZ1_0( QVector<Prestup> seznamPrestupu)
 {
     qDebug()<<Q_FUNC_INFO;
     QDomDocument xmlko;
     QString language ="cs";
     QVector<QDomElement> vystup;
 
-    seznamPrestupu=PrestupMPV::seradPrestupyExpectedDeparture(seznamPrestupu);
+    seznamPrestupu=Prestup::seradPrestupyExpectedDeparture(seznamPrestupu);
 
     for (int i=0;i<seznamPrestupu.count();i++)
     {
-        PrestupMPV aktualniPrestup=seznamPrestupu.at(i);
-        aktualniPrestup.lin=aktualniPrestup.lin.number(10);
+        Prestup aktualniPrestup=seznamPrestupu.at(i);
+     //   aktualniPrestup.lin=aktualniPrestup.lin.number(10);
         QDomElement dConnection=xmlko.createElement("Connection");
-        Prestup vdv301prestup=aktualniPrestup.toPrestup();
+    //    Prestup vdv301prestup=aktualniPrestup.toPrestup();
 
         xmlko.appendChild(dConnection);
 
@@ -169,7 +169,7 @@ QVector<QDomElement> XmlCommon::Connections2_2CZ1_0( QVector<PrestupMPV> seznamP
 
 
 
-        if(aktualniPrestup.np==true)
+        if(aktualniPrestup.connectionProperty=="accessible")
         {
             dConnection.appendChild(xmlko.createElement("ConnectionProperty")).appendChild(xmlko.createTextNode("Accessible"));
         }
@@ -181,12 +181,12 @@ QVector<QDomElement> XmlCommon::Connections2_2CZ1_0( QVector<PrestupMPV> seznamP
         QDomElement dLineInformation=xmlko.createElement("LineInformation");
         dDisplayContent.appendChild(dLineInformation);
 
-        QDomElement dLineName=internationalTextType("LineName",vdv301prestup.line.LineName,language);
+        QDomElement dLineName=internationalTextType("LineName",aktualniPrestup.line.LineName,language);
         dLineInformation.appendChild(dLineName);
 
-        QDomElement dLineNumber=Value(xmlko, "LineNumber",aktualniPrestup.lin);
+        QDomElement dLineNumber=Value(xmlko, "LineNumber",aktualniPrestup.line.LineNumber);
         dLineInformation.appendChild(dLineNumber);
-        QVector<QDomElement> priznakyLinky=linkaToLineProperties( vdv301prestup.line);
+        QVector<QDomElement> priznakyLinky=linkaToLineProperties( aktualniPrestup.line);
 
         foreach(QDomElement priznak,priznakyLinky)
         {
@@ -198,23 +198,23 @@ QVector<QDomElement> XmlCommon::Connections2_2CZ1_0( QVector<PrestupMPV> seznamP
 
 
 
-        QDomElement dDestinationName=internationalTextType("DestinationName",vdv301prestup.destinationName,language);
+        QDomElement dDestinationName=internationalTextType("DestinationName",aktualniPrestup.destinationName,language);
         dDestination.appendChild(dDestinationName);
 
-        dConnection.appendChild(Value(xmlko,"Platform",aktualniPrestup.stan));
+        dConnection.appendChild(Value(xmlko,"Platform",aktualniPrestup.platform));
 
         //dopravni prostredek
-        dConnectionMode.appendChild(xmlko.createElement("PtMainMode")).appendChild(xmlko.createTextNode(vdv301prestup.mainMode));
-        dConnectionMode.appendChild(xmlko.createElement(vdv301prestup.mainMode)).appendChild(xmlko.createTextNode(vdv301prestup.subMode));
+        dConnectionMode.appendChild(xmlko.createElement("PtMainMode")).appendChild(xmlko.createTextNode(aktualniPrestup.mainMode));
+        dConnectionMode.appendChild(xmlko.createElement(aktualniPrestup.mainMode)).appendChild(xmlko.createTextNode(aktualniPrestup.subMode));
         dConnection.appendChild(dConnectionMode);
 
 
-        qDebug()<<"přestup "<<vdv301prestup.line.LineName<<" "<<vdv301prestup.destinationName<<" ma zpozdeni"<<aktualniPrestup.zpoz<<" cas:"<<aktualniPrestup.odjReal;
+        qDebug()<<"přestup "<<aktualniPrestup.line.LineName<<" "<<aktualniPrestup.destinationName<<" cas:"<<aktualniPrestup.expectedDepartureTimeQString();
 
-        QDomElement dExpectedDepartureTime=Value(xmlko,"ExpectedDepartureTime", vdv301prestup.expectedDepartureTimeQString());
+        QDomElement dExpectedDepartureTime=Value(xmlko,"ExpectedDepartureTime", aktualniPrestup.expectedDepartureTimeQString());
         dConnection.appendChild(dExpectedDepartureTime);
 
-        QDomElement dScheduledDepartureTime=Value(xmlko,"ScheduledDepartureTime",vdv301prestup.scheduledDepartureTimeQString());
+        QDomElement dScheduledDepartureTime=Value(xmlko,"ScheduledDepartureTime",aktualniPrestup.scheduledDepartureTimeQString());
         dConnection.appendChild(dScheduledDepartureTime);
 
         vystup.push_back(dConnection);
@@ -618,7 +618,7 @@ QDomElement XmlCommon::RouteDeviation(QDomDocument xmlko,QString obsah)
 }
 
 
-QDomElement XmlCommon::TripInformation1_0(QVector<Spoj> docasnySeznamSpoju, QVector<PrestupMPV> prestupy, CestaUdaje stav, int indexSpoje)
+QDomElement XmlCommon::TripInformation1_0(QVector<Spoj> docasnySeznamSpoju, QVector<Prestup> prestupy, CestaUdaje stav, int indexSpoje)
 {
     QDomDocument xmlko;
     int currentStopIndex= stav.indexAktZastavky;
@@ -660,7 +660,7 @@ QDomElement XmlCommon::TripInformation1_0(QVector<Spoj> docasnySeznamSpoju, QVec
 
 }
 
-QDomElement XmlCommon::TripInformation2_2CZ1_0(QVector<Spoj> docasnySeznamSpoju, QVector<PrestupMPV> prestupy, CestaUdaje stav, int indexSpoje, bool navazny)
+QDomElement XmlCommon::TripInformation2_2CZ1_0(QVector<Spoj> docasnySeznamSpoju, QVector<Prestup> prestupy, CestaUdaje stav, int indexSpoje, bool navazny)
 {
     QDomDocument xmlko;
     int currentStopIndex= stav.indexAktZastavky;
@@ -711,7 +711,7 @@ QDomElement XmlCommon::TripInformation2_2CZ1_0(QVector<Spoj> docasnySeznamSpoju,
 
 }
 
-QDomElement XmlCommon::StopSequence1_0(QDomDocument xmlko,QVector<ZastavkaCil> docasnySeznamZastavek,QString language, int currentStopIndex, QVector<PrestupMPV> prestupy,CestaUdaje stav)
+QDomElement XmlCommon::StopSequence1_0(QDomDocument xmlko,QVector<ZastavkaCil> docasnySeznamZastavek,QString language, int currentStopIndex, QVector<Prestup> prestupy,CestaUdaje stav)
 {
     QDomElement dStopSequence=xmlko.createElement("StopSequence");
     for (int i=0 ; i<docasnySeznamZastavek.count();i++)
@@ -723,7 +723,7 @@ QDomElement XmlCommon::StopSequence1_0(QDomDocument xmlko,QVector<ZastavkaCil> d
     return dStopSequence;
 }
 
-QDomElement XmlCommon::StopSequence2_2CZ1_0(QDomDocument xmlko,QVector<ZastavkaCil> docasnySeznamZastavek,QString language, int currentStopIndex, QVector<PrestupMPV> seznamPrestupu)
+QDomElement XmlCommon::StopSequence2_2CZ1_0(QDomDocument xmlko,QVector<ZastavkaCil> docasnySeznamZastavek,QString language, int currentStopIndex, QVector<Prestup> seznamPrestupu)
 {
     QDomElement dStopSequence=xmlko.createElement("StopSequence");
     for (int i=0 ; i<docasnySeznamZastavek.count();i++)
@@ -732,7 +732,7 @@ QDomElement XmlCommon::StopSequence2_2CZ1_0(QDomDocument xmlko,QVector<ZastavkaC
     }
     return dStopSequence;
 }
-QDomElement XmlCommon::StopPoint1_0(QVector<ZastavkaCil> docasnySeznamZastavek,int indexZpracZastavky, QVector<PrestupMPV> seznamPrestupu, QString language,int currentStopIndex,CestaUdaje stav)
+QDomElement XmlCommon::StopPoint1_0(QVector<ZastavkaCil> docasnySeznamZastavek,int indexZpracZastavky, QVector<Prestup> seznamPrestupu, QString language,int currentStopIndex,CestaUdaje stav)
 {
     qDebug()<<Q_FUNC_INFO;
     QDomDocument xmlko;
@@ -795,7 +795,7 @@ QDomElement XmlCommon::StopPoint1_0(QVector<ZastavkaCil> docasnySeznamZastavek,i
 }
 
 
-QDomElement XmlCommon::StopPoint2_2CZ1_0(QVector<ZastavkaCil> docasnySeznamZastavek,int indexZpracZastavky, QVector<PrestupMPV> seznamPrestupu, QString language,int currentStopIndex)
+QDomElement XmlCommon::StopPoint2_2CZ1_0(QVector<ZastavkaCil> docasnySeznamZastavek,int indexZpracZastavky, QVector<Prestup> seznamPrestupu, QString language,int currentStopIndex)
 {
     qDebug()<<Q_FUNC_INFO;
     QDomDocument xmlko;

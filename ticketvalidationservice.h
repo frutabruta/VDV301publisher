@@ -20,7 +20,7 @@ public:
 
 
     //funkce
-    void aktualizaceObsahuSluzby(QVector<PrestupMPV> prestupy, CestaUdaje &stav);
+    void aktualizaceObsahuSluzby(QVector<Prestup> prestupy, CestaUdaje &stav);
 
 
 private:
@@ -29,13 +29,13 @@ private:
     XmlTicketValidationService xmlGenerator;
 
     //promenne
-    CestaUdaje stavInterni;
-    QVector<ZastavkaCil> seznamZastavekInterni ;
+    CestaUdaje mStav;
+    QVector<ZastavkaCil> mSeznamZastavek ;
 
     //funkce
-    void aktualizaceIntProm(QVector<PrestupMPV> prestupy, CestaUdaje &stav, QVector<ZastavkaCil> seznamZastavek);
+    void aktualizaceIntProm(QVector<Prestup> prestupy, CestaUdaje &stav, QVector<ZastavkaCil> seznamZastavek);
 
-    QVector<PrestupMPV> prestupyInterni;
+    QVector<Prestup> mPrestupy;
 
 private slots:
     void slotTedOdesliNaPanely();

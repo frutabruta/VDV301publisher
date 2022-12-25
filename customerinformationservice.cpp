@@ -31,7 +31,7 @@ CustomerInformationService::CustomerInformationService(QString nazevSluzby, QStr
  * \param stav
  * \param seznamSpoju
  */
-void CustomerInformationService::aktualizaceIntProm(QVector<PrestupMPV> prestupy, CestaUdaje &stav, QVector<Spoj>  seznamSpoju ) //novy
+void CustomerInformationService::aktualizaceIntProm(QVector<Prestup> prestupy, CestaUdaje &stav, QVector<Spoj>  seznamSpoju ) //novy
 {
     qDebug() <<  Q_FUNC_INFO<<" "<<nazevSluzbyInterni<<" "<<globVerze;
     qDebug()<<"velikost seznamTripu"<<seznamSpoju.size()<<" index"<<stav.indexSpojeNaObehu;
@@ -130,12 +130,12 @@ void CustomerInformationService::aktualizaceIntPromEmpty(CestaUdaje &stav, QVect
 
 
 
-void CustomerInformationService::aktualizaceObsahuSluzby(QVector<PrestupMPV> prestup, CestaUdaje &stav ) //novy
+void CustomerInformationService::aktualizaceObsahuSluzby(QVector<Prestup> prestup, CestaUdaje &stav ) //novy
 {
     qDebug() <<  Q_FUNC_INFO;
-    prestupyInterni=prestup;
-    stavInterni=stav;
-    seznamSpojuInterni=stav.aktObeh.seznamSpoju;
+    mPrestupy=prestup;
+    mStav=stav;
+    mSeznamSpoju=stav.aktObeh.seznamSpoju;
     slotTedOdesliNaPanely();
     timer->start(60000);
 }
@@ -144,7 +144,7 @@ void CustomerInformationService::aktualizaceObsahuSluzby(QVector<PrestupMPV> pre
 void CustomerInformationService::mimoVydej()
 {
     qDebug() <<  Q_FUNC_INFO;
-    aktualizaceIntPromEmpty(stavInterni,seznamSpojuInterni);
+    aktualizaceIntPromEmpty(mStav,mSeznamSpoju);
 
 }
 
@@ -156,13 +156,13 @@ void CustomerInformationService::mimoVydej()
 void CustomerInformationService::slotTedOdesliNaPanely()
 {
     qDebug() <<  Q_FUNC_INFO;
-    if (seznamSpojuInterni.isEmpty())
+    if (mSeznamSpoju.isEmpty())
     {
-        aktualizaceIntPromEmpty(stavInterni,seznamSpojuInterni);
+        aktualizaceIntPromEmpty(mStav,mSeznamSpoju);
     }
     else
     {
-        aktualizaceIntProm(prestupyInterni,stavInterni,seznamSpojuInterni);
+        aktualizaceIntProm(mPrestupy,mStav,mSeznamSpoju );
     }
 
 }

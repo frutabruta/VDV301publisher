@@ -18,7 +18,7 @@ public:
     //struktury
 
     //funkce
-    void aktualizaceObsahuSluzby(QVector<PrestupMPV> prestup, CestaUdaje &stav);
+    void aktualizaceObsahuSluzby(QVector<Prestup> prestup, CestaUdaje &stav);
     void mimoVydej();
 
 private:
@@ -26,19 +26,13 @@ private:
     //instance trid
     XmlCustomerInformationService xmlGenerator;
     //promenne
-    QVector<PrestupMPV> prestupyInterni;
-    QVector<Spoj> seznamSpojuInterni;
-    CestaUdaje stavInterni;
-
+    QVector<Prestup> mPrestupy;
+    QVector<Spoj> mSeznamSpoju;
+    CestaUdaje mStav;
 
     //funkce
-    void aktualizaceIntProm(QVector<PrestupMPV> prestupy, CestaUdaje &stav, QVector<Spoj> seznamSpoju );
+    void aktualizaceIntProm(QVector<Prestup> prestupy, CestaUdaje &stav, QVector<Spoj> seznamSpoju );
     void aktualizaceIntPromEmpty(CestaUdaje &stav, QVector<Spoj> seznamSpoju);
-
-
-
-
-
 
 
 public slots:

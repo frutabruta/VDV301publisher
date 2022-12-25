@@ -14,7 +14,7 @@
 #include "VDV301struktury/pasmo.h"
 
 #include "VDV301struktury/prestupmpv.h"
-#include "xmlmpvparser.h"
+//#include "xmlmpvparser.h"
 
 
 class XmlCommon :public QMainWindow
@@ -47,7 +47,7 @@ public:
     QString AllData_empty2_2CZ1_0();
 
     QVector<QDomElement> Connections1_0( QVector<PrestupMPV> seznamPrestupu);
-    QVector<QDomElement> Connections2_2CZ1_0(QVector<PrestupMPV> seznamPrestupu);
+    QVector<QDomElement> Connections2_2CZ1_0(QVector<Prestup> seznamPrestupu);
     QString CurrentDisplayContent1_0(int poradi, QVector<ZastavkaCil> docasnySeznamZastavek, CestaUdaje stav);
 
     QDomElement DisplayContent1_0(QString tagName, QDomDocument xmlko, QVector<ZastavkaCil> docasnySeznamZastavek, QString language, int iteracniIndex, int currentStopIndex);
@@ -63,10 +63,10 @@ public:
     QDomElement MyOwnVehicleMode(QDomDocument xmlko, QString mode, QString subMode);
     QDomElement MyOwnVehicleMode2_2CZ1_0(QString mainMode, QString subMode);
 
-    QDomElement StopPoint1_0(QVector<ZastavkaCil> docasnySeznamZastavek, int indexZpracZastavky, QVector<PrestupMPV> seznamPrestupu, QString language, int currentStopIndex, CestaUdaje stav);
-    QDomElement StopPoint2_2CZ1_0(QVector<ZastavkaCil> docasnySeznamZastavek, int indexZpracZastavky, QVector<PrestupMPV> seznamPrestupu, QString language, int currentStopIndex);
-    QDomElement StopSequence2_2CZ1_0(QDomDocument xmlko, QVector<ZastavkaCil> docasnySeznamZastavek, QString language, int currentStopIndex, QVector<PrestupMPV> seznamPrestupu);
-    QDomElement StopSequence1_0(QDomDocument xmlko, QVector<ZastavkaCil> docasnySeznamZastavek, QString language, int currentStopIndex, QVector<PrestupMPV> prestupy, CestaUdaje stav);
+    QDomElement StopPoint1_0(QVector<ZastavkaCil> docasnySeznamZastavek, int indexZpracZastavky, QVector<Prestup> seznamPrestupu, QString language, int currentStopIndex, CestaUdaje stav);
+    QDomElement StopPoint2_2CZ1_0(QVector<ZastavkaCil> docasnySeznamZastavek, int indexZpracZastavky, QVector<Prestup> seznamPrestupu, QString language, int currentStopIndex);
+    QDomElement StopSequence2_2CZ1_0(QDomDocument xmlko, QVector<ZastavkaCil> docasnySeznamZastavek, QString language, int currentStopIndex, QVector<Prestup> seznamPrestupu);
+    QDomElement StopSequence1_0(QDomDocument xmlko, QVector<ZastavkaCil> docasnySeznamZastavek, QString language, int currentStopIndex, QVector<Prestup> prestupy, CestaUdaje stav);
 
     QDomElement RouteDeviation(QDomDocument xmlko, QString obsah);
 
@@ -74,8 +74,8 @@ public:
     QString TicketValidationService_GetRazziaResponse2_2CZ1_0(CestaUdaje stav);
     QString TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(int poradi, QVector<ZastavkaCil> docasnySeznamZastavek, QString doorState, QString locationState, QVector<PrestupMPV> prestupy);
     QDomElement TimeStampTag1_0(QDomDocument xmlko);
-    QDomElement TripInformation1_0(QVector<Spoj> docasnySeznamSpoju, QVector<PrestupMPV> prestupy, CestaUdaje stav, int indexSpoje);
-    QDomElement TripInformation2_2CZ1_0(QVector<Spoj> docasnySeznamTripu, QVector<PrestupMPV> prestupy, CestaUdaje stav, int indexSpoje, bool navazny);
+    QDomElement TripInformation1_0(QVector<Spoj> docasnySeznamSpoju, QVector<Prestup> prestupy, CestaUdaje stav, int indexSpoje);
+    QDomElement TripInformation2_2CZ1_0(QVector<Spoj> docasnySeznamTripu, QVector<Prestup> prestupy, CestaUdaje stav, int indexSpoje, bool navazny);
 
     QDomElement ViaPoint2_2CZ1_0(QDomDocument xmlko, Zastavka nacestnaZastavka, QString language);
     QDomElement ViaPoint1_0(QDomDocument xmlko, Zastavka nacestnaZastavka, QString language);

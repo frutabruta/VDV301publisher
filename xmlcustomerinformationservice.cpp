@@ -7,7 +7,7 @@ XmlCustomerInformationService::XmlCustomerInformationService()
 
 
 //QString XmlCustomerInformationService::AllData2_2CZ1_0(QVector<Spoj> seznamSpoju, QVector<PrestupMPV> prestupy, CestaUdaje stav )
-QString XmlCustomerInformationService::AllData1_0(QVector<Spoj> seznamSpoju  ,  QVector<PrestupMPV> prestupy, CestaUdaje stav )
+QString XmlCustomerInformationService::AllData1_0(QVector<Spoj> seznamSpoju,  QVector<Prestup> prestupy, CestaUdaje stav )
 {
     qDebug()<<Q_FUNC_INFO;
     QVector<ZastavkaCil> docasnySeznamZastavek=seznamSpoju.at(stav.indexSpojeNaObehu).globalniSeznamZastavek;
@@ -73,7 +73,7 @@ QString XmlCustomerInformationService::AllData1_0(QVector<Spoj> seznamSpoju  ,  
 
 
 
-QString XmlCustomerInformationService::AllData2_2CZ1_0(QVector<Spoj> seznamSpoju, QVector<PrestupMPV> prestupy, CestaUdaje stav )
+QString XmlCustomerInformationService::AllData2_2CZ1_0(QVector<Spoj> seznamSpoju, QVector<Prestup> prestupy, CestaUdaje stav )
 {
     qDebug()<<Q_FUNC_INFO;
     QVector<ZastavkaCil> docasnySeznamZastavek=seznamSpoju.at(stav.indexSpojeNaObehu).globalniSeznamZastavek;
