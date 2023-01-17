@@ -861,7 +861,7 @@ QDomElement XmlCommon::StopPoint2_2CZ1_0(QVector<ZastavkaCil> docasnySeznamZasta
     dStopPoint.appendChild(dDisplayContent);
 
 
-    qDebug()<<"cCurrentStopIndex.toInt() "<< cCurrentStopIndex.toInt()<<" (currentStopIndex+1) " << (currentStopIndex+1);
+   // qDebug()<<"cCurrentStopIndex.toInt() "<< cCurrentStopIndex.toInt()<<" (currentStopIndex+1) " << (currentStopIndex+1);
 
 
     if (cCurrentStopIndex.toInt()==(currentStopIndex+1))
