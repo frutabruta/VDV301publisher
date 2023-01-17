@@ -8,7 +8,7 @@ XmlTicketValidationService::XmlTicketValidationService()
 
 
 
-QString XmlTicketValidationService::TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(int poradi, QVector <ZastavkaCil> docasnySeznamZastavek, QString doorState, QString locationState, QVector<PrestupMPV> prestupy)
+QString XmlTicketValidationService::TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(int poradi, QVector <ZastavkaCil> docasnySeznamZastavek, QString doorState, QString locationState, QVector<Prestup> prestupy)
 {
     qDebug()<<"XmlCommon::TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0";
     QDomDocument xmlko;

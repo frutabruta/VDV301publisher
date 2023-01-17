@@ -12,7 +12,7 @@ TicketValidationService::TicketValidationService(QString nazevSluzby, QString ty
 
 
 
-void TicketValidationService::aktualizaceIntProm(QVector<PrestupMPV> prestupy, CestaUdaje &stav, QVector<ZastavkaCil>  seznamZastavek ) //novy
+void TicketValidationService::aktualizaceIntProm(QVector<Prestup> prestupy, CestaUdaje &stav, QVector<ZastavkaCil>  seznamZastavek ) //novy
 {
     qDebug()<<"TicketValidationService::aktualizaceIntProm"<<nazevSluzbyInterni<<" "<<globVerze;
    // QByteArray zpracovanoMPV="";
@@ -63,15 +63,15 @@ void TicketValidationService::aktualizaceIntProm(QVector<PrestupMPV> prestupy, C
 void TicketValidationService::slotTedOdesliNaPanely()
 {
     qDebug()<<"CustomerInformationService::tedOdesliNaPanely()";
-    aktualizaceIntProm( prestupyInterni,stavInterni,seznamZastavekInterni);
+    aktualizaceIntProm( mPrestupy,mStav, mSeznamZastavek);
 }
 
-void TicketValidationService::aktualizaceObsahuSluzby(QVector<PrestupMPV> prestupy, CestaUdaje &stav ) //novy
+void TicketValidationService::aktualizaceObsahuSluzby(QVector<Prestup> prestupy, CestaUdaje &stav ) //novy
 {
     qDebug()<<"CustomerInformationService::aktualizaceInternichPromennychOdeslat";
-    prestupyInterni =prestupy;
-    stavInterni=stav;
-    seznamZastavekInterni=stav.aktObeh.seznamSpoju.at(stav.indexSpojeNaObehu).globalniSeznamZastavek;
+    mPrestupy =prestupy;
+    mStav=stav;
+    mSeznamZastavek=stav.aktObeh.seznamSpoju.at(stav.indexSpojeNaObehu).globalniSeznamZastavek;
     slotTedOdesliNaPanely();
     timer->start(60000);
 }

@@ -9,8 +9,8 @@ public:
     XmlCustomerInformationService();
    // QString AllData1_0(QVector<ZastavkaCil> docasnySeznamZastavek, QString doorState, QString locationState, QVector<PrestupMPV> prestupy, CestaUdaje stav);
 
-    QString AllData1_0(QVector<Spoj> seznamSpoju, QVector<PrestupMPV> prestupy, CestaUdaje stav);
-    QString AllData2_2CZ1_0(QVector<Spoj> seznamSpoju, QVector<PrestupMPV> prestupy, CestaUdaje stav);
+    QString AllData1_0(QVector<Spoj> seznamSpoju, QVector<Prestup> prestupy, CestaUdaje stav);
+    QString AllData2_2CZ1_0(QVector<Spoj> seznamSpoju, QVector<Prestup> prestupy, CestaUdaje stav);
     QString AllData_empty_1_0();
     QString AllData_empty2_2CZ1_0();
 
