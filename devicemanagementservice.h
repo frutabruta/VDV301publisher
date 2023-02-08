@@ -11,19 +11,38 @@ public:
 
     void aktualizaceObsahuSluzby();
 
-    QString deviceName="";
-    QString deviceManufacturer="";
-    QString deviceSerialNumber="";
-    QString deviceClass="";
-    QString deviceId=0;
-    QString swVersion="";
+
 
     QMap<QString,QString> parametry;
+
+    QString deviceName() const;
+    void setDeviceName(const QString &newDeviceName);
+
+    QString deviceManufacturer() const;
+    void setDeviceManufacturer(const QString &newDeviceManufacturer);
+
+    QString deviceSerialNumber() const;
+    void setDeviceSerialNumber(const QString &newDeviceSerialNumber);
+
+    QString deviceClass() const;
+    void setDeviceClass(const QString &newDeviceClass);
+
+    QString deviceId() const;
+    void setDeviceId(const QString &newDeviceId);
+
+    QString swVersion() const;
+    void setSwVersion(const QString &newSwVersion);
 
 public slots:
     void slotAktualizaceDat();
 private:
     void aktualizaceIntProm();
+    QString mDeviceName="";
+    QString mDeviceManufacturer="";
+    QString mDeviceSerialNumber="";
+    QString mDeviceClass="";
+    QString mDeviceId=0;
+    QString mSwVersion="";
 
     XmlDeviceManagementService xmlGenerator;
 

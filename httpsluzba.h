@@ -48,6 +48,7 @@ public:
     ~HttpSluzba();
 
 
+    QString StringToNmToken(QString vstup);
 private:
     //instance knihoven
     QZeroConf zeroConf;
@@ -66,8 +67,6 @@ private:
 
     QByteArray vyrobHlavickuGet(); //nepouzito
     QString vyrobHlavickuSubscribe();
-
-
 
 protected:
 
@@ -88,9 +87,6 @@ public slots:
 private slots:
     void slotVyprseniCasovace(); //nepouzito
     void slotPrislaOdpovedNaPost(QNetworkReply *reply);
-
-
-
 
 signals:
     void signalPridejSubscribera(QUrl adresaSubscribera); //nepouzito

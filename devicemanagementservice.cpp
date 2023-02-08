@@ -34,13 +34,13 @@ void DeviceManagementService::aktualizaceIntProm()
 
     if (globVerze=="2.2CZ1.0")
     {
-        bodyDeviceInformationResponse=xmlGenerator.DeviceInformationResponse1_0(deviceName,deviceManufacturer,deviceSerialNumber,deviceClass,swVersion);
-        bodyDeviceConfigurationResponse=xmlGenerator.DeviceConfigurationResponseStructure1_0(deviceId);
+        bodyDeviceInformationResponse=xmlGenerator.DeviceInformationResponse1_0(mDeviceName,mDeviceManufacturer,mDeviceSerialNumber,mDeviceClass,mSwVersion);
+        bodyDeviceConfigurationResponse=xmlGenerator.DeviceConfigurationResponseStructure1_0(mDeviceId);
     }
     else
     {
-        bodyDeviceInformationResponse=xmlGenerator.DeviceInformationResponse1_0(deviceName,deviceManufacturer,deviceSerialNumber,deviceClass,swVersion);
-        bodyDeviceConfigurationResponse=xmlGenerator.DeviceConfigurationResponseStructure1_0(deviceId);
+        bodyDeviceInformationResponse=xmlGenerator.DeviceInformationResponse1_0(mDeviceName,mDeviceManufacturer,mDeviceSerialNumber,mDeviceClass,mSwVersion);
+        bodyDeviceConfigurationResponse=xmlGenerator.DeviceConfigurationResponseStructure1_0(mDeviceId);
     }
 
     this->nastavObsahTela("DeviceInformation",bodyDeviceInformationResponse);
@@ -53,6 +53,69 @@ void DeviceManagementService::aktualizaceIntProm()
         PostDoDispleje(seznamSubscriberu[i].adresa,obsahTelaPole.value(seznamSubscriberu[i].struktura));
     }
 
+}
+
+QString DeviceManagementService::swVersion() const
+{
+    return mSwVersion;
+}
+
+void DeviceManagementService::setSwVersion(const QString &newSwVersion)
+{
+    mSwVersion = StringToNmToken(newSwVersion);
+}
+
+
+
+
+QString DeviceManagementService::deviceId() const
+{
+    return mDeviceId;
+}
+
+void DeviceManagementService::setDeviceId(const QString &newDeviceId)
+{
+    mDeviceId = newDeviceId;
+}
+
+QString DeviceManagementService::deviceClass() const
+{
+    return mDeviceClass;
+}
+
+void DeviceManagementService::setDeviceClass(const QString &newDeviceClass)
+{
+    mDeviceClass = newDeviceClass;
+}
+
+QString DeviceManagementService::deviceSerialNumber() const
+{
+    return mDeviceSerialNumber;
+}
+
+void DeviceManagementService::setDeviceSerialNumber(const QString &newDeviceSerialNumber)
+{
+    mDeviceSerialNumber = newDeviceSerialNumber;
+}
+
+QString DeviceManagementService::deviceManufacturer() const
+{
+    return mDeviceManufacturer;
+}
+
+void DeviceManagementService::setDeviceManufacturer(const QString &newDeviceManufacturer)
+{
+    mDeviceManufacturer = newDeviceManufacturer;
+}
+
+QString DeviceManagementService::deviceName() const
+{
+    return mDeviceName;
+}
+
+void DeviceManagementService::setDeviceName(const QString &newDeviceName)
+{
+    mDeviceName = newDeviceName;
 }
 
 void DeviceManagementService::slotAktualizaceDat()

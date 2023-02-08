@@ -36,8 +36,13 @@ QDomElement XmlDeviceManagementService::DeviceClass1_0(QString vstup)
 {
     QDomDocument xmlko;
 
-    QDomElement vystup=Value(xmlko,"DeviceClass",vstup);
+    QDomElement vystup=xmlko.createElement("DeviceClass");
+    vystup.appendChild( xmlko.createTextNode(vstup));
 
+    /*
+    QDomElement result=xmlko.createElement(elementName); //verze 2.2CZ1.0
+    result.appendChild(xmlko.createElement("Value")).appendChild( xmlko.createTextNode(content));
+*/
     return vystup;
 }
 

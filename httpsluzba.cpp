@@ -455,3 +455,9 @@ void HttpSluzba::slotZastavCasovac()
 
 }
 
+
+QString HttpSluzba::StringToNmToken(QString vstup)
+{
+    vstup=vstup.replace(" ","-");
+    return vstup;
+}
