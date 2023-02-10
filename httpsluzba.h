@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QtXml>
 #include <QtHttpServer>
+#include <QMap>
 
 #include "QtZeroConf/qzeroconf.h"
 
@@ -95,6 +96,8 @@ signals:
     void signalStart(); //nepouzito
     void signalStop(); //nepouzio
     void signalOdpovedNaPost(QNetworkReply *reply);
+    void signalZmenaParametru(QMap<QString,QString> hodnoty);
+
 
 
 };

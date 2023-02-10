@@ -6,12 +6,11 @@
 
 class DeviceManagementService : public HttpSluzba
 {
+    Q_OBJECT
 public:
     explicit DeviceManagementService(QString nazevSluzby, QString typSluzby, int cisloPortu, QString verze);
 
     void aktualizaceObsahuSluzby();
-
-
 
     QMap<QString,QString> parametry;
 
@@ -35,6 +34,9 @@ public:
 
 public slots:
     void slotAktualizaceDat();
+private slots:
+    void slotNastavParametry(QMap<QString, QString> parametry);
+
 private:
     void aktualizaceIntProm();
     QString mDeviceName="";
@@ -45,7 +47,8 @@ private:
     QString mSwVersion="";
 
     XmlDeviceManagementService xmlGenerator;
-
+signals:
+    void signalZmenaParametruVen();
 };
 
 #endif // DEVICEMANAGEMENTSERVICE_H

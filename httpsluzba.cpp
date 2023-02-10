@@ -218,13 +218,19 @@ void HttpSluzba::slotVypisObsahRequestu(QByteArray vysledek,QString struktura)
     {
             QDomElement subscribeRequest=xmlrequest.firstChildElement("DeviceManagementService.SetDeviceConfigurationRequest");
             QDomNodeList parametry=subscribeRequest.childNodes();
+            QMap<QString,QString> hodnoty;
 
             for(int i=0;i<parametry.count();i++)
             {
                 QDomNode parametr=parametry.at(i);
+                QString klic=parametr.nodeName();
+                QString hodnota=parametr.firstChildElement("Value").firstChild().nodeValue();
+                hodnoty[klic]=hodnota;
 
-                qDebug()<<"parametr: "<<parametr.nodeName()<<" "<<parametr.firstChildElement("Value").firstChild().nodeValue();
+                qDebug()<<"parametr: "<<klic<<" "<<hodnota;
             }
+            emit signalZmenaParametru(hodnoty);
+
     }
     else
     {

@@ -7,7 +7,10 @@ DeviceManagementService::DeviceManagementService(QString nazevSluzby, QString ty
     // connect(timer, &QTimer::timeout, this, &CustomerInformationService::slotTedOdesliNaPanely);
     aktualizaceIntProm();
 
+    connect(this, &HttpSluzba::signalZmenaParametru,this, &DeviceManagementService::slotNastavParametry);
 }
+
+
 
 void DeviceManagementService::aktualizaceObsahuSluzby()
 {
@@ -126,3 +129,17 @@ void DeviceManagementService::slotAktualizaceDat()
     aktualizaceIntProm();
 }
 
+void DeviceManagementService::slotNastavParametry(QMap<QString,QString> parametry)
+{
+    qDebug()<<Q_FUNC_INFO;
+    qDebug()<<"seznam obsahuje "<<parametry.count()<<" parametru";
+    if(parametry.contains("DeviceID"))
+    {
+        mDeviceId=parametry["DeviceID"];
+        qDebug()<<"nastavuji ID: "<<mDeviceId;
+
+
+    }
+    aktualizaceIntProm();
+    emit signalZmenaParametruVen();
+}
