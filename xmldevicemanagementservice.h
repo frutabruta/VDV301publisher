@@ -15,7 +15,8 @@ public:
     XmlDeviceManagementService();
     QString DeviceInformationResponse1_0(QString deviceName, QString manufacturer, QString serialNumber, QString deviceClass, QString swVersion);
     QString DeviceConfigurationResponseStructure1_0(QString deviceId);
-    QDomElement DeviceStatus();
+    QString DeviceStatusResponse1_0(QString status);
+    QDomElement DeviceStatus(QString status);
     QDomElement Restart();
     QDomElement DeviceInformationGroup1_0(QString name, QString manufacturer, QString serialNumber, QString deviceClass, QString swVersion);
     QDomElement DeviceName1_0(QString vstup);
@@ -25,6 +26,7 @@ public:
     QDomElement DeviceClass1_0(QString vstup);
     QDomElement DataVersionStructure1_0(QDomDocument xmlko, QString tagName, VerzeDat verzeDat);
     QDomElement DataVersionList1_0(QDomDocument xmlko, QString tagName, QVector<VerzeDat> verzeDat);
+
 private:
 
 };

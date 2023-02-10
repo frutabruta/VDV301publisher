@@ -36,15 +36,18 @@ void DeviceManagementService::aktualizaceIntProm()
     {
         bodyDeviceInformationResponse=xmlGenerator.DeviceInformationResponse1_0(mDeviceName,mDeviceManufacturer,mDeviceSerialNumber,mDeviceClass,mSwVersion);
         bodyDeviceConfigurationResponse=xmlGenerator.DeviceConfigurationResponseStructure1_0(mDeviceId);
+        bodyDeviceStatusInformationResponse=xmlGenerator.DeviceStatusResponse1_0("running");
     }
     else
     {
         bodyDeviceInformationResponse=xmlGenerator.DeviceInformationResponse1_0(mDeviceName,mDeviceManufacturer,mDeviceSerialNumber,mDeviceClass,mSwVersion);
         bodyDeviceConfigurationResponse=xmlGenerator.DeviceConfigurationResponseStructure1_0(mDeviceId);
+        bodyDeviceStatusInformationResponse=xmlGenerator.DeviceStatusResponse1_0("running");
     }
 
     this->nastavObsahTela("DeviceInformation",bodyDeviceInformationResponse);
     this->nastavObsahTela("DeviceConfiguration",bodyDeviceConfigurationResponse);
+    this->nastavObsahTela("DeviceStatus",bodyDeviceStatusInformationResponse);
 
     this->asocPoleDoServeru(obsahTelaPole);
 

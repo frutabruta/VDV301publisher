@@ -3,7 +3,7 @@
 XmlDeviceManagementService::XmlDeviceManagementService()
 {
     qDebug() <<  Q_FUNC_INFO;
-   // qDebug().noquote()<<"devifnormationtest "<<DeviceInformationResponse1_0("jmeno","vyrobce","XXX112233","InteriorDisplay","v1.2") ;
+    // qDebug().noquote()<<"devifnormationtest "<<DeviceInformationResponse1_0("jmeno","vyrobce","XXX112233","InteriorDisplay","v1.2") ;
 }
 
 
@@ -15,7 +15,7 @@ QDomElement XmlDeviceManagementService::DataVersionList1_0(QDomDocument xmlko, Q
 
     foreach (VerzeDat jednaVerze, verzeDat)
     {
-     vystup.appendChild(DataVersionStructure1_0(xmlko,"DataVersion",jednaVerze));
+        vystup.appendChild(DataVersionStructure1_0(xmlko,"DataVersion",jednaVerze));
     }
 
     return vystup;
@@ -61,6 +61,33 @@ QString XmlDeviceManagementService::DeviceConfigurationResponseStructure1_0(QStr
     return xmlko.toString();
 }
 
+
+
+QString XmlDeviceManagementService::DeviceStatusResponse1_0(QString status)
+{
+    QDomDocument xmlko;
+    QDomElement vystup=xmlko.createElement("DeviceManagementService.GetDeviceStatusResponse");
+    xmlko.appendChild(vystup);
+
+    QDomElement getDeviceInformationData=xmlko.createElement("DeviceManagementService.GetDeviceStatusResponseData");
+
+    getDeviceInformationData.appendChild(TimeStampTag1_0(xmlko));
+    getDeviceInformationData.appendChild(DeviceStatus(status));
+    vystup.appendChild(getDeviceInformationData);
+
+    return xmlko.toString();
+}
+
+QDomElement XmlDeviceManagementService::DeviceStatus(QString status)
+{
+    QDomDocument xmlko;
+    QDomElement vystup=xmlko.createElement("DeviceState");
+    vystup.appendChild(xmlko.createTextNode(status));
+    return vystup;
+}
+
+
+
 QDomElement XmlDeviceManagementService::DeviceConfigurationResponseDataStructure1_0(QString tagName, QString deviceId)
 {
     QDomElement vystup;
@@ -94,10 +121,10 @@ QDomElement XmlDeviceManagementService::DeviceInformationGroup1_0(QString device
     QDomElement vystup=xmlko.createElement("DeviceInformation");
     QVector<VerzeDat> versionVector;
 
-   VerzeDat aktVerze;
-   aktVerze.dataType="SwVersion";
-   aktVerze.versionRef=swVersion;
-   versionVector.append(aktVerze);
+    VerzeDat aktVerze;
+    aktVerze.dataType="SwVersion";
+    aktVerze.versionRef=swVersion;
+    versionVector.append(aktVerze);
 
     vystup.appendChild(DeviceName1_0(deviceName));
     vystup.appendChild(Manufacturer1_0(manufacturer));
@@ -116,12 +143,6 @@ QDomElement XmlDeviceManagementService::DeviceName1_0(QString vstup)
     return vystup;
 }
 
-QDomElement XmlDeviceManagementService::DeviceStatus()
-{
-    QDomElement vystup;
-
-    return vystup;
-}
 
 
 QDomElement XmlDeviceManagementService::Manufacturer1_0(QString vstup)
