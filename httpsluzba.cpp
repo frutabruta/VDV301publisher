@@ -10,17 +10,18 @@
  * \param cisloPortu
  * \param verze
  */
-HttpSluzba::HttpSluzba(QString nazevSluzby,QString typSluzby, int cisloPortu,QString verze):InstanceNovehoServeru(cisloPortu,nazevSluzby)
+HttpSluzba::HttpSluzba(QString nazevSluzby,QString typSluzby, int cisloPortu,QString verze):httpServerPublisher (cisloPortu,nazevSluzby)
 {
     qDebug() <<  Q_FUNC_INFO <<" "<< nazevSluzby <<" "<<QString::number(cisloPortu);
-    cisloPortuInterni=cisloPortu;
+    mCisloPortu=cisloPortu;
     nazevSluzbyInterni=nazevSluzby;
-    typSluzbyInterni=typSluzby;
+    mTypSluzby=typSluzby;
     globVerze=verze;
 
-    qDebug()<<"xxx"<<connect(&InstanceNovehoServeru,&HttpServerPublisher::signalServerBezi ,this,&HttpSluzba::slotServerReady, Qt::QueuedConnection);
+    //qDebug()<<"xxx"<<
+   connect(&httpServerPublisher ,&HttpServerPublisher::signalServerBezi ,this,&HttpSluzba::slotServerReady, Qt::QueuedConnection);
 
-    connect(&InstanceNovehoServeru,&HttpServerPublisher::zmenaObsahu,this,&HttpSluzba::slotVypisObsahRequestu);
+    connect(&httpServerPublisher ,&HttpServerPublisher::zmenaObsahu,this,&HttpSluzba::slotVypisObsahRequestu);
 
     connect(&zeroConf,&QZeroConf::error,this,&HttpSluzba::slotVypisChybuZeroConfig);
 
@@ -97,7 +98,7 @@ QString HttpSluzba::vyrobHlavickuSubscribe()
 void HttpSluzba::slotServerReady(int portVstup)
 {
       qDebug() <<  Q_FUNC_INFO << " "<<QString::number(portVstup);
-    cisloPortuInterni=portVstup;
+    mCisloPortu=portVstup;
     slotStartDnsSd(true);
 }
 
@@ -105,7 +106,7 @@ void HttpSluzba::bonjourStartKomplet()
 {
     qDebug() <<  Q_FUNC_INFO;
     //zeroConf.clearServiceTxtRecords();
-    this->bonjourStartPublish(this->nazevSluzbyInterni,this->typSluzbyInterni,this->cisloPortuInterni,this->globVerze ,zeroConf);
+    this->bonjourStartPublish(this->nazevSluzbyInterni,this->mTypSluzby,this->mCisloPortu,this->globVerze ,zeroConf);
 }
 
 
@@ -174,7 +175,7 @@ QByteArray HttpSluzba::vyrobSubscribeResponseBody(int vysledek)
 void HttpSluzba::slotVypisObsahRequestu(QByteArray vysledek,QString struktura)
 {
     qDebug() <<  Q_FUNC_INFO;
-    QByteArray posledniRequest=InstanceNovehoServeru.bodyPozadavku;
+    QByteArray posledniRequest=httpServerPublisher .bodyPozadavku;
     QDomDocument xmlrequest;
     qDebug()<<"delka posledniRequest "<<QString::number(posledniRequest.length())<<" delka Vysledek "<<QString::number(vysledek.length());
 
@@ -383,7 +384,7 @@ int HttpSluzba::nastavObsahTela(QString klic, QString obsah)
  */
 int HttpSluzba::asocPoleDoServeru(QMap<QString,QString> pole)
 {
-    InstanceNovehoServeru.nastavObsahTela(pole);
+    httpServerPublisher .nastavObsahTela(pole);
     return 1;
 }
 
@@ -394,7 +395,7 @@ int HttpSluzba::asocPoleDoServeru(QMap<QString,QString> pole)
  */
 void HttpSluzba::zastavBonjourSluzbu()
 {
-    qDebug() <<  Q_FUNC_INFO<<nazevSluzbyInterni<<" "<<globVerze<<" "<<cisloPortuInterni;
+    qDebug() <<  Q_FUNC_INFO<<nazevSluzbyInterni<<" "<<globVerze<<" "<<mCisloPortu;
     zeroConf.stopServicePublish();
 
 }
@@ -408,7 +409,7 @@ void HttpSluzba::zastavBonjourSluzbu()
 
 void HttpSluzba::slotStartServer()
 {
-    InstanceNovehoServeru.slotStartServer();
+    httpServerPublisher .slotStartServer();
 }
 
 
@@ -466,4 +467,16 @@ QString HttpSluzba::StringToNmToken(QString vstup)
 {
     vstup=vstup.replace(" ","-");
     return vstup;
+}
+
+int HttpSluzba::cisloPortu() const
+{
+    return mCisloPortu;
+}
+
+void HttpSluzba::setCisloPortu(int newCisloPortu)
+{
+    qDebug() <<  Q_FUNC_INFO;
+    mCisloPortu = newCisloPortu;
+    httpServerPublisher .setCisloPortu(mCisloPortu);
 }

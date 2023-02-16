@@ -3,9 +3,9 @@
 HttpServerPublisher::HttpServerPublisher(quint16 portVstup,QString vstupSlozkaSluzby)
 {
     qDebug() <<  Q_FUNC_INFO;
-    cisloPortu=portVstup;
-    obsahRoot=vyrobHlavickuOk();
-    slozkaSluzby=vstupSlozkaSluzby;
+    mCisloPortu=portVstup;
+    mObsahRoot=vyrobHlavickuOk();
+    mSlozkaSluzby=vstupSlozkaSluzby;
     connect(this,&HttpServerPublisher::signalServerBezi,this,&HttpServerPublisher::slotTest);
 
  //   slotStartServer();
@@ -18,10 +18,10 @@ int HttpServerPublisher::slotStartServer()
 {
     qDebug() <<  Q_FUNC_INFO;
 
-    this->route(slozkaSluzby,obsahTelaPole);
-    cisloPortu=this->listen();
+    this->route(mSlozkaSluzby,mObsahTelaPole);
+    mCisloPortu=this->listen();
 
-    emit signalServerBezi(cisloPortu);
+    emit signalServerBezi(mCisloPortu);
 
     return 1;
 }
@@ -43,7 +43,7 @@ int HttpServerPublisher::route(QString &slozkaSluzby,  QMap<QString,QString> &ob
     */
         this->bodyPozadavku=request.body();
         emit zmenaObsahu(request.body(),struktura);
-        return this->obsahSubscribe;
+        return this->mObsahSubscribe;
 
     });
 
@@ -53,7 +53,7 @@ int HttpServerPublisher::route(QString &slozkaSluzby,  QMap<QString,QString> &ob
         qDebug().noquote()<<"request Set"<<struktura;
         this->bodyPozadavku=request.body();
         emit zmenaObsahu(request.body(),struktura);
-        return this->obsahSet;
+        return this->mObsahSet;
     });
 
     httpServer.route("/"+slozkaSluzby+"/Get<arg>", [&obsahyBody](const QUrl &url,const QHttpServerRequest &request)
@@ -70,7 +70,7 @@ int HttpServerPublisher::route(QString &slozkaSluzby,  QMap<QString,QString> &ob
         qDebug()<<"request BODY "<<request.body();
 
         emit prijemDat(request.body());
-        return this->obsahRoot;
+        return this->mObsahRoot;
     });
 
     httpServer.afterRequest([](QHttpServerResponse &&resp)
@@ -87,11 +87,10 @@ int HttpServerPublisher::listen()
 {
     qDebug() <<  Q_FUNC_INFO;
 
-
-    if (cisloPortu!=0)
+    if (mCisloPortu!=0)
     {
         /* manuální volba portu*/
-        const auto port = httpServer.listen(QHostAddress::Any,cisloPortu);
+        const auto port = httpServer.listen(QHostAddress::Any,mCisloPortu);
         if (!port)
         {
             qDebug() << QCoreApplication::translate(
@@ -99,7 +98,7 @@ int HttpServerPublisher::listen()
 
         }
 
-        qDebug()<<"YYY"<<QString::number(port);
+        qDebug()<<"Startuju na portu:"<<QString::number(port);
         return port;
 
         qDebug() << QCoreApplication::translate("QHttpServerExample", "Running on http://127.0.0.1:%1/ (Press CTRL+C to quit)").arg(port);
@@ -129,21 +128,32 @@ int HttpServerPublisher::listen()
 void HttpServerPublisher::zapisDoPromenneGet(QString vstup)
 {
     qDebug() <<  Q_FUNC_INFO;
-    this->slozkaSluzby=vstup;
+    this->mSlozkaSluzby=vstup;
 
 }
 
 void HttpServerPublisher::zapisDoSubscribe(QString vstup)
 {
     qDebug() <<  Q_FUNC_INFO;
-    this->obsahSubscribe=vstup;
+    this->mObsahSubscribe=vstup;
 }
 
 int HttpServerPublisher::nastavObsahTela(QMap<QString,QString> vstup )
 {
     qDebug() <<  Q_FUNC_INFO;
-    obsahTelaPole=vstup;
+    mObsahTelaPole=vstup;
     return 1;
+}
+
+quint16 HttpServerPublisher::cisloPortu() const
+{
+    return mCisloPortu;
+}
+
+void HttpServerPublisher::setCisloPortu(quint16 newCisloPortu)
+{
+    qDebug() <<  Q_FUNC_INFO <<QString::number(newCisloPortu);
+    mCisloPortu = newCisloPortu;
 }
 
 

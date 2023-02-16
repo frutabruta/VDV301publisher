@@ -19,18 +19,21 @@ public:
 
     //
 
-private:    
+    quint16 cisloPortu() const;
+    void setCisloPortu(quint16 newCisloPortu);
+
+private:
 
     //instance knihoven
     QHttpServer httpServer;
 
     //promenne
-    quint16 cisloPortu=0;
-    QString slozkaSluzby="obsahGet";
-    QString obsahRoot="";
-    QString obsahSubscribe="<SubscribeResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><Active><Value>true</Value></Active></SubscribeResponse>";
-    QString obsahSet="<?xml version=\"1.0\" encoding=\"utf-8\"?><DataAcceptedResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><DataAcceptedResponseData><TimeStamp><Value>2022-09-12T12:28:22.6142112+02:00</Value></TimeStamp><DataAccepted><Value>true</Value></DataAccepted></DataAcceptedResponseData></DataAcceptedResponse>";
-    QMap<QString,QString> obsahTelaPole;
+    quint16 mCisloPortu=0;
+    QString mSlozkaSluzby="obsahGet";
+    QString mObsahRoot="";
+    QString mObsahSubscribe="<SubscribeResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><Active><Value>true</Value></Active></SubscribeResponse>";
+    QString mObsahSet="<?xml version=\"1.0\" encoding=\"utf-8\"?><DataAcceptedResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><DataAcceptedResponseData><TimeStamp><Value>2022-09-12T12:28:22.6142112+02:00</Value></TimeStamp><DataAccepted><Value>true</Value></DataAccepted></DataAcceptedResponseData></DataAcceptedResponse>";
+    QMap<QString,QString> mObsahTelaPole;
 
     //funkce
     int listen();

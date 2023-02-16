@@ -50,17 +50,18 @@ public:
 
 
     QString StringToNmToken(QString vstup);
+    int cisloPortu() const;
+    void setCisloPortu(int newCisloPortu);
+
 private:
     //instance knihoven
     QZeroConf zeroConf;
-    HttpServerPublisher InstanceNovehoServeru;
+    HttpServerPublisher httpServerPublisher ;
     QNetworkAccessManager *manager2 = new QNetworkAccessManager();
 
     //promenne
-    int cisloPortuInterni=0;
-    //QString hlavickaInterni="";
-    //int delkaObsahu=0;
-    QString typSluzbyInterni="_ibisip_http._tcp";
+    int mCisloPortu=0;
+    QString mTypSluzby="_ibisip_http._tcp";
 
     //funkce
     void bonjourStartPublish(QString nazevSluzby, QString typSluzby, int port, QString verze, QZeroConf &instanceZeroConf);
@@ -68,7 +69,6 @@ private:
 
     QByteArray vyrobHlavickuGet(); //nepouzito
     QString vyrobHlavickuSubscribe();
-
 protected:
 
     QMap<QString,QString> obsahTelaPole; //obsahuje payload a klíč, pod kterým je uložený
