@@ -81,6 +81,10 @@ public:
     QDomElement ViaPoint1_0(QDomDocument xmlko, Zastavka nacestnaZastavka, QString language);
     QDomElement Value(QDomDocument &xmlko, QString elementName, QString content);
 
+    //rozdelano
+    QDomElement DisplayContent2_4(QString tagName, QVector<ZastavkaCil> docasnySeznamZastavek, QString destinationName, QString language, int iteracniIndex, int currentStopIndex, QString displayContentRef);
+    QDomElement StopPoint2_4(QVector<ZastavkaCil> docasnySeznamZastavek, int indexZpracZastavky, QVector<Prestup> seznamPrestupu, QString language, int currentStopIndex);
+    QDomElement ViaPoint2_4(QDomDocument xmlko, Zastavka nacestnaZastavka, QString language);
 private:
 
 signals:

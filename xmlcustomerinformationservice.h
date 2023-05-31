@@ -16,6 +16,11 @@ public:
 
     QString CurrentDisplayContent1_0(int poradi, QVector<ZastavkaCil> docasnySeznamZastavek, CestaUdaje stav);
 
-   };
+    QString CurrentDisplayContent2_2CZ1_0(int poradi, QVector<ZastavkaCil> docasnySeznamZastavek, CestaUdaje stav);
+
+    //rozdelano
+    QString CurrentDisplayContent2_4(int poradi, QVector<ZastavkaCil> docasnySeznamZastavek, CestaUdaje stav);
+    QString AllData2_4(QVector<Spoj> seznamSpoju, QVector<Prestup> prestupy, CestaUdaje stav);
+};
 
 #endif // XMLCUSTOMERINFORMATIONSERVICE_H

@@ -57,7 +57,14 @@ void CustomerInformationService::aktualizaceIntProm(QVector<Prestup> prestupy, C
     if (globVerze=="2.2CZ1.0")
     {   
         bodyAllData=xmlGenerator.AllData2_2CZ1_0(seznamSpoju,prestupy,stav);
-        bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,seznamZastavek,stav);
+        bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent2_2CZ1_0(stav.indexAktZastavky,seznamZastavek,stav);
+    }
+    else if (globVerze=="2.4")
+    {
+    //rozdelano
+        bodyAllData=xmlGenerator.AllData2_4(seznamSpoju,prestupy,stav);
+        bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent2_4(stav.indexAktZastavky,seznamZastavek,stav);
+
     }
     else
     {    
