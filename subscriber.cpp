@@ -2,8 +2,8 @@
 
 Subscriber::Subscriber()
 {
-this->adresa=QUrl("127.0.0.1:80");
-this->struktura="";
+    this->adresa=QUrl("127.0.0.1:80");
+    this->struktura="";
 }
 
 Subscriber::Subscriber(QUrl adresa2,QString struktura2)

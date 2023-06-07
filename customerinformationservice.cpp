@@ -12,7 +12,7 @@
  */
 CustomerInformationService::CustomerInformationService(QString nazevSluzby, QString typSluzby, int cisloPortu,QString verze):HttpSluzba( nazevSluzby,typSluzby, cisloPortu,verze)
 {
-   qDebug() <<  Q_FUNC_INFO<<" "<<nazevSluzby<<" "<<verze;
+    qDebug() <<  Q_FUNC_INFO<<" "<<nazevSluzby<<" "<<verze;
     connect(timer, &QTimer::timeout, this, &CustomerInformationService::slotTedOdesliNaPanely);
 
     //naplnění prázdných struktur
@@ -55,19 +55,19 @@ void CustomerInformationService::aktualizaceIntProm(QVector<Prestup> prestupy, C
     QString bodyCurrentDisplayContent="";
 
     if (globVerze=="2.2CZ1.0")
-    {   
+    {
         bodyAllData=xmlGenerator.AllData2_2CZ1_0(seznamSpoju,prestupy,stav);
         bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent2_2CZ1_0(stav.indexAktZastavky,seznamZastavek,stav);
     }
     else if (globVerze=="2.4")
     {
-    //rozdelano
+        //rozdelano
         bodyAllData=xmlGenerator.AllData2_4(seznamSpoju,prestupy,stav);
         bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent2_4(stav.indexAktZastavky,seznamZastavek,stav);
 
     }
     else
-    {    
+    {
         bodyAllData=xmlGenerator.AllData1_0(seznamSpoju,prestupy,stav);
         bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,seznamZastavek, stav);
     }

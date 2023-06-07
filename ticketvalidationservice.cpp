@@ -4,8 +4,8 @@
 
 TicketValidationService::TicketValidationService(QString nazevSluzby, QString typSluzby, int cisloPortu,QString verze):HttpSluzba( nazevSluzby,typSluzby, cisloPortu,verze)
 {
-   connect(timer, &QTimer::timeout, this, &TicketValidationService::slotTedOdesliNaPanely);
-   timer->start(60000);
+    connect(timer, &QTimer::timeout, this, &TicketValidationService::slotTedOdesliNaPanely);
+    timer->start(60000);
 
 }
 
@@ -15,7 +15,7 @@ TicketValidationService::TicketValidationService(QString nazevSluzby, QString ty
 void TicketValidationService::aktualizaceIntProm(QVector<Prestup> prestupy, CestaUdaje &stav, QVector<ZastavkaCil>  seznamZastavek ) //novy
 {
     qDebug()<<"TicketValidationService::aktualizaceIntProm"<<nazevSluzbyInterni<<" "<<globVerze;
-   // QByteArray zpracovanoMPV="";
+    // QByteArray zpracovanoMPV="";
     QString bodyCurrentTariffStopResponse="";
     QString bodyVehicleDataResponse="";
     QString bodyRazziaResponse="";
@@ -31,7 +31,7 @@ void TicketValidationService::aktualizaceIntProm(QVector<Prestup> prestupy, Cest
         bodyVehicleDataResponse=xmlGenerator.TicketValidationService_GetVehicleDataResponse2_2CZ1_0(stav);
         bodyRazziaResponse=xmlGenerator.TicketValidationService_GetRazziaResponse2_2CZ1_0(stav);
 
-                //bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,seznamZastavek,stav);
+        //bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,seznamZastavek,stav);
         //bodyVehicleDataResponse=TestXmlGenerator.tick
 
     }

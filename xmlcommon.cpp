@@ -157,9 +157,9 @@ QVector<QDomElement> XmlCommon::Connections2_2CZ1_0( QVector<Prestup> seznamPres
     for (int i=0;i<seznamPrestupu.count();i++)
     {
         Prestup aktualniPrestup=seznamPrestupu.at(i);
-     //   aktualniPrestup.lin=aktualniPrestup.lin.number(10);
+        //   aktualniPrestup.lin=aktualniPrestup.lin.number(10);
         QDomElement dConnection=xmlko.createElement("Connection");
-    //    Prestup vdv301prestup=aktualniPrestup.toPrestup();
+        //    Prestup vdv301prestup=aktualniPrestup.toPrestup();
 
         xmlko.appendChild(dConnection);
 
@@ -360,7 +360,7 @@ QDomElement XmlCommon::DisplayContent2_2CZ1_0(QString tagName,QVector<ZastavkaCi
     QDomElement dLineNumber=Value(xmlko,"LineNumber",lineNumber);
     dLineInformation.appendChild(dLineNumber);
 
-//CIL
+    //CIL
     QDomElement dDestination=xmlko.createElement("Destination");
     //  dDestination.appendChild(xxxProperty2_2CZ1_0("DestinationProperty",aktZastavkaCil.cil.naZnameni,"RequestStop"));
     dDestination.appendChild(xxxProperty2_2CZ1_0("DestinationProperty",aktZastavkaCil.cil.prestupLetadlo ,"Air"));
@@ -476,7 +476,7 @@ QDomElement XmlCommon::DisplayContent2_4(QString tagName,QVector<ZastavkaCil> do
 
 
     QDomElement dLineName;
-/*
+    /*
     if(lineName.length()>3)
     {
         //lineName="v &#x0A; &#x1B; &#x53; &#x0D; &#x34; "+lineName;
@@ -505,7 +505,7 @@ QDomElement XmlCommon::DisplayContent2_4(QString tagName,QVector<ZastavkaCil> do
     QDomElement dLineNumber=Value(xmlko,"LineNumber",lineNumber);
     dLineInformation.appendChild(dLineNumber);
 
-//CIL
+    //CIL
     QDomElement dDestination=xmlko.createElement("Destination");
     //  dDestination.appendChild(xxxProperty2_2CZ1_0("DestinationProperty",aktZastavkaCil.cil.naZnameni,"RequestStop"));
     dDestination.appendChild(xxxProperty2_2CZ1_0("DestinationProperty",aktZastavkaCil.cil.prestupLetadlo ,"Air"));
@@ -558,7 +558,7 @@ nedodelane priznaky:
         QDomElement dDestinationFrontName2=internationalTextType("DestinationName",aktZastavkaCil.cil.NameFront2,language);
         dDestination.appendChild(dDestinationFrontName2);
     }
-/*
+    /*
     QDomElement dDestinationName=internationalTextType("DestinationName",destinationName,language);
     dDestination.appendChild(dDestinationName);
 */
@@ -992,7 +992,7 @@ QDomElement XmlCommon::StopPoint2_2CZ1_0(QVector<ZastavkaCil> docasnySeznamZasta
     dStopPoint.appendChild(dDisplayContent);
 
 
-   // qDebug()<<"cCurrentStopIndex.toInt() "<< cCurrentStopIndex.toInt()<<" (currentStopIndex+1) " << (currentStopIndex+1);
+    // qDebug()<<"cCurrentStopIndex.toInt() "<< cCurrentStopIndex.toInt()<<" (currentStopIndex+1) " << (currentStopIndex+1);
 
 
     if (cCurrentStopIndex.toInt()==(currentStopIndex+1))
@@ -1089,7 +1089,7 @@ QDomElement XmlCommon::StopPoint2_4(QVector<ZastavkaCil> docasnySeznamZastavek,i
 
 
 
-   // qDebug()<<"cCurrentStopIndex.toInt() "<< cCurrentStopIndex.toInt()<<" (currentStopIndex+1) " << (currentStopIndex+1);
+    // qDebug()<<"cCurrentStopIndex.toInt() "<< cCurrentStopIndex.toInt()<<" (currentStopIndex+1) " << (currentStopIndex+1);
 
 
     if (cCurrentStopIndex.toInt()==(currentStopIndex+1))

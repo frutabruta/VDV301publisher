@@ -19,13 +19,17 @@ HttpSluzba::HttpSluzba(QString nazevSluzby,QString typSluzby, int cisloPortu,QSt
     globVerze=verze;
 
     //qDebug()<<"xxx"<<
-   connect(&httpServerPublisher ,&HttpServerPublisher::signalServerBezi ,this,&HttpSluzba::slotServerReady, Qt::QueuedConnection);
+    connect(&httpServerPublisher ,&HttpServerPublisher::signalServerBezi ,this,&HttpSluzba::slotServerReady, Qt::QueuedConnection);
 
     connect(&httpServerPublisher ,&HttpServerPublisher::zmenaObsahu,this,&HttpSluzba::slotVypisObsahRequestu);
 
     connect(&zeroConf,&QZeroConf::error,this,&HttpSluzba::slotVypisChybuZeroConfig);
 
+    connect(&zeroConf,&QZeroConf::servicePublished,this,&HttpSluzba::slotSluzbaPublikovana);
+
     connect(manager2,&QNetworkAccessManager::finished,this,&HttpSluzba::slotPrislaOdpovedNaPost);
+
+
 
 
 
@@ -57,7 +61,7 @@ void HttpSluzba::slotVyprseniCasovace()
  */
 QByteArray HttpSluzba::vyrobHlavickuGet()
 {
-   qDebug() <<  Q_FUNC_INFO;
+    qDebug() <<  Q_FUNC_INFO;
     QByteArray hlavicka;
 
     hlavicka+=("HTTP/1.1 200 OK\r\n");       // \r needs to be before \n
@@ -97,7 +101,7 @@ QString HttpSluzba::vyrobHlavickuSubscribe()
 
 void HttpSluzba::slotServerReady(int portVstup)
 {
-      qDebug() <<  Q_FUNC_INFO << " "<<QString::number(portVstup);
+    qDebug() <<  Q_FUNC_INFO << " "<<QString::number(portVstup);
     mCisloPortu=portVstup;
     slotStartDnsSd(true);
 }
@@ -129,6 +133,14 @@ void HttpSluzba::bonjourStartPublish(QString nazevSluzby, QString typSluzby,int 
 
     instanceZeroConf.startServicePublish(nazevSluzby.toUtf8(), typSluzby.toUtf8(), "local", port);
 
+
+
+}
+
+void HttpSluzba::slotSluzbaPublikovana()
+{
+    qDebug() <<  Q_FUNC_INFO <<" "<<this->nazevSluzbyInterni<<" "<<this->globVerze ;
+    emit signalSluzbaPublikovana(this->nazevSluzbyInterni+" "+this->globVerze);
 }
 
 
@@ -214,23 +226,23 @@ void HttpSluzba::slotVypisObsahRequestu(QByteArray vysledek,QString struktura)
         kandidat.adresa=adresaurl;
         kandidat.struktura=struktura;
         novySubscriber(kandidat);
-    }    
+    }
     else if(prvniTag=="DeviceManagementService.SetDeviceConfigurationRequest")
     {
-            QDomElement subscribeRequest=xmlrequest.firstChildElement("DeviceManagementService.SetDeviceConfigurationRequest");
-            QDomNodeList parametry=subscribeRequest.childNodes();
-            QMap<QString,QString> hodnoty;
+        QDomElement subscribeRequest=xmlrequest.firstChildElement("DeviceManagementService.SetDeviceConfigurationRequest");
+        QDomNodeList parametry=subscribeRequest.childNodes();
+        QMap<QString,QString> hodnoty;
 
-            for(int i=0;i<parametry.count();i++)
-            {
-                QDomNode parametr=parametry.at(i);
-                QString klic=parametr.nodeName();
-                QString hodnota=parametr.firstChildElement("Value").firstChild().nodeValue();
-                hodnoty[klic]=hodnota;
+        for(int i=0;i<parametry.count();i++)
+        {
+            QDomNode parametr=parametry.at(i);
+            QString klic=parametr.nodeName();
+            QString hodnota=parametr.firstChildElement("Value").firstChild().nodeValue();
+            hodnoty[klic]=hodnota;
 
-                qDebug()<<"parametr: "<<klic<<" "<<hodnota;
-            }
-            emit signalZmenaParametru(hodnoty);
+            qDebug()<<"parametr: "<<klic<<" "<<hodnota;
+        }
+        emit signalZmenaParametru(hodnoty);
 
     }
     else
@@ -409,7 +421,7 @@ void HttpSluzba::zastavBonjourSluzbu()
 
 void HttpSluzba::slotStartServer()
 {
-    httpServerPublisher .slotStartServer();
+    httpServerPublisher.slotStartServer();
 }
 
 

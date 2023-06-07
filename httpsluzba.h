@@ -89,6 +89,7 @@ private slots:
     void slotVyprseniCasovace(); //nepouzito
     void slotPrislaOdpovedNaPost(QNetworkReply *reply);
 
+    void slotSluzbaPublikovana();
 signals:
     void signalPridejSubscribera(QUrl adresaSubscribera); //nepouzito
     void signalVypisSubscriberu(QVector<Subscriber> seznamSubscriberuInt);
@@ -97,6 +98,7 @@ signals:
     void signalStop(); //nepouzio
     void signalOdpovedNaPost(QNetworkReply *reply);
     void signalZmenaParametru(QMap<QString,QString> hodnoty);
+    void signalSluzbaPublikovana(QString nazevSluzby);
 
 
 
