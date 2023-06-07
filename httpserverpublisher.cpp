@@ -8,7 +8,7 @@ HttpServerPublisher::HttpServerPublisher(quint16 portVstup,QString vstupSlozkaSl
     mSlozkaSluzby=vstupSlozkaSluzby;
     connect(this,&HttpServerPublisher::signalServerBezi,this,&HttpServerPublisher::slotTest);
 
- //   slotStartServer();
+    //   slotStartServer();
 
 
 
@@ -37,7 +37,7 @@ int HttpServerPublisher::route(QString &slozkaSluzby,  QMap<QString,QString> &ob
         QString struktura= QStringLiteral("%1").arg(url.path());
         qDebug()<<"subscribe pozadavek "<<struktura;
         qDebug().noquote()<<request.body();
-    /*
+        /*
         QString textVysledek="true";
         QString odpoved=vyrobSubscribeResponse(textVysledek);
     */
@@ -107,10 +107,10 @@ int HttpServerPublisher::listen()
     else
     {
         /* automaticky port */
-         const auto port = httpServer.listen(QHostAddress::Any);
+        const auto port = httpServer.listen(QHostAddress::Any);
         if (!port) {
             qDebug() << QCoreApplication::translate(
-                    "QHttpServerExample", "Server failed to listen on a port.");
+                            "QHttpServerExample", "Server failed to listen on a port.");
 
         }
 

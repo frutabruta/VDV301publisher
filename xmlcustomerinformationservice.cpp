@@ -88,7 +88,7 @@ QString XmlCustomerInformationService::AllData2_2CZ1_0(QVector<Spoj> seznamSpoju
     QString vehicleref=QString::number(stav.cisloVozu);
     int currentStopIndex= stav.indexAktZastavky+1; //úprava pro indexování zastávek od 1 vs od 0 pro pole
     QString routeDeviation=stav.routeDeviation;
-      QString vehicleStopRequested=QString::number(stav.VehicleStopRequested);
+    QString vehicleStopRequested=QString::number(stav.VehicleStopRequested);
     QString exitSide="right";
 
     QDomDocument xmlko;
@@ -157,7 +157,7 @@ QString XmlCustomerInformationService::AllData2_4(QVector<Spoj> seznamSpoju, QVe
     QString vehicleref=QString::number(stav.cisloVozu);
     int currentStopIndex= stav.indexAktZastavky+1; //úprava pro indexování zastávek od 1 vs od 0 pro pole
     QString routeDeviation=stav.routeDeviation;
-      QString vehicleStopRequested=QString::number(stav.VehicleStopRequested);
+    QString vehicleStopRequested=QString::number(stav.VehicleStopRequested);
     QString exitSide="right";
 
     QDomDocument xmlko;
@@ -301,7 +301,7 @@ QString XmlCustomerInformationService::CurrentDisplayContent2_4(int poradi, QVec
 
     dCurrentDisplayContentData.appendChild(TimeStampTag1_0(xmlko));
 
-   // dCurrentDisplayContentData.appendChild(DisplayContent1_0("CurrentDisplayContent",xmlko,docasnySeznamZastavek,language,stav.indexAktZastavky,stav.indexAktZastavky));
+    // dCurrentDisplayContentData.appendChild(DisplayContent1_0("CurrentDisplayContent",xmlko,docasnySeznamZastavek,language,stav.indexAktZastavky,stav.indexAktZastavky));
     dCurrentDisplayContentData.appendChild(DisplayContent2_4("CurrentDisplayContent",docasnySeznamZastavek,aktualniZastavka.cil.NameFront, language,stav.indexAktZastavky,stav.indexAktZastavky,"Front"));
     dCurrentDisplayContentData.appendChild(DisplayContent2_4("CurrentDisplayContent",docasnySeznamZastavek,aktualniZastavka.cil.NameSide, language,stav.indexAktZastavky,stav.indexAktZastavky,"Side"));
     dCurrentDisplayContentData.appendChild(DisplayContent2_4("CurrentDisplayContent",docasnySeznamZastavek,aktualniZastavka.cil.NameRear, language,stav.indexAktZastavky,stav.indexAktZastavky,"Rear"));
