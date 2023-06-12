@@ -342,7 +342,7 @@ QDomElement XmlCommon::DisplayContent2_2CZ1_0(QString tagName,QVector<ZastavkaCi
 
 
         QString ridiciZnak="";
-        ridiciZnak+=0x1B;
+        ridiciZnak+=QChar(0x1B);
         QDomCDATASection sekceKodu=xmlko.createCDATASection("<element>&#x1B;&#x53; ahoj</element>");
 
 
