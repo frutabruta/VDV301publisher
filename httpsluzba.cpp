@@ -131,7 +131,8 @@ void HttpSluzba::bonjourStartPublish(QString nazevSluzby, QString typSluzby,int 
     instanceZeroConf.addServiceTxtRecord("ver", verze);
     qDebug()<<"Txt zaznam pridan";
 
-    instanceZeroConf.startServicePublish(nazevSluzby.toUtf8(), typSluzby.toUtf8(), "local", port);
+    instanceZeroConf.startServicePublish(nazevSluzby.toUtf8(), typSluzby.toUtf8(), "local", port,0);
+  //  void QZeroConf::startServicePublish(const char *name, const char *type, const char *domain, quint16 port, quint32 interface)
 
 
 
