@@ -21,6 +21,14 @@ class XmlCommon :public QMainWindow
 {
     //  Q_OBJECT
 public:
+    enum DisplayContentClass
+    {
+        DisplayContentFront,
+        DisplayContentSide,
+        DisplayContentRear,
+        DisplayContentLcd
+    };
+
     XmlCommon();
 
     //konstanty
@@ -82,9 +90,15 @@ public:
     QDomElement Value(QDomDocument &xmlko, QString elementName, QString content);
 
     //rozdelano
-    QDomElement DisplayContent2_4(QString tagName, QVector<ZastavkaCil> docasnySeznamZastavek, QString destinationName, QString language, int iteracniIndex, int currentStopIndex, QString displayContentRef);
+    QDomElement DisplayContent2_4(QString tagName, QVector<ZastavkaCil> docasnySeznamZastavek, QString destinationName, QString language, int iteracniIndex, int currentStopIndex, DisplayContentClass displayContentClass);
     QDomElement StopPoint2_4(QVector<ZastavkaCil> docasnySeznamZastavek, int indexZpracZastavky, QVector<Prestup> seznamPrestupu, QString language, int currentStopIndex);
     QDomElement ViaPoint2_4(QDomDocument xmlko, Zastavka nacestnaZastavka, QString language);
+
+
+    QDomElement TripInformation2_4(QVector<Spoj> docasnySeznamSpoju, QVector<Prestup> prestupy, CestaUdaje stav, int indexSpoje, bool navazny);
+    QDomElement StopSequence2_4(QDomDocument xmlko, QVector<ZastavkaCil> docasnySeznamZastavek, QString language, int currentStopIndex, QVector<Prestup> seznamPrestupu);
+    QString xxxProperty2_4(QString ikona, QString text, bool hodnota);
+    QString priznakyDoStringu2_4(Zastavka zastavka);
 private:
 
 signals:

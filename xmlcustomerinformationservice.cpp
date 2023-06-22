@@ -176,12 +176,12 @@ QString XmlCustomerInformationService::AllData2_4(QVector<Spoj> seznamSpoju, QVe
     QDomElement dDefaultLanguage=Value(xmlko,"DefaultLanguage",deflanguage);
     dAllData.appendChild(dDefaultLanguage);
 
-    QDomElement dTripInformation=this->TripInformation2_2CZ1_0(seznamSpoju,prestupy,stav,stav.indexSpojeNaObehu,false);
+    QDomElement dTripInformation=this->TripInformation2_4(seznamSpoju,prestupy,stav,stav.indexSpojeNaObehu,false);
     dAllData.appendChild(dTripInformation);
     if (seznamSpoju.at(stav.indexSpojeNaObehu).navazujici)
     {
         //qDebug()<<"abcd navaz Spoj existuje "<<;
-        dTripInformation=this->TripInformation2_2CZ1_0(seznamSpoju,prestupy,stav,stav.indexSpojeNaObehu+1,true);
+        dTripInformation=this->TripInformation2_4(seznamSpoju,prestupy,stav,stav.indexSpojeNaObehu+1,true);
         dAllData.appendChild(dTripInformation);
     }
 
@@ -302,13 +302,10 @@ QString XmlCustomerInformationService::CurrentDisplayContent2_4(int poradi, QVec
     dCurrentDisplayContentData.appendChild(TimeStampTag1_0(xmlko));
 
     // dCurrentDisplayContentData.appendChild(DisplayContent1_0("CurrentDisplayContent",xmlko,docasnySeznamZastavek,language,stav.indexAktZastavky,stav.indexAktZastavky));
-    dCurrentDisplayContentData.appendChild(DisplayContent2_4("CurrentDisplayContent",docasnySeznamZastavek,aktualniZastavka.cil.NameFront, language,stav.indexAktZastavky,stav.indexAktZastavky,"Front"));
-    dCurrentDisplayContentData.appendChild(DisplayContent2_4("CurrentDisplayContent",docasnySeznamZastavek,aktualniZastavka.cil.NameSide, language,stav.indexAktZastavky,stav.indexAktZastavky,"Side"));
-    dCurrentDisplayContentData.appendChild(DisplayContent2_4("CurrentDisplayContent",docasnySeznamZastavek,aktualniZastavka.cil.NameRear, language,stav.indexAktZastavky,stav.indexAktZastavky,"Rear"));
-
-
-
-
+    dCurrentDisplayContentData.appendChild(DisplayContent2_4("CurrentDisplayContent",docasnySeznamZastavek,aktualniZastavka.cil.NameFront, language,stav.indexAktZastavky,stav.indexAktZastavky,DisplayContentFront));
+    dCurrentDisplayContentData.appendChild(DisplayContent2_4("CurrentDisplayContent",docasnySeznamZastavek,aktualniZastavka.cil.NameSide, language,stav.indexAktZastavky,stav.indexAktZastavky,DisplayContentSide));
+    dCurrentDisplayContentData.appendChild(DisplayContent2_4("CurrentDisplayContent",docasnySeznamZastavek,aktualniZastavka.cil.NameRear, language,stav.indexAktZastavky,stav.indexAktZastavky,DisplayContentRear));
+    dCurrentDisplayContentData.appendChild(DisplayContent2_4("CurrentDisplayContent",docasnySeznamZastavek,aktualniZastavka.cil.NameLcd, language,stav.indexAktZastavky,stav.indexAktZastavky,DisplayContentLcd));
 
     dCustomerInformationService.appendChild(dCurrentDisplayContentData);
     xmlko.appendChild(dCustomerInformationService);
