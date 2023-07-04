@@ -458,7 +458,7 @@ QDomElement XmlCommon::DisplayContent2_4(QString tagName,QVector<ZastavkaCil> do
     bool pridatPristi=true;
     QDomElement dDisplayContent=xmlko.createElement(tagName);
 
-    QString displayContentRef="";
+   // QString displayContentRef="";
 
 
     //displayContentRef
@@ -494,12 +494,14 @@ QDomElement XmlCommon::DisplayContent2_4(QString tagName,QVector<ZastavkaCil> do
 
     QDomElement viaPointObsah;
 
+    QVector<QDomElement> viaPointList;
+
     if ((pridatPristi==true)&&((currentStopIndex+1)<docasnySeznamZastavek.count()))
     {
         ZastavkaCil pristi=docasnySeznamZastavek.at(currentStopIndex+1);
         if (pristi.zastavka.nacestna==0)
         {
-            viaPointObsah=ViaPoint2_4(xmlko,pristi.zastavka,language);
+            viaPointList.append(ViaPoint2_4(xmlko,pristi.zastavka,language));
         }
 
     }
@@ -509,7 +511,7 @@ QDomElement XmlCommon::DisplayContent2_4(QString tagName,QVector<ZastavkaCil> do
         if(docasnySeznamZastavek.at(j).zastavka.nacestna == 1)
         {
             ZastavkaCil nacestnaZastavka=docasnySeznamZastavek.at(j);
-            viaPointObsah=ViaPoint2_4(xmlko,nacestnaZastavka.zastavka,language);
+            viaPointList.append(ViaPoint2_4(xmlko,nacestnaZastavka.zastavka,language));
         }
     }
 
@@ -542,7 +544,11 @@ QDomElement XmlCommon::DisplayContent2_4(QString tagName,QVector<ZastavkaCil> do
         dDestinationName=internationalTextType("DestinationName",aktZastavkaCil.cil.NameLcd+priznakyDoStringu2_4(aktZastavkaCil.cil),language);
         dDestination.appendChild(dDestinationName);
         dDisplayContent.appendChild(dDestination);
-        dDisplayContent.appendChild(viaPointObsah);
+        foreach(QDomElement polozka, viaPointList)
+        {
+             dDisplayContent.appendChild(polozka);
+        }
+
         break;
 
 
@@ -1203,6 +1209,9 @@ QDomElement XmlCommon::StopPoint2_4(QVector<ZastavkaCil> docasnySeznamZastavek,i
 
     QDomElement dDisplayContentRear=DisplayContent2_4("DisplayContent",docasnySeznamZastavek,aktZastavka.zastavka.NameRear, language,indexZpracZastavky,currentStopIndex,DisplayContentRear);
     dStopPoint.appendChild(dDisplayContentRear);
+
+    QDomElement dDisplayContentLcd=DisplayContent2_4("DisplayContent",docasnySeznamZastavek,aktZastavka.zastavka.NameLcd, language,indexZpracZastavky,currentStopIndex,DisplayContentLcd);
+    dStopPoint.appendChild(dDisplayContentLcd);
 
 
 
