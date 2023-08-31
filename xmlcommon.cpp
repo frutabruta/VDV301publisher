@@ -222,6 +222,88 @@ QVector<QDomElement> XmlCommon::Connections2_2CZ1_0( QVector<Prestup> seznamPres
     return vystup;
 }
 
+
+QVector<QDomElement> XmlCommon::Connections2_4( QVector<Prestup> seznamPrestupu)
+{
+    qDebug()<<Q_FUNC_INFO;
+    QDomDocument xmlko;
+    QString language ="cs";
+    QVector<QDomElement> vystup;
+
+    seznamPrestupu=Prestup::seradPrestupyExpectedDeparture(seznamPrestupu);
+
+    for (int i=0;i<seznamPrestupu.count();i++)
+    {
+        Prestup aktualniPrestup=seznamPrestupu.at(i);
+        //   aktualniPrestup.lin=aktualniPrestup.lin.number(10);
+        QDomElement dConnection=xmlko.createElement("Connection");
+        //    Prestup vdv301prestup=aktualniPrestup.toPrestup();
+
+        xmlko.appendChild(dConnection);
+
+        QDomElement dConnectionMode = xmlko.createElement("ConnectionMode");
+
+
+
+
+
+        if(aktualniPrestup.connectionProperty=="accessible")
+        {
+            dConnection.appendChild(xmlko.createElement("ConnectionProperty")).appendChild(xmlko.createTextNode("Accessible"));
+        }
+        dConnection.appendChild(xmlko.createElement("ConnectionType")).appendChild(xmlko.createTextNode("Interchange"));
+
+        QDomElement dDisplayContent=xmlko.createElement("DisplayContent");
+        dConnection.appendChild(dDisplayContent);
+
+        QDomElement dLineInformation=xmlko.createElement("LineInformation");
+        dDisplayContent.appendChild(dLineInformation);
+
+        QString lineName=aktualniPrestup.line.LineName;
+
+        lineName=colorDisplayRules.styleToString(lineName,colorDisplayRules.linkaDoStylu(aktualniPrestup.line));
+
+        QDomElement dLineName=internationalTextType("LineName",lineName,language);
+        dLineInformation.appendChild(dLineName);
+
+        QDomElement dLineNumber=Value(xmlko, "LineNumber",aktualniPrestup.line.LineNumber);
+        dLineInformation.appendChild(dLineNumber);
+        QVector<QDomElement> priznakyLinky=linkaToLineProperties( aktualniPrestup.line);
+
+        foreach(QDomElement priznak,priznakyLinky)
+        {
+            dLineInformation.appendChild(priznak);
+        }
+
+        QDomElement dDestination=xmlko.createElement("Destination");
+        dDisplayContent.appendChild(dDestination);
+
+
+
+        QDomElement dDestinationName=internationalTextType("DestinationName",aktualniPrestup.destinationName,language);
+        dDestination.appendChild(dDestinationName);
+
+        dConnection.appendChild(Value(xmlko,"Platform",aktualniPrestup.platform));
+
+        //dopravni prostredek
+        dConnectionMode.appendChild(xmlko.createElement("PtMainMode")).appendChild(xmlko.createTextNode(aktualniPrestup.mainMode));
+        dConnectionMode.appendChild(xmlko.createElement(aktualniPrestup.mainMode)).appendChild(xmlko.createTextNode(aktualniPrestup.subMode));
+        dConnection.appendChild(dConnectionMode);
+
+
+        qDebug()<<"přestup "<<aktualniPrestup.line.LineName<<" "<<aktualniPrestup.destinationName<<" cas:"<<aktualniPrestup.expectedDepartureTimeQString();
+
+                                                                                                                        QDomElement dExpectedDepartureTime=Value(xmlko,"ExpectedDepartureTime", aktualniPrestup.expectedDepartureTimeQString());
+        dConnection.appendChild(dExpectedDepartureTime);
+
+        QDomElement dScheduledDepartureTime=Value(xmlko,"ScheduledDepartureTime",aktualniPrestup.scheduledDepartureTimeQString());
+        dConnection.appendChild(dScheduledDepartureTime);
+
+        vystup.push_back(dConnection);
+    }
+    return vystup;
+}
+
 QDomElement XmlCommon::DisplayContent1_0(QString tagName,QDomDocument xmlko,QVector<ZastavkaCil> docasnySeznamZastavek, QString language,  int iteracniIndex,int currentStopIndex)
 {
     ZastavkaCil aktZastavkaCil=docasnySeznamZastavek.at(iteracniIndex);
@@ -455,6 +537,9 @@ QDomElement XmlCommon::DisplayContent2_4(QString tagName,QVector<ZastavkaCil> do
     ZastavkaCil aktZastavkaCil=docasnySeznamZastavek.at(iteracniIndex);
     QString lineNumber=aktZastavkaCil.linka.LineNumber;
     QString lineName=aktZastavkaCil.linka.LineName;
+
+    lineName=colorDisplayRules.styleToString(lineName,colorDisplayRules.linkaDoStylu(aktZastavkaCil.linka));
+
     bool pridatPristi=true;
     QDomElement dDisplayContent=xmlko.createElement(tagName);
 
@@ -479,18 +564,15 @@ QDomElement XmlCommon::DisplayContent2_4(QString tagName,QVector<ZastavkaCil> do
     dLineInformation.appendChild(dLineNumber);
 
 
-
-
-
     QString placeholder="";
     PrestupMPV::ddDoVehicleMode(aktZastavkaCil.linka.kli,placeholder,placeholder,aktZastavkaCil.linka );
-    QVector<QDomElement> priznakyLinky=linkaToLineProperties( aktZastavkaCil.linka);
+   /* QVector<QDomElement> priznakyLinky=linkaToLineProperties( aktZastavkaCil.linka);
 
     foreach(QDomElement priznak,priznakyLinky)
     {
         dLineInformation.appendChild(priznak);
     }
-
+*/
 
     QDomElement viaPointObsah;
 
@@ -1221,7 +1303,7 @@ QDomElement XmlCommon::StopPoint2_4(QVector<ZastavkaCil> docasnySeznamZastavek,i
 
     if (cCurrentStopIndex.toInt()==(currentStopIndex+1))
     {
-        QVector<QDomElement> prestupy=Connections2_2CZ1_0(seznamPrestupu);
+        QVector<QDomElement> prestupy=Connections2_4(seznamPrestupu);
         foreach(QDomElement elementPrestupu,prestupy)
         {
             dStopPoint.appendChild(elementPrestupu );

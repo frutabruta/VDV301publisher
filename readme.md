@@ -3,6 +3,11 @@ Knihovna do Qt pro práci s VDV301, publisher
 
 
 ## Changelog:
+- 20230831
+    - 2.4
+        - inline color formatting (new class ColorDisplayRules)
+        - removal of line property
+
 - 20230622
     - 2.4
         - DisplayContent

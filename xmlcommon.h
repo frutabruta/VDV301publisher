@@ -14,6 +14,7 @@
 #include "VDV301struktury/pasmo.h"
 
 #include "VDV301struktury/prestupmpv.h"
+#include "VDV301publisher/colordisplayrules.h"
 //#include "xmlmpvparser.h"
 
 
@@ -28,6 +29,8 @@ public:
         DisplayContentRear,
         DisplayContentLcd
     };
+
+    ColorDisplayRules colorDisplayRules;
 
     XmlCommon();
 
@@ -56,6 +59,7 @@ public:
 
     QVector<QDomElement> Connections1_0( QVector<PrestupMPV> seznamPrestupu);
     QVector<QDomElement> Connections2_2CZ1_0(QVector<Prestup> seznamPrestupu);
+    QVector<QDomElement> Connections2_4(QVector<Prestup> seznamPrestupu);
     QString CurrentDisplayContent1_0(int poradi, QVector<ZastavkaCil> docasnySeznamZastavek, CestaUdaje stav);
 
     QDomElement DisplayContent1_0(QString tagName, QDomDocument xmlko, QVector<ZastavkaCil> docasnySeznamZastavek, QString language, int iteracniIndex, int currentStopIndex);
@@ -99,6 +103,7 @@ public:
     QDomElement StopSequence2_4(QDomDocument xmlko, QVector<ZastavkaCil> docasnySeznamZastavek, QString language, int currentStopIndex, QVector<Prestup> seznamPrestupu);
     QString xxxProperty2_4(QString ikona, QString text, bool hodnota);
     QString priznakyDoStringu2_4(Zastavka zastavka);
+
 private:
 
 signals:
