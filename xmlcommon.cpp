@@ -135,11 +135,12 @@ QVector<QDomElement> XmlCommon::Connections1_0( QVector<PrestupMPV> seznamPrestu
         dConnectionMode.appendChild(this->ref("VehicleTypeRef","3"));
         dConnectionMode.appendChild(this->internationalTextType("Name",dopravniProstredek,defaultniJazyk1_0));
         dConnection.appendChild(dConnectionMode);
-        qDebug()<<"přestup "<<vdv301prestup.line.LineName<<" "<<vdv301prestup.destinationName<<" ma zpozdeni"<<aktualniPrestup.zpoz<<" cas:"<<aktualniPrestup.odjReal;
 
         QDomElement dExpectedDepartureTime=Value(xmlko,"ExpectedDepatureTime", vdv301prestup.expectedDepartureTimeQString());
         dConnection.appendChild(dExpectedDepartureTime);
         vystup.push_back(dConnection);
+        qDebug()<<"přestup "<<vdv301prestup.line.LineName<<" "<<vdv301prestup.destinationName<<" ma zpozdeni"<<aktualniPrestup.zpoz<<" cas:"<<aktualniPrestup.odjReal;
+
     }
     return vystup;
 }
@@ -166,13 +167,11 @@ QVector<QDomElement> XmlCommon::Connections2_2CZ1_0( QVector<Prestup> seznamPres
         QDomElement dConnectionMode = xmlko.createElement("ConnectionMode");
 
 
-
-
-
         if(aktualniPrestup.connectionProperty=="accessible")
         {
             dConnection.appendChild(xmlko.createElement("ConnectionProperty")).appendChild(xmlko.createTextNode("Accessible"));
         }
+
         dConnection.appendChild(xmlko.createElement("ConnectionType")).appendChild(xmlko.createTextNode("Interchange"));
 
         QDomElement dDisplayContent=xmlko.createElement("DisplayContent");
@@ -209,15 +208,15 @@ QVector<QDomElement> XmlCommon::Connections2_2CZ1_0( QVector<Prestup> seznamPres
         dConnection.appendChild(dConnectionMode);
 
 
-        qDebug()<<"přestup "<<aktualniPrestup.line.LineName<<" "<<aktualniPrestup.destinationName<<" cas:"<<aktualniPrestup.expectedDepartureTimeQString();
-
-        QDomElement dExpectedDepartureTime=Value(xmlko,"ExpectedDepartureTime", aktualniPrestup.expectedDepartureTimeQString());
+                                                                                                                         QDomElement dExpectedDepartureTime=Value(xmlko,"ExpectedDepartureTime", aktualniPrestup.expectedDepartureTimeQString());
         dConnection.appendChild(dExpectedDepartureTime);
 
         QDomElement dScheduledDepartureTime=Value(xmlko,"ScheduledDepartureTime",aktualniPrestup.scheduledDepartureTimeQString());
         dConnection.appendChild(dScheduledDepartureTime);
 
         vystup.push_back(dConnection);
+        qDebug()<<"přestup "<<aktualniPrestup.line.LineName<<" "<<aktualniPrestup.destinationName<<" cas:"<<aktualniPrestup.expectedDepartureTimeQString();
+
     }
     return vystup;
 }
@@ -245,8 +244,6 @@ QVector<QDomElement> XmlCommon::Connections2_4( QVector<Prestup> seznamPrestupu)
 
 
 
-
-
         if(aktualniPrestup.connectionProperty=="accessible")
         {
             dConnection.appendChild(xmlko.createElement("ConnectionProperty")).appendChild(xmlko.createTextNode("Accessible"));
@@ -261,20 +258,41 @@ QVector<QDomElement> XmlCommon::Connections2_4( QVector<Prestup> seznamPrestupu)
 
         QString lineName=aktualniPrestup.line.LineName;
 
-        lineName=colorDisplayRules.styleToString(lineName,colorDisplayRules.linkaDoStylu(aktualniPrestup.line));
+        if(aktualniPrestup.line.kli==0)
+        {
+            //golemio
+            lineName=colorDisplayRules.styleToString(lineName,colorDisplayRules.linkaDoStylu(aktualniPrestup.line,aktualniPrestup.subMode));
+
+        }
+        else
+        {
+            //mpvnet
+            lineName=colorDisplayRules.styleToString(lineName,colorDisplayRules.linkaDoStylu(aktualniPrestup.line));
+
+        }
+
+
+        if(aktualniPrestup.subMode=="metro")
+        {
+
+            lineName="<icon type=\"c_Underground"+aktualniPrestup.line.LineName+"\">="+aktualniPrestup.line.LineName+"=</icon>";
+
+        }
+
 
         QDomElement dLineName=internationalTextType("LineName",lineName,language);
         dLineInformation.appendChild(dLineName);
 
         QDomElement dLineNumber=Value(xmlko, "LineNumber",aktualniPrestup.line.LineNumber);
         dLineInformation.appendChild(dLineNumber);
+        /*
         QVector<QDomElement> priznakyLinky=linkaToLineProperties( aktualniPrestup.line);
 
         foreach(QDomElement priznak,priznakyLinky)
         {
             dLineInformation.appendChild(priznak);
         }
-
+*/
         QDomElement dDestination=xmlko.createElement("Destination");
         dDisplayContent.appendChild(dDestination);
 
@@ -293,7 +311,7 @@ QVector<QDomElement> XmlCommon::Connections2_4( QVector<Prestup> seznamPrestupu)
 
         qDebug()<<"přestup "<<aktualniPrestup.line.LineName<<" "<<aktualniPrestup.destinationName<<" cas:"<<aktualniPrestup.expectedDepartureTimeQString();
 
-                                                                                                                        QDomElement dExpectedDepartureTime=Value(xmlko,"ExpectedDepartureTime", aktualniPrestup.expectedDepartureTimeQString());
+                                                                                                                         QDomElement dExpectedDepartureTime=Value(xmlko,"ExpectedDepartureTime", aktualniPrestup.expectedDepartureTimeQString());
         dConnection.appendChild(dExpectedDepartureTime);
 
         QDomElement dScheduledDepartureTime=Value(xmlko,"ScheduledDepartureTime",aktualniPrestup.scheduledDepartureTimeQString());
@@ -451,6 +469,7 @@ QDomElement XmlCommon::DisplayContent2_2CZ1_0(QString tagName,QVector<ZastavkaCi
     dDestination.appendChild(xxxProperty2_2CZ1_0("DestinationProperty",aktZastavkaCil.cil.prestupMetroB ,"UndergroundB"));
     dDestination.appendChild(xxxProperty2_2CZ1_0("DestinationProperty",aktZastavkaCil.cil.prestupMetroC ,"UndergroundC"));
     dDestination.appendChild(xxxProperty2_2CZ1_0("DestinationProperty",aktZastavkaCil.cil.prestupMetroD ,"UndergroundD"));
+    dDestination.appendChild(xxxProperty2_2CZ1_0("DestinationProperty",aktZastavkaCil.cil.prestupVlak ,"Train"));
     /*
 nedodelane priznaky:
             <xs:enumeration value="Bus"/>
@@ -543,7 +562,7 @@ QDomElement XmlCommon::DisplayContent2_4(QString tagName,QVector<ZastavkaCil> do
     bool pridatPristi=true;
     QDomElement dDisplayContent=xmlko.createElement(tagName);
 
-   // QString displayContentRef="";
+    // QString displayContentRef="";
 
 
     //displayContentRef
@@ -566,7 +585,7 @@ QDomElement XmlCommon::DisplayContent2_4(QString tagName,QVector<ZastavkaCil> do
 
     QString placeholder="";
     PrestupMPV::ddDoVehicleMode(aktZastavkaCil.linka.kli,placeholder,placeholder,aktZastavkaCil.linka );
-   /* QVector<QDomElement> priznakyLinky=linkaToLineProperties( aktZastavkaCil.linka);
+    /* QVector<QDomElement> priznakyLinky=linkaToLineProperties( aktZastavkaCil.linka);
 
     foreach(QDomElement priznak,priznakyLinky)
     {
@@ -628,7 +647,7 @@ QDomElement XmlCommon::DisplayContent2_4(QString tagName,QVector<ZastavkaCil> do
         dDisplayContent.appendChild(dDestination);
         foreach(QDomElement polozka, viaPointList)
         {
-             dDisplayContent.appendChild(polozka);
+            dDisplayContent.appendChild(polozka);
         }
 
         break;
@@ -727,12 +746,6 @@ nedodelane priznaky:
     QDomElement dDestinationName=internationalTextType("DestinationName",destinationName,language);
     dDestination.appendChild(dDestinationName);
 */
-
-
-
-
-
-
 
 
     return dDisplayContent;
@@ -1326,9 +1339,9 @@ QString XmlCommon::priznakyDoStringu2_4(Zastavka zastavka)
     QString vystup="";
 
     vystup+=xxxProperty2_4("c_RequestStop","ŕ",zastavka.naZnameni);
-    vystup+=xxxProperty2_4("c_Air","\\",zastavka.prestupLetadlo);
+        vystup+=xxxProperty2_4("c_Air","\\",zastavka.prestupLetadlo);
     vystup+=xxxProperty2_4("c_Ferry","Ĺ",zastavka.prestupPrivoz );
-    vystup+=xxxProperty2_4("c_UndergroundA","[A]",zastavka.prestupMetroA);
+        vystup+=xxxProperty2_4("c_UndergroundA","[A]",zastavka.prestupMetroA);
     vystup+=xxxProperty2_4("c_UndergroundB","[B]",zastavka.prestupMetroB );
     vystup+=xxxProperty2_4("c_UndergroundC","[C]",zastavka.prestupMetroC);
     vystup+=xxxProperty2_4("c_UndergroundD","[D]",zastavka.prestupMetroD);

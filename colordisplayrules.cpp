@@ -98,8 +98,9 @@ void ColorDisplayRules::naplnMapBarev()
     //dd17 Linka mimo systém PID (3 znaky)
     //  barvaTextu[""]=barva_PozadiD_150_150_150;
     //  barvaPozadi[""]=barva_bila_255_255_255;
-    barvaTextu["unknown"]=barva_PozadiD_150_150_150;
-    barvaPozadi["unknown"]=barva_bila_255_255_255;
+    barvaTextu["unknown"]=barva_bila_255_255_255;
+    barvaPozadi["unknown"]=barva_PozadiD_150_150_150;
+
     barvaTextu["undefined"]=barva_PozadiD_150_150_150;
     barvaPozadi["undefined"]=barva_bila_255_255_255;
     //dd18 Denní trolejbusová linka
@@ -131,6 +132,59 @@ StylLinky ColorDisplayRules::linkaDoStylu( Linka linka )
 
 
     this->ddDoVehicleMode(vehicleMode,subMode, linka);
+
+
+
+
+    if(linka.isNight==true)
+    {
+        subMode=subMode+"Night";
+    }
+
+    if(linka.isDiversion)
+    {
+        subMode=subMode+"Diversion";
+        //  pozadi="background-color:"+barva_Vyluky_255_170_30+";";
+        qDebug()<<"linka je vylukova";
+    }
+    if(linka.isReplacement)
+    {
+        subMode=subMode+"Replacement";
+    }
+    if(linka.isSpecial)
+    {
+        subMode=subMode+"Special";
+    }
+
+
+    if(barvaPozadi.contains(subMode))
+    {
+        vystup.pozadi=barvaPozadi[subMode];
+    }
+    else
+    {
+        vystup.pozadi=barva_bila_255_255_255;
+    }
+
+    if(barvaTextu.contains(subMode))
+    {
+        vystup.text=barvaTextu[subMode];
+    }
+    else
+    {
+        vystup.text=barva_cerna_0_0_0;
+    }
+
+    qDebug()<<"linka "<<linka.LineName<<" submode "<<subMode;
+
+    return vystup;
+
+}
+
+StylLinky ColorDisplayRules::linkaDoStylu( Linka linka , QString subMode )
+{
+    qDebug()<<Q_FUNC_INFO;
+    StylLinky vystup;
 
 
 
@@ -323,4 +377,5 @@ void ColorDisplayRules::ddDoVehicleMode(QString &mainMode, QString &subMode, Lin
         break;
 
     }
+
 }

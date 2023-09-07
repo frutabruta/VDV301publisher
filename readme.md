@@ -3,6 +3,13 @@ Knihovna do Qt pro práci s VDV301, publisher
 
 
 ## Changelog:
+- 20230907
+    - ColorDisplayRules
+        - fix of unknown submode colors
+        - new function linkaDoStylu(Linka linka, QString subMode)
+    - XmlCommon 
+        - metroSubmode icon replacement
+
 - 20230831
     - 2.4
         - inline color formatting (new class ColorDisplayRules)

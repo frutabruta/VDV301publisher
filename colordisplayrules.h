@@ -57,10 +57,14 @@ public:
     QColor barva_Letiste_155_203_234 =QColor(155,203,234);
     QColor barva_Specialni_143_188_25 =QColor(143,188,25);
 
-    StylLinky linkaDoStylu( Linka linka);
+
     QString styleToString(QString text, StylLinky style);
+
+    StylLinky linkaDoStylu(Linka linka);
+    StylLinky linkaDoStylu(Linka linka, QString subMode);
     QString qColorToRgbString(QColor input);
     void ddDoVehicleMode(QString &mainMode, QString &subMode, Linka &linka);
+
 };
 
 #endif // COLORDISPLAYRULES_H
