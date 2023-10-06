@@ -8,14 +8,14 @@ class Subscriber
 {
 public:
     explicit Subscriber();
-    QUrl adresa=QUrl("127.0.0.1");
-    QString struktura="";
-    QString cesta="";
+    QUrl address=QUrl("127.0.0.1");
+    QString structure="";
+    QString path="";
 
 
 
-    Subscriber(QUrl adresa2, QString struktura2);
-    Subscriber(QUrl adresaBezPortu, QString struktura3, int port3);
+    Subscriber(QUrl address, QString structure);
+    Subscriber(QUrl addressWithoutPortNumber, QString structure, int portNumber);
 signals:
 
 };

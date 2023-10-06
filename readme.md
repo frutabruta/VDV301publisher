@@ -1,8 +1,13 @@
 # VDV301publisher
-Knihovna do Qt pro práci s VDV301, publisher
+Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20231006
+    - complete translation of sourcecode to English
+    - passing XmlDocument as parameter
+    - generation of processingInformation by separate function
+
 - 20230907
     - ColorDisplayRules
         - fix of unknown submode colors

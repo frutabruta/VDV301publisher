@@ -8,40 +8,40 @@ XmlTicketValidationService::XmlTicketValidationService()
 
 
 
-QString XmlTicketValidationService::TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(int poradi, QVector <ZastavkaCil> docasnySeznamZastavek, QString doorState, QString locationState, QVector<Prestup> prestupy)
+QString XmlTicketValidationService::TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(QDomDocument &xmlDocument, int currentStopIndex, QVector <StopPointDestination> stopPointDestinationList, QVector<Connection> connectionList)
 {
-    qDebug()<<"XmlCommon::TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0";
-    QDomDocument xmlko;
-    QDomProcessingInstruction dHlavicka=xmlko.createProcessingInstruction("xml","version=\"1.0\" encoding=\"utf-8\" ");
-    xmlko.appendChild(dHlavicka);
-    QDomElement dGetCurrentTarrifStopResp=xmlko.createElement("TicketValidationService.GetCurrentTariffStopResponse");
-    xmlko.appendChild(dGetCurrentTarrifStopResp);
-    QDomElement dCurrentTarifStopData=xmlko.createElement("CurrentTariffStopData");
-    dCurrentTarifStopData.appendChild(TimeStampTag1_0(xmlko));
+    qDebug()<<Q_FUNC_INFO;
 
-    dCurrentTarifStopData.appendChild(StopPoint2_2CZ1_0(docasnySeznamZastavek,poradi,prestupy, defaultniJazyk2_2CZ1_0,poradi) );
+    QDomProcessingInstruction dProcessingInformation=createProcessingInformation(xmlDocument,mDefaultEncoding);
+    xmlDocument.appendChild(dProcessingInformation);
+    QDomElement dGetCurrentTarrifStopResp=xmlDocument.createElement("TicketValidationService.GetCurrentTariffStopResponse");
+    xmlDocument.appendChild(dGetCurrentTarrifStopResp);
+    QDomElement dCurrentTarifStopData=xmlDocument.createElement("CurrentTariffStopData");
+    dCurrentTarifStopData.appendChild(TimeStampTag1_0(xmlDocument));
+
+    dCurrentTarifStopData.appendChild(StopPoint2_2CZ1_0(xmlDocument,stopPointDestinationList,currentStopIndex,connectionList, defaultLanguage2_2CZ1_0,currentStopIndex) );
     dGetCurrentTarrifStopResp.appendChild(dCurrentTarifStopData);
 
-    return xmlko.toString();
+    return xmlDocument.toString();
 }
 
 
-QString XmlTicketValidationService::TicketValidationService_GetVehicleDataResponse2_2CZ1_0( CestaUdaje stav)
+QString XmlTicketValidationService::TicketValidationService_GetVehicleDataResponse2_2CZ1_0(QDomDocument &xmlDocument, VehicleState vehicleState)
 {
-    qDebug()<<"XmlCommon::TicketValidationService_GetVehicleDataResponse2_2CZ1_0";
-    QDomDocument xmlko;
-    QDomProcessingInstruction dHlavicka=xmlko.createProcessingInstruction("xml","version=\"1.0\" encoding=\"utf-8\" ");
-    xmlko.appendChild(dHlavicka);
-    QDomElement dGetVehicleDataResponse=xmlko.createElement("TicketValidationService.GetVehicleDataResponse");
-    QDomElement dVehicleData=xmlko.createElement("VehicleData");
-    dVehicleData.appendChild(this->TimeStampTag1_0(xmlko));
-    dVehicleData.appendChild(this->ref("VehicleRef",QString::number(stav.cisloVozu)));
-    dVehicleData.appendChild(this->RouteDeviation(xmlko,stav.routeDeviation));
-    dVehicleData.appendChild(this->DoorOpenState(xmlko,stav.doorState));
-    dVehicleData.appendChild(this->MyOwnVehicleMode(xmlko,stav.vehicleSubMode,stav.vehicleMode));
+    qDebug()<<Q_FUNC_INFO;
+
+    QDomProcessingInstruction dProcessingInformation=createProcessingInformation(xmlDocument,mDefaultEncoding);
+    xmlDocument.appendChild(dProcessingInformation);
+    QDomElement dGetVehicleDataResponse=xmlDocument.createElement("TicketValidationService.GetVehicleDataResponse");
+    QDomElement dVehicleData=xmlDocument.createElement("VehicleData");
+    dVehicleData.appendChild(this->TimeStampTag1_0(xmlDocument));
+    dVehicleData.appendChild(this->ref(xmlDocument,"VehicleRef",QString::number(vehicleState.vehicleNumber)));
+    dVehicleData.appendChild(this->RouteDeviation(xmlDocument,vehicleState.routeDeviation));
+    dVehicleData.appendChild(this->DoorOpenState(xmlDocument,vehicleState.doorState));
+    dVehicleData.appendChild(this->MyOwnVehicleMode(xmlDocument,vehicleState.vehicleSubMode,vehicleState.vehicleMode));
 
     dGetVehicleDataResponse.appendChild(dVehicleData);
-    xmlko.appendChild(dGetVehicleDataResponse);
+    xmlDocument.appendChild(dGetVehicleDataResponse);
     /*
     QDomElement dGetCurrentTarrifStopResp=xmlko.createElement("TicketValidationService.GetCurrentTariffStopResponse");
     xmlko.appendChild(dGetCurrentTarrifStopResp);
@@ -51,19 +51,18 @@ QString XmlTicketValidationService::TicketValidationService_GetVehicleDataRespon
     dCurrentTarifStopData.appendChild(stopPoint2_2CZ1_0(docasnySeznamZastavek,poradi,Connections, "cz",poradi) );
     dGetCurrentTarrifStopResp.appendChild(dCurrentTarifStopData);
 */
-    return xmlko.toString();
+    return xmlDocument.toString();
 }
 
 
-QString XmlTicketValidationService::TicketValidationService_GetRazziaResponse2_2CZ1_0( CestaUdaje stav)
+QString XmlTicketValidationService::TicketValidationService_GetRazziaResponse2_2CZ1_0(QDomDocument &xmlDocument, VehicleState vehicleState)
 {
-    qDebug()<<"XmlCommon::TicketValidationService_GetRazziaResponse2_2CZ1_0";
-    QDomDocument xmlko;
-    QDomProcessingInstruction dHlavicka=xmlko.createProcessingInstruction("xml","version=\"1.0\" encoding=\"utf-8\" ");
-    xmlko.appendChild(dHlavicka);
-    QDomElement dGetRazziaResponse=xmlko.createElement("TicketValidationService.GetRazziaResponse");
-    QDomElement dRazziaData=xmlko.createElement("RazziaData");
-    dRazziaData.appendChild(xmlko.createTextNode(stav.razziaState));
+    qDebug()<<Q_FUNC_INFO;
+    QDomProcessingInstruction dProcessingInformation=createProcessingInformation(xmlDocument,mDefaultEncoding);
+    xmlDocument.appendChild(dProcessingInformation);
+    QDomElement dGetRazziaResponse=xmlDocument.createElement("TicketValidationService.GetRazziaResponse");
+    QDomElement dRazziaData=xmlDocument.createElement("RazziaData");
+    dRazziaData.appendChild(xmlDocument.createTextNode(vehicleState.razziaState));
     /*
     dVehicleData.appendChild(this->TimeStampTag1_0(xmlko));
     dVehicleData.appendChild(this->ref("VehicleRef",QString::number(stav.cisloVozu)));
@@ -72,7 +71,7 @@ QString XmlTicketValidationService::TicketValidationService_GetRazziaResponse2_2
     dVehicleData.appendChild(this->VehicleMode(xmlko,stav.vehicleSubMode,stav.vehicleMode));
 */
     dGetRazziaResponse.appendChild(dRazziaData);
-    xmlko.appendChild(dGetRazziaResponse);
+    xmlDocument.appendChild(dGetRazziaResponse);
 
-    return xmlko.toString();
+    return xmlDocument.toString();
 }

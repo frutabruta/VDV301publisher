@@ -2,19 +2,19 @@
 
 
 
-TicketValidationService::TicketValidationService(QString nazevSluzby, QString typSluzby, int cisloPortu,QString verze):HttpSluzba( nazevSluzby,typSluzby, cisloPortu,verze)
+TicketValidationService::TicketValidationService(QString serviceName, QString serviceType, int portNumber,QString version):HttpService( serviceName,serviceType, portNumber,version)
 {
-    connect(timer, &QTimer::timeout, this, &TicketValidationService::slotTedOdesliNaPanely);
-    timer->start(60000);
+    connect(&timer, &QTimer::timeout, this, &TicketValidationService::slotSendDataToSubscribers);
+    timer.start(60000);
 
 }
 
 
 
 
-void TicketValidationService::aktualizaceIntProm(QVector<Prestup> prestupy, CestaUdaje &stav, QVector<ZastavkaCil>  seznamZastavek ) //novy
+void TicketValidationService::updateInternalVariables(QVector<Connection> connectionList, VehicleState &vehicleState, QVector<StopPointDestination>  stopDestinationList ) //novy
 {
-    qDebug()<<"TicketValidationService::aktualizaceIntProm"<<nazevSluzbyInterni<<" "<<globVerze;
+    qDebug()<<Q_FUNC_INFO<<" "<<mServiceName<<" "<<globalVersion;
     // QByteArray zpracovanoMPV="";
     QString bodyCurrentTariffStopResponse="";
     QString bodyVehicleDataResponse="";
@@ -23,57 +23,48 @@ void TicketValidationService::aktualizaceIntProm(QVector<Prestup> prestupy, Cest
 
 
 
-    if (globVerze=="2.2CZ1.0")
+    if (globalVersion=="2.2CZ1.0")
     {
-
-        //bodyAllData=TestXmlGenerator.AllData2_2CZ1_0( stav.indexAktZastavky,seznamZastavek, stav.aktlinka, stav.doorState, stav.locationState,prestupyDomDocument);
-        bodyCurrentTariffStopResponse=xmlGenerator.TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(stav.indexAktZastavky,seznamZastavek,stav.doorState,stav.locationState,prestupy);
-        bodyVehicleDataResponse=xmlGenerator.TicketValidationService_GetVehicleDataResponse2_2CZ1_0(stav);
-        bodyRazziaResponse=xmlGenerator.TicketValidationService_GetRazziaResponse2_2CZ1_0(stav);
-
-        //bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,seznamZastavek,stav);
-        //bodyVehicleDataResponse=TestXmlGenerator.tick
+        QDomDocument xmlDocument;
+        bodyCurrentTariffStopResponse=xmlGenerator.TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(xmlDocument,vehicleState.currentStopIndex0,stopDestinationList,connectionList);
+        bodyVehicleDataResponse=xmlGenerator.TicketValidationService_GetVehicleDataResponse2_2CZ1_0(xmlDocument,vehicleState);
+        bodyRazziaResponse=xmlGenerator.TicketValidationService_GetRazziaResponse2_2CZ1_0(xmlDocument,vehicleState);
 
     }
     else
     {
-        /*
-        qDebug()<<"3";
-        bodyAllData=TestXmlGenerator.AllData1_0( seznamZastavek, stav.aktlinka, stav.doorState, stav.locationState,prestupyDomDocument,stav);
-        qDebug()<<"3,5";
-        bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,seznamZastavek, stav);
-        */
+        //other versions
     }
 
 
-    this->nastavObsahTela("CurrentTariffStopResponse",bodyCurrentTariffStopResponse);
-    this->nastavObsahTela("VehicleDataResponse",bodyVehicleDataResponse);
-    this->nastavObsahTela("RazziaResponse",bodyRazziaResponse);
-    this->asocPoleDoServeru(obsahTelaPole);
+    this->setBodyContent("CurrentTariffStopResponse",bodyCurrentTariffStopResponse);
+    this->setBodyContent("VehicleDataResponse",bodyVehicleDataResponse);
+    this->setBodyContent("RazziaResponse",bodyRazziaResponse);
+    this->updateServerContent(structureContentMap);
 
-    for(int i=0;i<seznamSubscriberu.count();i++ )
+    for(int i=0;i<subscriberList.count();i++ )
     {
-        PostDoDispleje(seznamSubscriberu[i].adresa,obsahTelaPole.value(seznamSubscriberu[i].struktura));
+        postToSubscriber(subscriberList[i].address,structureContentMap.value(subscriberList[i].structure));
     }
 
 }
 
 
 
-void TicketValidationService::slotTedOdesliNaPanely()
+void TicketValidationService::slotSendDataToSubscribers()
 {
-    qDebug()<<"CustomerInformationService::tedOdesliNaPanely()";
-    aktualizaceIntProm( mPrestupy,mStav, mSeznamZastavek);
+    qDebug()<<Q_FUNC_INFO;
+    updateInternalVariables( mConnectionList,mVehicleState, mStopPointDestinationList);
 }
 
-void TicketValidationService::aktualizaceObsahuSluzby(QVector<Prestup> prestupy, CestaUdaje &stav ) //novy
+void TicketValidationService::updateServiceContent(QVector<Connection> connectionList, VehicleState &vehicleState ) //novy
 {
-    qDebug()<<"CustomerInformationService::aktualizaceInternichPromennychOdeslat";
-    mPrestupy =prestupy;
-    mStav=stav;
-    mSeznamZastavek=stav.aktObeh.seznamSpoju.at(stav.indexSpojeNaObehu).globalniSeznamZastavek;
-    slotTedOdesliNaPanely();
-    timer->start(60000);
+    qDebug()<<Q_FUNC_INFO;
+    mConnectionList =connectionList;
+    mVehicleState=vehicleState;
+    mStopPointDestinationList=vehicleState.currentVehicleRun.tripList.at(vehicleState.currentTripIndex).globalStopPointDestinationList;
+    slotSendDataToSubscribers();
+    timer.start(60000);
 }
 
 

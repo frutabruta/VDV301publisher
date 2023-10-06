@@ -2,19 +2,19 @@
 
 Subscriber::Subscriber()
 {
-    this->adresa=QUrl("127.0.0.1:80");
-    this->struktura="";
+    this->address=QUrl("127.0.0.1:80");
+    this->structure="";
 }
 
-Subscriber::Subscriber(QUrl adresa2,QString struktura2)
+Subscriber::Subscriber(QUrl address,QString structure)
 {
-    this->adresa=adresa2;
-    this->struktura=struktura2;
+    this->address=address;
+    this->structure=structure;
 }
 
 
-Subscriber::Subscriber(QUrl adresaBezPortu,QString struktura3, int port3)
+Subscriber::Subscriber(QUrl addressWithoutPortNumber,QString structure, int portNumber)
 {
-    this->adresa=adresaBezPortu;
-    this->struktura=struktura3;
+    this->address=addressWithoutPortNumber;
+    this->structure=structure;
 }

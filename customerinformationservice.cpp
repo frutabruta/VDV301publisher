@@ -1,6 +1,6 @@
 #include "customerinformationservice.h"
-#include "httpsluzba.h"
-#include "VDV301struktury/prestupmpv.h"
+#include "httpservice.h"
+#include "VDV301DataStructures/connectionmpv.h"
 
 
 /*!
@@ -10,16 +10,16 @@
  * \param cisloPortu
  * \param verze
  */
-CustomerInformationService::CustomerInformationService(QString nazevSluzby, QString typSluzby, int cisloPortu,QString verze):HttpSluzba( nazevSluzby,typSluzby, cisloPortu,verze)
+CustomerInformationService::CustomerInformationService(QString serviceName, QString serviceType, int portNumber,QString version):HttpService( serviceName,serviceType, portNumber,version)
 {
-    qDebug() <<  Q_FUNC_INFO<<" "<<nazevSluzby<<" "<<verze;
-    connect(timer, &QTimer::timeout, this, &CustomerInformationService::slotTedOdesliNaPanely);
+    qDebug() <<  Q_FUNC_INFO<<" "<<serviceName<<" "<<version;
+    connect(&timer, &QTimer::timeout, this, &CustomerInformationService::slotSendDataToSubscribers);
 
-    //naplnění prázdných struktur
+    //filling of empty data structures
 
-    mimoVydej();
-    //nastartování periodického zasílání
-    timer->start(60000);
+    outOfService();
+    //start of periodic data sending
+    timer.start(60000);
 
 }
 
@@ -31,12 +31,12 @@ CustomerInformationService::CustomerInformationService(QString nazevSluzby, QStr
  * \param stav
  * \param seznamSpoju
  */
-void CustomerInformationService::aktualizaceIntProm(QVector<Prestup> prestupy, CestaUdaje &stav, QVector<Spoj>  seznamSpoju ) //novy
+void CustomerInformationService::updateInternalVariables(QVector<Connection> connectionList, VehicleState &vehicleState, QVector<Trip>  tripList ) //novy
 {
-    qDebug() <<  Q_FUNC_INFO<<" "<<nazevSluzbyInterni<<" "<<globVerze;
-    qDebug()<<"velikost seznamTripu"<<seznamSpoju.size()<<" index"<<stav.indexSpojeNaObehu;
+    qDebug() <<  Q_FUNC_INFO<<" "<<mServiceName<<" "<<globalVersion;
+    qDebug()<<"velikost seznamTripu"<<tripList.size()<<" index"<<vehicleState.currentTripIndex;
 
-    if (seznamSpoju.isEmpty())
+    if (tripList.isEmpty())
     {
         qDebug()<<"seznam spoju je prazdny, ukoncuji CustomerInformationService::aktualizaceIntProm";
         return;
@@ -50,35 +50,39 @@ void CustomerInformationService::aktualizaceIntProm(QVector<Prestup> prestupy, C
     */
 
 
-    QVector<ZastavkaCil>  seznamZastavek=seznamSpoju.at(stav.indexSpojeNaObehu).globalniSeznamZastavek;
+    QVector<StopPointDestination>  seznamZastavek=tripList.at(vehicleState.currentTripIndex).globalStopPointDestinationList;
     QString bodyAllData="";
     QString bodyCurrentDisplayContent="";
 
-    if (globVerze=="2.2CZ1.0")
+    if (globalVersion=="2.2CZ1.0")
     {
-        bodyAllData=xmlGenerator.AllData2_2CZ1_0(seznamSpoju,prestupy,stav);
-        bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent2_2CZ1_0(stav.indexAktZastavky,seznamZastavek,stav);
+         QDomDocument xmlDocument;
+        bodyAllData=xmlGenerator.AllData2_2CZ1_0(xmlDocument,tripList,connectionList,vehicleState);
+        bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent2_2CZ1_0(xmlDocument,seznamZastavek,vehicleState);
     }
-    else if (globVerze=="2.4")
+    else if (globalVersion=="2.4")
     {
-        //rozdelano
-        bodyAllData=xmlGenerator.AllData2_4(seznamSpoju,prestupy,stav);
-        bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent2_4(stav.indexAktZastavky,seznamZastavek,stav);
+        //Work in progress
+         QDomDocument xmlDocument;
+        //special options for XML in this version can be placed here
+        bodyAllData=xmlGenerator.AllData2_4(xmlDocument, tripList,connectionList,vehicleState);
+        bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent2_4(xmlDocument,seznamZastavek,vehicleState);
 
     }
     else
     {
-        bodyAllData=xmlGenerator.AllData1_0(seznamSpoju,prestupy,stav);
-        bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,seznamZastavek, stav);
+        QDomDocument xmlDocument;
+        bodyAllData=xmlGenerator.AllData1_0(xmlDocument,tripList,connectionList,vehicleState);
+        bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent1_0(xmlDocument,seznamZastavek,vehicleState);
     }
 
-    this->nastavObsahTela("AllData",bodyAllData);
-    this->nastavObsahTela("CurrentDisplayContent",bodyCurrentDisplayContent);
-    this->asocPoleDoServeru(obsahTelaPole);
+    this->setBodyContent("AllData",bodyAllData);
+    this->setBodyContent("CurrentDisplayContent",bodyCurrentDisplayContent);
+    this->updateServerContent(structureContentMap);
 
-    for(int i=0;i<seznamSubscriberu.count();i++ )
+    for(int i=0;i<subscriberList.count();i++ )
     {
-        PostDoDispleje(seznamSubscriberu[i].adresa,obsahTelaPole.value(seznamSubscriberu[i].struktura));
+        postToSubscriber(subscriberList[i].address,structureContentMap.value(subscriberList[i].structure));
     }
 
 }
@@ -89,41 +93,35 @@ void CustomerInformationService::aktualizaceIntProm(QVector<Prestup> prestupy, C
  * \param stav
  * \param seznamSpoju
  */
-void CustomerInformationService::aktualizaceIntPromEmpty(CestaUdaje &stav, QVector<Spoj>  seznamSpoju ) //novy
+void CustomerInformationService::updateInternalVariablesEmpty(VehicleState &vehicleState, QVector<Trip>  tripList ) //novy
 {
-    qDebug() <<  Q_FUNC_INFO<<" "<<nazevSluzbyInterni<<" "<<globVerze;
+    qDebug() <<  Q_FUNC_INFO<<" "<<mServiceName<<" "<<globalVersion;
 
-    qDebug()<<"velikost seznamTripu"<<seznamSpoju.size()<<" index"<<stav.indexSpojeNaObehu;
-    /* if (seznamSpoju.isEmpty())
-  {
-      qDebug()<<"seznam spoju je prazdny, ukoncuji CustomerInformationService::aktualizaceIntProm";
-      return;
-  }
-  */
+    qDebug()<<"size of triplist "<<tripList.size()<<" index"<<vehicleState.currentTripIndex;
+
 
     QString bodyAllData="";
     QString bodyCurrentDisplayContent="";
 
-    if (globVerze=="2.2CZ1.0")
+    if (globalVersion=="2.2CZ1.0")
     {
-
-        bodyAllData=xmlGenerator.AllData_empty2_2CZ1_0();
+        QDomDocument xmlDocument;
+        bodyAllData=xmlGenerator.AllData_empty2_2CZ1_0(xmlDocument);
     }
     else
     {
-
-        bodyAllData=xmlGenerator.AllData_empty_1_0();
-
+        QDomDocument xmlDocument;
+        bodyAllData=xmlGenerator.AllData_empty_1_0(xmlDocument);
     }
 
 
-    this->nastavObsahTela("AllData",bodyAllData);
-    this->nastavObsahTela("CurrentDisplayContent",bodyCurrentDisplayContent);
-    this->asocPoleDoServeru(obsahTelaPole);
+    this->setBodyContent("AllData",bodyAllData);
+    this->setBodyContent("CurrentDisplayContent",bodyCurrentDisplayContent);
+    this->updateServerContent(structureContentMap);
 
-    for(int i=0;i<seznamSubscriberu.count();i++ )
+    for(int i=0;i<subscriberList.count();i++ )
     {
-        PostDoDispleje(seznamSubscriberu[i].adresa,obsahTelaPole.value(seznamSubscriberu[i].struktura));
+        postToSubscriber(subscriberList[i].address,structureContentMap.value(subscriberList[i].structure));
     }
 
 }
@@ -137,21 +135,21 @@ void CustomerInformationService::aktualizaceIntPromEmpty(CestaUdaje &stav, QVect
 
 
 
-void CustomerInformationService::aktualizaceObsahuSluzby(QVector<Prestup> prestup, CestaUdaje &stav ) //novy
+void CustomerInformationService::updateServiceContent(QVector<Connection> connectionList, VehicleState &vehicleState ) //novy
 {
     qDebug() <<  Q_FUNC_INFO;
-    mPrestupy=prestup;
-    mStav=stav;
-    mSeznamSpoju=stav.aktObeh.seznamSpoju;
-    slotTedOdesliNaPanely();
-    timer->start(60000);
+    mConnectionList=connectionList;
+    mVehicleState=vehicleState;
+    mTripList=vehicleState.currentVehicleRun.tripList;
+    slotSendDataToSubscribers();
+    timer.start(60000);
 }
 
 
-void CustomerInformationService::mimoVydej()
+void CustomerInformationService::outOfService()
 {
     qDebug() <<  Q_FUNC_INFO;
-    aktualizaceIntPromEmpty(mStav,mSeznamSpoju);
+    updateInternalVariablesEmpty(mVehicleState,mTripList);
 
 }
 
@@ -160,16 +158,16 @@ void CustomerInformationService::mimoVydej()
  * \brief CustomerInformationService::slotTedOdesliNaPanely
  */
 
-void CustomerInformationService::slotTedOdesliNaPanely()
+void CustomerInformationService::slotSendDataToSubscribers()
 {
     qDebug() <<  Q_FUNC_INFO;
-    if (mSeznamSpoju.isEmpty())
+    if (mTripList.isEmpty())
     {
-        aktualizaceIntPromEmpty(mStav,mSeznamSpoju);
+        updateInternalVariablesEmpty(mVehicleState,mTripList);
     }
     else
     {
-        aktualizaceIntProm(mPrestupy,mStav,mSeznamSpoju );
+        updateInternalVariables(mConnectionList,mVehicleState,mTripList );
     }
 
 }

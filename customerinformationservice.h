@@ -2,41 +2,36 @@
 #define CUSTOMERINFORMATIONSERVICE_H
 
 
-#include "httpsluzba.h"
-#include "VDV301struktury/prestupmpv.h"
+#include "httpservice.h"
+#include "VDV301DataStructures/connectionmpv.h"
 
 #include "xmlcustomerinformationservice.h"
 
-class CustomerInformationService : public HttpSluzba
+class CustomerInformationService : public HttpService
 {
 public:
-    //konstruktor
-    explicit CustomerInformationService(QString nazevSluzby, QString typSluzby, int cisloPortu, QString verze);
+    //constructor
+    explicit CustomerInformationService(QString serviceName, QString serviceType, int portNumber, QString version);
 
-    //instance trid
-
-    //struktury
-
-    //funkce
-    void aktualizaceObsahuSluzby(QVector<Prestup> prestup, CestaUdaje &stav);
-    void mimoVydej();
+    //functions
+    void updateServiceContent(QVector<Connection> connectionList, VehicleState &vehicleState);
+    void outOfService();
 
 private:
-
     //instance trid
     XmlCustomerInformationService xmlGenerator;
-    //promenne
-    QVector<Prestup> mPrestupy;
-    QVector<Spoj> mSeznamSpoju;
-    CestaUdaje mStav;
+    //variables
+    QVector<Connection> mConnectionList;
+    QVector<Trip> mTripList;
+    VehicleState mVehicleState;
 
-    //funkce
-    void aktualizaceIntProm(QVector<Prestup> prestupy, CestaUdaje &stav, QVector<Spoj> seznamSpoju );
-    void aktualizaceIntPromEmpty(CestaUdaje &stav, QVector<Spoj> seznamSpoju);
+    //functions
+    void updateInternalVariables(QVector<Connection> connectionList, VehicleState &vehicleState, QVector<Trip> tripList );
+    void updateInternalVariablesEmpty(VehicleState &vehicleState, QVector<Trip> tripList);
 
 
 public slots:
-    void slotTedOdesliNaPanely();
+    void slotSendDataToSubscribers();
 
 signals:
 

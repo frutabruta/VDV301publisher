@@ -1,16 +1,16 @@
 #ifndef TICKETVALIDATIONSERVICE_H
 #define TICKETVALIDATIONSERVICE_H
 
-#include "httpsluzba.h"
+#include "httpservice.h"
 #include "xmlticketvalidationservice.h"
-#include "VDV301struktury/prestupmpv.h"
+#include "VDV301DataStructures/connectionmpv.h"
 
-class TicketValidationService : public HttpSluzba
+class TicketValidationService : public HttpService
 {
 public:
     //konstruktor
-    TicketValidationService();    
-    explicit TicketValidationService(QString nazevSluzby, QString typSluzby, int cisloPortu, QString verze);
+    TicketValidationService();
+    explicit TicketValidationService(QString serviceName, QString serviceType, int portNumber, QString version);
 
 
     //instance knihoven
@@ -20,7 +20,7 @@ public:
 
 
     //funkce
-    void aktualizaceObsahuSluzby(QVector<Prestup> prestupy, CestaUdaje &stav);
+    void updateServiceContent(QVector<Connection> connectionList, VehicleState &vehicleState);
 
 
 private:
@@ -28,17 +28,17 @@ private:
     //instance knihoven
     XmlTicketValidationService xmlGenerator;
 
-    //promenne
-    CestaUdaje mStav;
-    QVector<ZastavkaCil> mSeznamZastavek ;
+    //variables
+    VehicleState mVehicleState;
+    QVector<StopPointDestination> mStopPointDestinationList ;
 
-    //funkce
-    void aktualizaceIntProm(QVector<Prestup> prestupy, CestaUdaje &stav, QVector<ZastavkaCil> seznamZastavek);
+    //functions
+    void updateInternalVariables(QVector<Connection> connectionList, VehicleState &vehicleState, QVector<StopPointDestination> stopDestinationList);
 
-    QVector<Prestup> mPrestupy;
+    QVector<Connection> mConnectionList;
 
 private slots:
-    void slotTedOdesliNaPanely();
+    void slotSendDataToSubscribers();
 };
 
 #endif // TICKETVALIDATIONSERVICE_H

@@ -1,12 +1,12 @@
 #include "httpserverpublisher.h"
 
-HttpServerPublisher::HttpServerPublisher(quint16 portVstup,QString vstupSlozkaSluzby)
+HttpServerPublisher::HttpServerPublisher(quint16 newPortNumber,QString newServiceFolder)
 {
     qDebug() <<  Q_FUNC_INFO;
-    mCisloPortu=portVstup;
-    mObsahRoot=vyrobHlavickuOk();
-    mSlozkaSluzby=vstupSlozkaSluzby;
-    connect(this,&HttpServerPublisher::signalServerBezi,this,&HttpServerPublisher::slotTest);
+    mPortNumber=newPortNumber;
+    mContentRoot=createHeaderOk();
+    mServiceFolder=newServiceFolder;
+    connect(this,&HttpServerPublisher::signalServerRuns,this,&HttpServerPublisher::slotTest);
 
     //   slotStartServer();
 
@@ -18,49 +18,49 @@ int HttpServerPublisher::slotStartServer()
 {
     qDebug() <<  Q_FUNC_INFO;
 
-    this->route(mSlozkaSluzby,mObsahTelaPole);
-    mCisloPortu=this->listen();
+    this->route(mServiceFolder,mBodyContentArray);
+    mPortNumber=this->listen();
 
-    emit signalServerBezi(mCisloPortu);
+    emit signalServerRuns(mPortNumber);
 
     return 1;
 }
 
-int HttpServerPublisher::route(QString &slozkaSluzby,  QMap<QString,QString> &obsahyBody)
+int HttpServerPublisher::route(QString &serviceFolder,  QMap<QString,QString> &contentBody)
 {
 
     qDebug() <<  Q_FUNC_INFO;
-    qDebug() << slozkaSluzby;
+    qDebug() << serviceFolder;
 
-    httpServer.route("/"+slozkaSluzby+"/Subscribe<arg>", [this](const QUrl &url,const QHttpServerRequest &request)
+    httpServer.route("/"+serviceFolder+"/Subscribe<arg>", [this](const QUrl &url,const QHttpServerRequest &request)
     {
-        QString struktura= QStringLiteral("%1").arg(url.path());
-        qDebug()<<"subscribe pozadavek "<<struktura;
+        QString structure= QStringLiteral("%1").arg(url.path());
+        qDebug()<<"subscribe request "<<structure;
         qDebug().noquote()<<request.body();
         /*
         QString textVysledek="true";
         QString odpoved=vyrobSubscribeResponse(textVysledek);
     */
-        this->bodyPozadavku=request.body();
-        emit zmenaObsahu(request.body(),struktura);
-        return this->mObsahSubscribe;
+        this->requestBody=request.body();
+        emit signalContentChanged(request.body(),structure);
+        return this->mContentSubscribe;
 
     });
 
-    httpServer.route("/"+slozkaSluzby+"/Set<arg>", [this](const QUrl &url,const QHttpServerRequest &request)
+    httpServer.route("/"+serviceFolder+"/Set<arg>", [this](const QUrl &url,const QHttpServerRequest &request)
     {
         QString struktura= QStringLiteral("%1").arg(url.path());
         qDebug().noquote()<<"request Set"<<struktura;
-        this->bodyPozadavku=request.body();
-        emit zmenaObsahu(request.body(),struktura);
-        return this->mObsahSet;
+        this->requestBody=request.body();
+        emit signalContentChanged(request.body(),struktura);
+        return this->mContentSet;
     });
 
-    httpServer.route("/"+slozkaSluzby+"/Get<arg>", [&obsahyBody](const QUrl &url,const QHttpServerRequest &request)
+    httpServer.route("/"+serviceFolder+"/Get<arg>", [&contentBody](const QUrl &url,const QHttpServerRequest &request)
     {
-        QString struktura= QStringLiteral("%1").arg(url.path());
-        qDebug().noquote()<<"request Get"<<struktura;
-        return obsahyBody.value(struktura);
+        QString structure= QStringLiteral("%1").arg(url.path());
+        qDebug().noquote()<<"request Get"<<structure;
+        return contentBody.value(structure);
     });
 
 
@@ -69,8 +69,8 @@ int HttpServerPublisher::route(QString &slozkaSluzby,  QMap<QString,QString> &ob
         qDebug()<<"request HEAD "<<request.headers();
         qDebug()<<"request BODY "<<request.body();
 
-        emit prijemDat(request.body());
-        return this->mObsahRoot;
+        emit signalDataReceived(request.body());
+        return this->mContentRoot;
     });
 
     httpServer.afterRequest([](QHttpServerResponse &&resp)
@@ -87,10 +87,10 @@ int HttpServerPublisher::listen()
 {
     qDebug() <<  Q_FUNC_INFO;
 
-    if (mCisloPortu!=0)
+    if (mPortNumber!=0)
     {
-        /* manuální volba portu*/
-        const auto port = httpServer.listen(QHostAddress::Any,mCisloPortu);
+        /* manual port choice */
+        const auto port = httpServer.listen(QHostAddress::Any,mPortNumber);
         if (!port)
         {
             qDebug() << QCoreApplication::translate(
@@ -98,7 +98,7 @@ int HttpServerPublisher::listen()
 
         }
 
-        qDebug()<<"Startuju na portu:"<<QString::number(port);
+        qDebug()<<"Starting server at port:"<<QString::number(port);
         return port;
 
         qDebug() << QCoreApplication::translate("QHttpServerExample", "Running on http://127.0.0.1:%1/ (Press CTRL+C to quit)").arg(port);
@@ -106,7 +106,7 @@ int HttpServerPublisher::listen()
     }
     else
     {
-        /* automaticky port */
+        /* automatic port selection */
         const auto port = httpServer.listen(QHostAddress::Any);
         if (!port) {
             qDebug() << QCoreApplication::translate(
@@ -125,39 +125,39 @@ int HttpServerPublisher::listen()
 }
 
 
-void HttpServerPublisher::zapisDoPromenneGet(QString vstup)
+void HttpServerPublisher::setGetContent(QString input)
 {
     qDebug() <<  Q_FUNC_INFO;
-    this->mSlozkaSluzby=vstup;
+    this->mServiceFolder=input;
 
 }
 
-void HttpServerPublisher::zapisDoSubscribe(QString vstup)
+void HttpServerPublisher::setSubscribeContent(QString input)
 {
     qDebug() <<  Q_FUNC_INFO;
-    this->mObsahSubscribe=vstup;
+    this->mContentSubscribe=input;
 }
 
-int HttpServerPublisher::nastavObsahTela(QMap<QString,QString> vstup )
+int HttpServerPublisher::setBodyContent(QMap<QString,QString> input )
 {
     qDebug() <<  Q_FUNC_INFO;
-    mObsahTelaPole=vstup;
+    mBodyContentArray=input;
     return 1;
 }
 
-quint16 HttpServerPublisher::cisloPortu() const
+quint16 HttpServerPublisher::portNumber() const
 {
-    return mCisloPortu;
+    return mPortNumber;
 }
 
-void HttpServerPublisher::setCisloPortu(quint16 newCisloPortu)
+void HttpServerPublisher::setPortNumber(quint16 newPortNumber)
 {
-    qDebug() <<  Q_FUNC_INFO <<QString::number(newCisloPortu);
-    mCisloPortu = newCisloPortu;
+    qDebug() <<  Q_FUNC_INFO <<QString::number(newPortNumber);
+    mPortNumber = newPortNumber;
 }
 
 
-QString HttpServerPublisher::vyrobHlavickuOk()
+QString HttpServerPublisher::createHeaderOk()
 {
     qDebug() <<  Q_FUNC_INFO;
     QString hlavicka;
@@ -170,16 +170,16 @@ QString HttpServerPublisher::vyrobHlavickuOk()
     return hlavicka;
 }
 
-QString HttpServerPublisher::vyrobSubscribeResponse(QString result)
+QString HttpServerPublisher::createSubscribeResponse(QString result)
 {
-    QString odpoved;
-    odpoved+="<?xml version=\"1.0\" encoding=\"utf-16\"?>";
-    odpoved+="<SubscribeResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">";
-    odpoved+="<Active><Value>";
-    odpoved+=result;
-    odpoved+="</Value></Active>";
-    odpoved+="</SubscribeResponse>";
-    return odpoved;
+    QString response;
+    response+="<?xml version=\"1.0\" encoding=\"utf-16\"?>";
+    response+="<SubscribeResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">";
+    response+="<Active><Value>";
+    response+=result;
+    response+="</Value></Active>";
+    response+="</SubscribeResponse>";
+    return response;
 }
 
 void HttpServerPublisher::slotTest(int port)

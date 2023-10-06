@@ -1,18 +1,18 @@
 #include "devicemanagementservice.h"
 
 
-DeviceManagementService::DeviceManagementService(QString nazevSluzby, QString typSluzby, int cisloPortu,QString verze):HttpSluzba( nazevSluzby,typSluzby, cisloPortu,verze)
+DeviceManagementService::DeviceManagementService(QString serviceName, QString serviceType, int portNumber,QString version):HttpService( serviceName,serviceType, portNumber,version)
 {
     qDebug()<<Q_FUNC_INFO;
     // connect(timer, &QTimer::timeout, this, &CustomerInformationService::slotTedOdesliNaPanely);
-    aktualizaceIntProm();
+    updateInternalVariables();
 
-    connect(this, &HttpSluzba::signalZmenaParametru,this, &DeviceManagementService::slotNastavParametry);
+    connect(this, &HttpService::signalParameterChange,this, &DeviceManagementService::slotSetParameters);
 }
 
 
 
-void DeviceManagementService::aktualizaceObsahuSluzby()
+void DeviceManagementService::serviceContentUpdate() //deprecated?
 {
     qDebug() <<  Q_FUNC_INFO;
 
@@ -21,9 +21,9 @@ void DeviceManagementService::aktualizaceObsahuSluzby()
 
 
 
-void DeviceManagementService::aktualizaceIntProm()
+void DeviceManagementService::updateInternalVariables()
 {
-    qDebug() <<  Q_FUNC_INFO<<" "<<nazevSluzbyInterni<<" "<<globVerze;
+    qDebug() <<  Q_FUNC_INFO<<" "<<mServiceName<<" "<<globalVersion;
 
     QString bodyDeviceInformationResponse="";
     QString bodyAllSubdeviceInformationResponse="";
@@ -35,28 +35,30 @@ void DeviceManagementService::aktualizaceIntProm()
     QString bodyServiceStatusResponse="";
     QString bodyRestartDeviceResponse="";
 
-    if (globVerze=="2.2CZ1.0")
+    if (globalVersion=="2.2CZ1.0")
     {
-        bodyDeviceInformationResponse=xmlGenerator.DeviceInformationResponse1_0(mDeviceName,mDeviceManufacturer,mDeviceSerialNumber,mDeviceClass,mSwVersion);
-        bodyDeviceConfigurationResponse=xmlGenerator.DeviceConfigurationResponseStructure1_0(mDeviceId);
-        bodyDeviceStatusInformationResponse=xmlGenerator.DeviceStatusResponse1_0("running");
+        QDomDocument xmlDocument;
+        bodyDeviceInformationResponse=xmlGenerator.DeviceInformationResponse1_0(xmlDocument,mDeviceName,mDeviceManufacturer,mDeviceSerialNumber,mDeviceClass,mSwVersion);
+        bodyDeviceConfigurationResponse=xmlGenerator.DeviceConfigurationResponseStructure1_0(xmlDocument,mDeviceId);
+        bodyDeviceStatusInformationResponse=xmlGenerator.DeviceStatusResponse1_0(xmlDocument,"running");
     }
     else
     {
-        bodyDeviceInformationResponse=xmlGenerator.DeviceInformationResponse1_0(mDeviceName,mDeviceManufacturer,mDeviceSerialNumber,mDeviceClass,mSwVersion);
-        bodyDeviceConfigurationResponse=xmlGenerator.DeviceConfigurationResponseStructure1_0(mDeviceId);
-        bodyDeviceStatusInformationResponse=xmlGenerator.DeviceStatusResponse1_0("running");
+        QDomDocument xmlDocument;
+        bodyDeviceInformationResponse=xmlGenerator.DeviceInformationResponse1_0(xmlDocument,mDeviceName,mDeviceManufacturer,mDeviceSerialNumber,mDeviceClass,mSwVersion);
+        bodyDeviceConfigurationResponse=xmlGenerator.DeviceConfigurationResponseStructure1_0(xmlDocument,mDeviceId);
+        bodyDeviceStatusInformationResponse=xmlGenerator.DeviceStatusResponse1_0(xmlDocument,"running");
     }
 
-    this->nastavObsahTela("DeviceInformation",bodyDeviceInformationResponse);
-    this->nastavObsahTela("DeviceConfiguration",bodyDeviceConfigurationResponse);
-    this->nastavObsahTela("DeviceStatus",bodyDeviceStatusInformationResponse);
+    this->setBodyContent("DeviceInformation",bodyDeviceInformationResponse);
+    this->setBodyContent("DeviceConfiguration",bodyDeviceConfigurationResponse);
+    this->setBodyContent("DeviceStatus",bodyDeviceStatusInformationResponse);
 
-    this->asocPoleDoServeru(obsahTelaPole);
+    this->updateServerContent(structureContentMap);
 
-    for(int i=0;i<seznamSubscriberu.count();i++ )
+    for(int i=0;i<subscriberList.count();i++ )
     {
-        PostDoDispleje(seznamSubscriberu[i].adresa,obsahTelaPole.value(seznamSubscriberu[i].struktura));
+        postToSubscriber(subscriberList[i].address,structureContentMap.value(subscriberList[i].structure));
     }
 
 }
@@ -124,22 +126,22 @@ void DeviceManagementService::setDeviceName(const QString &newDeviceName)
     mDeviceName = newDeviceName;
 }
 
-void DeviceManagementService::slotAktualizaceDat()
+void DeviceManagementService::slotDataUpdate()
 {
-    aktualizaceIntProm();
+    updateInternalVariables();
 }
 
-void DeviceManagementService::slotNastavParametry(QMap<QString,QString> parametry)
+void DeviceManagementService::slotSetParameters(QMap<QString,QString> parameters)
 {
     qDebug()<<Q_FUNC_INFO;
-    qDebug()<<"seznam obsahuje "<<parametry.count()<<" parametru";
-    if(parametry.contains("DeviceID"))
+    qDebug()<<"list contains "<<parameters.count()<<" parameters";
+    if(parameters.contains("DeviceID"))
     {
-        mDeviceId=parametry["DeviceID"];
-        qDebug()<<"nastavuji ID: "<<mDeviceId;
+        mDeviceId=parameters["DeviceID"];
+        qDebug()<<"setting ID: "<<mDeviceId;
 
 
     }
-    aktualizaceIntProm();
-    emit signalZmenaParametruVen();
+    updateInternalVariables();
+    emit signalParametersChanged();
 }

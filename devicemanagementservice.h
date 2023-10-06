@@ -1,18 +1,18 @@
 #ifndef DEVICEMANAGEMENTSERVICE_H
 #define DEVICEMANAGEMENTSERVICE_H
 
-#include "httpsluzba.h"
+#include "httpservice.h"
 #include "xmldevicemanagementservice.h"
 
-class DeviceManagementService : public HttpSluzba
+class DeviceManagementService : public HttpService
 {
     Q_OBJECT
 public:
-    explicit DeviceManagementService(QString nazevSluzby, QString typSluzby, int cisloPortu, QString verze);
+    explicit DeviceManagementService(QString serviceName, QString serviceType, int portNumber, QString version);
 
-    void aktualizaceObsahuSluzby();
+    void serviceContentUpdate();
 
-    QMap<QString,QString> parametry;
+   // QMap<QString,QString> parametry;
 
     QString deviceName() const;
     void setDeviceName(const QString &newDeviceName);
@@ -33,12 +33,12 @@ public:
     void setSwVersion(const QString &newSwVersion);
 
 public slots:
-    void slotAktualizaceDat();
+    void slotDataUpdate();
 private slots:
-    void slotNastavParametry(QMap<QString, QString> parametry);
+    void slotSetParameters(QMap<QString, QString> parameters);
 
 private:
-    void aktualizaceIntProm();
+    void updateInternalVariables();
     QString mDeviceName="";
     QString mDeviceManufacturer="";
     QString mDeviceSerialNumber="";
@@ -48,7 +48,7 @@ private:
 
     XmlDeviceManagementService xmlGenerator;
 signals:
-    void signalZmenaParametruVen();
+    void signalParametersChanged();
 };
 
 #endif // DEVICEMANAGEMENTSERVICE_H
