@@ -3,6 +3,9 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20231030
+    - fix of generating Xml responses (change of passing xmlDocument by reference)
+    
 - 20231006
     - complete translation of sourcecode to English
     - passing XmlDocument as parameter

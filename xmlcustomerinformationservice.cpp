@@ -7,7 +7,7 @@ XmlCustomerInformationService::XmlCustomerInformationService()
 
 
 //QString XmlCustomerInformationService::AllData2_2CZ1_0(QVector<Spoj> seznamSpoju, QVector<PrestupMPV> prestupy, CestaUdaje stav )
-QString XmlCustomerInformationService::AllData1_0( QDomDocument &xmlDocument, QVector<Trip> tripList,  QVector<Connection> connectionList, VehicleState vehicleState )
+QString XmlCustomerInformationService::AllData1_0(QDomDocument xmlDocument, QVector<Trip> tripList,  QVector<Connection> connectionList, VehicleState vehicleState )
 {
     qDebug()<<Q_FUNC_INFO;
     QVector<StopPointDestination> stopPointDestinationList=tripList.at(vehicleState.currentTripIndex).globalStopPointDestinationList;
@@ -70,10 +70,12 @@ QString XmlCustomerInformationService::AllData1_0( QDomDocument &xmlDocument, QV
 
 
 
-QString XmlCustomerInformationService::AllData2_2CZ1_0( QDomDocument &xmlDocument,QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState)
+QString XmlCustomerInformationService::AllData2_2CZ1_0( QDomDocument xmlDocument,QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState)
 {
     qDebug()<<Q_FUNC_INFO;
     QVector<StopPointDestination> stopPointDestinationList=tripList.at(vehicleState.currentTripIndex).globalStopPointDestinationList;
+
+    xmlDocument.clear();
 
     if (stopPointDestinationList.isEmpty())
     {
@@ -137,7 +139,7 @@ QString XmlCustomerInformationService::AllData2_2CZ1_0( QDomDocument &xmlDocumen
 }
 
 
-QString XmlCustomerInformationService::AllData2_4(QDomDocument &xmlDocument,QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState )
+QString XmlCustomerInformationService::AllData2_4(QDomDocument xmlDocument, QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState )
 {
     qDebug()<<Q_FUNC_INFO;
     QVector<StopPointDestination> stopPointDestinationList=tripList.at(vehicleState.currentTripIndex).globalStopPointDestinationList;
@@ -205,7 +207,7 @@ QString XmlCustomerInformationService::AllData2_4(QDomDocument &xmlDocument,QVec
 }
 
 
-QString XmlCustomerInformationService::CurrentDisplayContent1_0(QDomDocument &xmlDocument, QVector <StopPointDestination> stopPointDestinationList, VehicleState vehicleState)
+QString XmlCustomerInformationService::CurrentDisplayContent1_0(QDomDocument xmlDocument, QVector <StopPointDestination> stopPointDestinationList, VehicleState vehicleState)
 {
     qDebug()<<Q_FUNC_INFO;
 
@@ -236,7 +238,7 @@ QString XmlCustomerInformationService::CurrentDisplayContent1_0(QDomDocument &xm
 }
 
 //rozpracovano
-QString XmlCustomerInformationService::CurrentDisplayContent2_2CZ1_0(QDomDocument &xmlDocument, QVector <StopPointDestination> stopPointDestinationList, VehicleState vehicleState )
+QString XmlCustomerInformationService::CurrentDisplayContent2_2CZ1_0(QDomDocument xmlDocument, QVector <StopPointDestination> stopPointDestinationList, VehicleState vehicleState )
 {
     qDebug()<<Q_FUNC_INFO;
     if (stopPointDestinationList.size()==0)
@@ -263,7 +265,7 @@ QString XmlCustomerInformationService::CurrentDisplayContent2_2CZ1_0(QDomDocumen
 
 
 //rozpracovano
-QString XmlCustomerInformationService::CurrentDisplayContent2_4(QDomDocument &xmlDocument, QVector <StopPointDestination> stopPointDestinationList, VehicleState vehicleState )
+QString XmlCustomerInformationService::CurrentDisplayContent2_4(QDomDocument xmlDocument, QVector <StopPointDestination> stopPointDestinationList, VehicleState vehicleState )
 {
     qDebug()<<Q_FUNC_INFO;
 
@@ -297,7 +299,7 @@ QString XmlCustomerInformationService::CurrentDisplayContent2_4(QDomDocument &xm
 
 
 
-QString XmlCustomerInformationService::AllData_empty_1_0(QDomDocument &xmlDocument)
+QString XmlCustomerInformationService::AllData_empty_1_0(QDomDocument xmlDocument)
 {
     //needs to be fixed to compose empty message with correct time etc.
     QString output="<CustomerInformationService.GetAllDataResponse><AllData><TimeStamp><Value>2016-09-01T14:27:04</Value></TimeStamp><VehicleRef><Value>0</Value></VehicleRef><DefaultLanguage><Value>de</Value></DefaultLanguage><TripInformation><TripRef><Value>0</Value></TripRef><StopSequence><StopPoint><StopIndex><Value>0</Value></StopIndex><StopRef><Value>noRef</Value></StopRef><StopName><Value> </Value><Language>de</Language></StopName><DisplayContent><LineInformation><LineRef><Value>noRef</Value></LineRef></LineInformation><Destination><DestinationRef><Value>noRef</Value></DestinationRef></Destination></DisplayContent></StopPoint><StopPoint><StopIndex><Value>0</Value></StopIndex><StopRef><Value>noRef</Value></StopRef><StopName><Value> </Value><Language>de</Language></StopName><DisplayContent><LineInformation><LineRef><Value>noRef</Value></LineRef></LineInformation><Destination><DestinationRef><Value>noRef</Value></DestinationRef></Destination></DisplayContent></StopPoint></StopSequence></TripInformation><CurrentStopIndex><Value>0</Value></CurrentStopIndex><RouteDeviation>unknown</RouteDeviation><DoorState>AllDoorsClosed</DoorState><VehicleStopRequested><Value>false</Value></VehicleStopRequested><ExitSide>unknown</ExitSide></AllData></CustomerInformationService.GetAllDataResponse>";
@@ -309,7 +311,7 @@ xmlDocument.setContent(obsahPrazdny);
 }
 
 
-QString XmlCustomerInformationService::AllData_empty2_2CZ1_0( QDomDocument &xmlDocument)
+QString XmlCustomerInformationService::AllData_empty2_2CZ1_0(QDomDocument xmlDocument)
 {
     qDebug()<<Q_FUNC_INFO;
 

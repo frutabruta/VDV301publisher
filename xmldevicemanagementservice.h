@@ -13,9 +13,9 @@ class XmlDeviceManagementService : XmlCommon
 {
 public:
     XmlDeviceManagementService();
-    QString DeviceInformationResponse1_0(QDomDocument &xmlDocument, QString deviceName, QString manufacturer, QString serialNumber, QString deviceClass, QString swVersion);
-    QString DeviceConfigurationResponseStructure1_0(QDomDocument &xmlDocument, QString deviceId);
-    QString DeviceStatusResponse1_0(QDomDocument &xmlDocument, QString status);
+    QString DeviceInformationResponse1_0(QDomDocument xmlDocument, QString deviceName, QString manufacturer, QString serialNumber, QString deviceClass, QString swVersion);
+    QString DeviceConfigurationResponseStructure1_0(QDomDocument xmlDocument, QString deviceId);
+    QString DeviceStatusResponse1_0(QDomDocument xmlDocument, QString status);
     QDomElement DeviceStatus(QDomDocument &xmlDocument, QString status);
     QDomElement Restart();
     QDomElement DeviceInformationGroup1_0(QDomDocument &xmlDocument, QString name, QString manufacturer, QString serialNumber, QString deviceClass, QString swVersion);

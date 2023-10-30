@@ -8,7 +8,7 @@ XmlTicketValidationService::XmlTicketValidationService()
 
 
 
-QString XmlTicketValidationService::TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(QDomDocument &xmlDocument, int currentStopIndex, QVector <StopPointDestination> stopPointDestinationList, QVector<Connection> connectionList)
+QString XmlTicketValidationService::TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(QDomDocument xmlDocument, int currentStopIndex, QVector <StopPointDestination> stopPointDestinationList, QVector<Connection> connectionList)
 {
     qDebug()<<Q_FUNC_INFO;
 
@@ -26,7 +26,8 @@ QString XmlTicketValidationService::TicketValidationService_GetCurrentTariffStop
 }
 
 
-QString XmlTicketValidationService::TicketValidationService_GetVehicleDataResponse2_2CZ1_0(QDomDocument &xmlDocument, VehicleState vehicleState)
+
+QString XmlTicketValidationService::TicketValidationService_GetVehicleDataResponse2_2CZ1_0(QDomDocument xmlDocument, VehicleState vehicleState)
 {
     qDebug()<<Q_FUNC_INFO;
 
@@ -55,7 +56,7 @@ QString XmlTicketValidationService::TicketValidationService_GetVehicleDataRespon
 }
 
 
-QString XmlTicketValidationService::TicketValidationService_GetRazziaResponse2_2CZ1_0(QDomDocument &xmlDocument, VehicleState vehicleState)
+QString XmlTicketValidationService::TicketValidationService_GetRazziaResponse2_2CZ1_0(QDomDocument xmlDocument, VehicleState vehicleState)
 {
     qDebug()<<Q_FUNC_INFO;
     QDomProcessingInstruction dProcessingInformation=createProcessingInformation(xmlDocument,mDefaultEncoding);
