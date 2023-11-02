@@ -3,6 +3,9 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20231102
+    - VDV301 1.0 Connections fix
+    - VDV301 2.4 added required tags to comply with official XSD files for VDV301 2.3
 - 20231030
     - fix of generating Xml responses (change of passing xmlDocument by reference)
     

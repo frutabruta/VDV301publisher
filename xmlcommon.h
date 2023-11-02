@@ -57,7 +57,7 @@ public:
     QDomElement AdditionalTextMessage2_2CZ1_0(QDomDocument &xmlDocument, QString messageContent);
     QDomElement AdditionalTextMessage2_2CZ1_0(QDomDocument &xmlDocument, QString type, QString headline, QString text);
 
-    QVector<QDomElement> Connections1_0(QDomDocument &xmlDocument, QVector<ConnectionMPV> connectionMpvList);
+    QVector<QDomElement> Connections1_0(QDomDocument &xmlDocument, QVector<Connection> connectionList);
     QVector<QDomElement> Connections2_2CZ1_0(QDomDocument &xmlDocument, QVector<Connection> connectionList);
     QVector<QDomElement> Connections2_4(QDomDocument &xmlDocument, QVector<Connection> connectionList);
     //  QString CurrentDisplayContent1_0(int poradi, QVector<StopPointDestination> docasnySeznamZastavek, VehicleState stav);
@@ -101,6 +101,7 @@ public:
     QString stopPropertiesToString2_4(StopPoint stopPoint);
 
     QDomElement DisplayContent2_4(QDomDocument &xmlDocument, QString tagName, QVector<StopPointDestination> stopPointDestinationList, QString language, int stopPointIterator, int currentStopIndex, DisplayContentClass displayContentClass);
+    QString escapeHtml(QString input);
 private:
 
 signals:

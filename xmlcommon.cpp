@@ -56,7 +56,7 @@ QString XmlCommon::createTimestamp()
 }
 
 
-QVector<QDomElement> XmlCommon::Connections1_0(QDomDocument  &xmlDocument, QVector<ConnectionMPV> connectionMpvList)
+QVector<QDomElement> XmlCommon::Connections1_0(QDomDocument  &xmlDocument, QVector<Connection> connectionList)
 {
 
     qDebug()<<Q_FUNC_INFO;
@@ -64,7 +64,7 @@ QVector<QDomElement> XmlCommon::Connections1_0(QDomDocument  &xmlDocument, QVect
     QString language ="cs";
     QVector<QDomElement> output;
 
-    connectionMpvList=ConnectionMPV::orderConnectionsByExpectedDeparture(connectionMpvList);
+    connectionList=Connection::orderConnectionsByExpectedDeparture(connectionList);
 
     QString wuppertalMeanOfTransport="";
     QString destinationRef="1";
@@ -72,36 +72,44 @@ QVector<QDomElement> XmlCommon::Connections1_0(QDomDocument  &xmlDocument, QVect
     for (int i=0;i<connectionMpvList.count();i++)
     {
 */
-    foreach(ConnectionMPV selectedConnection, connectionMpvList)
+    foreach(Connection selectedConnection, connectionList)
     {
-        selectedConnection.lin=selectedConnection.lin.number(10);
+        //selectedConnection.lin=selectedConnection.lin.number(10);
         QDomElement dConnection=xmlDocument.createElement("Connection");
-        Connection vdv301connection=selectedConnection.toConnection();
-
         xmlDocument.appendChild(dConnection);
+
+        if(selectedConnection.line.lineNumber=="")
+        {
+            selectedConnection.line.lineNumber=QString::number(selectedConnection.line.lc);
+        }
+        if(selectedConnection.line.lineName=="")
+        {
+            selectedConnection.line.lineName=QString::number(selectedConnection.line.c);
+        }
+
 
         QDomElement dConnectionMode = xmlDocument.createElement("TransportMode");
         wuppertalMeanOfTransport="";
         // Bus, RegBus,Metro, NTram, Tram, NBus, Os, EC, R, Ex
 
-        if (selectedConnection.t=="Bus")
+        if (selectedConnection.subMode.contains("Bus"));
         {
-            wuppertalMeanOfTransport="$01";
+            wuppertalMeanOfTransport="$01"; //Bus
 
         }
-        if(selectedConnection.t=="Metro")
+        if(selectedConnection.subMode.contains("metro"))
         {
-            wuppertalMeanOfTransport="$03";
+            wuppertalMeanOfTransport="$03"; //metro
 
         }
-        if(selectedConnection.t=="Tram")
+        if(selectedConnection.subMode.contains("Tram"))
         {
-            wuppertalMeanOfTransport="$02";
+            wuppertalMeanOfTransport="$02"; //tram
 
         }
-        if((selectedConnection.t=="Os")||(selectedConnection.t=="R")||(selectedConnection.t=="Sp")||(selectedConnection.t=="Ex")||(selectedConnection.t=="EC"))
+        if(selectedConnection.subMode.contains("Rail"))
         {
-            wuppertalMeanOfTransport="$04";
+            wuppertalMeanOfTransport="$04"; //train
 
         }
 
@@ -115,12 +123,12 @@ QVector<QDomElement> XmlCommon::Connections1_0(QDomDocument  &xmlDocument, QVect
         dDisplayContent.appendChild(Value(xmlDocument,"DisplayContentRef","2244"));
         QDomElement dLineInformation=xmlDocument.createElement("LineInformation");
         dDisplayContent.appendChild(dLineInformation);
-        dLineInformation.appendChild(ref(xmlDocument,"LineRef",selectedConnection.alias));
+        dLineInformation.appendChild(ref(xmlDocument,"LineRef",selectedConnection.line.lineName));
 
-        QDomElement dLineName=internationalTextType(xmlDocument,"LineName",vdv301connection.line.lineName,language);
+        QDomElement dLineName=internationalTextType(xmlDocument,"LineName",selectedConnection.line.lineName,language);
         dLineInformation.appendChild(dLineName);
 
-        QDomElement dLineNumber=Value(xmlDocument, "LineNumber",selectedConnection.lin);
+        QDomElement dLineNumber=Value(xmlDocument, "LineNumber",selectedConnection.line.lineNumber);
         dLineInformation.appendChild(dLineNumber);
 
         QDomElement dDestination=xmlDocument.createElement("Destination");
@@ -130,20 +138,20 @@ QVector<QDomElement> XmlCommon::Connections1_0(QDomDocument  &xmlDocument, QVect
 
         dDestination.appendChild(dDestinationRef);
 
-        QDomElement dDestinationName=internationalTextType(xmlDocument,"DestinationName",vdv301connection.destinationName,language);
+        QDomElement dDestinationName=internationalTextType(xmlDocument,"DestinationName",selectedConnection.destinationName,language);
         dDestination.appendChild(dDestinationName);
 
-        dConnection.appendChild(Value(xmlDocument,"Platform",selectedConnection.stan));
+        dConnection.appendChild(Value(xmlDocument,"Platform",selectedConnection.platform));
 
         //mean of transport
         dConnectionMode.appendChild(this->ref(xmlDocument,"VehicleTypeRef","3"));
         dConnectionMode.appendChild(this->internationalTextType(xmlDocument,"Name",wuppertalMeanOfTransport,defaultLanguage1_0));
         dConnection.appendChild(dConnectionMode);
 
-        QDomElement dExpectedDepartureTime=Value(xmlDocument,"ExpectedDepatureTime", vdv301connection.expectedDepartureTimeQString());
+        QDomElement dExpectedDepartureTime=Value(xmlDocument,"ExpectedDepatureTime", selectedConnection.expectedDepartureTimeQString());
         dConnection.appendChild(dExpectedDepartureTime);
         output.push_back(dConnection);
-        qDebug()<<"connection "<<vdv301connection.line.lineName<<" "<<vdv301connection.destinationName<<" has delay"<<selectedConnection.zpoz<<" cas:"<<selectedConnection.odjReal;
+       // qDebug()<<"connection "<<vdv301connection.line.lineName<<" "<<vdv301connection.destinationName<<" has delay"<<selectedConnection.zpoz<<" cas:"<<selectedConnection.odjReal;
 
     }
     return output;
@@ -187,8 +195,8 @@ QVector<QDomElement> XmlCommon::Connections2_2CZ1_0(QDomDocument  &xmlDocument, 
 
         QDomElement dLineName=internationalTextType(xmlDocument,"LineName",selectedConnection.line.lineName,language);
         dLineInformation.appendChild(dLineName);
-
-        QDomElement dLineNumber=Value(xmlDocument, "LineNumber",selectedConnection.line.lineNumber);
+//        QDomElement dLineNumber=Value(xmlDocument, "LineNumber",selectedConnection.line.lineNumber);
+        QDomElement dLineNumber=Value(xmlDocument, "LineNumber","1");
         dLineInformation.appendChild(dLineNumber);
         QVector<QDomElement> linePropertyList=lineToLineProperties(xmlDocument, selectedConnection.line);
 
@@ -551,6 +559,7 @@ QDomElement XmlCommon::DisplayContent2_4(QDomDocument  &xmlDocument, QString tag
     StopPointDestination selectedStopPointDestination=stopPointDestinationList.at(stopPointIterator);
     QString lineNumber=selectedStopPointDestination.line.lineNumber;
     QString lineName=selectedStopPointDestination.line.lineName;
+    QString lineRef=QString::number(selectedStopPointDestination.line.c);
 
     lineName=colorDisplayRules.styleToString(lineName,colorDisplayRules.lineToStyle(selectedStopPointDestination.line));
 
@@ -563,19 +572,7 @@ QDomElement XmlCommon::DisplayContent2_4(QDomDocument  &xmlDocument, QString tag
     //displayContentRef
 
 
-    QDomElement dDestination=xmlDocument.createElement("Destination");
-    QDomElement dDestinationName;
 
-    QDomElement dLineInformation=xmlDocument.createElement("LineInformation");
-
-
-
-    QDomElement dLineName;
-    dLineName=internationalTextType(xmlDocument,"LineName",lineName,language);
-
-    dLineInformation.appendChild(dLineName);
-    QDomElement dLineNumber=Value(xmlDocument,"LineNumber",lineNumber);
-    dLineInformation.appendChild(dLineNumber);
 
 
     QString placeholder="";
@@ -613,11 +610,26 @@ QDomElement XmlCommon::DisplayContent2_4(QDomDocument  &xmlDocument, QString tag
 
 
 
+
+    QDomElement dLineInformation=xmlDocument.createElement("LineInformation");
+
+    dLineInformation.appendChild(ref(xmlDocument,"LineRef",lineRef));
+
+    QDomElement dLineName=internationalTextType(xmlDocument,"LineName",lineName,language);
+
+    dLineInformation.appendChild(dLineName);
+    QDomElement dLineNumber=Value(xmlDocument,"LineNumber",lineNumber);
+    dLineInformation.appendChild(dLineNumber);
+
+    QDomElement dDestination=xmlDocument.createElement("Destination");
+    QDomElement dDestinationName;
+
     switch(displayContentClass)
     {
     case DisplayContentFront:
         dDisplayContent.appendChild(ref(xmlDocument,"DisplayContentRef","Front"));
         dDisplayContent.appendChild(dLineInformation);
+        dDestination.appendChild(ref(xmlDocument,"DestinationRef",QString::number(selectedStopPointDestination.destination.idCis)));
         dDestinationName=internationalTextType(xmlDocument,"DestinationName",selectedStopPointDestination.destination.NameFront+stopPropertiesToString2_4(selectedStopPointDestination.destination),language);
         dDestination.appendChild(dDestinationName);
         dDisplayContent.appendChild(dDestination);
@@ -625,6 +637,7 @@ QDomElement XmlCommon::DisplayContent2_4(QDomDocument  &xmlDocument, QString tag
     case DisplayContentSide:
         dDisplayContent.appendChild(ref(xmlDocument,"DisplayContentRef","Side"));
         dDisplayContent.appendChild(dLineInformation);
+        dDestination.appendChild(ref(xmlDocument,"DestinationRef",QString::number(selectedStopPointDestination.destination.idCis)));
         dDestinationName=internationalTextType(xmlDocument,"DestinationName",selectedStopPointDestination.destination.NameSide+stopPropertiesToString2_4(selectedStopPointDestination.destination),language);
         dDestination.appendChild(dDestinationName);
         dDisplayContent.appendChild(dDestination);
@@ -633,10 +646,15 @@ QDomElement XmlCommon::DisplayContent2_4(QDomDocument  &xmlDocument, QString tag
     case DisplayContentRear:
         dDisplayContent.appendChild(ref(xmlDocument,"DisplayContentRef","Rear"));
         dDisplayContent.appendChild(dLineInformation);
+        dDestination.appendChild(ref(xmlDocument,"DestinationRef",QString::number(selectedStopPointDestination.destination.idCis)));
+        dDestinationName=internationalTextType(xmlDocument,"DestinationName",selectedStopPointDestination.destination.NameRear+stopPropertiesToString2_4(selectedStopPointDestination.destination),language);
+        dDestination.appendChild(dDestinationName);
+        dDisplayContent.appendChild(dDestination);
         break;
     case DisplayContentLcd:
         dDisplayContent.appendChild(ref(xmlDocument,"DisplayContentRef","Lcd"));
         dDisplayContent.appendChild(dLineInformation);
+        dDestination.appendChild(ref(xmlDocument,"DestinationRef",QString::number(selectedStopPointDestination.destination.idCis)));
         dDestinationName=internationalTextType(xmlDocument,"DestinationName",selectedStopPointDestination.destination.NameLcd+stopPropertiesToString2_4(selectedStopPointDestination.destination),language);
         dDestination.appendChild(dDestinationName);
         dDisplayContent.appendChild(dDestination);
@@ -1118,7 +1136,7 @@ QDomElement XmlCommon::StopPoint1_0(QDomDocument &xmlDocument, QVector<StopPoint
     if (cCurrentStopIndex.toInt()==(currentStopIndex+1))
     {
 
-        foreach(QDomElement dConnection,Connections2_2CZ1_0(xmlDocument,connectionList))
+        foreach(QDomElement dConnection,Connections1_0(xmlDocument,connectionList))
         {
             dStopPoint.appendChild(dConnection );
         }
@@ -1391,6 +1409,8 @@ QDomElement XmlCommon::ViaPoint2_4(QDomDocument &xmlDocument, StopPoint viaPoint
 {
     QDomElement dViaPoint=xmlDocument.createElement("ViaPoint");
 
+    dViaPoint.appendChild(ref(xmlDocument,"ViaPointRef",QString::number(viaPoint.idCis)));
+
     /*
 nedodelane priznaky:
             <xs:enumeration value="Bus"/>
@@ -1421,12 +1441,25 @@ QDomElement XmlCommon::internationalTextType(QDomDocument &xmlDocument,QString n
 {
     QDomElement output=xmlDocument.createElement(name);
     QDomElement xvalue=xmlDocument.createElement("Value");
+
     xvalue.appendChild(xmlDocument.createTextNode(value));
 
     output.appendChild(xvalue);
     QDomElement xlanguage=xmlDocument.createElement("Language");
     xlanguage.appendChild(xmlDocument.createTextNode(language));
     output.appendChild(xlanguage);
+    return output;
+}
+
+QString XmlCommon::escapeHtml(QString input)
+{
+    QString output=input;
+    output=output.replace("&","&amp;");
+    output=output.replace("\"","&quot;");
+    output=output.replace("'","&apos;");
+    output=output.replace("<","&lt");
+    output=output.replace(">","&gt;");
+
     return output;
 }
 
