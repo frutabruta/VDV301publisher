@@ -3,6 +3,17 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20231103
+    - XmlCommon::AdditionalTextMessage1_0
+        - display of AdditionalAnouncements (scrolling/not scrolling)
+    - XmlCommon::Connections1_0
+        - fix of bus pictogram
+    - XmlCommon::DisplayContent1_0
+        - fix of Destination name for LCD
+    - XmlCommon::FareZone2_3
+        - new function
+    - XmlCommon::FareZoneInformationStructure2_3
+        - new function
 - 20231102
     - VDV301 1.0 Connections fix
     - VDV301 2.4 added required tags to comply with official XSD files for VDV301 2.3

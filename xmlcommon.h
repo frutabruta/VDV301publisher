@@ -53,7 +53,7 @@ public:
 
 
     //VDV301 struktury
-    QDomElement AdditionalTextMessage1_0(QString messageContent);
+    QDomElement AdditionalTextMessage1_0(QString messageContent, bool isScrolling);
     QDomElement AdditionalTextMessage2_2CZ1_0(QDomDocument &xmlDocument, QString messageContent);
     QDomElement AdditionalTextMessage2_2CZ1_0(QDomDocument &xmlDocument, QString type, QString headline, QString text);
 
@@ -102,6 +102,8 @@ public:
 
     QDomElement DisplayContent2_4(QDomDocument &xmlDocument, QString tagName, QVector<StopPointDestination> stopPointDestinationList, QString language, int stopPointIterator, int currentStopIndex, DisplayContentClass displayContentClass);
     QString escapeHtml(QString input);
+    QVector<QDomElement> FareZoneInformationStructure2_3(QDomDocument &xmlDocument, QVector<FareZone> fareZoneList, QString language);
+    QDomElement FareZone2_3(QDomDocument &xmlDocument, QString shortName);
 private:
 
 signals:

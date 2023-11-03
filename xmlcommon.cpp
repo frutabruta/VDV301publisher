@@ -8,12 +8,15 @@ XmlCommon::XmlCommon()
 
 }
 
-QDomElement XmlCommon::AdditionalTextMessage1_0(QString messageContent)
+QDomElement XmlCommon::AdditionalTextMessage1_0(QString messageContent,bool isScrolling)
 {
     QDomDocument xmlDocument;
 
-
-    QDomElement TextMessage=Value(xmlDocument,"AdditionalTextMessage","$LS$"+messageContent);
+    if (isScrolling)
+    {
+        messageContent="$LS$"+messageContent;
+    }
+    QDomElement TextMessage=Value(xmlDocument,"AdditionalTextMessage",messageContent);
 
     //<TextMessage> <Value>$LS$This is  text message Šg (Umlaute ÄÖÜäöüß), which could be long...</Value></TextMessage>
     return TextMessage;
@@ -92,7 +95,7 @@ QVector<QDomElement> XmlCommon::Connections1_0(QDomDocument  &xmlDocument, QVect
         wuppertalMeanOfTransport="";
         // Bus, RegBus,Metro, NTram, Tram, NBus, Os, EC, R, Ex
 
-        if (selectedConnection.subMode.contains("Bus"));
+        if (selectedConnection.subMode.contains("Bus"))
         {
             wuppertalMeanOfTransport="$01"; //Bus
 
@@ -356,35 +359,44 @@ QDomElement XmlCommon::DisplayContent1_0(QString tagName, QDomDocument &xmlDocum
     // QString destinationName=selectedStopPointDestination.destination.NameLcd;
     QString destinationRef=QString::number(stopPointDestinationList.at(stopPointIterator).destination.idCis);
     dDestination.appendChild(ref(xmlDocument,"DestinationRef",destinationRef));
-
-    if (selectedStopPointDestination.destination.NameFront2=="")
+    bool lcdOnly=true;
+    if(lcdOnly)
     {
-        if (selectedStopPointDestination.destination.NameFront.contains("|"))
+        QDomElement dDestinationName=internationalTextType(xmlDocument,"DestinationName",selectedStopPointDestination.destination.NameLcd,language);
+        dDestination.appendChild(dDestinationName);
+    }
+    else
+    {
+        if (selectedStopPointDestination.destination.NameFront2=="")
         {
-            QStringList frontDestinations=selectedStopPointDestination.destination.NameFront.split("|");
-
-
-
-            foreach (QString selectedDestination, frontDestinations)
+            if (selectedStopPointDestination.destination.NameFront.contains("|"))
             {
-                QDomElement dDestinationName=internationalTextType(xmlDocument,"DestinationName",selectedDestination,language);
+                QStringList frontDestinations=selectedStopPointDestination.destination.NameFront.split("|");
+
+
+
+                foreach (QString selectedDestination, frontDestinations)
+                {
+                    QDomElement dDestinationName=internationalTextType(xmlDocument,"DestinationName",selectedDestination,language);
+                    dDestination.appendChild(dDestinationName);
+                }
+
+            }
+            else
+            {
+                QDomElement dDestinationName=internationalTextType(xmlDocument,"DestinationName",selectedStopPointDestination.destination.NameFront,language);
                 dDestination.appendChild(dDestinationName);
             }
-
         }
         else
         {
             QDomElement dDestinationName=internationalTextType(xmlDocument,"DestinationName",selectedStopPointDestination.destination.NameFront,language);
             dDestination.appendChild(dDestinationName);
+            QDomElement dDestinationName2=internationalTextType(xmlDocument,"DestinationName",selectedStopPointDestination.destination.NameFront2,language);
+            dDestination.appendChild(dDestinationName2);
         }
     }
-    else
-    {
-        QDomElement dDestinationName=internationalTextType(xmlDocument,"DestinationName",selectedStopPointDestination.destination.NameFront,language);
-        dDestination.appendChild(dDestinationName);
-        QDomElement dDestinationName2=internationalTextType(xmlDocument,"DestinationName",selectedStopPointDestination.destination.NameFront2,language);
-        dDestination.appendChild(dDestinationName2);
-    }
+
 
     dDisplayContent.appendChild(dDestination);
     if ((appendNextStopToViaPoints==true)&&((currentStopIndex+1)<stopPointDestinationList.count()))
@@ -825,6 +837,25 @@ QDomElement XmlCommon::FareZone2_2CZ1_0(QDomDocument  &xmlDocument, QString shor
     return dFareZone;
 }
 
+QDomElement XmlCommon::FareZone2_3(QDomDocument  &xmlDocument, QString shortName)
+{
+
+    QDomElement dFareZone=Value(xmlDocument,"FareZone",shortName);
+    /*
+    QDomElement zoneType=xmlDocument.createElement("FareZoneType");
+    QDomElement zoneTypeName=internationalTextType(xmlDocument,"FareZoneTypeName",type,language);
+    zoneType.appendChild(zoneTypeName);
+    dFareZone.appendChild(zoneType);
+
+    QDomElement zoneLongName=internationalTextType(xmlDocument,"FareZoneLongName",longName,language);
+    QDomElement zoneShortName=internationalTextType(xmlDocument,"FareZoneShortName",shortName,language);
+
+    dFareZone.appendChild(zoneLongName);
+    dFareZone.appendChild(zoneShortName);*/
+
+    return dFareZone;
+}
+
 QVector<QDomElement> XmlCommon::FareZoneInformationStructure1_0(QDomDocument  &xmlDocument, QVector<FareZone> fareZoneList)
 {
     QVector<QDomElement> dFareZoneList;
@@ -845,6 +876,32 @@ QVector<QDomElement> XmlCommon::FareZoneInformationStructure2_2CZ1_0(QDomDocumen
     foreach( FareZone selectedFareZone, fareZoneList)
     {
         QDomElement dFareZone=FareZone2_2CZ1_0(xmlDocument,selectedFareZone.name,selectedFareZone.name,selectedFareZone.system,language );
+        dFareZoneList.append(dFareZone);
+    }
+
+    return dFareZoneList;
+}
+
+QVector<QDomElement> XmlCommon::FareZoneInformationStructure2_3(QDomDocument  &xmlDocument, QVector<FareZone> fareZoneList,QString language)
+{
+    QVector<QDomElement> dFareZoneList;
+
+    QMap<QString, QStringList> fareZoneByType;
+
+
+    foreach( FareZone selectedFareZone, fareZoneList)
+    {
+        fareZoneByType[selectedFareZone.system].append(selectedFareZone.name);
+    }
+
+    foreach(QString key,fareZoneByType.keys())
+    {
+        QString result="";
+        result+=key;
+        result+=":";
+        result+=fareZoneByType[key].join("_");
+
+        QDomElement dFareZone=FareZone2_3(xmlDocument,result);
         dFareZoneList.append(dFareZone);
     }
 
@@ -942,11 +999,11 @@ QDomElement XmlCommon::TripInformation1_0(QDomDocument &xmlDocument, QVector<Tri
 
     if(vehicleState.isSpecialAnnoucementUsed)
     {
-        dTripInformation.appendChild(AdditionalTextMessage1_0(vehicleState.currentSpecialAnnoucement.text));
+        dTripInformation.appendChild(AdditionalTextMessage1_0(vehicleState.currentSpecialAnnoucement.text,false));
     }
     else if (specialAnnouncement!="")
     {
-        dTripInformation.appendChild(AdditionalTextMessage1_0(specialAnnouncement));
+        dTripInformation.appendChild(AdditionalTextMessage1_0(specialAnnouncement,true));
     }
 
     else
@@ -1107,7 +1164,7 @@ QDomElement XmlCommon::StopPoint1_0(QDomDocument &xmlDocument, QVector<StopPoint
     StopPointDestination selectedStopPointDestination=stopPointDestinationList.at(stopPointIterator);
 
     QByteArray cCurrentStopIndex=QByteArray::number(stopPointIterator+1);
-    QString cStopName= selectedStopPointDestination.stopPoint.StopName;
+    QString cStopName= selectedStopPointDestination.stopPoint.NameLcd;
 
     QDomElement dStopIndex=Value(xmlDocument,"StopIndex",cCurrentStopIndex);
 
@@ -1321,7 +1378,7 @@ QDomElement XmlCommon::StopPoint2_4(QDomDocument &xmlDocument, QVector<StopPoint
     }
 
 
-    foreach(QDomElement dFareZone, FareZoneInformationStructure2_2CZ1_0(xmlDocument,currentStopPoinDestination.stopPoint.fareZoneList,language) )
+    foreach(QDomElement dFareZone, FareZoneInformationStructure2_3(xmlDocument,currentStopPoinDestination.stopPoint.fareZoneList,language) )
     {
         dStopPoint.appendChild(dFareZone);
     }
