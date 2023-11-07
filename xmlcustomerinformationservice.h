@@ -18,8 +18,8 @@ public:
     QString CurrentDisplayContent2_2CZ1_0(QDomDocument xmlDocument, QVector<StopPointDestination> stopPointDestinationList, VehicleState vehicleState);
 
     //rozdelano
-    QString CurrentDisplayContent2_4(QDomDocument xmlDocument, QVector<StopPointDestination> stopPointDestinationList, VehicleState vehicleState);
-    QString AllData2_4(QDomDocument xmlDocument, QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState);
+    QString CurrentDisplayContent2_3(QDomDocument xmlDocument, QVector<StopPointDestination> stopPointDestinationList, VehicleState vehicleState);
+    QString AllData2_3(QDomDocument xmlDocument, QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState);
 
 private:
 

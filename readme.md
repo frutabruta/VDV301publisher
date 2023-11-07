@@ -1,8 +1,18 @@
 # VDV301publisher
 Qt library for VDV301 devices used as publisher
 
+- CustomerInformationService (1.0, 2.2CZ1.0, 2.3)
+    - GetAllData
+    - GetCurrentDisplayContent
+- DeviceManagementService (1.0)
+
 
 ## Changelog:
+- 20231108
+    - all functions in version 2.4 have been renamed to 2.4, because they were made to comply with 2.3 version XSDs and 2.4 specification is not finished yet
+    - 2.3
+        - AdditionalTextMessageFix
+
 - 20231103
     - XmlCommon::AdditionalTextMessage1_0
         - display of AdditionalAnouncements (scrolling/not scrolling)

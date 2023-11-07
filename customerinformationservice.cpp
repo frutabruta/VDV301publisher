@@ -60,13 +60,13 @@ void CustomerInformationService::updateInternalVariables(QVector<Connection> con
         bodyAllData=xmlGenerator.AllData2_2CZ1_0(xmlDocument,tripList,connectionList,vehicleState);
         bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent2_2CZ1_0(xmlDocument,seznamZastavek,vehicleState);
     }
-    else if (globalVersion=="2.4")
+    else if (globalVersion=="2.3")
     {
         //Work in progress
          QDomDocument xmlDocument;
         //special options for XML in this version can be placed here
-        bodyAllData=xmlGenerator.AllData2_4(xmlDocument, tripList,connectionList,vehicleState);
-        bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent2_4(xmlDocument,seznamZastavek,vehicleState);
+        bodyAllData=xmlGenerator.AllData2_3(xmlDocument, tripList,connectionList,vehicleState);
+        bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent2_3(xmlDocument,seznamZastavek,vehicleState);
 
     }
     else

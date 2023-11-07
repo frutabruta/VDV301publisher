@@ -37,7 +37,7 @@ public:
     //constants
     QString defaultLanguage1_0="de";
     QString defaultLanguage2_2CZ1_0="cs";
-    QString defaultLanguage2_4="cs";
+    QString defaultLanguage2_3="cs";
     QString mDefaultEncoding="utf-8";
 
 
@@ -59,7 +59,7 @@ public:
 
     QVector<QDomElement> Connections1_0(QDomDocument &xmlDocument, QVector<Connection> connectionList);
     QVector<QDomElement> Connections2_2CZ1_0(QDomDocument &xmlDocument, QVector<Connection> connectionList);
-    QVector<QDomElement> Connections2_4(QDomDocument &xmlDocument, QVector<Connection> connectionList);
+    QVector<QDomElement> Connections2_3(QDomDocument &xmlDocument, QVector<Connection> connectionList);
     //  QString CurrentDisplayContent1_0(int poradi, QVector<StopPointDestination> docasnySeznamZastavek, VehicleState stav);
 
     QDomElement DisplayContent1_0(QString tagName, QDomDocument &xmlDocument, QVector<StopPointDestination> stopPointDestinationList, QString language, int stopPointIterator, int currentStopIndex);
@@ -91,19 +91,20 @@ public:
     QDomElement Value(QDomDocument &xmlDocument, QString elementName, QString content);
 
     //WORK IN PROGRESS
-    QDomElement StopPoint2_4(QDomDocument &xmlDocument, QVector<StopPointDestination> stopPointDestinationList, int stopPointIterator, QVector<Connection> connectionList, QString language, int currentStopIndex);
-    QDomElement ViaPoint2_4(QDomDocument &xmlDocument, StopPoint viaPoint, QString language);
+    QDomElement StopPoint2_3(QDomDocument &xmlDocument, QVector<StopPointDestination> stopPointDestinationList, int stopPointIterator, QVector<Connection> connectionList, QString language, int currentStopIndex);
+    QDomElement ViaPoint2_3(QDomDocument &xmlDocument, StopPoint viaPoint, QString language);
 
 
-    QDomElement TripInformation2_4(QDomDocument &xmlDocument, QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState, int tripIndex, bool followingTrip);
-    QDomElement StopSequence2_4(QDomDocument &xmlDocument, QVector<StopPointDestination> stopPointDestinationList, QString language, int currentStopIndex, QVector<Connection> connectionList);
-    QString xxxProperty2_4(QString icon, QString text, bool value);
-    QString stopPropertiesToString2_4(StopPoint stopPoint);
+    QDomElement TripInformation2_3(QDomDocument &xmlDocument, QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState, int tripIndex, bool followingTrip);
+    QDomElement StopSequence2_3(QDomDocument &xmlDocument, QVector<StopPointDestination> stopPointDestinationList, QString language, int currentStopIndex, QVector<Connection> connectionList);
+    QString xxxProperty2_3(QString icon, QString text, bool value);
+    QString stopPropertiesToString2_3(StopPoint stopPoint);
 
-    QDomElement DisplayContent2_4(QDomDocument &xmlDocument, QString tagName, QVector<StopPointDestination> stopPointDestinationList, QString language, int stopPointIterator, int currentStopIndex, DisplayContentClass displayContentClass);
+    QDomElement DisplayContent2_3(QDomDocument &xmlDocument, QString tagName, QVector<StopPointDestination> stopPointDestinationList, QString language, int stopPointIterator, int currentStopIndex, DisplayContentClass displayContentClass);
     QString escapeHtml(QString input);
     QVector<QDomElement> FareZoneInformationStructure2_3(QDomDocument &xmlDocument, QVector<FareZone> fareZoneList, QString language);
     QDomElement FareZone2_3(QDomDocument &xmlDocument, QString shortName);
+    QDomElement AdditionalTextMessage2_3(QDomDocument &xmlDocument, QString messageContent);
 private:
 
 signals:
