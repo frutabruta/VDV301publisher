@@ -227,6 +227,31 @@ void HttpService::slotDumpRequestContent(QByteArray request,QString structureNam
         candidateToSubscribe.structure=structureName;
         handleNewSubscriber(candidateToSubscribe);
     }
+    if(firstTag=="UnsubscribeRequest")
+    {
+        QDomElement subscribeRequest=xmlRequest.firstChildElement("UnsubscribeRequest");
+
+        QString address=subscribeRequest.firstChildElement("Client-IP-Address").firstChildElement().text() ;
+        QString port=subscribeRequest.elementsByTagName("ReplyPort").at(0).toElement().firstChildElement().text() ;
+        QString path=subscribeRequest.firstChildElement("ReplyPath").toElement().firstChildElement("Value").firstChild().nodeValue();
+        QString fullAddress="http://"+address+":"+port+"/"+path;
+
+        if(address.contains("%")) //IP v fixM  ?
+        {
+            qDebug()<<" percent sign detected";
+            fullAddress="http://["+address+"]:"+port;
+        }
+
+        QUrl fullAddressUrl=fullAddress;
+        qDebug()<<"komplet adresa subscribera "<<fullAddress;
+
+        Subscriber candidateToSubscribe;
+        candidateToSubscribe.address=fullAddressUrl;
+        candidateToSubscribe.structure=structureName;
+
+        removeSubscriber(candidateToSubscribe);
+
+    }
     else if(firstTag=="DeviceManagementService.SetDeviceConfigurationRequest")
     {
         QDomElement subscribeRequest=xmlRequest.firstChildElement("DeviceManagementService.SetDeviceConfigurationRequest");
@@ -358,12 +383,27 @@ int HttpService::removeSubscriber(int index)
         qDebug()<<"removing "<<subscriberList.at(index).address<<subscriberList.at(index).structure;
 
         subscriberList.removeAt(index);
+        emit signalDumpSubscriberList(subscriberList);
         return 1;
     }
     else
     {
         qDebug()<<"out of range";
     }
+    return 0;
+}
+
+int HttpService::removeSubscriber(Subscriber selectedSubscriber)
+{
+    qDebug() <<  Q_FUNC_INFO;
+
+    int index=subscriberList.indexOf(selectedSubscriber);
+    if(index>=0)
+    {
+       return removeSubscriber(index);
+
+    }
+
     return 0;
 }
 

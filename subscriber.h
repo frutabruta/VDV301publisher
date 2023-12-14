@@ -16,6 +16,7 @@ public:
 
     Subscriber(QUrl address, QString structure);
     Subscriber(QUrl addressWithoutPortNumber, QString structure, int portNumber);
+    bool operator ==(const Subscriber &node) const;
 signals:
 
 };

@@ -36,6 +36,7 @@ public:
     QString handleNewSubscriber(Subscriber subscriber);
     int isSubscriberOnTheList(QVector<Subscriber> subscriberList, Subscriber testedSubscriber);
     int removeSubscriber(int index);
+    int removeSubscriber(Subscriber selectedSubscriber);
 
     QByteArray createSubscribeResponseBody(int desiredResult);  // unused
 
@@ -48,6 +49,7 @@ public:
 
     int portNumber() const;
     void setPortNumber(int newPortNumber);
+
 
 private:
     //instance knihoven

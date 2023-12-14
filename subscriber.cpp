@@ -18,3 +18,9 @@ Subscriber::Subscriber(QUrl addressWithoutPortNumber,QString structure, int port
     this->address=addressWithoutPortNumber;
     this->structure=structure;
 }
+
+
+bool Subscriber::operator==(const Subscriber &node) const
+{
+    return address==node.address && structure == node.structure;
+}

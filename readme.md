@@ -8,6 +8,19 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20231214
+    - HttpServerPublisher
+        - HttpServerPublisher::route
+            - now reacts to Unsubscribe requests
+        - HttpService
+            - HttpService::slotDumpRequestContent
+            - new overloaded function HttpService::removeSubscriber(Subscriber selectedSubscriber)
+        - Subscriber
+            - added == operator
+        - XmlCommon
+            - fixed two row destination generator for front display 
+    
+
 - 20231108
     - all functions in version 2.4 have been renamed to 2.4, because they were made to comply with 2.3 version XSDs and 2.4 specification is not finished yet
     - 2.3

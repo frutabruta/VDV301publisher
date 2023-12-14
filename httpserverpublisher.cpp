@@ -33,52 +33,67 @@ int HttpServerPublisher::route(QString &serviceFolder,  QMap<QString,QString> &c
     qDebug() << serviceFolder;
 
     httpServer.route("/"+serviceFolder+"/Subscribe<arg>", [this](const QUrl &url,const QHttpServerRequest &request)
-    {
-        QString structure= QStringLiteral("%1").arg(url.path());
-        qDebug()<<"subscribe request "<<structure;
-        qDebug().noquote()<<request.body();
-        /*
+                     {
+                         QString structure= QStringLiteral("%1").arg(url.path());
+                         qDebug()<<"subscribe request "<<structure;
+                         qDebug().noquote()<<request.body();
+                         /*
         QString textVysledek="true";
         QString odpoved=vyrobSubscribeResponse(textVysledek);
     */
-        this->requestBody=request.body();
-        emit signalContentChanged(request.body(),structure);
-        return this->mContentSubscribe;
+                         this->requestBody=request.body();
+                         emit signalContentChanged(request.body(),structure);
+                         return this->mContentSubscribe;
 
-    });
+                     });
+
+    httpServer.route("/"+serviceFolder+"/Unsubscribe<arg>", [this](const QUrl &url,const QHttpServerRequest &request)
+                     {
+                         QString structure= QStringLiteral("%1").arg(url.path());
+                         qDebug()<<"unsubscribe request "<<structure;
+                         qDebug().noquote()<<request.body();
+                         /*
+        QString textVysledek="true";
+        QString odpoved=vyrobSubscribeResponse(textVysledek);
+    */
+                         this->requestBody=request.body();
+                         emit signalContentChanged(request.body(),structure);
+                         return this->mContentUnsubscribe;
+
+                     });
 
     httpServer.route("/"+serviceFolder+"/Set<arg>", [this](const QUrl &url,const QHttpServerRequest &request)
-    {
-        QString struktura= QStringLiteral("%1").arg(url.path());
-        qDebug().noquote()<<"request Set"<<struktura;
-        this->requestBody=request.body();
-        emit signalContentChanged(request.body(),struktura);
-        return this->mContentSet;
-    });
+                     {
+                         QString struktura= QStringLiteral("%1").arg(url.path());
+                         qDebug().noquote()<<"request Set"<<struktura;
+                         this->requestBody=request.body();
+                         emit signalContentChanged(request.body(),struktura);
+                         return this->mContentSet;
+                     });
 
     httpServer.route("/"+serviceFolder+"/Get<arg>", [&contentBody](const QUrl &url,const QHttpServerRequest &request)
-    {
-        QString structure= QStringLiteral("%1").arg(url.path());
-        qDebug().noquote()<<"request Get"<<structure;
-        return contentBody.value(structure);
-    });
+                     {
+                         QString structure= QStringLiteral("%1").arg(url.path());
+                         qDebug().noquote()<<"request Get"<<structure;
+                         return contentBody.value(structure);
+                     });
 
 
     httpServer.route("/", [this](const QHttpServerRequest &request)
-    {
-        qDebug()<<"request HEAD "<<request.headers();
-        qDebug()<<"request BODY "<<request.body();
+                     {
+                         qDebug()<<"request HEAD "<<request.headers();
+                         qDebug()<<"request BODY "<<request.body();
 
-        emit signalDataReceived(request.body());
-        return this->mContentRoot;
-    });
+                         emit signalDataReceived(request.body());
+                         return this->mContentRoot;
+                     });
 
     httpServer.afterRequest([](QHttpServerResponse &&resp)
-    {
-        resp.setHeader("Server", "Super server!");
-        resp.setHeader("Content-Type", "text/xml");
-        return std::move(resp);
-    });
+                            {
+                                resp.setHeader("Server", "Super server!");
+                                resp.setHeader("Content-Type", "text/xml");
+                                return std::move(resp);
+                            });
     return 1;
 }
 
@@ -94,7 +109,7 @@ int HttpServerPublisher::listen()
         if (!port)
         {
             qDebug() << QCoreApplication::translate(
-                            "QHttpServerExample", "Server failed to listen on a port.");
+                "QHttpServerExample", "Server failed to listen on a port.");
 
         }
 
@@ -110,7 +125,7 @@ int HttpServerPublisher::listen()
         const auto port = httpServer.listen(QHostAddress::Any);
         if (!port) {
             qDebug() << QCoreApplication::translate(
-                            "QHttpServerExample", "Server failed to listen on a port.");
+                "QHttpServerExample", "Server failed to listen on a port.");
 
         }
 
