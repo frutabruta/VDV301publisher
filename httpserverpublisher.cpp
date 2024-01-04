@@ -8,6 +8,8 @@ HttpServerPublisher::HttpServerPublisher(quint16 newPortNumber,QString newServic
     mServiceFolder=newServiceFolder;
     connect(this,&HttpServerPublisher::signalServerRuns,this,&HttpServerPublisher::slotTest);
 
+    mContentSubscribe=createSubscribeResponse("true");
+    mContentUnsubscribe=createUnsubscribeResponse("false");
     //   slotStartServer();
 
 
@@ -188,12 +190,24 @@ QString HttpServerPublisher::createHeaderOk()
 QString HttpServerPublisher::createSubscribeResponse(QString result)
 {
     QString response;
-    response+="<?xml version=\"1.0\" encoding=\"utf-16\"?>";
+    response+="<?xml version=\"1.0\" encoding=\"utf-8\"?>";
     response+="<SubscribeResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">";
     response+="<Active><Value>";
     response+=result;
     response+="</Value></Active>";
     response+="</SubscribeResponse>";
+    return response;
+}
+
+QString HttpServerPublisher::createUnsubscribeResponse(QString result)
+{
+    QString response;
+    response+="<?xml version=\"1.0\" encoding=\"utf-8\"?>";
+    response+="<UnsubscribeResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">";
+    response+="<Active><Value>";
+    response+=result;
+    response+="</Value></Active>";
+    response+="</UnsubscribeResponse>";
     return response;
 }
 

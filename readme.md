@@ -8,6 +8,15 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20240104
+    - application of functions
+        - HttpServerPublisher::createSubscribeResponse
+        - HttpServerPublisher::createUnsubscribeResponse
+    - HttpServerPublisher
+        - Active=false if unsubscription is successful 
+        - changed response header from UTF-16 to UTF-8
+
+
 - 20231214
     - HttpServerPublisher
         - HttpServerPublisher::route
