@@ -5,6 +5,15 @@ DeviceManagementService::DeviceManagementService(QString serviceName, QString se
 {
     qDebug()<<Q_FUNC_INFO;
     // connect(timer, &QTimer::timeout, this, &CustomerInformationService::slotTedOdesliNaPanely);
+    deviceStates.insert(StateDefective,"defective");
+    deviceStates.insert(StateWarning,"warning");
+    deviceStates.insert(StateNotavailable,"notavailable");
+    deviceStates.insert(StateRunning,"running");
+    deviceStates.insert(StateReadyForShutdown ,"readyForShutdown");
+
+
+
+
     updateInternalVariables();
 
     connect(this, &HttpService::signalParameterChange,this, &DeviceManagementService::slotSetParameters);
@@ -35,19 +44,19 @@ void DeviceManagementService::updateInternalVariables()
     QString bodyServiceStatusResponse="";
     QString bodyRestartDeviceResponse="";
 
-    if (globalVersion=="2.2CZ1.0")
+    if (globalVersion=="2.2")
     {
         QDomDocument xmlDocument;
         bodyDeviceInformationResponse=xmlGenerator.DeviceInformationResponse1_0(xmlDocument,mDeviceName,mDeviceManufacturer,mDeviceSerialNumber,mDeviceClass,mSwVersion);
         bodyDeviceConfigurationResponse=xmlGenerator.DeviceConfigurationResponseStructure1_0(xmlDocument,mDeviceId);
-        bodyDeviceStatusInformationResponse=xmlGenerator.DeviceStatusResponse1_0(xmlDocument,"running");
+        bodyDeviceStatusInformationResponse=xmlGenerator.DeviceStatusResponse1_0(xmlDocument,deviceStates[mDeviceStatus] );
     }
     else
     {
         QDomDocument xmlDocument;
         bodyDeviceInformationResponse=xmlGenerator.DeviceInformationResponse1_0(xmlDocument,mDeviceName,mDeviceManufacturer,mDeviceSerialNumber,mDeviceClass,mSwVersion);
         bodyDeviceConfigurationResponse=xmlGenerator.DeviceConfigurationResponseStructure1_0(xmlDocument,mDeviceId);
-        bodyDeviceStatusInformationResponse=xmlGenerator.DeviceStatusResponse1_0(xmlDocument,"running");
+        bodyDeviceStatusInformationResponse=xmlGenerator.DeviceStatusResponse1_0(xmlDocument,deviceStates[mDeviceStatus]);
     }
 
     this->setBodyContent("DeviceInformation",bodyDeviceInformationResponse);
@@ -61,6 +70,16 @@ void DeviceManagementService::updateInternalVariables()
         postToSubscriber(subscriberList[i].address,structureContentMap.value(subscriberList[i].structure));
     }
 
+}
+
+DeviceManagementService::DeviceStatus DeviceManagementService::deviceStatus() const
+{
+    return mDeviceStatus;
+}
+
+void DeviceManagementService::setDeviceStatus(DeviceStatus newDeviceStatus)
+{
+    mDeviceStatus = newDeviceStatus;
 }
 
 QString DeviceManagementService::swVersion() const

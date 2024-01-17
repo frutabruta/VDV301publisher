@@ -8,6 +8,10 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20240117
+    - DeviceManagementService
+        - device status support
+            - status can be changed externally
 - 20240104
     - application of functions
         - HttpServerPublisher::createSubscribeResponse

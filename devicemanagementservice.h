@@ -4,13 +4,34 @@
 #include "httpservice.h"
 #include "xmldevicemanagementservice.h"
 
+
+
+
+
+
 class DeviceManagementService : public HttpService
 {
     Q_OBJECT
 public:
+
+
     explicit DeviceManagementService(QString serviceName, QString serviceType, int portNumber, QString version);
 
+    enum DeviceStatus
+    {
+        StateDefective, // 1.0
+        StateWarning, // added in 2.2
+        StateNotavailable, // 1.0
+        StateRunning, //1.0
+        StateReadyForShutdown // added in 2.2
+    };
+
+
     void serviceContentUpdate();
+
+    QMap<int,QString> deviceStates;
+
+
 
    // QMap<QString,QString> parametry;
 
@@ -32,6 +53,10 @@ public:
     QString swVersion() const;
     void setSwVersion(const QString &newSwVersion);
 
+    void setDeviceStatus(DeviceStatus newDeviceStatus);
+
+    DeviceStatus deviceStatus() const;
+
 public slots:
     void slotDataUpdate();
 private slots:
@@ -45,6 +70,7 @@ private:
     QString mDeviceClass="";
     QString mDeviceId=0;
     QString mSwVersion="";
+    DeviceStatus mDeviceStatus=StateRunning;
 
     XmlDeviceManagementService xmlGenerator;
 signals:
