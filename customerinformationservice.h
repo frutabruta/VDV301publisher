@@ -3,11 +3,10 @@
 
 
 #include "httpservice.h"
+#include "VDV301DataStructures/connectionmpv.h"
 
 #include "xmlcustomerinformationservice.h"
-/*
-enum DeviceState
-*/
+
 class CustomerInformationService : public HttpService
 {
 public:

@@ -105,6 +105,8 @@ public:
     QVector<QDomElement> FareZoneInformationStructure2_3(QDomDocument &xmlDocument, QVector<FareZone> fareZoneList, QString language);
     QDomElement FareZone2_3(QDomDocument &xmlDocument, QString shortName);
     QDomElement AdditionalTextMessage2_3(QDomDocument &xmlDocument, QString messageContent);
+    QVector<QDomElement> DisplayContentViaPointDestination2_3(QDomDocument &xmlDocument, QString tagName, QVector<StopPointDestination> stopPointDestinationList, QString language, int stopPointIterator, int currentStopIndex, DisplayContentClass displayContentClass);
+    QDateTime qTimeToQDateTimeToday(QTime input);
 private:
 
 signals:

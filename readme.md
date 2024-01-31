@@ -8,6 +8,18 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20240131
+    - XmlCommon 
+        - XmlCommon::DisplayContent2_3
+            - two row destination fix
+        - XmlCommon::DisplayContentViaPointDestination2_3
+            - new function to accomodate storing viaPoints as second row of destination, cycling through different DisplayContents 
+        - XmlCommon::StopPoint2_3
+            - modified to accomodate storing viaPoints as second row of destination, cycling through different DisplayContents 
+        - XmlCommon::StopPoint2_2CZ1_0
+            - expected departure added
+            - scheduled departure added (now same value is stored in both)
+        
 - 20240117
     - DeviceManagementService
         - device status support
