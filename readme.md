@@ -8,6 +8,8 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20240203
+    - 2.3 out of service Xml generator fix
 - 20240131
     - XmlCommon 
         - XmlCommon::DisplayContent2_3

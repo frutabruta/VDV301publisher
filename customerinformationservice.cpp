@@ -99,6 +99,8 @@ void CustomerInformationService::updateInternalVariablesEmpty(VehicleState &vehi
 
     qDebug()<<"size of triplist "<<tripList.size()<<" index"<<vehicleState.currentTripIndex;
 
+    tripList.clear();
+    QVector<Connection> connectionList;
 
     QString bodyAllData="";
     QString bodyCurrentDisplayContent="";
@@ -107,6 +109,13 @@ void CustomerInformationService::updateInternalVariablesEmpty(VehicleState &vehi
     {
         QDomDocument xmlDocument;
         bodyAllData=xmlGenerator.AllData_empty2_2CZ1_0(xmlDocument);
+    }
+    else if(globalVersion=="2.3")
+    {
+        //bodyAllData=xmlGenerator.AllData_empty2_3(xmlDocument);
+        QDomDocument xmlDocument;
+
+        bodyAllData=xmlGenerator.AllData2_3(xmlDocument, tripList,connectionList,vehicleState);
     }
     else
     {
