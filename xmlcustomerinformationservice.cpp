@@ -286,7 +286,7 @@ QString XmlCustomerInformationService::CurrentDisplayContent2_3(QDomDocument xml
         qDebug()<<"currentDisplayContent empty stop list";
         return "empty stop list";
     }
-
+    QString language=defaultLanguage2_3;
 
     QDomProcessingInstruction dProcessingInformation=createProcessingInformation(xmlDocument,mDefaultEncoding);
     xmlDocument.appendChild(dProcessingInformation);
@@ -296,11 +296,31 @@ QString XmlCustomerInformationService::CurrentDisplayContent2_3(QDomDocument xml
 
     dCurrentDisplayContentData.appendChild(TimeStampTag1_0(xmlDocument));
 
-    // dCurrentDisplayContentData.appendChild(DisplayContent1_0("CurrentDisplayContent",xmlko,docasnySeznamZastavek,language,stav.indexAktZastavky,stav.indexAktZastavky));
+    /*
     dCurrentDisplayContentData.appendChild(DisplayContent2_3(xmlDocument,"CurrentDisplayContent",stopPointDestinationList, defaultLanguage2_3,vehicleState.currentStopIndex0,vehicleState.currentStopIndex0,DisplayContentFront));
     dCurrentDisplayContentData.appendChild(DisplayContent2_3(xmlDocument,"CurrentDisplayContent",stopPointDestinationList, defaultLanguage2_3,vehicleState.currentStopIndex0,vehicleState.currentStopIndex0,DisplayContentSide));
     dCurrentDisplayContentData.appendChild(DisplayContent2_3(xmlDocument,"CurrentDisplayContent",stopPointDestinationList, defaultLanguage2_3,vehicleState.currentStopIndex0,vehicleState.currentStopIndex0,DisplayContentRear));
     dCurrentDisplayContentData.appendChild(DisplayContent2_3(xmlDocument,"CurrentDisplayContent",stopPointDestinationList, defaultLanguage2_3,vehicleState.currentStopIndex0,vehicleState.currentStopIndex0,DisplayContentLcd));
+*/
+
+    QDomElement dDisplayContentFront=DisplayContent2_3(xmlDocument,"CurrentDisplayContent",stopPointDestinationList, language,vehicleState.currentStopIndex0,vehicleState.currentStopIndex0,DisplayContentFront);
+     dCurrentDisplayContentData.appendChild(dDisplayContentFront);
+
+
+    QVector<QDomElement> dDisplayContentSideVector=DisplayContentViaPointDestination2_3(xmlDocument,"CurrentDisplayContent",stopPointDestinationList, language,vehicleState.currentStopIndex0,vehicleState.currentStopIndex0,DisplayContentSide);
+    foreach(QDomElement dDisplayContentSide, dDisplayContentSideVector)
+    {
+         dCurrentDisplayContentData.appendChild(dDisplayContentSide);
+    }
+
+
+
+
+    QDomElement dDisplayContentRear=DisplayContent2_3(xmlDocument,"CurrentDisplayContent",stopPointDestinationList, language,vehicleState.currentStopIndex0,vehicleState.currentStopIndex0,DisplayContentRear);
+     dCurrentDisplayContentData.appendChild(dDisplayContentRear);
+
+    QDomElement dDisplayContentLcd=DisplayContent2_3(xmlDocument,"CurrentDisplayContent",stopPointDestinationList, language,vehicleState.currentStopIndex0,vehicleState.currentStopIndex0,DisplayContentLcd);
+     dCurrentDisplayContentData.appendChild(dDisplayContentLcd);
 
     dCustomerInformationService.appendChild(dCurrentDisplayContentData);
     xmlDocument.appendChild(dCustomerInformationService);
