@@ -10,6 +10,9 @@ Qt library for VDV301 devices used as publisher
 ## Changelog:
 - 20240422
     - globalVersion changed to private (mVersion), added getter and setter
+- 20240208
+    - 2.3
+        - CurrentDisplayContent fix
 - 20240203
     - 2.3 out of service Xml generator fix
 - 20240131
