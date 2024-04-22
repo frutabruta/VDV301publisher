@@ -33,7 +33,7 @@ CustomerInformationService::CustomerInformationService(QString serviceName, QStr
  */
 void CustomerInformationService::updateInternalVariables(QVector<Connection> connectionList, VehicleState &vehicleState, QVector<Trip>  tripList ) //novy
 {
-    qDebug() <<  Q_FUNC_INFO<<" "<<mServiceName<<" "<<globalVersion;
+    qDebug() <<  Q_FUNC_INFO<<" "<<mServiceName<<" "<<mVersion;
     qDebug()<<"velikost seznamTripu"<<tripList.size()<<" index"<<vehicleState.currentTripIndex;
 
     if (tripList.isEmpty())
@@ -53,14 +53,14 @@ void CustomerInformationService::updateInternalVariables(QVector<Connection> con
     QVector<StopPointDestination>  seznamZastavek=tripList.at(vehicleState.currentTripIndex).globalStopPointDestinationList;
     QString bodyAllData="";
     QString bodyCurrentDisplayContent="";
-
-    if (globalVersion=="2.2CZ1.0")
+    
+    if (mVersion=="2.2CZ1.0")
     {
          QDomDocument xmlDocument;
         bodyAllData=xmlGenerator.AllData2_2CZ1_0(xmlDocument,tripList,connectionList,vehicleState);
         bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent2_2CZ1_0(xmlDocument,seznamZastavek,vehicleState);
     }
-    else if (globalVersion=="2.3")
+    else if (mVersion=="2.3")
     {
         //Work in progress
          QDomDocument xmlDocument;
@@ -95,7 +95,7 @@ void CustomerInformationService::updateInternalVariables(QVector<Connection> con
  */
 void CustomerInformationService::updateInternalVariablesEmpty(VehicleState &vehicleState, QVector<Trip>  tripList ) //novy
 {
-    qDebug() <<  Q_FUNC_INFO<<" "<<mServiceName<<" "<<globalVersion;
+    qDebug() <<  Q_FUNC_INFO<<" "<<mServiceName<<" "<<mVersion;
 
     qDebug()<<"size of triplist "<<tripList.size()<<" index"<<vehicleState.currentTripIndex;
 
@@ -104,13 +104,13 @@ void CustomerInformationService::updateInternalVariablesEmpty(VehicleState &vehi
 
     QString bodyAllData="";
     QString bodyCurrentDisplayContent="";
-
-    if (globalVersion=="2.2CZ1.0")
+    
+    if (mVersion=="2.2CZ1.0")
     {
         QDomDocument xmlDocument;
         bodyAllData=xmlGenerator.AllData_empty2_2CZ1_0(xmlDocument);
     }
-    else if(globalVersion=="2.3")
+    else if(mVersion=="2.3")
     {
         //bodyAllData=xmlGenerator.AllData_empty2_3(xmlDocument);
         QDomDocument xmlDocument;

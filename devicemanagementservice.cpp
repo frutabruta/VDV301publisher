@@ -32,7 +32,7 @@ void DeviceManagementService::serviceContentUpdate() //deprecated?
 
 void DeviceManagementService::updateInternalVariables()
 {
-    qDebug() <<  Q_FUNC_INFO<<" "<<mServiceName<<" "<<globalVersion;
+    qDebug() <<  Q_FUNC_INFO<<" "<<mServiceName<<" "<<mVersion;
 
     QString bodyDeviceInformationResponse="";
     QString bodyAllSubdeviceInformationResponse="";
@@ -44,7 +44,7 @@ void DeviceManagementService::updateInternalVariables()
     QString bodyServiceStatusResponse="";
     QString bodyRestartDeviceResponse="";
 
-    if (globalVersion=="2.2")
+    if (mVersion=="2.2")
     {
         QDomDocument xmlDocument;
         bodyDeviceInformationResponse=xmlGenerator.DeviceInformationResponse1_0(xmlDocument,mDeviceName,mDeviceManufacturer,mDeviceSerialNumber,mDeviceClass,mSwVersion);

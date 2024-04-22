@@ -14,16 +14,16 @@ TicketValidationService::TicketValidationService(QString serviceName, QString se
 
 void TicketValidationService::updateInternalVariables(QVector<Connection> connectionList, VehicleState &vehicleState, QVector<StopPointDestination>  stopDestinationList ) //novy
 {
-    qDebug()<<Q_FUNC_INFO<<" "<<mServiceName<<" "<<globalVersion;
+    qDebug()<<Q_FUNC_INFO<<" "<<mServiceName<<" "<<mVersion;
     // QByteArray zpracovanoMPV="";
     QString bodyCurrentTariffStopResponse="";
     QString bodyVehicleDataResponse="";
     QString bodyRazziaResponse="";
-
-
-
-
-    if (globalVersion=="2.2CZ1.0")
+    
+    
+    
+    
+    if (mVersion=="2.2CZ1.0")
     {
         QDomDocument xmlDocument;
         bodyCurrentTariffStopResponse=xmlGenerator.TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(xmlDocument,vehicleState.currentStopIndex0,stopDestinationList,connectionList);

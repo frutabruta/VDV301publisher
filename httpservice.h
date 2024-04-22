@@ -11,8 +11,8 @@
 #include "httpserverpublisher.h"
 #include "subscriber.h"
 
-#include "VDV301DataStructures/vehiclestate.h"
-#include "VDV301DataStructures/stoppointdestination.h"
+//#include "VDV301DataStructures/vehiclestate.h"
+//#include "VDV301DataStructures/stoppointdestination.h"
 
 
 
@@ -24,7 +24,7 @@ public:
 
     //structures
     QVector<Subscriber> subscriberList;
-    QString globalVersion="1.0";
+
     QString mServiceName="";
 
     //functions
@@ -51,6 +51,9 @@ public:
     void setPortNumber(int newPortNumber);
 
 
+    QString version() const;
+    void setVersion(const QString &newVersion);
+
 private:
     //instance knihoven
     QZeroConf zeroConf;
@@ -71,7 +74,7 @@ protected:
 
     QMap<QString,QString> structureContentMap; //contains payload and a key(AllData etc.)
     int updateServerContent(QMap<QString, QString> structureMap);
-
+    QString mVersion="1.0";
 public slots:
     void slotDumpRequestContent(QByteArray request, QString structureName);
     void slotDumpZeroConfigError();

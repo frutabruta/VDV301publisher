@@ -8,6 +8,8 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20240422
+    - globalVersion changed to private (mVersion), added getter and setter
 - 20240203
     - 2.3 out of service Xml generator fix
 - 20240131

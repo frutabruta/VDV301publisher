@@ -16,7 +16,7 @@ HttpService::HttpService(QString serviceName,QString serviceType, int portNumber
     mPortNumber=portNumber;
     mServiceName=serviceName;
     mServiceType=serviceType;
-    globalVersion=version;
+    mVersion=version;
 
     //qDebug()<<"xxx"<<
     connect(&httpServerPublisher ,&HttpServerPublisher::signalServerRuns ,this,&HttpService::slotServerReady, Qt::QueuedConnection);
@@ -109,7 +109,7 @@ void HttpService::bonjourStartAll()
 {
     qDebug() <<  Q_FUNC_INFO;
     //zeroConf.clearServiceTxtRecords();
-    this->bonjourStartPublish(this->mServiceName,this->mServiceType,this->mPortNumber,this->globalVersion ,zeroConf);
+    this->bonjourStartPublish(this->mServiceName,this->mServiceType,this->mPortNumber,this->mVersion ,zeroConf);
 }
 
 
@@ -139,8 +139,8 @@ void HttpService::bonjourStartPublish(QString serviceName, QString serviceType,i
 
 void HttpService::slotServicePublished()
 {
-    qDebug() <<  Q_FUNC_INFO <<" "<<this->mServiceName<<" "<<this->globalVersion ;
-    emit signalServicePublished(this->mServiceName+" "+this->globalVersion);
+    qDebug() <<  Q_FUNC_INFO <<" "<<this->mServiceName<<" "<<this->mVersion ;
+    emit signalServicePublished(this->mServiceName+" "+this->mVersion);
 }
 
 
@@ -438,6 +438,16 @@ int HttpService::updateServerContent(QMap<QString,QString> structureMap)
     return 1;
 }
 
+QString HttpService::version() const
+{
+    return mVersion;
+}
+
+void HttpService::setVersion(const QString &newVersion)
+{
+    mVersion = newVersion;
+}
+
 
 
 /*!
@@ -445,7 +455,7 @@ int HttpService::updateServerContent(QMap<QString,QString> structureMap)
  */
 void HttpService::stopBonjourService()
 {
-    qDebug() <<  Q_FUNC_INFO<<mServiceName<<" "<<globalVersion<<" "<<mPortNumber;
+    qDebug() <<  Q_FUNC_INFO<<mServiceName<<" "<<mVersion<<" "<<mPortNumber;
     zeroConf.stopServicePublish();
 
 }
@@ -465,7 +475,7 @@ void HttpService::slotStartServer()
 
 void HttpService::slotStartDnsSd(bool parameter)
 {
-    qDebug() <<  Q_FUNC_INFO<<" "<<this->mServiceName<<" "<<this->globalVersion;
+    qDebug() <<  Q_FUNC_INFO<<" "<<this->mServiceName<<" "<<this->mVersion;
     bonjourStartAll();
     emit this->signalStav(true);
     //emit this->startSignal();
@@ -479,7 +489,7 @@ void HttpService::slotStartDnsSd(bool parameter)
  */
 void HttpService::slotStop(bool parameter)
 {
-    qDebug() <<  Q_FUNC_INFO<<" "<<this->mServiceName<<" "<<this->globalVersion;
+    qDebug() <<  Q_FUNC_INFO<<" "<<this->mServiceName<<" "<<this->mVersion;
     timer.stop();
     stopBonjourService();
     emit this->signalStav(false);
