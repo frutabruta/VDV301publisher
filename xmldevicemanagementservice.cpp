@@ -54,9 +54,7 @@ QString XmlDeviceManagementService::DeviceConfigurationResponseStructure1_0(QDom
     output=xmlDocument.createElement("DeviceManagementService.GetDeviceConfigurationResponse");
     xmlDocument.appendChild(output);
     output.appendChild(DeviceConfigurationResponseDataStructure1_0(xmlDocument,"DeviceManagementService.GetDeviceConfigurationResponseData",deviceId));
-    QString outputString=xmlDocument.toString();
-    qDebug()<<"test"<<outputString;
-    return outputString;
+    return qDomDocumentToQString(xmlDocument);
 }
 
 
@@ -73,7 +71,7 @@ QString XmlDeviceManagementService::DeviceStatusResponse1_0(QDomDocument xmlDocu
     getDeviceInformationData.appendChild(DeviceStatus(xmlDocument,status));
     output.appendChild(getDeviceInformationData);
 
-    return xmlDocument.toString();
+    return qDomDocumentToQString(xmlDocument);
 }
 
 QDomElement XmlDeviceManagementService::DeviceStatus(QDomDocument &xmlDocument,QString status)
@@ -109,7 +107,7 @@ QString XmlDeviceManagementService::DeviceInformationResponse1_0(QDomDocument xm
     getDeviceInformationData.appendChild(DeviceInformationGroup1_0(xmlDocument,deviceName,manufacturer,serialNumber,deviceClass,swVersion));
     output.appendChild(getDeviceInformationData);
 
-    return xmlDocument.toString();
+   return qDomDocumentToQString(xmlDocument);
 }
 
 QDomElement XmlDeviceManagementService::DeviceInformationGroup1_0(QDomDocument &xmlDocument, QString deviceName,QString manufacturer, QString serialNumber,QString deviceClass,QString swVersion)

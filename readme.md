@@ -8,6 +8,12 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20240506
+    - fix of escaping < in international text type by CDATA section (used for icon and color tags)
+        - new functions
+            - XmlCommon::createEscapedValueCdata
+            - XmlCommon::qStringXmlEscape
+            - XmlCommon::qDomDocumentToQString
 - 20240422
     - globalVersion changed to private (mVersion), added getter and setter
 - 20240208

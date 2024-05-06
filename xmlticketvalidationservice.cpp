@@ -22,7 +22,7 @@ QString XmlTicketValidationService::TicketValidationService_GetCurrentTariffStop
     dCurrentTarifStopData.appendChild(StopPoint2_2CZ1_0(xmlDocument,stopPointDestinationList,currentStopIndex,connectionList, defaultLanguage2_2CZ1_0,currentStopIndex) );
     dGetCurrentTarrifStopResp.appendChild(dCurrentTarifStopData);
 
-    return xmlDocument.toString();
+    return qDomDocumentToQString(xmlDocument);
 }
 
 
@@ -52,7 +52,7 @@ QString XmlTicketValidationService::TicketValidationService_GetVehicleDataRespon
     dCurrentTarifStopData.appendChild(stopPoint2_2CZ1_0(docasnySeznamZastavek,poradi,Connections, "cz",poradi) );
     dGetCurrentTarrifStopResp.appendChild(dCurrentTarifStopData);
 */
-    return xmlDocument.toString();
+    return qDomDocumentToQString(xmlDocument);
 }
 
 
@@ -74,5 +74,5 @@ QString XmlTicketValidationService::TicketValidationService_GetRazziaResponse2_2
     dGetRazziaResponse.appendChild(dRazziaData);
     xmlDocument.appendChild(dGetRazziaResponse);
 
-    return xmlDocument.toString();
+    return qDomDocumentToQString(xmlDocument);
 }

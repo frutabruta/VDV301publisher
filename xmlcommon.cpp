@@ -1653,7 +1653,7 @@ QDomElement XmlCommon::internationalTextType(QDomDocument &xmlDocument,QString n
     QDomElement output=xmlDocument.createElement(name);
     QDomElement xvalue=xmlDocument.createElement("Value");
 
-    xvalue.appendChild(xmlDocument.createTextNode(value));
+    xvalue.appendChild(createEscapedValueCdata(xmlDocument,value));
 
     output.appendChild(xvalue);
     QDomElement xlanguage=xmlDocument.createElement("Language");
@@ -1661,6 +1661,49 @@ QDomElement XmlCommon::internationalTextType(QDomDocument &xmlDocument,QString n
     output.appendChild(xlanguage);
     return output;
 }
+
+
+QDomCDATASection XmlCommon::createEscapedValueCdata(QDomDocument &document, QString input)
+{
+    // based on https://stackoverflow.com/a/48481806
+
+    input=qStringXmlEscape(input);
+
+    QDomCDATASection data = document.createCDATASection(input);
+    return data;
+}
+
+
+QString XmlCommon::qStringXmlEscape(QString input)
+{
+    input.replace("'","&apos;");
+    input.replace("&","&amp;");
+    input.replace("\"","&quot;");
+    input.replace("<","&lt;");
+    input.replace(">","&gt;");
+
+    return input;
+}
+
+
+/*!
+ * \brief XmlCommon::qDomDocumentToQString
+ * serves to remove CDATA, which was used to properly escape character
+ * fixes escaping of > to &gt;
+ * \param input
+ * \return
+ */
+QString XmlCommon::qDomDocumentToQString(QDomDocument &input)
+{
+
+    // https://stackoverflow.com/a/48481806
+    QString result = input.toString();
+    result.replace("<![CDATA[", "");
+    result.replace("]]>", "");
+
+    return result;
+}
+
 
 QString XmlCommon::escapeHtml(QString input)
 {

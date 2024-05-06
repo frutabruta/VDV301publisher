@@ -107,8 +107,11 @@ public:
     QDomElement AdditionalTextMessage2_3(QDomDocument &xmlDocument, QString messageContent);
     QVector<QDomElement> DisplayContentViaPointDestination2_3(QDomDocument &xmlDocument, QString tagName, QVector<StopPointDestination> stopPointDestinationList, QString language, int stopPointIterator, int currentStopIndex, DisplayContentClass displayContentClass);
     QDateTime qTimeToQDateTimeToday(QTime input);
+    QString qDomDocumentToQString(QDomDocument &input);
+    QString qStringXmlEscape(QString input);
 private:
 
+    QDomCDATASection createEscapedValueCdata(QDomDocument &document, QString input);
 signals:
 
 public slots:

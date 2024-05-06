@@ -64,7 +64,7 @@ QString XmlCustomerInformationService::AllData1_0(QDomDocument xmlDocument, QVec
     dAllData.appendChild(dExitSide);
 
 
-    return xmlDocument.toString();
+    return qDomDocumentToQString(xmlDocument);
 }
 
 
@@ -135,7 +135,7 @@ QString XmlCustomerInformationService::AllData2_2CZ1_0( QDomDocument xmlDocument
     ConnectionMPV::ddDoVehicleMode(stopPointDestinationList.at(vehicleState.currentStopIndex0).line.kli,vehicleState.vehicleMode,vehicleState.vehicleSubMode,stopPointDestinationList[vehicleState.currentStopIndex0].line);
     dAllData.appendChild(this->MyOwnVehicleMode(xmlDocument,vehicleState.vehicleMode,vehicleState.vehicleSubMode));
 
-    return xmlDocument.toString();
+    return qDomDocumentToQString(xmlDocument);
 }
 
 
@@ -215,7 +215,8 @@ QString XmlCustomerInformationService::AllData2_3(QDomDocument xmlDocument, QVec
 
     dAllData.appendChild(this->MyOwnVehicleMode(xmlDocument,vehicleState.vehicleMode,vehicleState.vehicleSubMode));
 
-    return xmlDocument.toString();
+    return qDomDocumentToQString(xmlDocument);
+
 }
 
 
@@ -246,7 +247,7 @@ QString XmlCustomerInformationService::CurrentDisplayContent1_0(QDomDocument xml
     dCustomerInformationService.appendChild(dCurrentDisplayContentData);
     xmlDocument.appendChild(dCustomerInformationService);
 
-    return xmlDocument.toString();
+    return qDomDocumentToQString(xmlDocument);
 }
 
 //rozpracovano
@@ -272,7 +273,8 @@ QString XmlCustomerInformationService::CurrentDisplayContent2_2CZ1_0(QDomDocumen
     dCustomerInformationService.appendChild(dCurrentDisplayContentData);
     xmlDocument.appendChild(dCustomerInformationService);
 
-    return xmlDocument.toString();
+    return qDomDocumentToQString(xmlDocument);
+
 }
 
 
@@ -304,28 +306,28 @@ QString XmlCustomerInformationService::CurrentDisplayContent2_3(QDomDocument xml
 */
 
     QDomElement dDisplayContentFront=DisplayContent2_3(xmlDocument,"CurrentDisplayContent",stopPointDestinationList, language,vehicleState.currentStopIndex0,vehicleState.currentStopIndex0,DisplayContentFront);
-     dCurrentDisplayContentData.appendChild(dDisplayContentFront);
+    dCurrentDisplayContentData.appendChild(dDisplayContentFront);
 
 
     QVector<QDomElement> dDisplayContentSideVector=DisplayContentViaPointDestination2_3(xmlDocument,"CurrentDisplayContent",stopPointDestinationList, language,vehicleState.currentStopIndex0,vehicleState.currentStopIndex0,DisplayContentSide);
     foreach(QDomElement dDisplayContentSide, dDisplayContentSideVector)
     {
-         dCurrentDisplayContentData.appendChild(dDisplayContentSide);
+        dCurrentDisplayContentData.appendChild(dDisplayContentSide);
     }
 
 
 
 
     QDomElement dDisplayContentRear=DisplayContent2_3(xmlDocument,"CurrentDisplayContent",stopPointDestinationList, language,vehicleState.currentStopIndex0,vehicleState.currentStopIndex0,DisplayContentRear);
-     dCurrentDisplayContentData.appendChild(dDisplayContentRear);
+    dCurrentDisplayContentData.appendChild(dDisplayContentRear);
 
     QDomElement dDisplayContentLcd=DisplayContent2_3(xmlDocument,"CurrentDisplayContent",stopPointDestinationList, language,vehicleState.currentStopIndex0,vehicleState.currentStopIndex0,DisplayContentLcd);
-     dCurrentDisplayContentData.appendChild(dDisplayContentLcd);
+    dCurrentDisplayContentData.appendChild(dDisplayContentLcd);
 
     dCustomerInformationService.appendChild(dCurrentDisplayContentData);
     xmlDocument.appendChild(dCustomerInformationService);
 
-    return xmlDocument.toString();
+    return qDomDocumentToQString(xmlDocument);
 }
 
 
@@ -382,7 +384,8 @@ QString XmlCustomerInformationService::AllData_empty2_2CZ1_0(QDomDocument xmlDoc
     dAllData.appendChild(dExitSide);*/
     /*telo="";
     telo+=xmlko;*/
-    return xmlDocument.toString();
+
+    return qDomDocumentToQString(xmlDocument);
 }
 
 
