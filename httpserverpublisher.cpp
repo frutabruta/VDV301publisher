@@ -90,12 +90,23 @@ int HttpServerPublisher::route(QString &serviceFolder,  QMap<QString,QString> &c
                          return this->mContentRoot;
                      });
 
+    #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+
+    //not used on Qt5.15
+
+    #else
+
     httpServer.afterRequest([](QHttpServerResponse &&resp)
                             {
                                 resp.setHeader("Server", "Super server!");
                                 resp.setHeader("Content-Type", "text/xml");
                                 return std::move(resp);
                             });
+
+    #endif
+
+
+
     return 1;
 }
 

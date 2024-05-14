@@ -8,6 +8,8 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20240514
+    - added conditions to succesfully compile with 5.15 (functionality with 5.15 not tested!)
 - 20240506
     - fix of escaping < in international text type by CDATA section (used for icon and color tags)
         - new functions
