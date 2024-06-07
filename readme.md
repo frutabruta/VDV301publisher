@@ -8,6 +8,18 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20240607
+    - included VDV301DataStructures as a submodule
+    - added examples folder
+        - Vdv301PublisherMinimalExample with CustomerInformationService 2.2CZ1.0
+            - pregenerated XML content
+        - Vdv301PublisherCisExample with CustomerInformationService 2.2CZ1.0
+            - generating of data using VDV301Structures
+    - new functions
+        - HttpService::retrieveStructureContentMapValue
+        - HttpService::updateStructureMap
+        - HttpService::postToAllSubscribers
+
 - 20240514
     - added conditions to succesfully compile with 5.15 (functionality with 5.15 not tested!)
 - 20240506

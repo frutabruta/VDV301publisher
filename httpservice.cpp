@@ -540,3 +540,24 @@ void HttpService::setPortNumber(int newPortNumber)
     mPortNumber = newPortNumber;
     httpServerPublisher.setPortNumber(mPortNumber);
 }
+
+
+QString HttpService::retrieveStructureContentMapValue(QString key)
+{
+    return  structureContentMap.value(key);
+}
+
+void HttpService::updateStructureMap()
+{
+    updateServerContent(structureContentMap);
+    postToAllSubscribers();
+}
+
+
+void HttpService::postToAllSubscribers()
+{
+    for(int i=0;i<subscriberList.count();i++ )
+    {
+        postToSubscriber(subscriberList[i].address,structureContentMap.value(subscriberList[i].structure));
+    }
+}

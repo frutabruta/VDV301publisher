@@ -54,6 +54,8 @@ public:
     QString version() const;
     void setVersion(const QString &newVersion);
 
+    QString retrieveStructureContentMapValue(QString key);
+    void updateStructureMap();
 private:
     //instance knihoven
     QZeroConf zeroConf;
@@ -75,6 +77,7 @@ protected:
     QMap<QString,QString> structureContentMap; //contains payload and a key(AllData etc.)
     int updateServerContent(QMap<QString, QString> structureMap);
     QString mVersion="1.0";
+    void postToAllSubscribers();
 public slots:
     void slotDumpRequestContent(QByteArray request, QString structureName);
     void slotDumpZeroConfigError();

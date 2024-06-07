@@ -1,10 +1,7 @@
 #ifndef CUSTOMERINFORMATIONSERVICE_H
 #define CUSTOMERINFORMATIONSERVICE_H
 
-
 #include "httpservice.h"
-#include "VDV301DataStructures/connectionmpv.h"
-
 #include "xmlcustomerinformationservice.h"
 
 class CustomerInformationService : public HttpService

@@ -14,7 +14,7 @@
 #include "VDV301DataStructures/farezone.h"
 
 #include "VDV301DataStructures/connectionmpv.h"
-#include "VDV301publisher/colordisplayrules.h"
+#include "colordisplayrules.h"
 //#include "xmlmpvparser.h"
 
 

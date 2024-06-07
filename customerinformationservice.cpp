@@ -1,6 +1,5 @@
 #include "customerinformationservice.h"
 #include "httpservice.h"
-#include "VDV301DataStructures/connectionmpv.h"
 
 
 /*!
@@ -78,12 +77,9 @@ void CustomerInformationService::updateInternalVariables(QVector<Connection> con
 
     this->setBodyContent("AllData",bodyAllData);
     this->setBodyContent("CurrentDisplayContent",bodyCurrentDisplayContent);
-    this->updateServerContent(structureContentMap);
 
-    for(int i=0;i<subscriberList.count();i++ )
-    {
-        postToSubscriber(subscriberList[i].address,structureContentMap.value(subscriberList[i].structure));
-    }
+
+    updateStructureMap();
 
 }
 
@@ -126,12 +122,9 @@ void CustomerInformationService::updateInternalVariablesEmpty(VehicleState &vehi
 
     this->setBodyContent("AllData",bodyAllData);
     this->setBodyContent("CurrentDisplayContent",bodyCurrentDisplayContent);
-    this->updateServerContent(structureContentMap);
 
-    for(int i=0;i<subscriberList.count();i++ )
-    {
-        postToSubscriber(subscriberList[i].address,structureContentMap.value(subscriberList[i].structure));
-    }
+
+     updateStructureMap();
 
 }
 
