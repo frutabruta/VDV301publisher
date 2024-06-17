@@ -720,6 +720,7 @@ QDomElement XmlCommon::DisplayContent2_3(QDomDocument  &xmlDocument, QString tag
 
 QVector<QDomElement> XmlCommon::DisplayContentViaPointDestination2_3(QDomDocument  &xmlDocument, QString tagName,QVector<StopPointDestination> stopPointDestinationList, QString language,int stopPointIterator,int currentStopIndex, DisplayContentClass displayContentClass)
 {
+
     QVector<QDomElement> output;
     StopPointDestination selectedStopPointDestination=stopPointDestinationList.at(stopPointIterator);
     QString lineNumber=selectedStopPointDestination.line.lineNumber;
@@ -807,8 +808,6 @@ QVector<QDomElement> XmlCommon::DisplayContentViaPointDestination2_3(QDomDocumen
         {
             selectedStopPointDestination.destination.NameFront2=frontNames.at(1);
         }
-
-
     }
 
     QDomElement dDestinationName;
@@ -852,8 +851,14 @@ QVector<QDomElement> XmlCommon::DisplayContentViaPointDestination2_3(QDomDocumen
         }
         else
         {
+            /* foreach crashes the program for an unknown reason
+
             foreach(StopPointDestination viaPoint, viaPointList)
+            {*/
+
+            for(int i=0;i<viaPointList.count();i++)
             {
+                StopPointDestination viaPoint=viaPointList.at(i);
                 QDomElement dDisplayContent=xmlDocument.createElement(tagName);
                 dDisplayContent.appendChild(ref(xmlDocument,"DisplayContentRef","Side"));
                 QDomElement dLineInformationCopy=dLineInformation.cloneNode().toElement();
@@ -867,7 +872,6 @@ QVector<QDomElement> XmlCommon::DisplayContentViaPointDestination2_3(QDomDocumen
                 dDisplayContent.appendChild(dDestinationCopy);
                 dDisplayContent.appendChild(viaPointObsah);
                 output<<dDisplayContent;
-
             }
         }
 
@@ -1239,11 +1243,13 @@ QDomElement XmlCommon::TripInformation2_3(QDomDocument &xmlDocument, QVector<Tri
         qDebug()<<"followingTrip==true";
     }
 
-    //fareZone change
+    //fareZone change, commented out to comply with VDV CIS 2.3
+    /*
     if((currentStopIndex+1)<stopPointDestinationList.length()&&(vehicleState.showFareZoneChange==true))
     {
         dTripInformation.appendChild(FareZoneChange2_2CZ1_0(xmlDocument,stopPointDestinationList.at(currentStopIndex-1).stopPoint.fareZoneList,stopPointDestinationList.at(currentStopIndex).stopPoint.fareZoneList,language));
     }
+    */
 
     return dTripInformation;
 
@@ -1496,6 +1502,7 @@ QDomElement XmlCommon::StopPoint2_3(QDomDocument &xmlDocument, QVector<StopPoint
 */
 
     QVector<QDomElement> dDisplayContentSideVector=DisplayContentViaPointDestination2_3(xmlDocument,"DisplayContent",stopPointDestinationList, language,stopPointIterator,currentStopIndex,DisplayContentSide);
+
     foreach(QDomElement dDisplayContentSide, dDisplayContentSideVector)
     {
         dStopPoint.appendChild(dDisplayContentSide);
