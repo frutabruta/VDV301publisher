@@ -8,6 +8,12 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20240617
+    - VDV301DataStructures
+        - added ArrivalTime to StopPoint
+    - XmlCommon
+        - removed FareZoneChange from XmlCommon::TripInformation2_3 to comply with VDV.de XSD files
+        - foreach changed to for in XmlCommon::DisplayContentViaPointDestination2_3 (caused crash for unknown reason)
 - 20240607
     - included VDV301DataStructures as a submodule
     - added examples folder
