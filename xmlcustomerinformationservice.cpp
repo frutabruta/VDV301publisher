@@ -192,6 +192,98 @@ QString XmlCustomerInformationService::AllData2_3(QDomDocument xmlDocument, QVec
 
     }
 
+    QDomElement dCurrentStopIndex=Value(xmlDocument,"CurrentStopIndex",QString::number(currentStopIndex));
+    dAllData.appendChild(dCurrentStopIndex);
+
+    QDomElement dRouteDeviation = xmlDocument.createElement("RouteDeviation");
+    dRouteDeviation.appendChild(xmlDocument.createTextNode(routeDeviation));
+    dAllData.appendChild(dRouteDeviation);
+
+    QDomElement dDoorState = xmlDocument.createElement("DoorState");
+    dDoorState.appendChild(xmlDocument.createTextNode(vehicleState.doorState));
+    dAllData.appendChild(dDoorState);
+
+    QDomElement dVehicleStopRequested=Value(xmlDocument,"VehicleStopRequested",vehicleStopRequested);
+    dAllData.appendChild(dVehicleStopRequested);
+
+    QDomElement dExitSide = xmlDocument.createElement("ExitSide");
+
+    dExitSide.appendChild(xmlDocument.createTextNode(exitSide));
+    dAllData.appendChild(dExitSide);
+
+    dAllData.appendChild(this->MyOwnVehicleMode(xmlDocument,vehicleState.vehicleMode,vehicleState.vehicleSubMode));
+
+    return qDomDocumentToQString(xmlDocument);
+
+}
+//xx
+
+
+
+QString XmlCustomerInformationService::AllData2_3new(QDomDocument xmlDocument, QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState )
+{
+    qDebug()<<Q_FUNC_INFO;
+
+    QVector<Vdv301Connection> vdv301ConnectionList;
+
+    foreach(Connection connection, connectionList)
+    {
+        vdv301ConnectionList<<connection.toVdv301Connection();
+    }
+
+
+    QVector<Vdv301Trip> vdv301TripList;
+
+    /*
+    QVector<StopPointDestination> stopPointDestinationList=tripList.at(vehicleState.currentTripIndex).globalStopPointDestinationList;
+
+    if (stopPointDestinationList.isEmpty())
+    {
+        qDebug()<<"stop list is empty";
+        return "AllData2.3 stop list is empty";
+    }
+*/
+
+
+
+    QString vehicleref=QString::number(vehicleState.vehicleNumber);
+    int currentStopIndex= vehicleState.currentStopIndex0+1; //úprava pro indexování zastávek od 1 vs od 0 pro pole
+    QString routeDeviation=vehicleState.routeDeviation;
+    QString vehicleStopRequested=QString::number(vehicleState.isVehicleStopRequested);
+    QString exitSide="right";
+
+    QDomProcessingInstruction dHlavicka=createProcessingInformation(xmlDocument,mDefaultEncoding);
+    xmlDocument.appendChild(dHlavicka);
+    QDomElement dCustomerInformationService=xmlDocument.createElement("CustomerInformationService.GetAllDataResponse");
+    QDomElement dAllData=xmlDocument.createElement("AllData");
+    xmlDocument.appendChild(dCustomerInformationService);
+    dCustomerInformationService.appendChild(dAllData);
+
+    dAllData.appendChild(TimeStampTag1_0(xmlDocument));
+
+    QDomElement dVehicleRef=ref(xmlDocument,"VehicleRef",vehicleref);
+    dAllData.appendChild(dVehicleRef);
+
+    QDomElement dDefaultLanguage=Value(xmlDocument,"DefaultLanguage",defaultLanguage2_3);
+    dAllData.appendChild(dDefaultLanguage);
+
+
+    if(!tripList.isEmpty())
+    {
+        QVector<StopPointDestination> stopPointDestinationList=tripList.at(vehicleState.currentTripIndex).globalStopPointDestinationList;
+
+        QDomElement dTripInformation=this->TripInformation2_3(xmlDocument,tripList,connectionList,vehicleState,vehicleState.currentTripIndex,false);
+        dAllData.appendChild(dTripInformation);
+        if (tripList.at(vehicleState.currentTripIndex).continuesWithNextTrip)
+        {
+            //qDebug()<<"abcd navaz Spoj existuje "<<;
+            vdv301TripList<<this->TripInformation2_3new(xmlDocument,tripList,vdv301ConnectionList,vehicleState,vehicleState.currentTripIndex+1,true);
+            dAllData.appendChild(dTripInformation);
+        }
+        ConnectionMPV::ddDoVehicleMode(stopPointDestinationList.at(vehicleState.currentStopIndex0).line.kli,vehicleState.vehicleMode,vehicleState.vehicleSubMode,stopPointDestinationList[vehicleState.currentStopIndex0].line);
+
+    }
+
 
 
     QDomElement dCurrentStopIndex=Value(xmlDocument,"CurrentStopIndex",QString::number(currentStopIndex));
@@ -200,6 +292,7 @@ QString XmlCustomerInformationService::AllData2_3(QDomDocument xmlDocument, QVec
     QDomElement dRouteDeviation = xmlDocument.createElement("RouteDeviation");
     dRouteDeviation.appendChild(xmlDocument.createTextNode(routeDeviation));
     dAllData.appendChild(dRouteDeviation);
+
 
     QDomElement dDoorState = xmlDocument.createElement("DoorState");
     dDoorState.appendChild(xmlDocument.createTextNode(vehicleState.doorState));
@@ -314,7 +407,7 @@ QString XmlCustomerInformationService::CurrentDisplayContent2_3(QDomDocument xml
     {
         dCurrentDisplayContentData.appendChild(dDisplayContentSide);
     }
-
+    
 
 
 

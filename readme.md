@@ -8,6 +8,29 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20240618
+    - new approcah to XML generating from VDV301structures
+    - VDV301DataStructures
+        - dev branch
+        - new class Vdv301AllData
+        - new class Vdv301VehicleInformationGroup
+        - new class Vdv301Connection
+        - new class Vdv301Enumerations
+    - XmlCommon
+        - XmlCommon::DisplayContentViaPointDestination2_3
+            - removed ViaPoint element generation
+        - new function XmlCommon::DisplayContentViaPointDestination2_3new
+        - new function XmlCommon::lineToVdv301Line2_3
+        - new function XmlCommon::stopPointDestinationToVdv301ViaPoint
+        - new function XmlCommon::TripInformation2_3new
+        - new function XmlCommon::StopSequence2_3new
+        - new function XmlCommon::StopPoint2_3new
+
+        - XmlCommon::StopPoint2_3
+            - simplified using DisplayContentViaPointDestination2_3
+    - XmlCustomerInformationService
+        - new functionXmlCustomerInformationService::AllData2_3new
+
 - 20240617
     - VDV301DataStructures
         - added ArrivalTime to StopPoint

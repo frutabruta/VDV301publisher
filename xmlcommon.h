@@ -12,8 +12,16 @@
 #include "VDV301DataStructures/stoppointdestination.h"
 #include "VDV301DataStructures/vehiclestate.h"
 #include "VDV301DataStructures/farezone.h"
-
 #include "VDV301DataStructures/connectionmpv.h"
+#include "VDV301DataStructures/vdv301displaycontent.h"
+#include "VDV301DataStructures/vdv301destination.h"
+#include "VDV301DataStructures/vdv301line.h"
+#include "VDV301DataStructures/vdv301stoppoint.h"
+#include "VDV301DataStructures/vdv301trip.h"
+
+#include "VDV301DataStructures/vdv301alldata.h"
+
+
 #include "colordisplayrules.h"
 //#include "xmlmpvparser.h"
 
@@ -22,13 +30,14 @@ class XmlCommon : public QMainWindow
 {
     //  Q_OBJECT
 public:
+    /*
     enum DisplayContentClass
     {
         DisplayContentFront,
         DisplayContentSide,
         DisplayContentRear,
         DisplayContentLcd
-    };
+    };*/
 
     ColorDisplayRules colorDisplayRules;
 
@@ -109,6 +118,13 @@ public:
     QDateTime qTimeToQDateTimeToday(QTime input);
     QString qDomDocumentToQString(QDomDocument &input);
     QString qStringXmlEscape(QString input);
+    Vdv301Line lineToVdv301Line2_3(Line &line);
+
+    Vdv301ViaPoint stopPointDestinationToVdv301ViaPoint(StopPoint stopPoint, QString &language);
+    QVector<Vdv301DisplayContent> DisplayContentViaPointDestination2_3new(QDomDocument &xmlDocument, QString tagName, QVector<StopPointDestination> stopPointDestinationList, QString language, int stopPointIterator, int currentStopIndex, DisplayContentClass displayContentClass);
+    Vdv301StopPoint StopPoint2_3new(QDomDocument &xmlDocument, QVector<StopPointDestination> stopPointDestinationList, int stopPointIterator, QVector<Vdv301Connection> connectionList, QString language, int currentStopIndex);
+    Vdv301Trip TripInformation2_3new(QDomDocument &xmlDocument, QVector<Trip> tripList, QVector<Vdv301Connection> connectionList, VehicleState vehicleState, int tripIndex, bool followingTrip);
+    QVector<Vdv301StopPoint> StopSequence2_3new(QDomDocument &xmlDocument, QVector<StopPointDestination> stopPointDestinationList, QString language, int currentStopIndex, QVector<Vdv301Connection> connectionList);
 private:
 
     QDomCDATASection createEscapedValueCdata(QDomDocument &document, QString input);
