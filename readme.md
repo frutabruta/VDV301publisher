@@ -8,6 +8,14 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20240619
+    - VDV301DataStructures
+        - vehicleState.locationState changed to VDV301LocationStateEnumeration
+    - XmlCommon
+        - changes to comply with the data tye change above
+    - XmlCustomerInformationService
+        - XmlCustomerInformationService::AllData2_3new
+            - few changes to create Vdv301AllData allData
 - 20240618
     - new approcah to XML generating from VDV301structures
     - VDV301DataStructures

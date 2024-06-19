@@ -1341,7 +1341,7 @@ QDomElement XmlCommon::TripInformation1_0(QDomDocument &xmlDocument, QVector<Tri
 
 
     QDomElement dLocationState=xmlDocument.createElement("LocationState");
-    dLocationState.appendChild(xmlDocument.createTextNode( vehicleState.locationState));
+    dLocationState.appendChild(xmlDocument.createTextNode(Vdv301Enumerations::LocationStateEnumerationToQString(vehicleState.locationState)));
     dTripInformation.appendChild(dLocationState);
 
     QString specialAnnouncement=stopPointDestinationList.at(vehicleState.currentStopIndex0).stopPoint.additionalTextMessage;
@@ -1384,7 +1384,7 @@ QDomElement XmlCommon::TripInformation2_2CZ1_0(QDomDocument &xmlDocument, QVecto
     if (followingTrip==false)
     {
         QDomElement dLocationState=xmlDocument.createElement("LocationState");
-        dLocationState.appendChild(xmlDocument.createTextNode( vehicleState.locationState));
+        dLocationState.appendChild(xmlDocument.createTextNode(Vdv301Enumerations::LocationStateEnumerationToQString( vehicleState.locationState)));
         dTripInformation.appendChild(dLocationState);
 
         QString specialAnnoucement=selectedStopPointDestinationList.at(vehicleState.currentStopIndex0).stopPoint.additionalTextMessage;
@@ -1434,7 +1434,7 @@ QDomElement XmlCommon::TripInformation2_3(QDomDocument &xmlDocument, QVector<Tri
     if (followingTrip==false)
     {
         QDomElement dLocationState=xmlDocument.createElement("LocationState");
-        dLocationState.appendChild(xmlDocument.createTextNode( vehicleState.locationState));
+        dLocationState.appendChild(xmlDocument.createTextNode(Vdv301Enumerations::LocationStateEnumerationToQString( vehicleState.locationState)));
         dTripInformation.appendChild(dLocationState);
 
         QString specialAnnouncement=stopPointDestinationList.at(vehicleState.currentStopIndex0).stopPoint.additionalTextMessage;
@@ -1482,7 +1482,7 @@ Vdv301Trip XmlCommon::TripInformation2_3new(QDomDocument &xmlDocument, QVector<T
 
     Vdv301Trip vdv301trip;
     vdv301trip.tripRef=tripRef;
-    vdv301trip.locationState=Vdv301Enumerations::LocationStateEnumerationFromText(vehicleState.locationState);
+    vdv301trip.locationState=Vdv301Enumerations::LocationStateEnumerationFromQString(Vdv301Enumerations::LocationStateEnumerationToQString(vehicleState.locationState));
     //vdv301trip.additionalTextMessage=
     //vdv301trip.stopPointList=
     //vdv301trip.timetableDelay
@@ -1499,7 +1499,7 @@ Vdv301Trip XmlCommon::TripInformation2_3new(QDomDocument &xmlDocument, QVector<T
 
 
         QDomElement dLocationState=xmlDocument.createElement("LocationState");
-        dLocationState.appendChild(xmlDocument.createTextNode( vehicleState.locationState));
+        dLocationState.appendChild(xmlDocument.createTextNode(Vdv301Enumerations::LocationStateEnumerationToQString( vehicleState.locationState)));
         dTripInformation.appendChild(dLocationState);
 
         QString specialAnnouncement=stopPointDestinationList.at(vehicleState.currentStopIndex0).stopPoint.additionalTextMessage;

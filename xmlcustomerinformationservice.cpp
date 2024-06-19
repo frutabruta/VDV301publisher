@@ -224,6 +224,9 @@ QString XmlCustomerInformationService::AllData2_3new(QDomDocument xmlDocument, Q
 {
     qDebug()<<Q_FUNC_INFO;
 
+
+    Vdv301AllData allData;
+
     QVector<Vdv301Connection> vdv301ConnectionList;
 
     foreach(Connection connection, connectionList)
@@ -246,11 +249,16 @@ QString XmlCustomerInformationService::AllData2_3new(QDomDocument xmlDocument, Q
 
 
 
-    QString vehicleref=QString::number(vehicleState.vehicleNumber);
     int currentStopIndex= vehicleState.currentStopIndex0+1; //úprava pro indexování zastávek od 1 vs od 0 pro pole
     QString routeDeviation=vehicleState.routeDeviation;
     QString vehicleStopRequested=QString::number(vehicleState.isVehicleStopRequested);
-    QString exitSide="right";
+
+
+    allData.vehicleRef=QString::number(vehicleState.vehicleNumber);
+    allData.currentStopIndex=vehicleState.currentStopIndex0+1; //úprava pro indexování zastávek od 1 vs od 0 pro pole
+    allData.vehicleInformationGroup.vehicleStopRequested=vehicleState.isVehicleStopRequested;
+    allData.vehicleInformationGroup.exitSide=Vdv301Enumerations::ExitSideRight;
+
 
     QDomProcessingInstruction dHlavicka=createProcessingInformation(xmlDocument,mDefaultEncoding);
     xmlDocument.appendChild(dHlavicka);
@@ -261,8 +269,6 @@ QString XmlCustomerInformationService::AllData2_3new(QDomDocument xmlDocument, Q
 
     dAllData.appendChild(TimeStampTag1_0(xmlDocument));
 
-    QDomElement dVehicleRef=ref(xmlDocument,"VehicleRef",vehicleref);
-    dAllData.appendChild(dVehicleRef);
 
     QDomElement dDefaultLanguage=Value(xmlDocument,"DefaultLanguage",defaultLanguage2_3);
     dAllData.appendChild(dDefaultLanguage);
@@ -298,13 +304,6 @@ QString XmlCustomerInformationService::AllData2_3new(QDomDocument xmlDocument, Q
     dDoorState.appendChild(xmlDocument.createTextNode(vehicleState.doorState));
     dAllData.appendChild(dDoorState);
 
-    QDomElement dVehicleStopRequested=Value(xmlDocument,"VehicleStopRequested",vehicleStopRequested);
-    dAllData.appendChild(dVehicleStopRequested);
-
-    QDomElement dExitSide = xmlDocument.createElement("ExitSide");
-
-    dExitSide.appendChild(xmlDocument.createTextNode(exitSide));
-    dAllData.appendChild(dExitSide);
 
     dAllData.appendChild(this->MyOwnVehicleMode(xmlDocument,vehicleState.vehicleMode,vehicleState.vehicleSubMode));
 
