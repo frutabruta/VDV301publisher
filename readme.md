@@ -8,6 +8,10 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20240619_2
+    - RouteDeviationEnumeration
+    - XmlCustomerInformationService::AllData2_3new
+        - removed unnecessary DOM elements
 - 20240619
     - VDV301DataStructures
         - vehicleState.locationState changed to VDV301LocationStateEnumeration
