@@ -21,7 +21,7 @@ QString XmlCustomerInformationService::AllData1_0(QDomDocument xmlDocument, QVec
     QString deflanguage=defaultLanguage1_0;
     QString vehicleref=QString::number(vehicleState.vehicleNumber);
     int currentStopIndex= vehicleState.currentStopIndex0+1; //indexing fix from c++ array to VDV301
-    QString routeDeviation=vehicleState.routeDeviation;
+    QString routeDeviation=Vdv301Enumerations::RouteDeviationEnumerationToQString(vehicleState.routeDeviation);
     QString vehicleStopRequested=QString::number(vehicleState.isVehicleStopRequested);
     QString exitSide="right";
 
@@ -86,7 +86,7 @@ QString XmlCustomerInformationService::AllData2_2CZ1_0( QDomDocument xmlDocument
 
     QString vehicleref=QString::number(vehicleState.vehicleNumber);
     int currentStopIndex= vehicleState.currentStopIndex0+1; //modification for stop indexing from 0 (c++ arrays) to 1 (VDV301)
-    QString routeDeviation=vehicleState.routeDeviation;
+    QString routeDeviation=Vdv301Enumerations::RouteDeviationEnumerationToQString(vehicleState.routeDeviation);
     QString vehicleStopRequested=QString::number(vehicleState.isVehicleStopRequested);
     QString exitSide="right";
 
@@ -156,7 +156,7 @@ QString XmlCustomerInformationService::AllData2_3(QDomDocument xmlDocument, QVec
 
     QString vehicleref=QString::number(vehicleState.vehicleNumber);
     int currentStopIndex= vehicleState.currentStopIndex0+1; //úprava pro indexování zastávek od 1 vs od 0 pro pole
-    QString routeDeviation=vehicleState.routeDeviation;
+    QString routeDeviation=Vdv301Enumerations::RouteDeviationEnumerationToQString(vehicleState.routeDeviation);
     QString vehicleStopRequested=QString::number(vehicleState.isVehicleStopRequested);
     QString exitSide="right";
 
@@ -249,19 +249,18 @@ QString XmlCustomerInformationService::AllData2_3new(QDomDocument xmlDocument, Q
 
 
 
-    int currentStopIndex= vehicleState.currentStopIndex0+1; //úprava pro indexování zastávek od 1 vs od 0 pro pole
-    QString routeDeviation=vehicleState.routeDeviation;
-    QString vehicleStopRequested=QString::number(vehicleState.isVehicleStopRequested);
+ //   int currentStopIndex= vehicleState.currentStopIndex0+1; //úprava pro indexování zastávek od 1 vs od 0 pro pole
+
+
 
 
     allData.vehicleRef=QString::number(vehicleState.vehicleNumber);
-    allData.currentStopIndex=vehicleState.currentStopIndex0+1; //úprava pro indexování zastávek od 1 vs od 0 pro pole
+
     allData.vehicleInformationGroup.vehicleStopRequested=vehicleState.isVehicleStopRequested;
     allData.vehicleInformationGroup.exitSide=Vdv301Enumerations::ExitSideRight;
 
 
-    QDomProcessingInstruction dHlavicka=createProcessingInformation(xmlDocument,mDefaultEncoding);
-    xmlDocument.appendChild(dHlavicka);
+
     QDomElement dCustomerInformationService=xmlDocument.createElement("CustomerInformationService.GetAllDataResponse");
     QDomElement dAllData=xmlDocument.createElement("AllData");
     xmlDocument.appendChild(dCustomerInformationService);
@@ -269,40 +268,35 @@ QString XmlCustomerInformationService::AllData2_3new(QDomDocument xmlDocument, Q
 
     dAllData.appendChild(TimeStampTag1_0(xmlDocument));
 
-
-    QDomElement dDefaultLanguage=Value(xmlDocument,"DefaultLanguage",defaultLanguage2_3);
-    dAllData.appendChild(dDefaultLanguage);
+       allData.defaultLanguage=defaultLanguage2_3;
 
 
     if(!tripList.isEmpty())
     {
         QVector<StopPointDestination> stopPointDestinationList=tripList.at(vehicleState.currentTripIndex).globalStopPointDestinationList;
 
-        QDomElement dTripInformation=this->TripInformation2_3(xmlDocument,tripList,connectionList,vehicleState,vehicleState.currentTripIndex,false);
-        dAllData.appendChild(dTripInformation);
+        vdv301TripList<<this->TripInformation2_3new(xmlDocument,tripList,vdv301ConnectionList,vehicleState,vehicleState.currentTripIndex,false);
         if (tripList.at(vehicleState.currentTripIndex).continuesWithNextTrip)
         {
             //qDebug()<<"abcd navaz Spoj existuje "<<;
             vdv301TripList<<this->TripInformation2_3new(xmlDocument,tripList,vdv301ConnectionList,vehicleState,vehicleState.currentTripIndex+1,true);
-            dAllData.appendChild(dTripInformation);
+
         }
         ConnectionMPV::ddDoVehicleMode(stopPointDestinationList.at(vehicleState.currentStopIndex0).line.kli,vehicleState.vehicleMode,vehicleState.vehicleSubMode,stopPointDestinationList[vehicleState.currentStopIndex0].line);
 
     }
 
+        allData.currentStopIndex=vehicleState.currentStopIndex0+1; //úprava pro indexování zastávek od 1 vs od 0 pro pole
 
 
-    QDomElement dCurrentStopIndex=Value(xmlDocument,"CurrentStopIndex",QString::number(currentStopIndex));
-    dAllData.appendChild(dCurrentStopIndex);
-
-    QDomElement dRouteDeviation = xmlDocument.createElement("RouteDeviation");
-    dRouteDeviation.appendChild(xmlDocument.createTextNode(routeDeviation));
-    dAllData.appendChild(dRouteDeviation);
+   allData.vehicleInformationGroup.routeDeviation=vehicleState.routeDeviation;
 
 
     QDomElement dDoorState = xmlDocument.createElement("DoorState");
     dDoorState.appendChild(xmlDocument.createTextNode(vehicleState.doorState));
     dAllData.appendChild(dDoorState);
+
+  //  allData.vehicleInformationGroup.doorState=
 
 
     dAllData.appendChild(this->MyOwnVehicleMode(xmlDocument,vehicleState.vehicleMode,vehicleState.vehicleSubMode));

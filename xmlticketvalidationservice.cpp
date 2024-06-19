@@ -37,7 +37,7 @@ QString XmlTicketValidationService::TicketValidationService_GetVehicleDataRespon
     QDomElement dVehicleData=xmlDocument.createElement("VehicleData");
     dVehicleData.appendChild(this->TimeStampTag1_0(xmlDocument));
     dVehicleData.appendChild(this->ref(xmlDocument,"VehicleRef",QString::number(vehicleState.vehicleNumber)));
-    dVehicleData.appendChild(this->RouteDeviation(xmlDocument,vehicleState.routeDeviation));
+    dVehicleData.appendChild(this->RouteDeviation(xmlDocument,Vdv301Enumerations::RouteDeviationEnumerationToQString(vehicleState.routeDeviation)));
     dVehicleData.appendChild(this->DoorOpenState(xmlDocument,vehicleState.doorState));
     dVehicleData.appendChild(this->MyOwnVehicleMode(xmlDocument,vehicleState.vehicleSubMode,vehicleState.vehicleMode));
 
