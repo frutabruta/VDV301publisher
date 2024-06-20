@@ -8,6 +8,16 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20240620
+    - VDV301DataStructures
+        - VehicleState::doorState changed to Vdv301Enumerations
+    - XmlCustomerInformationService
+        - applied changes ov doorState data type
+        - XmlCustomerInformationService::AllData2_3new
+            - removed remnats of QDomElements    
+            - changed result data type to Vdv301AllData
+
+
 - 20240619_2
     - RouteDeviationEnumeration
     - XmlCustomerInformationService::AllData2_3new

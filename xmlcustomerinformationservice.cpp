@@ -52,7 +52,7 @@ QString XmlCustomerInformationService::AllData1_0(QDomDocument xmlDocument, QVec
     dAllData.appendChild(dRouteDeviation);
 
     QDomElement dDoorState = xmlDocument.createElement("DoorState");
-    dDoorState.appendChild(xmlDocument.createTextNode(vehicleState.doorState));
+    dDoorState.appendChild(xmlDocument.createTextNode(Vdv301Enumerations::DoorOpenStateEnumerationToQString(vehicleState.doorState)));
     dAllData.appendChild(dDoorState);
 
     QDomElement dVehicleStopRequested=Value(xmlDocument,"VehicleStopRequested",vehicleStopRequested);
@@ -121,7 +121,7 @@ QString XmlCustomerInformationService::AllData2_2CZ1_0( QDomDocument xmlDocument
     dAllData.appendChild(dRouteDeviation);
 
     QDomElement dDoorState = xmlDocument.createElement("DoorState");
-    dDoorState.appendChild(xmlDocument.createTextNode(vehicleState.doorState));
+    dDoorState.appendChild(xmlDocument.createTextNode(Vdv301Enumerations::DoorOpenStateEnumerationToQString(vehicleState.doorState)));
     dAllData.appendChild(dDoorState);
 
     QDomElement dVehicleStopRequested=Value(xmlDocument,"VehicleStopRequested",vehicleStopRequested);
@@ -200,7 +200,7 @@ QString XmlCustomerInformationService::AllData2_3(QDomDocument xmlDocument, QVec
     dAllData.appendChild(dRouteDeviation);
 
     QDomElement dDoorState = xmlDocument.createElement("DoorState");
-    dDoorState.appendChild(xmlDocument.createTextNode(vehicleState.doorState));
+    dDoorState.appendChild(xmlDocument.createTextNode(Vdv301Enumerations::DoorOpenStateEnumerationToQString(vehicleState.doorState)));
     dAllData.appendChild(dDoorState);
 
     QDomElement dVehicleStopRequested=Value(xmlDocument,"VehicleStopRequested",vehicleStopRequested);
@@ -220,7 +220,7 @@ QString XmlCustomerInformationService::AllData2_3(QDomDocument xmlDocument, QVec
 
 
 
-QString XmlCustomerInformationService::AllData2_3new(QDomDocument xmlDocument, QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState )
+Vdv301AllData XmlCustomerInformationService::AllData2_3new(QDomDocument xmlDocument, QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState )
 {
     qDebug()<<Q_FUNC_INFO;
 
@@ -246,29 +246,18 @@ QString XmlCustomerInformationService::AllData2_3new(QDomDocument xmlDocument, Q
         return "AllData2.3 stop list is empty";
     }
 */
+    //   int currentStopIndex= vehicleState.currentStopIndex0+1; //úprava pro indexování zastávek od 1 vs od 0 pro pole
 
 
-
- //   int currentStopIndex= vehicleState.currentStopIndex0+1; //úprava pro indexování zastávek od 1 vs od 0 pro pole
-
-
-
-
-    allData.vehicleRef=QString::number(vehicleState.vehicleNumber);
-
+    allData.vehicleRef=QString::number(vehicleState.vehicleNumber);   
+    allData.defaultLanguage=defaultLanguage2_3;
+    allData.currentStopIndex=vehicleState.currentStopIndex0+1; //úprava pro indexování zastávek od 1 vs od 0 pro pole
     allData.vehicleInformationGroup.vehicleStopRequested=vehicleState.isVehicleStopRequested;
     allData.vehicleInformationGroup.exitSide=Vdv301Enumerations::ExitSideRight;
-
-
-
-    QDomElement dCustomerInformationService=xmlDocument.createElement("CustomerInformationService.GetAllDataResponse");
-    QDomElement dAllData=xmlDocument.createElement("AllData");
-    xmlDocument.appendChild(dCustomerInformationService);
-    dCustomerInformationService.appendChild(dAllData);
-
-    dAllData.appendChild(TimeStampTag1_0(xmlDocument));
-
-       allData.defaultLanguage=defaultLanguage2_3;
+    allData.vehicleInformationGroup.routeDeviation=vehicleState.routeDeviation;
+    allData.vehicleInformationGroup.doorState=vehicleState.doorState;
+    allData.vehicleInformationGroup.vehicleMode=vehicleState.vehicleMode;
+    allData.vehicleInformationGroup.vehicleSubMode=vehicleState.vehicleSubMode;
 
 
     if(!tripList.isEmpty())
@@ -286,23 +275,8 @@ QString XmlCustomerInformationService::AllData2_3new(QDomDocument xmlDocument, Q
 
     }
 
-        allData.currentStopIndex=vehicleState.currentStopIndex0+1; //úprava pro indexování zastávek od 1 vs od 0 pro pole
 
-
-   allData.vehicleInformationGroup.routeDeviation=vehicleState.routeDeviation;
-
-
-    QDomElement dDoorState = xmlDocument.createElement("DoorState");
-    dDoorState.appendChild(xmlDocument.createTextNode(vehicleState.doorState));
-    dAllData.appendChild(dDoorState);
-
-  //  allData.vehicleInformationGroup.doorState=
-
-
-    dAllData.appendChild(this->MyOwnVehicleMode(xmlDocument,vehicleState.vehicleMode,vehicleState.vehicleSubMode));
-
-    return qDomDocumentToQString(xmlDocument);
-
+    return allData;
 }
 
 
