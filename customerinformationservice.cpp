@@ -67,6 +67,9 @@ void CustomerInformationService::updateInternalVariables(QVector<Connection> con
         bodyAllData=xmlGenerator.AllData2_3(xmlDocument, tripList,connectionList,vehicleState);
         bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent2_3(xmlDocument,seznamZastavek,vehicleState);
 
+        Vdv301AllData vdv301allData=xmlGenerator.AllData2_3new(xmlDocument, tripList,connectionList,vehicleState);
+
+
     }
     else
     {

@@ -8,6 +8,26 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20240702
+    - CustomerInformationService::updateInternalVariables
+        - usage of xmlGenerator.AllData2_3new
+    
+    - XmlCommon::DisplayContentViaPointDestination2_3new
+        - QDomDocument removed from function parameters
+        - added RunNumber
+    - XmlCommon::TripInformation2_3new
+    - new function XmlCommon::vehicleRunToRunNumber
+    - XmlCommon::StopSequence2_3new
+        - QDomDocument removed from function parameters
+        - removed ExpectedDepartureTime
+        - changed ScheduledDepartureTime to DepartureScheduled
+        - added ArrivalScheduled
+    - XmlCommon::StopPoint2_3new
+        - QDomDocument removed from function parameters
+        - adding connections to current stop only
+    - XmlCustomerInformationService::AllData2_3new
+        - fix of  allData.tripInformationList
+
 - 20240620
     - VDV301DataStructures
         - VehicleState::doorState changed to Vdv301Enumerations
@@ -16,6 +36,7 @@ Qt library for VDV301 devices used as publisher
         - XmlCustomerInformationService::AllData2_3new
             - removed remnats of QDomElements    
             - changed result data type to Vdv301AllData
+        
 
 
 - 20240619_2

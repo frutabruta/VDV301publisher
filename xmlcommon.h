@@ -121,13 +121,14 @@ public:
     Vdv301Line lineToVdv301Line2_3(Line &line);
 
     Vdv301ViaPoint stopPointDestinationToVdv301ViaPoint(StopPoint stopPoint, QString &language);
-    QVector<Vdv301DisplayContent> DisplayContentViaPointDestination2_3new(QDomDocument &xmlDocument, QString tagName, QVector<StopPointDestination> stopPointDestinationList, QString language, int stopPointIterator, int currentStopIndex, DisplayContentClass displayContentClass);
-    Vdv301StopPoint StopPoint2_3new(QDomDocument &xmlDocument, QVector<StopPointDestination> stopPointDestinationList, int stopPointIterator, QVector<Vdv301Connection> connectionList, QString language, int currentStopIndex);
+    QVector<Vdv301DisplayContent> DisplayContentViaPointDestination2_3new(QVector<StopPointDestination> stopPointDestinationList, QString language, int stopPointIterator, int currentStopIndex, DisplayContentClass displayContentClass);
+    Vdv301StopPoint StopPoint2_3new(QVector<StopPointDestination> stopPointDestinationList, int stopPointIterator, QVector<Vdv301Connection> connectionList, QString language, int currentStopIndex);
     Vdv301Trip TripInformation2_3new(QDomDocument &xmlDocument, QVector<Trip> tripList, QVector<Vdv301Connection> connectionList, VehicleState vehicleState, int tripIndex, bool followingTrip);
-    QVector<Vdv301StopPoint> StopSequence2_3new(QDomDocument &xmlDocument, QVector<StopPointDestination> stopPointDestinationList, QString language, int currentStopIndex, QVector<Vdv301Connection> connectionList);
+    QVector<Vdv301StopPoint> StopSequence2_3new(QVector<StopPointDestination> stopPointDestinationList, QString language, int currentStopIndex, QVector<Vdv301Connection> connectionList);
 private:
 
     QDomCDATASection createEscapedValueCdata(QDomDocument &document, QString input);
+    QString vehicleRunToRunNumber(VehicleRun vehicleRun);
 signals:
 
 public slots:

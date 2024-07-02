@@ -265,6 +265,7 @@ Vdv301AllData XmlCustomerInformationService::AllData2_3new(QDomDocument xmlDocum
         QVector<StopPointDestination> stopPointDestinationList=tripList.at(vehicleState.currentTripIndex).globalStopPointDestinationList;
 
         vdv301TripList<<this->TripInformation2_3new(xmlDocument,tripList,vdv301ConnectionList,vehicleState,vehicleState.currentTripIndex,false);
+
         if (tripList.at(vehicleState.currentTripIndex).continuesWithNextTrip)
         {
             //qDebug()<<"abcd navaz Spoj existuje "<<;
@@ -274,6 +275,8 @@ Vdv301AllData XmlCustomerInformationService::AllData2_3new(QDomDocument xmlDocum
         ConnectionMPV::ddDoVehicleMode(stopPointDestinationList.at(vehicleState.currentStopIndex0).line.kli,vehicleState.vehicleMode,vehicleState.vehicleSubMode,stopPointDestinationList[vehicleState.currentStopIndex0].line);
 
     }
+
+    allData.tripInformationList=vdv301TripList;
 
 
     return allData;
