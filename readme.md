@@ -8,6 +8,9 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20240823_2
+    - Vdv301DataStructures
+        - new function DoorOpenStateEnumerationFromQString
 - 20240823
     - CustomerInformationService
         - CustomerInformationService::updateInternalVariables
