@@ -18,6 +18,7 @@
 #include "VDV301DataStructures/vdv301line.h"
 #include "VDV301DataStructures/vdv301stoppoint.h"
 #include "VDV301DataStructures/vdv301trip.h"
+#include "VDV301DataStructures/vdv301vehicleinformationgroup.h"
 
 #include "VDV301DataStructures/vdv301alldata.h"
 
@@ -47,6 +48,7 @@ public:
     QString defaultLanguage1_0="de";
     QString defaultLanguage2_2CZ1_0="cs";
     QString defaultLanguage2_3="cs";
+    QString defaultLanguage2_3CZ1_0="cs";
     QString mDefaultEncoding="utf-8";
 
 
@@ -123,8 +125,17 @@ public:
     Vdv301ViaPoint stopPointDestinationToVdv301ViaPoint(StopPoint stopPoint, QString &language);
     QVector<Vdv301DisplayContent> DisplayContentViaPointDestination2_3new(QVector<StopPointDestination> stopPointDestinationList, QString language, int stopPointIterator, int currentStopIndex, DisplayContentClass displayContentClass);
     Vdv301StopPoint StopPoint2_3new(QVector<StopPointDestination> stopPointDestinationList, int stopPointIterator, QVector<Vdv301Connection> connectionList, QString language, int currentStopIndex);
-    Vdv301Trip TripInformation2_3new(QDomDocument &xmlDocument, QVector<Trip> tripList, QVector<Vdv301Connection> connectionList, VehicleState vehicleState, int tripIndex, bool followingTrip);
+    Vdv301Trip TripInformation2_3new(QVector<Trip> tripList, QVector<Vdv301Connection> connectionList, VehicleState vehicleState, int tripIndex, bool followingTrip);
     QVector<Vdv301StopPoint> StopSequence2_3new(QVector<StopPointDestination> stopPointDestinationList, QString language, int currentStopIndex, QVector<Vdv301Connection> connectionList);
+    QDomElement StopPoint2_3gen(QDomDocument &xmlDocument, Vdv301StopPoint stopPointDestination);
+    QDomElement DisplayContentViaPointDestination2_3gen(QDomDocument &xmlDocument, QString tagName, Vdv301DisplayContent displayContent);
+
+    QDomElement ViaPoint2_3def(QDomDocument &xmlDocument, Vdv301ViaPoint viaPoint);
+    QDomElement namedElement(QDomDocument &xmlDocument, QString name, QString value);
+    QDomElement Connection2_3gen(QDomDocument &xmlDocument, Vdv301Connection connection);
+    QDomElement StopSequence2_3gen(QDomDocument &xmlDocument, QVector<Vdv301StopPoint> stopPointDestinationList);
+    QDomElement TripInformation2_3gen(QDomDocument &xmlDocument, Vdv301Trip trip, bool followingTrip);
+    QStringList FareZoneInformationStructure2_3new(QVector<FareZone> fareZoneList);
 private:
 
     QDomCDATASection createEscapedValueCdata(QDomDocument &document, QString input);

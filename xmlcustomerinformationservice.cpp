@@ -218,9 +218,7 @@ QString XmlCustomerInformationService::AllData2_3(QDomDocument xmlDocument, QVec
 }
 //xx
 
-
-
-Vdv301AllData XmlCustomerInformationService::AllData2_3new(QDomDocument xmlDocument, QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState )
+Vdv301AllData XmlCustomerInformationService::AllData2_3new( QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState, QVector<Vdv301DisplayContent> globalDisplayContentList )
 {
     qDebug()<<Q_FUNC_INFO;
 
@@ -264,12 +262,12 @@ Vdv301AllData XmlCustomerInformationService::AllData2_3new(QDomDocument xmlDocum
     {
         QVector<StopPointDestination> stopPointDestinationList=tripList.at(vehicleState.currentTripIndex).globalStopPointDestinationList;
 
-        vdv301TripList<<this->TripInformation2_3new(xmlDocument,tripList,vdv301ConnectionList,vehicleState,vehicleState.currentTripIndex,false);
+        vdv301TripList<<this->TripInformation2_3new(tripList,vdv301ConnectionList,vehicleState,vehicleState.currentTripIndex,false);
 
         if (tripList.at(vehicleState.currentTripIndex).continuesWithNextTrip)
         {
             //qDebug()<<"abcd navaz Spoj existuje "<<;
-            vdv301TripList<<this->TripInformation2_3new(xmlDocument,tripList,vdv301ConnectionList,vehicleState,vehicleState.currentTripIndex+1,true);
+            vdv301TripList<<this->TripInformation2_3new(tripList,vdv301ConnectionList,vehicleState,vehicleState.currentTripIndex+1,true);
 
         }
         ConnectionMPV::ddDoVehicleMode(stopPointDestinationList.at(vehicleState.currentStopIndex0).line.kli,vehicleState.vehicleMode,vehicleState.vehicleSubMode,stopPointDestinationList[vehicleState.currentStopIndex0].line);
@@ -277,9 +275,102 @@ Vdv301AllData XmlCustomerInformationService::AllData2_3new(QDomDocument xmlDocum
     }
 
     allData.tripInformationList=vdv301TripList;
+    allData.globalDisplayContentList=globalDisplayContentList;
 
 
     return allData;
+}
+
+
+
+
+QString XmlCustomerInformationService::AllData2_3gen(QDomDocument xmlDocument, Vdv301AllData allData)//, VehicleState vehicleState )
+{
+    qDebug()<<Q_FUNC_INFO;
+
+    /*
+    QVector<StopPointDestination> stopPointDestinationList=tripList.at(vehicleState.currentTripIndex).globalStopPointDestinationList;
+
+    if (stopPointDestinationList.isEmpty())
+    {
+        qDebug()<<"stop list is empty";
+        return "AllData2.3 stop list is empty";
+    }
+*/
+
+
+    QString vehicleref=allData.vehicleRef;
+    QString routeDeviation=Vdv301Enumerations::RouteDeviationEnumerationToQString(allData.vehicleInformationGroup.routeDeviation);
+    QString vehicleStopRequested=QString::number(allData.vehicleInformationGroup.vehicleStopRequested);
+    QString exitSide="right";
+        //Vdv301Enumerations:: allData.vehicleInformationGroup.exitSide ;
+
+    QDomProcessingInstruction dHlavicka=createProcessingInformation(xmlDocument,mDefaultEncoding);
+    xmlDocument.appendChild(dHlavicka);
+    QDomElement dCustomerInformationService=xmlDocument.createElement("CustomerInformationService.GetAllDataResponse");
+    QDomElement dAllData=xmlDocument.createElement("AllData");
+    xmlDocument.appendChild(dCustomerInformationService);
+    dCustomerInformationService.appendChild(dAllData);
+
+    dAllData.appendChild(TimeStampTag1_0(xmlDocument));
+
+    QDomElement dVehicleRef=ref(xmlDocument,"VehicleRef",vehicleref);
+    dAllData.appendChild(dVehicleRef);
+
+    QDomElement dDefaultLanguage=Value(xmlDocument,"DefaultLanguage",defaultLanguage2_3);
+    dAllData.appendChild(dDefaultLanguage);
+
+
+    if(!allData.tripInformationList.isEmpty())
+    {
+        // xxxx fix following connection
+        int counter=0;
+        foreach(Vdv301Trip vdv301trip, allData.tripInformationList)
+        {
+
+            QDomElement dTripInformation;
+            bool isFollowing=(counter>0);
+            dTripInformation=this->TripInformation2_3gen(xmlDocument,vdv301trip,isFollowing);
+            dAllData.appendChild(dTripInformation);
+            counter++;
+
+        }
+
+
+
+    }
+
+    QDomElement dCurrentStopIndex=Value(xmlDocument,"CurrentStopIndex",QString::number(allData.currentStopIndex));
+    dAllData.appendChild(dCurrentStopIndex);
+
+    QDomElement dRouteDeviation = xmlDocument.createElement("RouteDeviation");
+    dRouteDeviation.appendChild(xmlDocument.createTextNode(routeDeviation));
+    dAllData.appendChild(dRouteDeviation);
+
+    QDomElement dDoorState = xmlDocument.createElement("DoorState");
+    dDoorState.appendChild(xmlDocument.createTextNode(Vdv301Enumerations::DoorOpenStateEnumerationToQString(allData.vehicleInformationGroup.doorState)));
+    dAllData.appendChild(dDoorState);
+
+    QDomElement dVehicleStopRequested=Value(xmlDocument,"VehicleStopRequested",vehicleStopRequested);
+    dAllData.appendChild(dVehicleStopRequested);
+
+    QDomElement dExitSide = xmlDocument.createElement("ExitSide");
+
+    dExitSide.appendChild(xmlDocument.createTextNode(exitSide));
+    dAllData.appendChild(dExitSide);
+
+    dAllData.appendChild(this->MyOwnVehicleMode(xmlDocument,allData.vehicleInformationGroup.vehicleMode, allData.vehicleInformationGroup.vehicleSubMode));
+
+
+
+    foreach(Vdv301DisplayContent displayContent, allData.globalDisplayContentList)
+    {
+        dAllData.appendChild(DisplayContentViaPointDestination2_3gen(xmlDocument,"GlobalDisplayContent", displayContent));
+    }
+
+
+    return qDomDocumentToQString(xmlDocument);
+
 }
 
 
@@ -368,24 +459,20 @@ QString XmlCustomerInformationService::CurrentDisplayContent2_3(QDomDocument xml
     dCurrentDisplayContentData.appendChild(DisplayContent2_3(xmlDocument,"CurrentDisplayContent",stopPointDestinationList, defaultLanguage2_3,vehicleState.currentStopIndex0,vehicleState.currentStopIndex0,DisplayContentLcd));
 */
 
-    QDomElement dDisplayContentFront=DisplayContent2_3(xmlDocument,"CurrentDisplayContent",stopPointDestinationList, language,vehicleState.currentStopIndex0,vehicleState.currentStopIndex0,DisplayContentFront);
-    dCurrentDisplayContentData.appendChild(dDisplayContentFront);
+    QVector<QDomElement> displayContentDomVector;
 
 
-    QVector<QDomElement> dDisplayContentSideVector=DisplayContentViaPointDestination2_3(xmlDocument,"CurrentDisplayContent",stopPointDestinationList, language,vehicleState.currentStopIndex0,vehicleState.currentStopIndex0,DisplayContentSide);
-    foreach(QDomElement dDisplayContentSide, dDisplayContentSideVector)
+    displayContentDomVector<<DisplayContentViaPointDestination2_3(xmlDocument,"CurrentDisplayContent",stopPointDestinationList, language,vehicleState.currentStopIndex0,vehicleState.currentStopIndex0,DisplayContentFront);
+    displayContentDomVector<<DisplayContentViaPointDestination2_3(xmlDocument,"CurrentDisplayContent",stopPointDestinationList, language,vehicleState.currentStopIndex0,vehicleState.currentStopIndex0,DisplayContentSide);
+    displayContentDomVector<<DisplayContentViaPointDestination2_3(xmlDocument,"CurrentDisplayContent",stopPointDestinationList, language,vehicleState.currentStopIndex0,vehicleState.currentStopIndex0,DisplayContentRear);
+    displayContentDomVector<<DisplayContentViaPointDestination2_3(xmlDocument,"CurrentDisplayContent",stopPointDestinationList, language,vehicleState.currentStopIndex0,vehicleState.currentStopIndex0,DisplayContentLcd);
+
+
+    foreach(QDomElement dDisplayContentSide, displayContentDomVector)
     {
         dCurrentDisplayContentData.appendChild(dDisplayContentSide);
     }
     
-
-
-
-    QDomElement dDisplayContentRear=DisplayContent2_3(xmlDocument,"CurrentDisplayContent",stopPointDestinationList, language,vehicleState.currentStopIndex0,vehicleState.currentStopIndex0,DisplayContentRear);
-    dCurrentDisplayContentData.appendChild(dDisplayContentRear);
-
-    QDomElement dDisplayContentLcd=DisplayContent2_3(xmlDocument,"CurrentDisplayContent",stopPointDestinationList, language,vehicleState.currentStopIndex0,vehicleState.currentStopIndex0,DisplayContentLcd);
-    dCurrentDisplayContentData.appendChild(dDisplayContentLcd);
 
     dCustomerInformationService.appendChild(dCurrentDisplayContentData);
     xmlDocument.appendChild(dCustomerInformationService);

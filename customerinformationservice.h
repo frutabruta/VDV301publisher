@@ -14,17 +14,21 @@ public:
     void updateServiceContent(QVector<Connection> connectionList, VehicleState &vehicleState);
     void outOfService();
 
+    void setGlobalDisplayContentList(const QVector<Vdv301DisplayContent> &newGlobalDisplayContentList);
+
 private:
     //instance trid
     XmlCustomerInformationService xmlGenerator;
     //variables
     QVector<Connection> mConnectionList;
     QVector<Trip> mTripList;
+    QVector<Vdv301DisplayContent> mGlobalDisplayContentList;
     VehicleState mVehicleState;
 
+
     //functions
-    void updateInternalVariables(QVector<Connection> connectionList, VehicleState &vehicleState, QVector<Trip> tripList );
-    void updateInternalVariablesEmpty(VehicleState &vehicleState, QVector<Trip> tripList);
+    void updateInternalVariables(QVector<Connection> connectionList, VehicleState &vehicleState, QVector<Trip> tripList , QVector<Vdv301DisplayContent> globalDisplayContentList);
+    void updateInternalVariablesEmpty(VehicleState &vehicleState, QVector<Trip> tripList, QVector<Vdv301DisplayContent> globalDisplayContentList);
 
 
 public slots:

@@ -21,7 +21,9 @@ public:
     QString CurrentDisplayContent2_3(QDomDocument xmlDocument, QVector<StopPointDestination> stopPointDestinationList, VehicleState vehicleState);
     QString AllData2_3(QDomDocument xmlDocument, QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState);
 
-    Vdv301AllData AllData2_3new(QDomDocument xmlDocument, QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState);
+    Vdv301AllData AllData2_3new(QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState, QVector<Vdv301DisplayContent> globalDisplayContentList);
+    QString AllData2_3gen(QDomDocument xmlDocument, Vdv301AllData allData);
+
 private:
 
 };

@@ -30,9 +30,10 @@ CustomerInformationService::CustomerInformationService(QString serviceName, QStr
  * \param stav
  * \param seznamSpoju
  */
-void CustomerInformationService::updateInternalVariables(QVector<Connection> connectionList, VehicleState &vehicleState, QVector<Trip>  tripList ) //novy
+void CustomerInformationService::updateInternalVariables(QVector<Connection> connectionList, VehicleState &vehicleState, QVector<Trip>  tripList, QVector<Vdv301DisplayContent> globalDisplayContentList ) //novy
 {
     qDebug() <<  Q_FUNC_INFO<<" "<<mServiceName<<" "<<mVersion;
+
     qDebug()<<"velikost seznamTripu"<<tripList.size()<<" index"<<vehicleState.currentTripIndex;
 
     if (tripList.isEmpty())
@@ -55,21 +56,54 @@ void CustomerInformationService::updateInternalVariables(QVector<Connection> con
     
     if (mVersion=="2.2CZ1.0")
     {
-         QDomDocument xmlDocument;
+        QDomDocument xmlDocument;
         bodyAllData=xmlGenerator.AllData2_2CZ1_0(xmlDocument,tripList,connectionList,vehicleState);
         bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent2_2CZ1_0(xmlDocument,seznamZastavek,vehicleState);
     }
     else if (mVersion=="2.3")
     {
         //Work in progress
-         QDomDocument xmlDocument;
+        QDomDocument xmlDocument;
         //special options for XML in this version can be placed here
         bodyAllData=xmlGenerator.AllData2_3(xmlDocument, tripList,connectionList,vehicleState);
         bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent2_3(xmlDocument,seznamZastavek,vehicleState);
 
-        Vdv301AllData vdv301allData=xmlGenerator.AllData2_3new(xmlDocument, tripList,connectionList,vehicleState);
+        /*
+        Vdv301AllData vdv301allData=xmlGenerator.AllData2_3new(tripList,connectionList,vehicleState);
 
 
+        QDomDocument xmlDocument2;
+        qDebug()<<"XXX TEST";
+
+        qDebug().noquote()<<xmlGenerator.AllData2_3gen(xmlDocument2,vdv301allData);
+
+        qDebug()<<"XXX TEST";
+*/
+
+
+    }
+    else if (mVersion=="2.3CZ1.0")
+    {
+        //Work in progress
+        QDomDocument xmlDocument;
+        //special options for XML in this version can be placed here
+
+        bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent2_3(xmlDocument,seznamZastavek,vehicleState);
+
+        // bodyAllData=xmlGenerator.AllData2_3(xmlDocument, tripList,connectionList,vehicleState);
+        Vdv301AllData vdv301allData=xmlGenerator.AllData2_3new(tripList,connectionList,vehicleState,globalDisplayContentList);
+
+         QDomDocument xmlDocument2;
+         bodyAllData=xmlGenerator.AllData2_3gen(xmlDocument2,vdv301allData);
+
+    /*
+        qDebug()<<"XXX TEST";
+
+        qDebug().noquote()<<bodyAllData;
+
+        qDebug()<<"XXX TEST";
+
+*/
     }
     else
     {
@@ -92,7 +126,7 @@ void CustomerInformationService::updateInternalVariables(QVector<Connection> con
  * \param stav
  * \param seznamSpoju
  */
-void CustomerInformationService::updateInternalVariablesEmpty(VehicleState &vehicleState, QVector<Trip>  tripList ) //novy
+void CustomerInformationService::updateInternalVariablesEmpty(VehicleState &vehicleState, QVector<Trip>  tripList, QVector<Vdv301DisplayContent> globalDisplayContentList ) //novy
 {
     qDebug() <<  Q_FUNC_INFO<<" "<<mServiceName<<" "<<mVersion;
 
@@ -116,6 +150,17 @@ void CustomerInformationService::updateInternalVariablesEmpty(VehicleState &vehi
 
         bodyAllData=xmlGenerator.AllData2_3(xmlDocument, tripList,connectionList,vehicleState);
     }
+    else if(mVersion=="2.3CZ1.0")
+    {
+        //bodyAllData=xmlGenerator.AllData_empty2_3(xmlDocument);
+        QDomDocument xmlDocument;
+
+        Vdv301AllData vdv301allData=xmlGenerator.AllData2_3new(tripList,connectionList,vehicleState, globalDisplayContentList);
+
+        bodyAllData=xmlGenerator.AllData2_3gen(xmlDocument,vdv301allData);
+
+
+    }
     else
     {
         QDomDocument xmlDocument;
@@ -127,7 +172,7 @@ void CustomerInformationService::updateInternalVariablesEmpty(VehicleState &vehi
     this->setBodyContent("CurrentDisplayContent",bodyCurrentDisplayContent);
 
 
-     updateStructureMap();
+    updateStructureMap();
 
 }
 
@@ -154,8 +199,12 @@ void CustomerInformationService::updateServiceContent(QVector<Connection> connec
 void CustomerInformationService::outOfService()
 {
     qDebug() <<  Q_FUNC_INFO;
-    updateInternalVariablesEmpty(mVehicleState,mTripList);
+    updateInternalVariablesEmpty(mVehicleState,mTripList,mGlobalDisplayContentList);
+}
 
+void CustomerInformationService::setGlobalDisplayContentList(const QVector<Vdv301DisplayContent> &newGlobalDisplayContentList)
+{
+    mGlobalDisplayContentList = newGlobalDisplayContentList;
 }
 
 
@@ -166,13 +215,14 @@ void CustomerInformationService::outOfService()
 void CustomerInformationService::slotSendDataToSubscribers()
 {
     qDebug() <<  Q_FUNC_INFO;
+
     if (mTripList.isEmpty())
     {
-        updateInternalVariablesEmpty(mVehicleState,mTripList);
+        updateInternalVariablesEmpty(mVehicleState,mTripList,mGlobalDisplayContentList);
     }
     else
     {
-        updateInternalVariables(mConnectionList,mVehicleState,mTripList );
+        updateInternalVariables(mConnectionList,mVehicleState,mTripList,mGlobalDisplayContentList );
     }
 
 }

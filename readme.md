@@ -8,6 +8,51 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20240823
+    - CustomerInformationService
+        - CustomerInformationService::updateInternalVariables
+            - added 2.3CZ1.0 option  
+        - test implementation of xmlGenerator.AllData2_3gen
+        - new variable mGlobalDisplayContentList
+        - new function CustomerInformationService::setGlobalDisplayContentList
+        - CustomerInformationService::updateInternalVariables
+            - new parameter globalDisplayContentList
+        - CustomerInformationService::updateInternalVariablesEmpty
+            - new parameter globalDisplayContentList
+   
+    - XmlCommon
+        - new variable defaultLanguage2_3CZ1_0
+        - XmlCommon::DisplayContentViaPointDestination2_3new
+            - displayContentRefFix       
+        - XmlCommon::DisplayContentViaPointDestination2_3
+            - empty second Destination element fixed
+        - XmlCommon::DisplayContentViaPointDestination2_3new
+            - empty displayContentRef fix
+        - XmlCommon::stopPointDestinationToVdv301ViaPoint
+            - viapoint icon fix
+        - XmlCommon::TripInformation2_3new
+            - removed unused QDomDocument
+        - XmlCommon::StopPoint2_3new
+            - FareZone fix
+         - new functions
+            - XmlCommon::Connection2_3gen
+            - XmlCommon::DisplayContentViaPointDestination2_3gen
+            - XmlCommon::FareZoneInformationStructure2_3new
+            - XmlCommon::TripInformation2_3gen
+            - XmlCommon::StopSequence2_3gen
+            - XmlCommon::StopPoint2_3gen
+            - XmlCommon::ViaPoint2_3def
+            - XmlCommon::namedElement
+    - XmlCustomerInformationService
+        - XmlCustomerInformationService::CurrentDisplayContent2_3¨
+            - all Displays now generated with DisplayContentViaPointDestination2_3
+            - XmlCustomerInformationService::AllData2_3new
+            - removed unused QDomDocument
+            - vehicleMode and vehicleSubMode moved farther in the function to ensure correct data (ddDoVehicleMode)
+        - new function XmlCustomerInformationService::AllData2_3gen
+    - VDV301DataStructures
+        - displayContentClassEnumerationToQString
+  
 - 20240702
     - CustomerInformationService::updateInternalVariables
         - usage of xmlGenerator.AllData2_3new
