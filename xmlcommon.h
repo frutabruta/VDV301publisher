@@ -27,9 +27,9 @@
 //#include "xmlmpvparser.h"
 
 
-class XmlCommon : public QMainWindow
+class XmlCommon : public QObject
 {
-    //  Q_OBJECT
+    Q_OBJECT
 public:
     /*
     enum DisplayContentClass
@@ -136,13 +136,17 @@ public:
     QDomElement StopSequence2_3gen(QDomDocument &xmlDocument, QVector<Vdv301StopPoint> stopPointDestinationList);
     QDomElement TripInformation2_3gen(QDomDocument &xmlDocument, Vdv301Trip trip, bool followingTrip);
     QStringList FareZoneInformationStructure2_3new(QVector<FareZone> fareZoneList);
+
+    int isInRange(int index, int valueCount, QString nameOfFunction);
 private:
 
     QDomCDATASection createEscapedValueCdata(QDomDocument &document, QString input);
     QString vehicleRunToRunNumber(VehicleRun vehicleRun);
-signals:
 
 public slots:
+signals:
+    void signalErrorMessage(QString message);
+
 };
 
 #endif // XMLCOMMON_H

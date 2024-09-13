@@ -8,6 +8,38 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20240823
+    - CustomerInformationService
+        - CustomerInformationService::updateInternalVariables
+            - fixed not generating any XML when the stoplist is empty
+            - empty triplist out of range fix
+            - empty stopPointDestination out of range fix
+        - CustomerInformationService::outOfService()
+            - change from updateInternalVariablesEmpty to updateInternalVariables
+        - CustomerInformationService::slotSendDataToSubscribers
+            - change from updateInternalVariablesEmpty to updateInternalVariables
+
+    - HttpService
+        - new function HttpService::isInRange
+    - TicketValidationService
+        - TicketValidationService::updateServiceContent
+            - empty triplist out of range fix
+    - XmlCommon
+        - XmlCommon::TripInformation1_0
+            - empty triplist out of range fix
+            - create two dummy stops when the triplist is empty to comply with XSD
+        - XmlCommon::TripInformation2_2CZ1_0
+            - empty triplist out of range fix
+        - new function XmlCommon::isInRange
+        - now inherits from QObject instead of QMainWindow
+        - new signal signalErrorMessage
+    - XmlCustomerInformationService
+        -  XmlCustomerInformationService::AllData1_0
+            - empty triplist out of range fix
+        - XmlCustomerInformationService::AllData2_2CZ1_0
+            - empty triplist out of range fix
+
+
 - 20240823_2
     - Vdv301DataStructures
         - new function DoorOpenStateEnumerationFromQString

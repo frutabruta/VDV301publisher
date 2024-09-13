@@ -131,7 +131,7 @@ void HttpService::bonjourStartPublish(QString serviceName, QString serviceType,i
     qDebug()<<"Txt record added";
 
     qZeroConf.startServicePublish(serviceName.toUtf8(), serviceType.toUtf8(), "local", port,0);
-  //  void QZeroConf::startServicePublish(const char *name, const char *type, const char *domain, quint16 port, quint32 interface)
+    //  void QZeroConf::startServicePublish(const char *name, const char *type, const char *domain, quint16 port, quint32 interface)
 
 
 
@@ -400,7 +400,7 @@ int HttpService::removeSubscriber(Subscriber selectedSubscriber)
     int index=subscriberList.indexOf(selectedSubscriber);
     if(index>=0)
     {
-       return removeSubscriber(index);
+        return removeSubscriber(index);
 
     }
 
@@ -560,4 +560,23 @@ void HttpService::postToAllSubscribers()
     {
         postToSubscriber(subscriberList[i].address,structureContentMap.value(subscriberList[i].structure));
     }
+}
+
+
+
+int HttpService::isInRange(int index, int valueCount, QString nameOfFunction)
+{
+    qDebug()<<Q_FUNC_INFO;
+    if((index<valueCount)&&(index>=0))
+    {
+        return 1;
+    }
+    else
+    {
+        QString errorText="value "+QString::number(index)+" is out of range "+ QString::number(valueCount)+" "+nameOfFunction;
+        emit signalErrorMessage(errorText);
+        qDebug()<<errorText;
+        return 0;
+    }
+
 }

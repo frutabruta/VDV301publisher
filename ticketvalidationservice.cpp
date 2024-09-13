@@ -62,7 +62,15 @@ void TicketValidationService::updateServiceContent(QVector<Connection> connectio
     qDebug()<<Q_FUNC_INFO;
     mConnectionList =connectionList;
     mVehicleState=vehicleState;
-    mStopPointDestinationList=vehicleState.currentVehicleRun.tripList.at(vehicleState.currentTripIndex).globalStopPointDestinationList;
+    if(!vehicleState.currentVehicleRun.tripList.isEmpty())
+    {
+        mStopPointDestinationList=vehicleState.currentVehicleRun.tripList.at(vehicleState.currentTripIndex).globalStopPointDestinationList;
+    }
+    else
+    {
+        mStopPointDestinationList.clear();
+    }
+
     slotSendDataToSubscribers();
     timer.start(60000);
 }

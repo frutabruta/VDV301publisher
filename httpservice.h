@@ -56,6 +56,7 @@ public:
 
     QString retrieveStructureContentMapValue(QString key);
     void updateStructureMap();
+    int isInRange(int index, int valueCount, QString nameOfFunction);
 private:
     //instance knihoven
     QZeroConf zeroConf;
@@ -103,6 +104,7 @@ signals:
     void signalReplyToPostReceived(QNetworkReply *reply);
     void signalParameterChange(QMap<QString,QString> values);
     void signalServicePublished(QString serviceName);
+    void signalErrorMessage(QString message);
 
 };
 

@@ -10,12 +10,17 @@ XmlCustomerInformationService::XmlCustomerInformationService()
 QString XmlCustomerInformationService::AllData1_0(QDomDocument xmlDocument, QVector<Trip> tripList,  QVector<Connection> connectionList, VehicleState vehicleState )
 {
     qDebug()<<Q_FUNC_INFO;
-    QVector<StopPointDestination> stopPointDestinationList=tripList.at(vehicleState.currentTripIndex).globalStopPointDestinationList;
+    QVector<StopPointDestination> stopPointDestinationList;
+    if(isInRange(vehicleState.currentTripIndex,tripList.count(),Q_FUNC_INFO))
+    {
+        stopPointDestinationList=tripList.at(vehicleState.currentTripIndex).globalStopPointDestinationList;
+    }
+
 
     if (stopPointDestinationList.isEmpty())
     {
         qDebug()<<"empty stop list";
-        return "AllData1.0 empty stop list";
+        //return "AllData1.0 empty stop list";
     }
 
     QString deflanguage=defaultLanguage1_0;
@@ -73,22 +78,21 @@ QString XmlCustomerInformationService::AllData1_0(QDomDocument xmlDocument, QVec
 QString XmlCustomerInformationService::AllData2_2CZ1_0( QDomDocument xmlDocument,QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState)
 {
     qDebug()<<Q_FUNC_INFO;
-    QVector<StopPointDestination> stopPointDestinationList=tripList.at(vehicleState.currentTripIndex).globalStopPointDestinationList;
-
-    xmlDocument.clear();
-
-    if (stopPointDestinationList.isEmpty())
-    {
-        qDebug()<<"stop list is empty";
-        return "stop list is empty";
-    }
-
-
     QString vehicleref=QString::number(vehicleState.vehicleNumber);
     int currentStopIndex= vehicleState.currentStopIndex0+1; //modification for stop indexing from 0 (c++ arrays) to 1 (VDV301)
     QString routeDeviation=Vdv301Enumerations::RouteDeviationEnumerationToQString(vehicleState.routeDeviation);
     QString vehicleStopRequested=QString::number(vehicleState.isVehicleStopRequested);
     QString exitSide="right";
+    xmlDocument.clear();
+
+
+    QVector<StopPointDestination> stopPointDestinationList;
+
+
+
+
+
+
 
     QDomProcessingInstruction dProcessingInformation=createProcessingInformation(xmlDocument,mDefaultEncoding);
     xmlDocument.appendChild(dProcessingInformation);
@@ -105,13 +109,32 @@ QString XmlCustomerInformationService::AllData2_2CZ1_0( QDomDocument xmlDocument
     QDomElement dDefaultLanguage=Value(xmlDocument,"DefaultLanguage",defaultLanguage2_2CZ1_0);
     dAllData.appendChild(dDefaultLanguage);
 
-    QDomElement dTripInformation=this->TripInformation2_2CZ1_0(xmlDocument,tripList,connectionList,vehicleState,vehicleState.currentTripIndex,false);
-    dAllData.appendChild(dTripInformation);
-    if (tripList.at(vehicleState.currentTripIndex).continuesWithNextTrip)
+
+    if(isInRange(vehicleState.currentTripIndex,tripList.count(),Q_FUNC_INFO))
     {
-        dTripInformation=this->TripInformation2_2CZ1_0(xmlDocument,tripList,connectionList,vehicleState,vehicleState.currentTripIndex+1,true);
+        stopPointDestinationList=tripList.at(vehicleState.currentTripIndex).globalStopPointDestinationList;
+        QDomElement dTripInformation=this->TripInformation2_2CZ1_0(xmlDocument,tripList,connectionList,vehicleState,vehicleState.currentTripIndex,false);
         dAllData.appendChild(dTripInformation);
+
+
+        if (tripList.at(vehicleState.currentTripIndex).continuesWithNextTrip)
+        {
+            dTripInformation=this->TripInformation2_2CZ1_0(xmlDocument,tripList,connectionList,vehicleState,vehicleState.currentTripIndex+1,true);
+            dAllData.appendChild(dTripInformation);
+        }
     }
+
+    if (stopPointDestinationList.isEmpty())
+    {
+        qDebug()<<"stop list is empty";
+        // return "stop list is empty";
+    }
+
+
+
+
+
+
 
     QDomElement dCurrentStopIndex=Value(xmlDocument,"CurrentStopIndex",QString::number(currentStopIndex));
     dAllData.appendChild(dCurrentStopIndex);
@@ -132,8 +155,11 @@ QString XmlCustomerInformationService::AllData2_2CZ1_0( QDomDocument xmlDocument
     dExitSide.appendChild(xmlDocument.createTextNode(exitSide));
     dAllData.appendChild(dExitSide);
 
-    ConnectionMPV::ddDoVehicleMode(stopPointDestinationList.at(vehicleState.currentStopIndex0).line.kli,vehicleState.vehicleMode,vehicleState.vehicleSubMode,stopPointDestinationList[vehicleState.currentStopIndex0].line);
-    dAllData.appendChild(this->MyOwnVehicleMode(xmlDocument,vehicleState.vehicleMode,vehicleState.vehicleSubMode));
+    if(isInRange(vehicleState.currentStopIndex0,stopPointDestinationList.count(),Q_FUNC_INFO))
+    {
+        ConnectionMPV::ddDoVehicleMode(stopPointDestinationList.at(vehicleState.currentStopIndex0).line.kli,vehicleState.vehicleMode,vehicleState.vehicleSubMode,stopPointDestinationList[vehicleState.currentStopIndex0].line);
+        dAllData.appendChild(this->MyOwnVehicleMode(xmlDocument,vehicleState.vehicleMode,vehicleState.vehicleSubMode));
+    }
 
     return qDomDocumentToQString(xmlDocument);
 }

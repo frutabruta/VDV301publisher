@@ -1498,8 +1498,37 @@ QDomElement XmlCommon::TripInformation1_0(QDomDocument &xmlDocument, QVector<Tri
 {
     int currentStopIndex= vehicleState.currentStopIndex0;
     QString language=defaultLanguage1_0;
-    QString tripRef=QString::number(tripList.at(indexSpoje).idRopid);
-    QVector<StopPointDestination> stopPointDestinationList=tripList.at(indexSpoje).globalStopPointDestinationList;
+    QString tripRef="0";
+    QString specialAnnouncement="";
+    QVector<StopPointDestination> stopPointDestinationList;
+
+    if(isInRange(indexSpoje,tripList.count(),Q_FUNC_INFO))
+    {
+        tripRef=QString::number(tripList.at(indexSpoje).idRopid);
+        stopPointDestinationList=tripList.at(indexSpoje).globalStopPointDestinationList;
+        specialAnnouncement=stopPointDestinationList.at(vehicleState.currentStopIndex0).stopPoint.additionalTextMessage;
+        qDebug()<<"special announcement="<<specialAnnouncement;
+    }
+    else
+    {
+        StopPointDestination dummyStopPointDestination1;
+        dummyStopPointDestination1.stopPoint.StopIndex=0;
+        dummyStopPointDestination1.stopPoint.StopName="";
+        dummyStopPointDestination1.line.lineNumber="0";
+        dummyStopPointDestination1.destination.idCis=0;
+
+        StopPointDestination dummyStopPointDestination2;
+        dummyStopPointDestination2.stopPoint.StopIndex=0;
+        dummyStopPointDestination2.stopPoint.StopName="";
+        dummyStopPointDestination2.line.lineNumber="0";
+        dummyStopPointDestination2.destination.idCis=0;
+
+        stopPointDestinationList<<dummyStopPointDestination1;
+        stopPointDestinationList<<dummyStopPointDestination2;
+
+    }
+
+
     QDomElement dTripInformation=xmlDocument.createElement("TripInformation");
 
     QDomElement dTripRef=Value(xmlDocument,"TripRef",tripRef);
@@ -1514,8 +1543,6 @@ QDomElement XmlCommon::TripInformation1_0(QDomDocument &xmlDocument, QVector<Tri
     dLocationState.appendChild(xmlDocument.createTextNode(Vdv301Enumerations::LocationStateEnumerationToQString(vehicleState.locationState)));
     dTripInformation.appendChild(dLocationState);
 
-    QString specialAnnouncement=stopPointDestinationList.at(vehicleState.currentStopIndex0).stopPoint.additionalTextMessage;
-    qDebug()<<"spec oznameni="<<specialAnnouncement;
 
     if(vehicleState.isSpecialAnnoucementUsed)
     {
@@ -1532,7 +1559,6 @@ QDomElement XmlCommon::TripInformation1_0(QDomDocument &xmlDocument, QVector<Tri
     }
 
     return dTripInformation;
-
 }
 
 QDomElement XmlCommon::TripInformation2_2CZ1_0(QDomDocument &xmlDocument, QVector<Trip> tripList, QVector<Connection> connectionsList, VehicleState vehicleState, int tripIndex, bool followingTrip)
@@ -1540,10 +1566,25 @@ QDomElement XmlCommon::TripInformation2_2CZ1_0(QDomDocument &xmlDocument, QVecto
 
     int currentStopIndex= vehicleState.currentStopIndex0;
     QString language=defaultLanguage2_2CZ1_0;
-    QString tripRef=QString::number(tripList.at(tripIndex).idRopid);
-    QVector<StopPointDestination> selectedStopPointDestinationList=tripList.at(tripIndex).globalStopPointDestinationList;
-    QDomElement dTripInformation=xmlDocument.createElement("TripInformation");
+    QString tripRef="";
+    QVector<StopPointDestination> selectedStopPointDestinationList;
+    QString specialAnnoucement="";
 
+    if(isInRange(tripIndex,tripList.count(),Q_FUNC_INFO))
+    {
+        tripRef=QString::number(tripList.at(tripIndex).idRopid);
+        selectedStopPointDestinationList=tripList.at(tripIndex).globalStopPointDestinationList;
+
+        if(isInRange(vehicleState.currentStopIndex0,selectedStopPointDestinationList.count(),Q_FUNC_INFO))
+        {
+            specialAnnoucement=selectedStopPointDestinationList.at(vehicleState.currentStopIndex0).stopPoint.additionalTextMessage;
+        }
+
+    }
+
+
+
+    QDomElement dTripInformation=xmlDocument.createElement("TripInformation");
     QDomElement dTripRef=Value(xmlDocument,"TripRef",tripRef);
 
     dTripInformation.appendChild(dTripRef);
@@ -1557,7 +1598,7 @@ QDomElement XmlCommon::TripInformation2_2CZ1_0(QDomDocument &xmlDocument, QVecto
         dLocationState.appendChild(xmlDocument.createTextNode(Vdv301Enumerations::LocationStateEnumerationToQString( vehicleState.locationState)));
         dTripInformation.appendChild(dLocationState);
 
-        QString specialAnnoucement=selectedStopPointDestinationList.at(vehicleState.currentStopIndex0).stopPoint.additionalTextMessage;
+
         qDebug()<<"special announcement="<<specialAnnoucement;
 
         if(vehicleState.isSpecialAnnoucementUsed)
@@ -1576,12 +1617,16 @@ QDomElement XmlCommon::TripInformation2_2CZ1_0(QDomDocument &xmlDocument, QVecto
 
     //změna tarifního pásma
     if((currentStopIndex+1)<selectedStopPointDestinationList.length()&&(vehicleState.showFareZoneChange==true))
-    {      
-        dTripInformation.appendChild(FareZoneChange2_2CZ1_0(xmlDocument,selectedStopPointDestinationList.at(currentStopIndex-1).stopPoint.fareZoneList,selectedStopPointDestinationList.at(currentStopIndex).stopPoint.fareZoneList,language));
+    {
+        if(isInRange(currentStopIndex-1,selectedStopPointDestinationList.count(),Q_FUNC_INFO)&&isInRange(currentStopIndex,selectedStopPointDestinationList.count(),Q_FUNC_INFO))
+        {
+            dTripInformation.appendChild(FareZoneChange2_2CZ1_0(xmlDocument,selectedStopPointDestinationList.at(currentStopIndex-1).stopPoint.fareZoneList,selectedStopPointDestinationList.at(currentStopIndex).stopPoint.fareZoneList,language));
+        }
+
+
     }
 
     return dTripInformation;
-
 }
 
 
@@ -1636,7 +1681,6 @@ QDomElement XmlCommon::TripInformation2_3(QDomDocument &xmlDocument, QVector<Tri
     dTripInformation.appendChild(dRunNumber);
 
     return dTripInformation;
-
 }
 
 Vdv301Trip XmlCommon::TripInformation2_3new(QVector<Trip> tripList, QVector<Vdv301Connection> connectionList, VehicleState vehicleState, int tripIndex, bool followingTrip)
@@ -1694,7 +1738,6 @@ Vdv301Trip XmlCommon::TripInformation2_3new(QVector<Trip> tripList, QVector<Vdv3
     */
 
     return vdv301trip;
-
 }
 
 
@@ -1751,7 +1794,6 @@ QDomElement XmlCommon::TripInformation2_3gen(QDomDocument &xmlDocument, Vdv301Tr
     dTripInformation.appendChild(dRunNumber);
 
     return dTripInformation;
-
 }
 
 QString XmlCommon::vehicleRunToRunNumber(VehicleRun vehicleRun)
@@ -2501,3 +2543,21 @@ QTime StopPoint::secondsToQtime(QString vstup)
     return QTime(hours,minutes);
 }
 */
+
+
+int XmlCommon::isInRange(int index, int valueCount, QString nameOfFunction)
+{
+    qDebug()<<Q_FUNC_INFO;
+    if((index<valueCount)&&(index>=0))
+    {
+        return 1;
+    }
+    else
+    {
+        QString errorText="value "+QString::number(index)+" is out of range "+ QString::number(valueCount)+" "+nameOfFunction;
+        emit signalErrorMessage(errorText);
+        qDebug()<<errorText;
+        return 0;
+    }
+
+}
