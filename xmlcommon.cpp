@@ -256,7 +256,7 @@ QVector<QDomElement> XmlCommon::Connections2_3(QDomDocument  &xmlDocument, QVect
 {
     qDebug()<<Q_FUNC_INFO;
 
-    QString language ="cs";
+   // QString defaultLanguage2_3 ="cs";
     QVector<QDomElement> output;
 
     connectionList=Connection::orderConnectionsByExpectedDeparture(connectionList);
@@ -273,6 +273,14 @@ QVector<QDomElement> XmlCommon::Connections2_3(QDomDocument  &xmlDocument, QVect
 
         xmlDocument.appendChild(dConnection);
 
+        QDomElement dStopRef=ref(xmlDocument,"StopRef","0");
+
+        dConnection.appendChild(dStopRef);
+
+        QDomElement dConnectionRef=ref(xmlDocument,"ConnectionRef","0");
+
+        dConnection.appendChild(dConnectionRef);
+
         QDomElement dConnectionMode = xmlDocument.createElement("ConnectionMode");
 
 
@@ -288,6 +296,9 @@ QVector<QDomElement> XmlCommon::Connections2_3(QDomDocument  &xmlDocument, QVect
 
         QDomElement dLineInformation=xmlDocument.createElement("LineInformation");
         dDisplayContent.appendChild(dLineInformation);
+
+        QString lineRef="noRef";
+        dLineInformation.appendChild(ref(xmlDocument,"LineRef",lineRef));
 
         QString lineName=selectedConnection.line.lineName;
 
@@ -313,7 +324,7 @@ QVector<QDomElement> XmlCommon::Connections2_3(QDomDocument  &xmlDocument, QVect
         }
 
 
-        QDomElement dLineName=internationalTextType(xmlDocument,"LineName",lineName,language);
+        QDomElement dLineName=internationalTextType(xmlDocument,"LineName",lineName,defaultLanguage2_3);
         dLineInformation.appendChild(dLineName);
 
         QDomElement dLineNumber=Value(xmlDocument, "LineNumber",selectedConnection.line.lineNumber);
@@ -324,7 +335,7 @@ QVector<QDomElement> XmlCommon::Connections2_3(QDomDocument  &xmlDocument, QVect
 
 
 
-        QDomElement dDestinationName=internationalTextType(xmlDocument,"DestinationName",selectedConnection.destinationName,language);
+        QDomElement dDestinationName=internationalTextType(xmlDocument,"DestinationName",selectedConnection.destinationName,defaultLanguage2_3);
         dDestination.appendChild(dDestinationName);
 
         dConnection.appendChild(Value(xmlDocument,"Platform",selectedConnection.platform));

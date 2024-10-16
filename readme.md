@@ -8,6 +8,14 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20241016
+    - XmlCommon
+        - XmlCommon::Connections2_3
+            - default language fix
+            - StopRef fix
+            - ConnectionRef fix
+            - LineRef fix
+
 - 20240823
     - CustomerInformationService
         - CustomerInformationService::updateInternalVariables
