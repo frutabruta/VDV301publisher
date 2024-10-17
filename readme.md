@@ -8,6 +8,30 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20241017
+    - XmlCommon split into classes
+        - XmlCommon
+        - XmlCommon2_2CZ1_0
+        - XmlCommon2_3
+        - XmlCommon2_3_new
+        - XmlCommon2_3CZ1_0
+    - XmlCustomerInformationService split into classes
+        - XmlCustomerInformationService
+        - XmlCustomerInformationService2_2CZ1_0
+        - XmlCustomerInformationService2_3
+        - XmlCustomerInformationService2_3_new
+        - XmlCustomerInformationService2_3CZ1_0
+    - XmlTicketValidationService split into classes
+        - XmlTicketValidationService
+        - XmlTicketValidationService2_2CZ1_0
+    - TicketValidationService
+        - usage of new XML classes
+    - CustomerInformationService
+        - usage of new XML classes
+    - XmlCommon
+        - function internationalTextType renamed to internationalTextTypeToDom
+        - vehicleRunToRunNumber move to public from private
+
 - 20241016
     - XmlCommon
         - XmlCommon::Connections2_3

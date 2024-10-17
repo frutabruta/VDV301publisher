@@ -24,6 +24,7 @@ public:
     Vdv301AllData AllData2_3new(QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState, QVector<Vdv301DisplayContent> globalDisplayContentList);
     QString AllData2_3gen(QDomDocument xmlDocument, Vdv301AllData allData);
 
+    QString AllData2_3CZ1_0gen(QDomDocument xmlDocument, Vdv301AllData allData);
 private:
 
 };
