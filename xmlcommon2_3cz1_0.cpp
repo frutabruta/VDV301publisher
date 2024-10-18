@@ -56,6 +56,10 @@ QDomElement XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0gen(QDomDocument &xmlDocum
     QDomElement dRunNumber=Value(xmlDocument,"RunNumber",trip.runNumber);
     dTripInformation.appendChild(dRunNumber);
 
+    if(trip.fareZoneChange.active)
+    {
+        dTripInformation.appendChild(FareZoneChange2_3CZ1_0gen(xmlDocument,trip.fareZoneChange));
+    }
     /*
     if((currentStopIndex+1)<selectedStopPointDestinationList.length()&&(vehicleState.showFareZoneChange==true))
     {
@@ -102,7 +106,7 @@ QStringList XmlCommon2_3CZ1_0::FareZoneInformationStructure2_3CZ1_0new( QVector<
     return output;
 }
 
-QDomElement XmlCommon2_3CZ1_0::FareZoneChange2_3CZ1_0gen(QDomDocument  &xmlDocument, QVector<Vdv301InternationalText> fareZoneFrom,QVector<Vdv301InternationalText> fareZoneTo)
+QDomElement XmlCommon2_3CZ1_0::FareZoneChange2_3CZ1_0gen(QDomDocument  &xmlDocument,Vdv301FareZoneChange2_3CZ1_0 vdv301FareZoneChange)// QVector<Vdv301InternationalText> fareZoneFrom,QVector<Vdv301InternationalText> fareZoneTo)
 {
 
     QDomElement fareZoneChange=xmlDocument.createElement("FareZoneChange");
@@ -111,7 +115,7 @@ QDomElement XmlCommon2_3CZ1_0::FareZoneChange2_3CZ1_0gen(QDomDocument  &xmlDocum
     QDomElement fromFareZones=xmlDocument.createElement("FromFareZones");
 
 
-    foreach(Vdv301InternationalText selectedFareZone, fareZoneFrom )
+    foreach(Vdv301InternationalText selectedFareZone, vdv301FareZoneChange.fromFareZone )
     {
         fromFareZones.appendChild(internationalTextTypeToDom(xmlDocument,"FareZone",selectedFareZone));
     }
@@ -125,7 +129,7 @@ QDomElement XmlCommon2_3CZ1_0::FareZoneChange2_3CZ1_0gen(QDomDocument  &xmlDocum
 
 
 
-    foreach(Vdv301InternationalText selectedFareZone, fareZoneTo )
+    foreach(Vdv301InternationalText selectedFareZone, vdv301FareZoneChange.toFareZone )
     {
         toFareZones.appendChild(internationalTextTypeToDom(xmlDocument,"FareZone",selectedFareZone));
     }
@@ -381,14 +385,39 @@ Vdv301Trip2_3CZ1_0 XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0new(QVector<Trip> t
         qDebug()<<"followingTrip==true";
     }
 
-    //fareZone change, commented out to comply with VDV CIS 2.3
-    /*
+
     if((currentStopIndex+1)<stopPointDestinationList.length()&&(vehicleState.showFareZoneChange==true))
     {
-        dTripInformation.appendChild(FareZoneChange2_2CZ1_0(xmlDocument,stopPointDestinationList.at(currentStopIndex-1).stopPoint.fareZoneList,stopPointDestinationList.at(currentStopIndex).stopPoint.fareZoneList,language));
+        vdv301trip.fareZoneChange.active=true;
+        vdv301trip.fareZoneChange.fromFareZone=fareZoneListToVdv301FareZoneList(FareZone::filterZonesFromSystem(stopPointDestinationList.at(currentStopIndex-1).stopPoint.fareZoneList,"PID"),language);
+        vdv301trip.fareZoneChange.toFareZone=fareZoneListToVdv301FareZoneList(FareZone::filterZonesFromSystem(stopPointDestinationList.at(currentStopIndex).stopPoint.fareZoneList,"PID"),language);
+
+     //   dTripInformation.appendChild(FareZoneChange2_2CZ1_0(xmlDocument,stopPointDestinationList.at(currentStopIndex-1).stopPoint.fareZoneList,stopPointDestinationList.at(currentStopIndex).stopPoint.fareZoneList,language));
     }
-    */
+    else
+    {
+        vdv301trip.fareZoneChange.active=false;
+        vdv301trip.fareZoneChange.fromFareZone.clear();
+        vdv301trip.fareZoneChange.toFareZone.clear();
+    }
+
 
     return vdv301trip;
 }
 
+
+QVector<Vdv301InternationalText> XmlCommon2_3CZ1_0::fareZoneListToVdv301FareZoneList(QVector<FareZone> fareZoneList, QString language)
+{
+    QVector<Vdv301InternationalText> output;
+
+
+    foreach(QString dFareZone, FareZoneInformationStructure2_3CZ1_0new(fareZoneList) )
+    {
+        Vdv301InternationalText fareZone;
+        fareZone.text=dFareZone;
+        fareZone.language=language;
+        output<<fareZone;
+    }
+    return output;
+
+}

@@ -8,6 +8,14 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20241018_2
+    - Vdv301DataStructures
+        - new class Vdv301FareZoneChange2_3CZ1_0
+        - Vdv301Trip2_3CZ1_0
+        - added fareZoneChange variable
+    - XmlCommon2_3CZ1_0
+        - added generating of FareZoneChange
+        - new function fareZoneListToVdv301FareZoneList
 - 20241018
     - 2.3CZ1.0 FareZone changed to InternationalText
         - CustomerInformationService
