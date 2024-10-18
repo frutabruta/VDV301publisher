@@ -8,6 +8,15 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20241018
+    - 2.3CZ1.0 FareZone changed to InternationalText
+        - CustomerInformationService
+            - using VDV301 2.3CZ1.0 derived classes
+        - XmlCommon2_3CZ1_0
+            - using VDV301 2.3CZ1.0 derived classes
+            - new function FareZoneInformationStructure2_3CZ1_0new
+        - XmlCustomerInformationService2_3CZ1_0 
+            - using VDV301 2.3CZ1.0 derived classes
 - 20241017
     - XmlCommon split into classes
         - XmlCommon

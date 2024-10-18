@@ -6,7 +6,7 @@ XmlCustomerInformationService2_3CZ1_0::XmlCustomerInformationService2_3CZ1_0() {
 
 
 
-QString XmlCustomerInformationService2_3CZ1_0::AllData2_3CZ1_0gen(QDomDocument xmlDocument, Vdv301AllData allData)//, VehicleState vehicleState )
+QString XmlCustomerInformationService2_3CZ1_0::AllData2_3CZ1_0gen(QDomDocument xmlDocument, Vdv301AllData2_3CZ1_0 allData)//, VehicleState vehicleState )
 {
     qDebug()<<Q_FUNC_INFO;
 
@@ -47,7 +47,7 @@ QString XmlCustomerInformationService2_3CZ1_0::AllData2_3CZ1_0gen(QDomDocument x
     {
         // xxxx fix following connection
         int counter=0;
-        foreach(Vdv301Trip vdv301trip, allData.tripInformationList)
+        foreach(Vdv301Trip2_3CZ1_0 vdv301trip, allData.tripInformationList)
         {
 
             QDomElement dTripInformation;
@@ -96,12 +96,12 @@ QString XmlCustomerInformationService2_3CZ1_0::AllData2_3CZ1_0gen(QDomDocument x
 }
 
 
-Vdv301AllData XmlCustomerInformationService2_3CZ1_0::AllData2_3CZ1_0new( QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState, QVector<Vdv301DisplayContent> globalDisplayContentList )
+Vdv301AllData2_3CZ1_0 XmlCustomerInformationService2_3CZ1_0::AllData2_3CZ1_0new( QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState, QVector<Vdv301DisplayContent> globalDisplayContentList )
 {
     qDebug()<<Q_FUNC_INFO;
 
 
-    Vdv301AllData allData;
+    Vdv301AllData2_3CZ1_0 allData;
 
     QVector<Vdv301Connection> vdv301ConnectionList;
 
@@ -111,7 +111,7 @@ Vdv301AllData XmlCustomerInformationService2_3CZ1_0::AllData2_3CZ1_0new( QVector
     }
 
 
-    QVector<Vdv301Trip> vdv301TripList;
+    QVector<Vdv301Trip2_3CZ1_0> vdv301TripList;
 
     /*
     QVector<StopPointDestination> stopPointDestinationList=tripList.at(vehicleState.currentTripIndex).globalStopPointDestinationList;
@@ -140,12 +140,12 @@ Vdv301AllData XmlCustomerInformationService2_3CZ1_0::AllData2_3CZ1_0new( QVector
     {
         QVector<StopPointDestination> stopPointDestinationList=tripList.at(vehicleState.currentTripIndex).globalStopPointDestinationList;
 
-        vdv301TripList<<xmlCommon2_3_new.TripInformation2_3new(tripList,vdv301ConnectionList,vehicleState,vehicleState.currentTripIndex,false);
+        vdv301TripList<<xmlCommon2_3CZ1_0.TripInformation2_3CZ1_0new(tripList,vdv301ConnectionList,vehicleState,vehicleState.currentTripIndex,false);
 
         if (tripList.at(vehicleState.currentTripIndex).continuesWithNextTrip)
         {
             //qDebug()<<"abcd navaz Spoj existuje "<<;
-            vdv301TripList<<xmlCommon2_3_new.TripInformation2_3new(tripList,vdv301ConnectionList,vehicleState,vehicleState.currentTripIndex+1,true);
+            vdv301TripList<<xmlCommon2_3CZ1_0.TripInformation2_3CZ1_0new(tripList,vdv301ConnectionList,vehicleState,vehicleState.currentTripIndex+1,true);
 
         }
         ConnectionMPV::ddDoVehicleMode(stopPointDestinationList.at(vehicleState.currentStopIndex0).line.kli,vehicleState.vehicleMode,vehicleState.vehicleSubMode,stopPointDestinationList[vehicleState.currentStopIndex0].line);

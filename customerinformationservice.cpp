@@ -100,7 +100,7 @@ void CustomerInformationService::updateInternalVariables(QVector<Connection> con
         bodyCurrentDisplayContent=xmlGenerator2_3CZ1_0.CurrentDisplayContent2_3(xmlDocument,stopPointDestinationList,vehicleState);
 
         // bodyAllData=xmlGenerator.AllData2_3(xmlDocument, tripList,connectionList,vehicleState);
-        Vdv301AllData vdv301allData=xmlGenerator2_3CZ1_0.AllData2_3CZ1_0new(tripList,connectionList,vehicleState,globalDisplayContentList);
+        Vdv301AllData2_3CZ1_0 vdv301allData=xmlGenerator2_3CZ1_0.AllData2_3CZ1_0new(tripList,connectionList,vehicleState,globalDisplayContentList);
 
         QDomDocument xmlDocument2;
         bodyAllData=xmlGenerator2_3CZ1_0.AllData2_3CZ1_0gen(xmlDocument2,vdv301allData);
@@ -170,7 +170,7 @@ void CustomerInformationService::updateInternalVariablesEmpty(VehicleState &vehi
         //bodyAllData=xmlGenerator.AllData_empty2_3(xmlDocument);
         QDomDocument xmlDocument;
 
-        Vdv301AllData vdv301allData=xmlGenerator2_3CZ1_0.AllData2_3CZ1_0new (tripList,connectionList,vehicleState, globalDisplayContentList);
+        Vdv301AllData2_3CZ1_0 vdv301allData=xmlGenerator2_3CZ1_0.AllData2_3CZ1_0new (tripList,connectionList,vehicleState, globalDisplayContentList);
 
         bodyAllData=xmlGenerator2_3CZ1_0.AllData2_3CZ1_0gen(xmlDocument,vdv301allData);
 
