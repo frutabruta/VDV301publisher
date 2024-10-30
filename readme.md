@@ -8,6 +8,10 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- XmlCommon2_3CZ1_0
+    - refactoring, added platform generating
+        - XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new
+
 - 20241018_2
     - Vdv301DataStructures
         - new class Vdv301FareZoneChange2_3CZ1_0
