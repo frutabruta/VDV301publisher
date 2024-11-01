@@ -15,7 +15,7 @@ Vdv301AllData XmlCustomerInformationService2_3_new::AllData2_3new( QVector<Trip>
 
     foreach(Connection connection, connectionList)
     {
-        vdv301ConnectionList<<connection.toVdv301Connection();
+        vdv301ConnectionList<<connection.toVdv301Connection(xmlCommon2_3_new.lcdClass);
     }
 
 

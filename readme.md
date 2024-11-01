@@ -8,9 +8,29 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
-- XmlCommon2_3CZ1_0
-    - refactoring, added platform generating
-        - XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new
+- 20241102
+    - VDV301structures
+        - added .ref() functions to enable changes in text generation
+    - CustomerInformationService
+        - changes to switch between old and new way of generating xml files from VDV301 structures instead of VehicleState (ASW) variables
+    - XmlCommon2_3_new
+        - functions reorder by alphabet
+        - added descriptions of elements from XSD
+        - added variable lcdClass to choose later on what DisplayContent class will be used for LCD screens
+    - XmlCommon2_3 
+        - usage of .ref functions
+    - XmlCommon2_3CZ1_0
+        - functions reorder by alphabet
+        - usage of .ref functions
+        - usage of lcdClass to choose LCD displayContent
+    - XmlCustomerInformationService2_3_new
+        - usage of lcdClass
+    - XmlCustomerInformationService2_3CZ1_0
+        - usage of lcdClass
+- 20241030
+    - XmlCommon2_3CZ1_0
+        - refactoring, added platform generating
+            - XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new
 
 - 20241018_2
     - Vdv301DataStructures

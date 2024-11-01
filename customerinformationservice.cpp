@@ -74,21 +74,22 @@ void CustomerInformationService::updateInternalVariables(QVector<Connection> con
         //Work in progress
         QDomDocument xmlDocument;
         //special options for XML in this version can be placed here
-        bodyAllData=xmlGenerator2_3.AllData2_3(xmlDocument, tripList,connectionList,vehicleState);
-        bodyCurrentDisplayContent=xmlGenerator2_3.CurrentDisplayContent2_3(xmlDocument,stopPointDestinationList,vehicleState);
 
-        /*
-        Vdv301AllData vdv301allData=xmlGenerator.AllData2_3new(tripList,connectionList,vehicleState);
+        bool useVdv301AllData=true;
 
+        if(useVdv301AllData)
+        {
+            Vdv301AllData vdv301allData=xmlGenerator2_3new.AllData2_3new(tripList,connectionList,vehicleState,globalDisplayContentList);
 
-        QDomDocument xmlDocument2;
-        qDebug()<<"XXX TEST";
-
-        qDebug().noquote()<<xmlGenerator.AllData2_3gen(xmlDocument2,vdv301allData);
-
-        qDebug()<<"XXX TEST";
-*/
-
+            QDomDocument xmlDocument2;
+            bodyAllData=xmlGenerator2_3new.AllData2_3gen(xmlDocument2,vdv301allData);
+            bodyCurrentDisplayContent=xmlGenerator2_3new.CurrentDisplayContent2_3(xmlDocument,stopPointDestinationList,vehicleState);
+        }
+        else
+        {
+            bodyAllData=xmlGenerator2_3.AllData2_3(xmlDocument, tripList,connectionList,vehicleState);
+            bodyCurrentDisplayContent=xmlGenerator2_3.CurrentDisplayContent2_3(xmlDocument,stopPointDestinationList,vehicleState);
+        }
 
     }
     else if (mVersion=="2.3CZ1.0")
@@ -99,20 +100,11 @@ void CustomerInformationService::updateInternalVariables(QVector<Connection> con
 
         bodyCurrentDisplayContent=xmlGenerator2_3CZ1_0.CurrentDisplayContent2_3(xmlDocument,stopPointDestinationList,vehicleState);
 
-        // bodyAllData=xmlGenerator.AllData2_3(xmlDocument, tripList,connectionList,vehicleState);
         Vdv301AllData2_3CZ1_0 vdv301allData=xmlGenerator2_3CZ1_0.AllData2_3CZ1_0new(tripList,connectionList,vehicleState,globalDisplayContentList);
 
         QDomDocument xmlDocument2;
         bodyAllData=xmlGenerator2_3CZ1_0.AllData2_3CZ1_0gen(xmlDocument2,vdv301allData);
 
-        /*
-        qDebug()<<"XXX TEST";
-
-        qDebug().noquote()<<bodyAllData;
-
-        qDebug()<<"XXX TEST";
-
-*/
     }
     else
     {

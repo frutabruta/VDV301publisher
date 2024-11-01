@@ -107,7 +107,7 @@ Vdv301AllData2_3CZ1_0 XmlCustomerInformationService2_3CZ1_0::AllData2_3CZ1_0new(
 
     foreach(Connection connection, connectionList)
     {
-        vdv301ConnectionList<<connection.toVdv301Connection();
+        vdv301ConnectionList<<connection.toVdv301Connection(xmlCommon2_3CZ1_0.lcdClass);
     }
 
 

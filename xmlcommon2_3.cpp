@@ -168,7 +168,7 @@ QDomElement XmlCommon2_3::DisplayContent2_3(QDomDocument  &xmlDocument, QString 
     StopPointDestination selectedStopPointDestination=stopPointDestinationList.at(stopPointIterator);
     QString lineNumber=selectedStopPointDestination.line.lineNumber;
     QString lineName=selectedStopPointDestination.line.lineName;
-    QString lineRef=QString::number(selectedStopPointDestination.line.c);
+    QString lineRef=selectedStopPointDestination.line.ref();
 
     lineName=colorDisplayRules.styleToString(lineName,colorDisplayRules.lineToStyle(selectedStopPointDestination.line));
 
@@ -306,7 +306,7 @@ QVector<QDomElement> XmlCommon2_3::DisplayContentViaPointDestination2_3(QDomDocu
     StopPointDestination selectedStopPointDestination=stopPointDestinationList.at(stopPointIterator);
     QString lineNumber=selectedStopPointDestination.line.lineNumber;
     QString lineName=selectedStopPointDestination.line.lineName;
-    QString lineRef=QString::number(selectedStopPointDestination.line.c);
+    QString lineRef=selectedStopPointDestination.line.ref();
 
     lineName=colorDisplayRules.styleToString(lineName,colorDisplayRules.lineToStyle(selectedStopPointDestination.line));
 
@@ -503,7 +503,7 @@ Vdv301Line XmlCommon2_3::lineToVdv301Line2_3(Line &line)
     output.lineNumber=line.lineNumber;
 
     output.lineNameList<<Vdv301InternationalText(line.lineName,defaultLanguage2_3);
-    output.lineRef=QString::number(line.c);
+    output.lineRef=line.ref();
 
     return output;
 }

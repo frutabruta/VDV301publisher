@@ -24,6 +24,7 @@ private:
     XmlCustomerInformationService xmlGenerator;
     XmlCustomerInformationService2_2CZ1_0 xmlGenerator2_2CZ1_0;
     XmlCustomerInformationService2_3 xmlGenerator2_3;
+    XmlCustomerInformationService2_3_new xmlGenerator2_3new;
     XmlCustomerInformationService2_3CZ1_0 xmlGenerator2_3CZ1_0;
     //variables
     QVector<Connection> mConnectionList;

@@ -5,6 +5,285 @@ XmlCommon2_3CZ1_0::XmlCommon2_3CZ1_0() {}
 
 
 
+
+QDomElement XmlCommon2_3CZ1_0::FareZoneChange2_3CZ1_0gen(QDomDocument  &xmlDocument,Vdv301FareZoneChange2_3CZ1_0 vdv301FareZoneChange)// QVector<Vdv301InternationalText> fareZoneFrom,QVector<Vdv301InternationalText> fareZoneTo)
+{
+
+    QDomElement fareZoneChange=xmlDocument.createElement("FareZoneChange");
+
+
+    QDomElement fromFareZones=xmlDocument.createElement("FromFareZones");
+
+
+    foreach(Vdv301InternationalText selectedFareZone, vdv301FareZoneChange.fromFareZone )
+    {
+        fromFareZones.appendChild(internationalTextTypeToDom(xmlDocument,"FareZone",selectedFareZone));
+    }
+
+    fareZoneChange.appendChild(fromFareZones);
+
+
+
+    QDomElement toFareZones=xmlDocument.createElement("ToFareZones");
+
+
+
+
+    foreach(Vdv301InternationalText selectedFareZone, vdv301FareZoneChange.toFareZone )
+    {
+        toFareZones.appendChild(internationalTextTypeToDom(xmlDocument,"FareZone",selectedFareZone));
+    }
+
+
+    fareZoneChange.appendChild(toFareZones);
+
+    return fareZoneChange;
+}
+
+
+
+QStringList XmlCommon2_3CZ1_0::FareZoneInformationStructure2_3CZ1_0new( QVector<FareZone> fareZoneList)
+{
+    QMap<QString, QStringList> fareZoneByType;
+    QStringList output;
+
+
+    foreach( FareZone selectedFareZone, fareZoneList)
+    {
+        fareZoneByType[selectedFareZone.system].append(selectedFareZone.name);
+    }
+
+    //bool generateSystemName=if(farezonebyt)
+
+    QStringList systems=fareZoneByType.keys();
+    foreach(QString key,systems)
+    {
+        QString result="";
+        if(systems.count()>1)
+        {
+            result+=key;
+            result+=": ";
+        }
+        result+=fareZoneByType[key].join(",");
+
+        output<<result;
+    }
+
+    return output;
+}
+
+QVector<Vdv301InternationalText> XmlCommon2_3CZ1_0::fareZoneListToVdv301FareZoneList(QVector<FareZone> fareZoneList, QString language)
+{
+    QVector<Vdv301InternationalText> output;
+
+
+    foreach(QString dFareZone, FareZoneInformationStructure2_3CZ1_0new(fareZoneList) )
+    {
+        Vdv301InternationalText fareZone;
+        fareZone.text=dFareZone;
+        fareZone.language=language;
+        output<<fareZone;
+    }
+    return output;
+
+}
+
+
+
+Vdv301StopPoint2_3CZ1_0 XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new( QVector<StopPointDestination> stopPointDestinationList,int stopPointIterator, QVector<Vdv301Connection> connectionList, QString language,int currentStopIndex)
+{
+    qDebug()<<Q_FUNC_INFO;
+    Vdv301StopPoint2_3CZ1_0 output;
+    if (stopPointDestinationList.isEmpty())
+    {
+        qDebug()<<"stop list is empty";
+        return output;
+    }
+    if (stopPointIterator>=stopPointDestinationList.length())
+    {
+        qDebug()<<"stop index is out of range";
+        return output;
+    }
+
+    StopPointDestination currentStopPoinDestination=stopPointDestinationList.at(stopPointIterator);
+
+    // StopIndex
+    output.stopIndex=stopPointIterator+1;
+
+    // StopRef
+    output.stopRef=currentStopPoinDestination.stopPoint.ref();
+
+    // StopName
+    output.stopNameList<<Vdv301InternationalText(currentStopPoinDestination.stopPoint.NameLcd+stopPropertiesToString2_3(currentStopPoinDestination.stopPoint), language);
+
+    // StopAlternativeName not implemented
+
+    // Platform
+    output.platform=currentStopPoinDestination.stopPoint.platformName;
+
+    // DisplayContent
+    QVector<Vdv301DisplayContent> vdvDisplayContentList;
+    vdvDisplayContentList<<DisplayContentViaPointDestination2_3new(stopPointDestinationList, language,stopPointIterator,currentStopIndex,DisplayContentFront);
+    vdvDisplayContentList<<DisplayContentViaPointDestination2_3new(stopPointDestinationList, language,stopPointIterator,currentStopIndex,DisplayContentSide);
+    vdvDisplayContentList<<DisplayContentViaPointDestination2_3new(stopPointDestinationList, language,stopPointIterator,currentStopIndex,DisplayContentRear);
+    vdvDisplayContentList<<DisplayContentViaPointDestination2_3new(stopPointDestinationList, language,stopPointIterator,currentStopIndex,lcdClass);
+    output.displayContentList=vdvDisplayContentList;
+
+    // StopAnnouncement not implemented
+
+    // ArrivalScheduled
+    // ArrivalExpected
+    // DepartureScheduled
+    output.departureScheduled=qTimeToQDateTimeToday( currentStopPoinDestination.stopPoint.departureToQTime()).toString("yyyy-MM-ddThh:mm:ss");
+
+    // DepartureExpected
+    output.departureExpected=qTimeToQDateTimeToday( currentStopPoinDestination.stopPoint.departureToQTime()).toString("yyyy-MM-ddThh:mm:ss");
+
+    // RecordedArrivalTime not implemented
+    // DistanceToNextStop not implemented
+
+    // Connection
+    if(currentStopIndex==currentStopPoinDestination.stopPoint.StopIndex)
+    {
+        output.connectionList=connectionList;
+    }
+
+    // FareZone
+    foreach(QString dFareZone, FareZoneInformationStructure2_3CZ1_0new(currentStopPoinDestination.stopPoint.fareZoneList) )
+    {
+        Vdv301InternationalText fareZone;
+        fareZone.text=dFareZone;
+        fareZone.language=language;
+        output.fareZoneList<<fareZone;
+    }
+
+
+    return output;
+}
+
+
+
+
+
+
+QDomElement XmlCommon2_3CZ1_0::StopSequence2_3CZ1_0gen(QDomDocument &xmlDocument,QVector<Vdv301StopPoint2_3CZ1_0> stopPointDestinationList)
+{
+    QDomElement dStopSequence=xmlDocument.createElement("StopSequence");
+
+
+    foreach(Vdv301StopPoint2_3CZ1_0 stopPointDestination, stopPointDestinationList)
+    {
+
+        dStopSequence.appendChild(StopPoint2_3CZ1_0gen(xmlDocument,stopPointDestination));
+    }
+    return dStopSequence;
+}
+
+
+QDomElement XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0gen(QDomDocument &xmlDocument, Vdv301StopPoint2_3CZ1_0 stopPointDestination)
+{
+    qDebug()<<Q_FUNC_INFO;
+    QDomElement dStopPoint=xmlDocument.createElement("StopPoint");
+
+    // StopIndex
+    dStopPoint.appendChild(Value(xmlDocument,"StopIndex",QString::number(stopPointDestination.stopIndex)));
+
+    // StopRef
+    dStopPoint.appendChild(ref(xmlDocument, "StopRef",stopPointDestination.stopRef));
+
+    // StopName
+    foreach (Vdv301InternationalText stopName, stopPointDestination.stopNameList) {
+
+        QDomElement dStopLcdName=internationalTextTypeToDom(xmlDocument,"StopName",stopName);
+
+        dStopPoint.appendChild(dStopLcdName);
+    }
+
+    // StopAlternativeName minOccurs="0" not implemented
+
+    // Platform minOccurs="0"
+    if(!stopPointDestination.platform.isEmpty())
+    {
+        dStopPoint.appendChild(Value(xmlDocument,"Platform",stopPointDestination.platform));
+    }
+
+    // DisplayContent
+    QVector<QDomElement> dDisplayContentList;
+
+    foreach(Vdv301DisplayContent displayContent, stopPointDestination.displayContentList)
+    {
+        dStopPoint.appendChild(DisplayContentViaPointDestination2_3gen(xmlDocument,"DisplayContent", displayContent));
+    }
+
+    foreach(QDomElement dDisplayContentSide, dDisplayContentList)
+    {
+        dStopPoint.appendChild(dDisplayContentSide);
+    }
+
+    // StopAnnouncement minOccurs="0" not implemented
+
+    // ArrivalScheduled minOccurs="0"
+    if(!stopPointDestination.arrivalScheduled.isEmpty())
+    {
+        QDomElement dArrivalScheduled=Value(xmlDocument,"ArrivalScheduled",stopPointDestination.arrivalScheduled);
+        dStopPoint.appendChild(dArrivalScheduled);
+    }
+
+    // ArrivalExpected minOccurs="0"
+    if(!stopPointDestination.arrivalExpected.isEmpty())
+    {
+        QDomElement dArrivalExpected=Value(xmlDocument,"ArrivalExpected",stopPointDestination.arrivalExpected);
+        dStopPoint.appendChild(dArrivalExpected);
+    }
+
+    // DepartureScheduled minOccurs="0"
+    if(!stopPointDestination.departureScheduled.isEmpty())
+    {
+        QDomElement dDepartureScheduled=Value(xmlDocument,"DepartureScheduled",stopPointDestination.departureScheduled);
+        dStopPoint.appendChild(dDepartureScheduled);
+    }
+
+    // DepartureExpected minOccurs="0"
+    if(!stopPointDestination.departureExpected.isEmpty())
+    {
+        QDomElement dDepartureExpected=Value(xmlDocument,"DepartureExpected",stopPointDestination.departureExpected);
+        dStopPoint.appendChild(dDepartureExpected);
+    }
+
+    // RecordedArrivalTime minOccurs="0" not implemented
+
+    // DistanceToNextStop minOccurs="0" not implemented
+
+    // Connection minOccurs="0"
+    foreach(Vdv301Connection connection, stopPointDestination.connectionList)
+    {
+        dStopPoint.appendChild(Connection2_3gen(xmlDocument,connection));
+    }
+
+    // FareZone minOccurs="0"
+    foreach(Vdv301InternationalText fareZone, stopPointDestination.fareZoneList )
+    {
+        dStopPoint.appendChild(internationalTextTypeToDom(xmlDocument,"FareZone",fareZone));
+    }
+
+    return dStopPoint;
+}
+
+
+QVector<Vdv301StopPoint2_3CZ1_0> XmlCommon2_3CZ1_0::StopSequence2_3CZ1_0new(QVector<StopPointDestination> stopPointDestinationList,QString language, int currentStopIndex, QVector<Vdv301Connection> connectionList)
+{
+
+    QVector<Vdv301StopPoint2_3CZ1_0> output;
+
+    for (int i=0 ; i<stopPointDestinationList.count();i++)
+    {
+        output<<StopPoint2_3CZ1_0new(stopPointDestinationList,i,connectionList,language,currentStopIndex);
+    }
+    return output;
+}
+
+
+
 QDomElement XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0gen(QDomDocument &xmlDocument, Vdv301Trip2_3CZ1_0 trip, bool followingTrip)
 {
     QString language=defaultLanguage2_3;
@@ -76,270 +355,16 @@ QDomElement XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0gen(QDomDocument &xmlDocum
 
 
 
-QStringList XmlCommon2_3CZ1_0::FareZoneInformationStructure2_3CZ1_0new( QVector<FareZone> fareZoneList)
-{
-    QMap<QString, QStringList> fareZoneByType;
-    QStringList output;
-
-
-    foreach( FareZone selectedFareZone, fareZoneList)
-    {
-        fareZoneByType[selectedFareZone.system].append(selectedFareZone.name);
-    }
-
-    //bool generateSystemName=if(farezonebyt)
-
-    QStringList systems=fareZoneByType.keys();
-    foreach(QString key,systems)
-    {
-        QString result="";
-        if(systems.count()>1)
-        {
-            result+=key;
-            result+=": ";
-        }
-        result+=fareZoneByType[key].join(",");
-
-        output<<result;
-    }
-
-    return output;
-}
-
-QDomElement XmlCommon2_3CZ1_0::FareZoneChange2_3CZ1_0gen(QDomDocument  &xmlDocument,Vdv301FareZoneChange2_3CZ1_0 vdv301FareZoneChange)// QVector<Vdv301InternationalText> fareZoneFrom,QVector<Vdv301InternationalText> fareZoneTo)
-{
-
-    QDomElement fareZoneChange=xmlDocument.createElement("FareZoneChange");
-
-
-    QDomElement fromFareZones=xmlDocument.createElement("FromFareZones");
-
-
-    foreach(Vdv301InternationalText selectedFareZone, vdv301FareZoneChange.fromFareZone )
-    {
-        fromFareZones.appendChild(internationalTextTypeToDom(xmlDocument,"FareZone",selectedFareZone));
-    }
-
-    fareZoneChange.appendChild(fromFareZones);
-
-
-
-    QDomElement toFareZones=xmlDocument.createElement("ToFareZones");
-
-
-
-
-    foreach(Vdv301InternationalText selectedFareZone, vdv301FareZoneChange.toFareZone )
-    {
-        toFareZones.appendChild(internationalTextTypeToDom(xmlDocument,"FareZone",selectedFareZone));
-    }
-
-
-    fareZoneChange.appendChild(toFareZones);
-
-    return fareZoneChange;
-}
-
-
-
-Vdv301StopPoint2_3CZ1_0 XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new( QVector<StopPointDestination> stopPointDestinationList,int stopPointIterator, QVector<Vdv301Connection> connectionList, QString language,int currentStopIndex)
-{
-    qDebug()<<Q_FUNC_INFO;
-    Vdv301StopPoint2_3CZ1_0 output;
-    if (stopPointDestinationList.isEmpty())
-    {
-        qDebug()<<"stop list is empty";
-        return output;
-    }
-    if (stopPointIterator>=stopPointDestinationList.length())
-    {
-        qDebug()<<"stop index is out of range";
-        return output;
-    }
-
-
-    StopPointDestination currentStopPoinDestination=stopPointDestinationList.at(stopPointIterator);
-
-    // StopIndex
-    output.stopIndex=stopPointIterator+1;
-
-    // StopRef
-    output.stopRef=QString::number(currentStopPoinDestination.stopPoint.idCis);
-
-    // StopName
-    output.stopNameList<<Vdv301InternationalText(currentStopPoinDestination.stopPoint.NameLcd+stopPropertiesToString2_3(currentStopPoinDestination.stopPoint), language);
-
-    // StopAlternativeName not implemented
-
-    // Platform
-    output.platform=currentStopPoinDestination.stopPoint.platformName;
-
-    // DisplayContent
-    QVector<Vdv301DisplayContent> vdvDisplayContentList;
-    vdvDisplayContentList<<DisplayContentViaPointDestination2_3new(stopPointDestinationList, language,stopPointIterator,currentStopIndex,DisplayContentFront);
-    vdvDisplayContentList<<DisplayContentViaPointDestination2_3new(stopPointDestinationList, language,stopPointIterator,currentStopIndex,DisplayContentSide);
-    vdvDisplayContentList<<DisplayContentViaPointDestination2_3new(stopPointDestinationList, language,stopPointIterator,currentStopIndex,DisplayContentRear);
-    vdvDisplayContentList<<DisplayContentViaPointDestination2_3new(stopPointDestinationList, language,stopPointIterator,currentStopIndex,DisplayContentLcd);
-    output.displayContentList=vdvDisplayContentList;
-
-    // StopAnnouncement not implemented
-
-    // ArrivalScheduled
-    // ArrivalExpected
-    // DepartureScheduled
-    output.departureScheduled=qTimeToQDateTimeToday( currentStopPoinDestination.stopPoint.departureToQTime()).toString("yyyy-MM-ddThh:mm:ss");
-
-    // DepartureExpected
-    output.departureExpected=qTimeToQDateTimeToday( currentStopPoinDestination.stopPoint.departureToQTime()).toString("yyyy-MM-ddThh:mm:ss");
-
-    // RecordedArrivalTime not implemented
-    // DistanceToNextStop not implemented
-
-    // Connection
-    if(currentStopIndex==currentStopPoinDestination.stopPoint.StopIndex)
-    {
-        output.connectionList=connectionList;
-    }
-
-    // FareZone
-    foreach(QString dFareZone, FareZoneInformationStructure2_3CZ1_0new(currentStopPoinDestination.stopPoint.fareZoneList) )
-    {
-        Vdv301InternationalText fareZone;
-        fareZone.text=dFareZone;
-        fareZone.language=language;
-        output.fareZoneList<<fareZone;
-    }
-
-
-    return output;
-}
-
-
-
-QDomElement XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0gen(QDomDocument &xmlDocument, Vdv301StopPoint2_3CZ1_0 stopPointDestination)
-{
-    qDebug()<<Q_FUNC_INFO;
-
-    QDomElement dStopPoint=xmlDocument.createElement("StopPoint");
-
-    // StopIndex
-    dStopPoint.appendChild(Value(xmlDocument,"StopIndex",QString::number(stopPointDestination.stopIndex)));
-
-    // StopRef
-    dStopPoint.appendChild(ref(xmlDocument, "StopRef",stopPointDestination.stopRef));
-
-    // StopName
-    foreach (Vdv301InternationalText stopName, stopPointDestination.stopNameList) {
-
-        QDomElement dStopLcdName=internationalTextTypeToDom(xmlDocument,"StopName",stopName);
-
-        dStopPoint.appendChild(dStopLcdName);
-    }
-    // StopAlternativeName minOccurs="0" not implemented
-
-    // Platform minOccurs="0"
-    if(!stopPointDestination.platform.isEmpty())
-    {
-        dStopPoint.appendChild(Value(xmlDocument,"Platform",stopPointDestination.platform));
-    }
-
-    // DisplayContent
-    QVector<QDomElement> dDisplayContentList;
-    foreach(Vdv301DisplayContent displayContent, stopPointDestination.displayContentList)
-    {
-        dStopPoint.appendChild(DisplayContentViaPointDestination2_3gen(xmlDocument,"DisplayContent", displayContent));
-    }
-
-    foreach(QDomElement dDisplayContentSide, dDisplayContentList)
-    {
-        dStopPoint.appendChild(dDisplayContentSide);
-    }
-
-    // StopAnnouncement minOccurs="0" not implemented
-
-    // ArrivalScheduled minOccurs="0"
-    if(!stopPointDestination.arrivalScheduled.isEmpty())
-    {
-        QDomElement dArrivalScheduled=Value(xmlDocument,"ArrivalScheduled",stopPointDestination.arrivalScheduled);
-        dStopPoint.appendChild(dArrivalScheduled);
-    }
-
-    // ArrivalExpected minOccurs="0"
-    if(!stopPointDestination.arrivalExpected.isEmpty())
-    {
-        QDomElement dArrivalExpected=Value(xmlDocument,"ArrivalExpected",stopPointDestination.arrivalExpected);
-        dStopPoint.appendChild(dArrivalExpected);
-    }
-
-    // DepartureScheduled minOccurs="0"
-    if(!stopPointDestination.departureScheduled.isEmpty())
-    {
-        QDomElement dDepartureScheduled=Value(xmlDocument,"DepartureScheduled",stopPointDestination.departureScheduled);
-        dStopPoint.appendChild(dDepartureScheduled);
-    }
-
-    // DepartureExpected minOccurs="0"
-    if(!stopPointDestination.departureExpected.isEmpty())
-    {
-        QDomElement dDepartureExpected=Value(xmlDocument,"DepartureExpected",stopPointDestination.departureExpected);
-        dStopPoint.appendChild(dDepartureExpected);
-    }
-
-    // RecordedArrivalTime minOccurs="0" not implemented
-
-    // DistanceToNextStop minOccurs="0" not implemented
-
-    // Connection minOccurs="0"
-    foreach(Vdv301Connection connection, stopPointDestination.connectionList)
-    {
-        dStopPoint.appendChild(Connection2_3gen(xmlDocument,connection));
-    }
-
-    // FareZone minOccurs="0"
-    foreach(Vdv301InternationalText fareZone, stopPointDestination.fareZoneList )
-    {
-        dStopPoint.appendChild(internationalTextTypeToDom(xmlDocument,"FareZone",fareZone));
-    }
-
-    return dStopPoint;
-}
-
-
-
-QDomElement XmlCommon2_3CZ1_0::StopSequence2_3CZ1_0gen(QDomDocument &xmlDocument,QVector<Vdv301StopPoint2_3CZ1_0> stopPointDestinationList)
-{
-    QDomElement dStopSequence=xmlDocument.createElement("StopSequence");
-
-
-    foreach(Vdv301StopPoint2_3CZ1_0 stopPointDestination, stopPointDestinationList)
-    {
-
-        dStopSequence.appendChild(StopPoint2_3CZ1_0gen(xmlDocument,stopPointDestination));
-    }
-    return dStopSequence;
-}
-
-QVector<Vdv301StopPoint2_3CZ1_0> XmlCommon2_3CZ1_0::StopSequence2_3CZ1_0new(QVector<StopPointDestination> stopPointDestinationList,QString language, int currentStopIndex, QVector<Vdv301Connection> connectionList)
-{
-
-    QVector<Vdv301StopPoint2_3CZ1_0> output;
-
-    for (int i=0 ; i<stopPointDestinationList.count();i++)
-    {
-        output<<StopPoint2_3CZ1_0new(stopPointDestinationList,i,connectionList,language,currentStopIndex);
-    }
-    return output;
-}
-
-
 
 Vdv301Trip2_3CZ1_0 XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0new(QVector<Trip> tripList, QVector<Vdv301Connection> connectionList, VehicleState vehicleState, int tripIndex, bool followingTrip)
 {
 
     int currentStopIndex= vehicleState.currentStopIndex0;
     QString language=defaultLanguage2_3;
-    QString tripRef=QString::number(tripList.at(tripIndex).idRopid);
-    QVector<StopPointDestination> stopPointDestinationList=tripList.at(tripIndex).globalStopPointDestinationList;
+    Trip selectedTrip=tripList.at(tripIndex);
+    QString tripRef=selectedTrip.ref();
+
+    QVector<StopPointDestination> stopPointDestinationList=selectedTrip.globalStopPointDestinationList;
 
 
     Vdv301Trip2_3CZ1_0 vdv301trip;
@@ -400,18 +425,5 @@ Vdv301Trip2_3CZ1_0 XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0new(QVector<Trip> t
 }
 
 
-QVector<Vdv301InternationalText> XmlCommon2_3CZ1_0::fareZoneListToVdv301FareZoneList(QVector<FareZone> fareZoneList, QString language)
-{
-    QVector<Vdv301InternationalText> output;
 
 
-    foreach(QString dFareZone, FareZoneInformationStructure2_3CZ1_0new(fareZoneList) )
-    {
-        Vdv301InternationalText fareZone;
-        fareZone.text=dFareZone;
-        fareZone.language=language;
-        output<<fareZone;
-    }
-    return output;
-
-}
