@@ -8,6 +8,11 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20241102_3
+    - XmlCommon2_3
+        - modifications to change metro into icons
+            - lineToVdv301Line2_3
+            - lineToIcon
 - 20241102
     - Connection line style fix
     - CustomerInformationService

@@ -517,19 +517,46 @@ Vdv301Line XmlCommon2_3::lineToVdv301Line2_3(Line &line, QString subMode, bool a
 
     QString lineName="";
 
-    if(addStyle)
+    if(subMode=="metro")
     {
-        lineName=colorDisplayRules.styleToString(line.lineName,colorDisplayRules.lineToStyle(line,subMode));
+        lineName=lineToIcon(line,subMode);
     }
     else
     {
-        lineName=line.lineName;
+        if(addStyle)
+        {
+            lineName=colorDisplayRules.styleToString(line.lineName,colorDisplayRules.lineToStyle(line,subMode));
+        }
+        else
+        {
+            lineName=line.lineName;
+        }
     }
+
+
+
 
     output.lineNumber=line.lineNumber;
 
     output.lineNameList<<Vdv301InternationalText(lineName,defaultLanguage2_3);
     output.lineRef=line.ref();
+
+    return output;
+}
+
+QString XmlCommon2_3::lineToIcon(Line &line, QString subMode)
+{
+    QString output="";
+
+    if(subMode=="metro")
+    {
+        output="<icon type=\"c_Underground"+line.lineName+"\">["+line.lineName+"]</icon>";
+    }
+    else
+    {
+        output=line.lineName;
+    }
+
 
     return output;
 }

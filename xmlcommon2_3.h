@@ -27,6 +27,7 @@ public:
     QString xxxProperty2_3(QString icon, QString text, bool value);
 
     Vdv301Line lineToVdv301Line2_3(Line &line, bool addStyle);
+    QString lineToIcon(Line &line, QString subMode);
 };
 
 #endif // XMLCOMMON2_3_H
