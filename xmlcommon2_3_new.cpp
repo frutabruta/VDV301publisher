@@ -4,6 +4,37 @@ XmlCommon2_3_new::XmlCommon2_3_new() {}
 
 
 
+Vdv301Connection XmlCommon2_3_new::connectionToVdv301Connection(Connection connection, DisplayContentClass displayClass)
+{
+    qDebug()<<Q_FUNC_INFO;
+    Vdv301Connection output;
+
+    Vdv301DisplayContent displayContent;
+
+
+    QString language="cs";
+
+    displayContent.displayContentType=displayClass;
+    displayContent.displayContentRef=displayContent.displayContentClassEnumerationToQString(displayContent.displayContentType);
+
+    displayContent.lineInformation=lineToVdv301Line2_3(connection.line,connection.subMode, addLineStyle);
+
+    //displayContent.lineInformation.lineNameList<<Vdv301InternationalText(this->line.lineName,language);
+    displayContent.destination.destinationNameList<<Vdv301InternationalText(connection.destinationName,language);
+
+    output.vdv301displayContentList<<displayContent;
+
+    output.scheduledDepartureTime=connection.scheduledDepartureTime;
+    output.expectedDepartureTime=connection.expectedDepartureTime;
+    output.platform=connection.platform;
+
+    output.mainMode=connection.mainMode;
+    output.subMode=connection.subMode;
+
+    return output;
+
+}
+
 QDomElement XmlCommon2_3_new::Connection2_3gen(QDomDocument  &xmlDocument, Vdv301Connection connection)
 {
     qDebug()<<Q_FUNC_INFO;
@@ -163,16 +194,16 @@ QDomElement XmlCommon2_3_new::DisplayContentViaPointDestination2_3gen(QDomDocume
 QVector<Vdv301DisplayContent> XmlCommon2_3_new::DisplayContentViaPointDestination2_3new(QVector<StopPointDestination> stopPointDestinationList, QString language,int stopPointIterator,int currentStopIndex, DisplayContentClass displayContentClass)
 {
     QVector<Vdv301DisplayContent> output;
-     StopPointDestination selectedStopPointDestination=stopPointDestinationList.at(stopPointIterator);
+    StopPointDestination selectedStopPointDestination=stopPointDestinationList.at(stopPointIterator);
     bool appendNextStopToViapoints=true;
-     QString placeholder="";
-     ConnectionMPV::ddDoVehicleMode(selectedStopPointDestination.line.kli,placeholder,placeholder,selectedStopPointDestination.line );
+    QString placeholder="";
+    ConnectionMPV::ddDoVehicleMode(selectedStopPointDestination.line.kli,placeholder,placeholder,selectedStopPointDestination.line );
 
 
     // DisplayContentRef minOccurs="0"
     QString displayContentClassString=Vdv301DisplayContent::displayContentClassEnumerationToQString(displayContentClass);
     // LineInformation
-     Vdv301Line selectedLine=lineToVdv301Line2_3(selectedStopPointDestination.line);
+    Vdv301Line selectedLine=lineToVdv301Line2_3(selectedStopPointDestination.line, addLineStyle);
 
     // Destination
 
@@ -465,19 +496,19 @@ Vdv301StopPoint XmlCommon2_3_new::StopPoint2_3new( QVector<StopPointDestination>
     return output;
 }
 
-QDomElement XmlCommon2_3_new::StopPoint2_3gen(QDomDocument &xmlDocument, Vdv301StopPoint stopPointDestination)
+QDomElement XmlCommon2_3_new::StopPoint2_3gen(QDomDocument &xmlDocument, Vdv301StopPoint vdv301StopPoint)
 {
     qDebug()<<Q_FUNC_INFO;
     QDomElement dStopPoint=xmlDocument.createElement("StopPoint");
 
     // StopIndex
-    dStopPoint.appendChild(Value(xmlDocument,"StopIndex",QString::number(stopPointDestination.stopIndex)));
+    dStopPoint.appendChild(Value(xmlDocument,"StopIndex",QString::number(vdv301StopPoint.stopIndex)));
 
     // StopRef
-    dStopPoint.appendChild(ref(xmlDocument, "StopRef",stopPointDestination.stopRef));
+    dStopPoint.appendChild(ref(xmlDocument, "StopRef",vdv301StopPoint.stopRef));
 
     // StopName
-    foreach (Vdv301InternationalText stopName, stopPointDestination.stopNameList) {
+    foreach (Vdv301InternationalText stopName, vdv301StopPoint.stopNameList) {
 
         QDomElement dStopLcdName=internationalTextTypeToDom(xmlDocument,"StopName",stopName);
 
@@ -487,15 +518,15 @@ QDomElement XmlCommon2_3_new::StopPoint2_3gen(QDomDocument &xmlDocument, Vdv301S
     // StopAlternativeName minOccurs="0" not implemented
 
     // Platform minOccurs="0"
-    if(!stopPointDestination.platform.isEmpty())
+    if(!vdv301StopPoint.platform.isEmpty())
     {
-        dStopPoint.appendChild(Value(xmlDocument,"Platform",stopPointDestination.platform));
+        dStopPoint.appendChild(Value(xmlDocument,"Platform",vdv301StopPoint.platform));
     }
 
     // DisplayContent
     QVector<QDomElement> dDisplayContentList;
 
-    foreach(Vdv301DisplayContent displayContent, stopPointDestination.displayContentList)
+    foreach(Vdv301DisplayContent displayContent, vdv301StopPoint.displayContentList)
     {
         dStopPoint.appendChild(DisplayContentViaPointDestination2_3gen(xmlDocument,"DisplayContent", displayContent));
     }
@@ -508,30 +539,30 @@ QDomElement XmlCommon2_3_new::StopPoint2_3gen(QDomDocument &xmlDocument, Vdv301S
     // StopAnnouncement minOccurs="0" not implemented
 
     // ArrivalScheduled minOccurs="0"
-    if(!stopPointDestination.arrivalScheduled.isEmpty())
+    if(!vdv301StopPoint.arrivalScheduled.isEmpty())
     {
-        QDomElement dArrivalScheduled=Value(xmlDocument,"ArrivalScheduled",stopPointDestination.arrivalScheduled);
+        QDomElement dArrivalScheduled=Value(xmlDocument,"ArrivalScheduled",vdv301StopPoint.arrivalScheduled);
         dStopPoint.appendChild(dArrivalScheduled);
     }
 
     // ArrivalExpected minOccurs="0"
-    if(!stopPointDestination.arrivalExpected.isEmpty())
+    if(!vdv301StopPoint.arrivalExpected.isEmpty())
     {
-        QDomElement dArrivalExpected=Value(xmlDocument,"ArrivalExpected",stopPointDestination.arrivalExpected);
+        QDomElement dArrivalExpected=Value(xmlDocument,"ArrivalExpected",vdv301StopPoint.arrivalExpected);
         dStopPoint.appendChild(dArrivalExpected);
     }
 
     // DepartureScheduled minOccurs="0"
-    if(!stopPointDestination.departureScheduled.isEmpty())
+    if(!vdv301StopPoint.departureScheduled.isEmpty())
     {
-        QDomElement dDepartureScheduled=Value(xmlDocument,"DepartureScheduled",stopPointDestination.departureScheduled);
+        QDomElement dDepartureScheduled=Value(xmlDocument,"DepartureScheduled",vdv301StopPoint.departureScheduled);
         dStopPoint.appendChild(dDepartureScheduled);
     }
 
     // DepartureExpected minOccurs="0"
-    if(!stopPointDestination.departureExpected.isEmpty())
+    if(!vdv301StopPoint.departureExpected.isEmpty())
     {
-        QDomElement dDepartureExpected=Value(xmlDocument,"DepartureExpected",stopPointDestination.departureExpected);
+        QDomElement dDepartureExpected=Value(xmlDocument,"DepartureExpected",vdv301StopPoint.departureExpected);
         dStopPoint.appendChild(dDepartureExpected);
     }
 
@@ -540,13 +571,13 @@ QDomElement XmlCommon2_3_new::StopPoint2_3gen(QDomDocument &xmlDocument, Vdv301S
     // DistanceToNextStop minOccurs="0" not implemented
 
     // Connection minOccurs="0"
-    foreach(Vdv301Connection connection, stopPointDestination.connectionList)
+    foreach(Vdv301Connection connection, vdv301StopPoint.connectionList)
     {
         dStopPoint.appendChild(Connection2_3gen(xmlDocument,connection));
     }
 
     // FareZone minOccurs="0"
-    foreach(QString fareZone, stopPointDestination.fareZoneList )
+    foreach(QString fareZone, vdv301StopPoint.fareZoneList )
     {
         dStopPoint.appendChild(Value(xmlDocument,"FareZone",fareZone));
     }
@@ -609,7 +640,6 @@ Vdv301ViaPoint XmlCommon2_3_new::stopPointDestinationToVdv301ViaPoint(StopPoint 
 
 QDomElement XmlCommon2_3_new::TripInformation2_3gen(QDomDocument &xmlDocument, Vdv301Trip trip, bool followingTrip)
 {
-  //  QString language=defaultLanguage2_3;
     QString tripRef=trip.tripRef;
 
     QDomElement dTripInformation=xmlDocument.createElement("TripInformation");
@@ -673,7 +703,7 @@ Vdv301Trip XmlCommon2_3_new::TripInformation2_3new(QVector<Trip> tripList, QVect
     Trip thisTrip;
     if (isInRange(tripIndex,tripList.count(),Q_FUNC_INFO))
     {
-       thisTrip=tripList.at(tripIndex);
+        thisTrip=tripList.at(tripIndex);
     }
     else
     {

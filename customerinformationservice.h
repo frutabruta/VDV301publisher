@@ -35,7 +35,6 @@ private:
 
     //functions
     void updateInternalVariables(QVector<Connection> connectionList, VehicleState &vehicleState, QVector<Trip> tripList , QVector<Vdv301DisplayContent> globalDisplayContentList);
-    void updateInternalVariablesEmpty(VehicleState &vehicleState, QVector<Trip> tripList, QVector<Vdv301DisplayContent> globalDisplayContentList);
 
 
 public slots:

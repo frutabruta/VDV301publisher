@@ -54,7 +54,7 @@ public:
     QString version() const;
     void setVersion(const QString &newVersion);
 
-    QString retrieveStructureContentMapValue(QString key);
+    QString retrieveStructureContentMapValue(QString key); //unused
     void updateStructureMap();
     int isInRange(int index, int valueCount, QString nameOfFunction);
 private:
@@ -72,7 +72,7 @@ private:
     void stopBonjourService();
 
     QByteArray createGetHeader(); // unused
-    QString createSubscribeHeader();
+    QString createSubscribeHeader(); //unused
 protected:
 
     QMap<QString,QString> structureContentMap; //contains payload and a key(AllData etc.)

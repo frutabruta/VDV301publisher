@@ -7,29 +7,21 @@ QVector<QDomElement> XmlCommon2_3::Connections2_3(QDomDocument  &xmlDocument, QV
 {
     qDebug()<<Q_FUNC_INFO;
 
-    // QString defaultLanguage2_3 ="cs";
+
     QVector<QDomElement> output;
 
     connectionList=Connection::orderConnectionsByExpectedDeparture(connectionList);
-    /*
-    for (int i=0;i<connectionList.count();i++)
-    {Connection selectedConnection=connectionList.at(i); */
 
     foreach(Connection selectedConnection, connectionList)
     {
 
-        //   aktualniPrestup.lin=aktualniPrestup.lin.number(10);
         QDomElement dConnection=xmlDocument.createElement("Connection");
-        //    Connection vdv301prestup=aktualniPrestup.toPrestup();
-
         xmlDocument.appendChild(dConnection);
 
         QDomElement dStopRef=ref(xmlDocument,"StopRef","0");
-
         dConnection.appendChild(dStopRef);
 
         QDomElement dConnectionRef=ref(xmlDocument,"ConnectionRef","0");
-
         dConnection.appendChild(dConnectionRef);
 
         QDomElement dConnectionMode = xmlDocument.createElement("ConnectionMode");
@@ -496,13 +488,47 @@ QVector<QDomElement> XmlCommon2_3::DisplayContentViaPointDestination2_3(QDomDocu
     return output;
 }
 
-Vdv301Line XmlCommon2_3::lineToVdv301Line2_3(Line &line)
+Vdv301Line XmlCommon2_3::lineToVdv301Line2_3(Line &line, bool addStyle)
 {
     Vdv301Line output;
 
+    QString lineName="";
+
+    if(addStyle)
+    {
+        lineName=colorDisplayRules.styleToString(line.lineName,colorDisplayRules.lineToStyle(line));
+    }
+    else
+    {
+        lineName=line.lineName;
+    }
+
     output.lineNumber=line.lineNumber;
 
-    output.lineNameList<<Vdv301InternationalText(line.lineName,defaultLanguage2_3);
+    output.lineNameList<<Vdv301InternationalText(lineName,defaultLanguage2_3);
+    output.lineRef=line.ref();
+
+    return output;
+}
+
+Vdv301Line XmlCommon2_3::lineToVdv301Line2_3(Line &line, QString subMode, bool addStyle)
+{
+    Vdv301Line output;
+
+    QString lineName="";
+
+    if(addStyle)
+    {
+        lineName=colorDisplayRules.styleToString(line.lineName,colorDisplayRules.lineToStyle(line,subMode));
+    }
+    else
+    {
+        lineName=line.lineName;
+    }
+
+    output.lineNumber=line.lineNumber;
+
+    output.lineNameList<<Vdv301InternationalText(lineName,defaultLanguage2_3);
     output.lineRef=line.ref();
 
     return output;

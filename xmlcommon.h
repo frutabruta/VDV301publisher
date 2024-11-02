@@ -56,8 +56,8 @@ public:
     //  QString devStatus();
     QString createTimestamp();
     QDomElement internationalTextTypeToDom(QDomDocument &xmlDocument, QString name, QString value, QString language);
-    QVector<QDomElement> lineToLineProperties(QDomDocument xmlDocument, Line line);
-    QDomElement rawInsert(QString input);
+    QVector<QDomElement> lineToLineProperties(QDomDocument xmlDocument, Line line); //unused
+    QDomElement rawInsert(QString input); //unused
     QDomElement ref(QDomDocument &xmlDocument, QString name, QString value);
     QDomProcessingInstruction createProcessingInformation(QDomDocument &xmlDocument, QString encoding);
 
@@ -71,7 +71,7 @@ public:
     //  QString CurrentDisplayContent1_0(int poradi, QVector<StopPointDestination> docasnySeznamZastavek, VehicleState stav);
 
     QDomElement DisplayContent1_0(QString tagName, QDomDocument &xmlDocument, QVector<StopPointDestination> stopPointDestinationList, QString language, int stopPointIterator, int currentStopIndex);
-     QDomElement DoorOpenState(QDomDocument &xmlDocument, QString content);
+    QDomElement DoorOpenState(QDomDocument &xmlDocument, QString content);
 
     QDomElement FareZone1_0(QDomDocument &xmlDocument, QString shortName);
     QVector<QDomElement> FareZoneInformationStructure1_0(QDomDocument &xmlDocument, QVector<FareZone> fareZoneList);
@@ -79,28 +79,28 @@ public:
     QDomElement MyOwnVehicleMode(QDomDocument &xmlDocument, QString mode, QString subMode);
 
     QDomElement StopPoint1_0(QDomDocument &xmlDocument, QVector<StopPointDestination> stopPointDestinationList, int stopPointIterator, QVector<Connection> connectionList, QString language, int currentStopIndex, VehicleState vehicleState);
-     QDomElement StopSequence1_0(QDomDocument &xmlDocument, QVector<StopPointDestination> stopPointDestinationList, QString language, int currentStopIndex, QVector<Connection> connectionList, VehicleState vehicleState);
+    QDomElement StopSequence1_0(QDomDocument &xmlDocument, QVector<StopPointDestination> stopPointDestinationList, QString language, int currentStopIndex, QVector<Connection> connectionList, VehicleState vehicleState);
 
     QDomElement RouteDeviation(QDomDocument &xmlDocument, QString content);
 
     QDomElement TimeStampTag1_0(QDomDocument &xmlDocument);
     QDomElement TripInformation1_0(QDomDocument &xmlDocument, QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState, int indexSpoje);
 
-     QDomElement ViaPoint1_0(QDomDocument &xmlDocument, StopPoint viaPoint, QString language);
+    QDomElement ViaPoint1_0(QDomDocument &xmlDocument, StopPoint viaPoint, QString language);
     QDomElement Value(QDomDocument &xmlDocument, QString elementName, QString content);
 
     //WORK IN PROGRESS
 
 
 
-     QString escapeHtml(QString input);
+    QString escapeHtml(QString input); //unused
     QDateTime qTimeToQDateTimeToday(QTime input);
     QString qDomDocumentToQString(QDomDocument &input);
     QString qStringXmlEscape(QString input);
 
     Vdv301ViaPoint stopPointDestinationToVdv301ViaPoint(StopPoint stopPoint, QString &language);
 
-     QDomElement namedElement(QDomDocument &xmlDocument, QString name, QString value);
+    QDomElement namedElement(QDomDocument &xmlDocument, QString name, QString value); //unused
     //QDomElement Connection2_3gen(QDomDocument &xmlDocument, Vdv301Connection connection);
 
     int isInRange(int index, int valueCount, QString nameOfFunction);

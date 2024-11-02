@@ -105,9 +105,10 @@ Vdv301AllData2_3CZ1_0 XmlCustomerInformationService2_3CZ1_0::AllData2_3CZ1_0new(
 
     QVector<Vdv301Connection> vdv301ConnectionList;
 
+
     foreach(Connection connection, connectionList)
     {
-        vdv301ConnectionList<<connection.toVdv301Connection(xmlCommon2_3CZ1_0.lcdClass);
+        vdv301ConnectionList<<xmlCommon2_3_new.connectionToVdv301Connection(connection,xmlCommon2_3_new.lcdClass);
     }
 
 

@@ -123,75 +123,10 @@ void CustomerInformationService::updateInternalVariables(QVector<Connection> con
 
 
 /*!
- * \brief CustomerInformationService::aktualizaceIntPromEmpty
- * \param stav
- * \param seznamSpoju
- */
-void CustomerInformationService::updateInternalVariablesEmpty(VehicleState &vehicleState, QVector<Trip>  tripList, QVector<Vdv301DisplayContent> globalDisplayContentList ) //novy
-{
-    qDebug() <<  Q_FUNC_INFO<<" "<<mServiceName<<" "<<mVersion;
-
-    qDebug()<<"size of triplist "<<tripList.size()<<" index"<<vehicleState.currentTripIndex;
-
-    tripList.clear();
-    QVector<Connection> connectionList;
-
-    QString bodyAllData="";
-    QString bodyCurrentDisplayContent="";
-    
-    if (mVersion=="2.2CZ1.0")
-    {
-        QDomDocument xmlDocument;
-        bodyAllData=xmlGenerator2_2CZ1_0.AllData_empty2_2CZ1_0(xmlDocument);
-    }
-    else if(mVersion=="2.3")
-    {
-        //bodyAllData=xmlGenerator.AllData_empty2_3(xmlDocument);
-        QDomDocument xmlDocument;
-
-        bodyAllData=xmlGenerator2_3.AllData2_3(xmlDocument, tripList,connectionList,vehicleState);
-
-        /*
-        Vdv301AllData vdv301allData=xmlGenerator2_3CZ1_0.AllData2_3new(tripList,connectionList,vehicleState, globalDisplayContentList);
-
-        bodyAllData=xmlGenerator2_3CZ1_0.AllData2_3gen(xmlDocument,vdv301allData);
-*/
-    }
-    else if(mVersion=="2.3CZ1.0")
-    {
-        //bodyAllData=xmlGenerator.AllData_empty2_3(xmlDocument);
-        QDomDocument xmlDocument;
-
-        Vdv301AllData2_3CZ1_0 vdv301allData=xmlGenerator2_3CZ1_0.AllData2_3CZ1_0new (tripList,connectionList,vehicleState, globalDisplayContentList);
-
-        bodyAllData=xmlGenerator2_3CZ1_0.AllData2_3CZ1_0gen(xmlDocument,vdv301allData);
-
-
-    }
-    else
-    {
-        QDomDocument xmlDocument;
-        bodyAllData=xmlGenerator.AllData_empty_1_0(xmlDocument);
-    }
-
-
-    this->setBodyContent("AllData",bodyAllData);
-    this->setBodyContent("CurrentDisplayContent",bodyCurrentDisplayContent);
-
-
-    updateStructureMap();
-
-}
-
-
-/*!
- * \brief CustomerInformationService::aktualizaceObsahuSluzby
+ * \brief CustomerInformationService::updateServiceContent
  * \param prestup
  * \param stav
  */
-
-
-
 void CustomerInformationService::updateServiceContent(QVector<Connection> connectionList, VehicleState &vehicleState ) //novy
 {
     qDebug() <<  Q_FUNC_INFO;

@@ -7,7 +7,7 @@ class XmlCommon2_3_new : public XmlCommon2_3
 public:
     XmlCommon2_3_new();
 
-    DisplayContentClass lcdClass=DisplayContentInner;
+    DisplayContentClass lcdClass=DisplayContentLcd;
 
     QDomElement ViaPoint2_3def(QDomDocument &xmlDocument, Vdv301ViaPoint viaPoint);
     QDomElement Connection2_3gen(QDomDocument &xmlDocument, Vdv301Connection connection);
@@ -19,8 +19,9 @@ public:
     QVector<Vdv301StopPoint> StopSequence2_3new(QVector<StopPointDestination> stopPointDestinationList, QString language, int currentStopIndex, QVector<Vdv301Connection> connectionList);
     QDomElement StopSequence2_3gen(QDomDocument &xmlDocument, QVector<Vdv301StopPoint> stopPointDestinationList);
     Vdv301StopPoint StopPoint2_3new(QVector<StopPointDestination> stopPointDestinationList, int stopPointIterator, QVector<Vdv301Connection> connectionList, QString language, int currentStopIndex);
-    QDomElement StopPoint2_3gen(QDomDocument &xmlDocument, Vdv301StopPoint stopPointDestination);
+    QDomElement StopPoint2_3gen(QDomDocument &xmlDocument, Vdv301StopPoint vdv301StopPoint);
     Vdv301ViaPoint stopPointDestinationToVdv301ViaPoint(StopPoint stopPoint, QString &language);
+    Vdv301Connection connectionToVdv301Connection(Connection connection, DisplayContentClass displayClass); //unused
 };
 
 #endif // XMLCOMMON2_3_NEW_H

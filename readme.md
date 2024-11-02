@@ -9,6 +9,29 @@ Qt library for VDV301 devices used as publisher
 
 ## Changelog:
 - 20241102
+    - Connection line style fix
+    - CustomerInformationService
+        - deleted unused function updateInternalVariablesEmpty
+    - HttpService
+        - marked unused functions for future deletion
+    - XmlCommon
+        - marked unused functions for future deletion
+    - XmlCommon2_2CZ1_0
+        - marked unused functions for future deletion
+    - XmlCommon2_3_new
+        - new function connectionToVdv301Connection
+    - XmlCommon2_3
+        - added attribute addStyle to lineToVdv301Line2_3
+        - added function lineToVdv301Line2_3(Line &line, QString subMode, bool addStyle)
+        - marked unused functions for future deletion
+    - XmlCommon2_3CZ1_0
+        - marked unused functions for future deletion
+    - XmlCustomerInformationService2_3_new 
+        - connection conversion fix
+    - XmlCustomerInformationService2_3CZ1_0
+        - connection conversion fix
+        
+- 20241102
     - VDV301structures
         - added .ref() functions to enable changes in text generation
     - CustomerInformationService
