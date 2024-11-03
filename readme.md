@@ -8,6 +8,10 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20241103
+    - XmlCommon
+        - removed unused includes
+    - QtZeroConf newer version
 - 20241102_3
     - XmlCommon2_3
         - modifications to change metro into icons
