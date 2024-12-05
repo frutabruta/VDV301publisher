@@ -12,33 +12,15 @@
 #include "VDV301DataStructures/stoppointdestination.h"
 #include "VDV301DataStructures/vehiclestate.h"
 #include "VDV301DataStructures/farezone.h"
-#include "VDV301DataStructures/connectionmpv.h"
-#include "VDV301DataStructures/vdv301displaycontent.h"
-#include "VDV301DataStructures/vdv301destination.h"
-#include "VDV301DataStructures/vdv301line.h"
-#include "VDV301DataStructures/vdv301stoppoint.h"
-#include "VDV301DataStructures/vdv301trip.h"
-#include "VDV301DataStructures/vdv301vehicleinformationgroup.h"
-
-#include "VDV301DataStructures/vdv301alldata.h"
-
 
 #include "colordisplayrules.h"
-//#include "xmlmpvparser.h"
+
 
 
 class XmlCommon : public QObject
 {
     Q_OBJECT
 public:
-    /*
-    enum DisplayContentClass
-    {
-        DisplayContentFront,
-        DisplayContentSide,
-        DisplayContentRear,
-        DisplayContentLcd
-    };*/
 
     ColorDisplayRules colorDisplayRules;
 
@@ -53,7 +35,6 @@ public:
 
 
     //pomocneFce
-    //  QString devStatus();
     QString createTimestamp();
     QDomElement internationalTextTypeToDom(QDomDocument &xmlDocument, QString name, QString value, QString language);
     QVector<QDomElement> lineToLineProperties(QDomDocument xmlDocument, Line line); //unused
@@ -66,9 +47,6 @@ public:
     QDomElement AdditionalTextMessage1_0(QString messageContent, bool isScrolling);
 
     QVector<QDomElement> Connections1_0(QDomDocument &xmlDocument, QVector<Connection> connectionList);
-
-
-    //  QString CurrentDisplayContent1_0(int poradi, QVector<StopPointDestination> docasnySeznamZastavek, VehicleState stav);
 
     QDomElement DisplayContent1_0(QString tagName, QDomDocument &xmlDocument, QVector<StopPointDestination> stopPointDestinationList, QString language, int stopPointIterator, int currentStopIndex);
     QDomElement DoorOpenState(QDomDocument &xmlDocument, QString content);
@@ -90,9 +68,6 @@ public:
     QDomElement Value(QDomDocument &xmlDocument, QString elementName, QString content);
 
     //WORK IN PROGRESS
-
-
-
     QString escapeHtml(QString input); //unused
     QDateTime qTimeToQDateTimeToday(QTime input);
     QString qDomDocumentToQString(QDomDocument &input);
@@ -101,7 +76,6 @@ public:
     Vdv301ViaPoint stopPointDestinationToVdv301ViaPoint(StopPoint stopPoint, QString &language);
 
     QDomElement namedElement(QDomDocument &xmlDocument, QString name, QString value); //unused
-    //QDomElement Connection2_3gen(QDomDocument &xmlDocument, Vdv301Connection connection);
 
     int isInRange(int index, int valueCount, QString nameOfFunction);
 
