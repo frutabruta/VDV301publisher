@@ -13,6 +13,7 @@ public:
 
     QString AllData2_3CZ1_0gen(QDomDocument xmlDocument, Vdv301AllData2_3CZ1_0 allData);
     Vdv301AllData2_3CZ1_0 AllData2_3CZ1_0new(QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState, QVector<Vdv301DisplayContent> globalDisplayContentList);
+    QVector<Vdv301DisplayContent> CurrentDisplayContentFromAllData2_3new(Vdv301AllData2_3CZ1_0 vdv301AllData);
 };
 
 #endif // XMLCUSTOMERINFORMATIONSERVICE2_3CZ1_0_H

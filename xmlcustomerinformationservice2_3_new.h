@@ -11,6 +11,8 @@ public:
     XmlCommon2_3_new xmlCommon2_3_new;
     Vdv301AllData AllData2_3new(QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState, QVector<Vdv301DisplayContent> globalDisplayContentList);
     QString AllData2_3gen(QDomDocument xmlDocument, Vdv301AllData allData);
+    QVector<Vdv301DisplayContent> CurrentDisplayContentFromAllData2_3new(Vdv301AllData vdv301AllData);
+    QString CurrentDisplayContent2_3gen(QDomDocument xmlDocument, QVector<Vdv301DisplayContent> vdv301displayContentList);
 };
 
 #endif // XMLCUSTOMERINFORMATIONSERVICE2_3_NEW_H

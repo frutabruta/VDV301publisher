@@ -159,3 +159,39 @@ Vdv301AllData2_3CZ1_0 XmlCustomerInformationService2_3CZ1_0::AllData2_3CZ1_0new(
 
     return allData;
 }
+
+
+
+QVector<Vdv301DisplayContent> XmlCustomerInformationService2_3CZ1_0::CurrentDisplayContentFromAllData2_3new(Vdv301AllData2_3CZ1_0 vdv301AllData )
+{
+    qDebug()<<Q_FUNC_INFO;
+    QVector<Vdv301DisplayContent> output;
+
+    if(!vdv301AllData.globalDisplayContentList.isEmpty())
+    {
+        return vdv301AllData.globalDisplayContentList;
+    }
+
+    if(vdv301AllData.tripInformationList.isEmpty())
+    {
+        return output;
+    }
+    else
+    {
+        Vdv301Trip2_3CZ1_0 currentTrip=vdv301AllData.tripInformationList.first();
+        if(currentTrip.stopPointList.isEmpty())
+        {
+            return output;
+        }
+        else
+        {
+            if(xmlCommon2_3CZ1_0.isInRange(vdv301AllData.currentStopIndex-1,currentTrip.stopPointList.count(),Q_FUNC_INFO))
+            {
+                Vdv301StopPoint2_3CZ1_0 currentStop=currentTrip.stopPointList.at(vdv301AllData.currentStopIndex-1);
+                return currentStop.displayContentList;
+            }
+
+        }
+    }
+    return output;
+}

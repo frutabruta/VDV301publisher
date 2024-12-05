@@ -524,17 +524,13 @@ QDomElement XmlCommon2_3_new::StopPoint2_3gen(QDomDocument &xmlDocument, Vdv301S
     }
 
     // DisplayContent
-    QVector<QDomElement> dDisplayContentList;
+
 
     foreach(Vdv301DisplayContent displayContent, vdv301StopPoint.displayContentList)
     {
         dStopPoint.appendChild(DisplayContentViaPointDestination2_3gen(xmlDocument,"DisplayContent", displayContent));
     }
 
-    foreach(QDomElement dDisplayContentSide, dDisplayContentList)
-    {
-        dStopPoint.appendChild(dDisplayContentSide);
-    }
 
     // StopAnnouncement minOccurs="0" not implemented
 

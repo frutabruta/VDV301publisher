@@ -162,5 +162,77 @@ QString XmlCustomerInformationService2_3_new::AllData2_3gen(QDomDocument xmlDocu
 
 
 
+QVector<Vdv301DisplayContent> XmlCustomerInformationService2_3_new::CurrentDisplayContentFromAllData2_3new(Vdv301AllData vdv301AllData )
+{
+    qDebug()<<Q_FUNC_INFO;
+    QVector<Vdv301DisplayContent> output;
+
+    if(!vdv301AllData.globalDisplayContentList.isEmpty())
+    {
+        return vdv301AllData.globalDisplayContentList;
+    }
+
+    if(vdv301AllData.tripInformationList.isEmpty())
+    {
+        return output;
+    }
+    else
+    {
+        Vdv301Trip currentTrip=vdv301AllData.tripInformationList.first();
+        if(currentTrip.stopPointList.isEmpty())
+        {
+            return output;
+        }
+        else
+        {
+            if(xmlCommon2_3_new.isInRange(vdv301AllData.currentStopIndex-1,currentTrip.stopPointList.count(),Q_FUNC_INFO))
+            {
+                Vdv301StopPoint currentStop=currentTrip.stopPointList.at(vdv301AllData.currentStopIndex-1);
+                return currentStop.displayContentList;
+            }
+
+        }
+    }
+    return output;
+}
+
+
+
+QString XmlCustomerInformationService2_3_new::CurrentDisplayContent2_3gen(QDomDocument xmlDocument, QVector<Vdv301DisplayContent> vdv301displayContentList )
+{
+    qDebug()<<Q_FUNC_INFO;
+
+    QString language=xmlCommon2_3_new.defaultLanguage2_3;
+
+    QDomProcessingInstruction dProcessingInformation=xmlCommon2_3_new.createProcessingInformation(xmlDocument,xmlCommon2_3_new.mDefaultEncoding);
+    xmlDocument.appendChild(dProcessingInformation);
+
+    QDomElement dCustomerInformationService=xmlDocument.createElement("CustomerInformationService.GetCurrentDisplayContentResponse");
+    QDomElement dCurrentDisplayContentData=xmlDocument.createElement("CurrentDisplayContentData");
+
+    dCurrentDisplayContentData.appendChild(xmlCommon2_3.TimeStampTag1_0(xmlDocument));
+
+
+
+
+
+    foreach(Vdv301DisplayContent displayContent, vdv301displayContentList )
+    {
+       dCurrentDisplayContentData.appendChild(xmlCommon2_3_new.DisplayContentViaPointDestination2_3gen(xmlDocument,"DisplayContent", displayContent));
+    }
+
+
+    dCustomerInformationService.appendChild(dCurrentDisplayContentData);
+    xmlDocument.appendChild(dCustomerInformationService);
+
+
+
+
+
+    return xmlCommon2_3.qDomDocumentToQString(xmlDocument);
+}
+
+
+
 
 
