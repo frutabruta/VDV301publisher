@@ -8,6 +8,12 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20241205
+    - Vdv301DataStructures
+        - StopPoint2_3CZ1_0
+            - added GlobalStopRef
+    - XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new
+        - generates GlobalStopRef to Xml
 - 20241102_3
     - XmlCommon2_3
         - modifications to change metro into icons

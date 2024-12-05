@@ -113,6 +113,9 @@ Vdv301StopPoint2_3CZ1_0 XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new( QVector<StopPoi
     // StopRef
     output.stopRef=currentStopPoinDestination.stopPoint.ref();
 
+    // GlobalStopRef
+    output.globalStopRef=QString::number(currentStopPoinDestination.stopPoint.idCis);
+
     // StopName
     output.stopNameList<<Vdv301InternationalText(currentStopPoinDestination.stopPoint.NameLcd+stopPropertiesToString2_3(currentStopPoinDestination.stopPoint), language);
 
@@ -190,6 +193,9 @@ QDomElement XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0gen(QDomDocument &xmlDocument, V
 
     // StopRef
     dStopPoint.appendChild(ref(xmlDocument, "StopRef",stopPointDestination.stopRef));
+
+    // StopRef
+    dStopPoint.appendChild(ref(xmlDocument, "GlobalStopRef",stopPointDestination.globalStopRef));
 
     // StopName
     foreach (Vdv301InternationalText stopName, stopPointDestination.stopNameList) {
