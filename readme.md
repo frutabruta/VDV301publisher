@@ -8,6 +8,13 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20241205_1450
+    - Vdv301DataStructures
+        - Vdv301Trip2_3CZ1_0
+            - added runNumber, formally changed to IBIS-IP.string (was already represented by QString)
+    - XmlCommon2_3CZ1_0
+        - new function vehicleRunToRunNumber generating rootLine_order
+    - fixes of include files in Xml Generators
 - 20241205
     - Vdv301DataStructures
         - StopPoint2_3CZ1_0

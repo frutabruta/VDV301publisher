@@ -430,6 +430,12 @@ Vdv301Trip2_3CZ1_0 XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0new(QVector<Trip> t
     return vdv301trip;
 }
 
+QString XmlCommon2_3CZ1_0::vehicleRunToRunNumber(VehicleRun vehicleRun)
+{
+    //   return QString::number(vehicleRun.rootLine.c)+"_"+QString::number(vehicleRun.order);
+    return QString::number(vehicleRun.rootLine.c)+"_"+QString::number(vehicleRun.order);
+}
+
 
 
 

@@ -17,6 +17,7 @@ public:
     QDomElement StopPoint2_3CZ1_0gen(QDomDocument &xmlDocument, Vdv301StopPoint2_3CZ1_0 stopPointDestination);
     QStringList FareZoneInformationStructure2_3CZ1_0new(QVector<FareZone> fareZoneList);
     QVector<Vdv301InternationalText> fareZoneListToVdv301FareZoneList(QVector<FareZone> fareZoneList, QString language);
+    QString vehicleRunToRunNumber(VehicleRun vehicleRun);
 };
 
 #endif // XMLCOMMON2_3CZ1_0_H

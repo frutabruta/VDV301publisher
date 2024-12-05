@@ -20,10 +20,11 @@ public:
     //rozdelano
     QString CurrentDisplayContent2_3(QDomDocument xmlDocument, QVector<StopPointDestination> stopPointDestinationList, VehicleState vehicleState);
     QString AllData2_3(QDomDocument xmlDocument, QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState);
-
+/*
     QString AllData2_3gen(QDomDocument xmlDocument, Vdv301AllData allData);
 
     QString AllData2_3CZ1_0gen(QDomDocument xmlDocument, Vdv301AllData allData);
+*/
 private:
 
 };

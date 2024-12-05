@@ -3,6 +3,7 @@
 
 #include "xmlcustomerinformationservice2_3.h"
 #include "xmlcommon2_3_new.h"
+#include "VDV301DataStructures/vdv301alldata.h"
 class XmlCustomerInformationService2_3_new : public XmlCustomerInformationService2_3
 {
 public:

@@ -1,6 +1,7 @@
 #ifndef XMLCOMMON2_3_NEW_H
 #define XMLCOMMON2_3_NEW_H
 #include "xmlcommon2_3.h"
+#include "VDV301DataStructures/vdv301trip.h"
 
 class XmlCommon2_3_new : public XmlCommon2_3
 {
