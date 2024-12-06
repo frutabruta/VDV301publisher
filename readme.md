@@ -8,6 +8,12 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20241206_1818
+    - Vdv301DataStructures
+        - fixed all occurancies of DisplayContentInner to DisplayContentInterior
+    - XmlCommon2_3_new 
+        - - fixed all occurancies of DisplayContentInner to DisplayContentInterior
+
 - 20241206_0023
     - XmlCommon2_3_new
         - changed default lcdClass to DisplayContentInner

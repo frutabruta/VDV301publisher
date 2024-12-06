@@ -8,7 +8,7 @@ class XmlCommon2_3_new : public XmlCommon2_3
 public:
     XmlCommon2_3_new();
 
-    DisplayContentClass lcdClass=DisplayContentInner;
+    DisplayContentClass lcdClass=DisplayContentInterior;
 
     QDomElement ViaPoint2_3def(QDomDocument &xmlDocument, Vdv301ViaPoint viaPoint);
     QDomElement Connection2_3gen(QDomDocument &xmlDocument, Vdv301Connection connection);

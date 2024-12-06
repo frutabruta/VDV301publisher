@@ -372,7 +372,7 @@ QVector<Vdv301DisplayContent> XmlCommon2_3_new::DisplayContentViaPointDestinatio
 
         break;
     }
-    case DisplayContentInner: //copy of LCD
+    case DisplayContentInterior: //copy of LCD
     {
         Vdv301DisplayContent lcdDisplayContent;
         lcdDisplayContent.displayContentRef=displayContentClassString;
