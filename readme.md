@@ -8,6 +8,9 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20241213_0100
+    - XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0new
+        - added fareZoneChange out of range check
 - 20241206_1818
     - Vdv301DataStructures
         - fixed all occurancies of DisplayContentInner to DisplayContentInterior
