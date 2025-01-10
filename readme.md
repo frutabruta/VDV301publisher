@@ -8,6 +8,9 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20250110_1517
+    - XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new
+        - fix index issue - Connection inserting to correct StopPoint 
 - 20241213_0100
     - XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0new
         - added fareZoneChange out of range check

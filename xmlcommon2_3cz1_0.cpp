@@ -105,24 +105,24 @@ Vdv301StopPoint2_3CZ1_0 XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new( QVector<StopPoi
         return output;
     }
 
-    StopPointDestination currentStopPoinDestination=stopPointDestinationList.at(stopPointIterator);
+    StopPointDestination selectedStopPoinDestination=stopPointDestinationList.at(stopPointIterator);
 
     // StopIndex
     output.stopIndex=stopPointIterator+1;
 
     // StopRef
-    output.stopRef=currentStopPoinDestination.stopPoint.ref();
+    output.stopRef=selectedStopPoinDestination.stopPoint.ref();
 
     // GlobalStopRef
-    output.globalStopRef=QString::number(currentStopPoinDestination.stopPoint.idCis);
+    output.globalStopRef=QString::number(selectedStopPoinDestination.stopPoint.idCis);
 
     // StopName
-    output.stopNameList<<Vdv301InternationalText(currentStopPoinDestination.stopPoint.NameLcd+stopPropertiesToString2_3(currentStopPoinDestination.stopPoint), language);
+    output.stopNameList<<Vdv301InternationalText(selectedStopPoinDestination.stopPoint.NameLcd+stopPropertiesToString2_3(selectedStopPoinDestination.stopPoint), language);
 
     // StopAlternativeName not implemented
 
     // Platform
-    output.platform=currentStopPoinDestination.stopPoint.platformName;
+    output.platform=selectedStopPoinDestination.stopPoint.platformName;
 
     // DisplayContent
     QVector<Vdv301DisplayContent> vdvDisplayContentList;
@@ -137,22 +137,22 @@ Vdv301StopPoint2_3CZ1_0 XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new( QVector<StopPoi
     // ArrivalScheduled
     // ArrivalExpected
     // DepartureScheduled
-    output.departureScheduled=qTimeToQDateTimeToday( currentStopPoinDestination.stopPoint.departureToQTime()).toString("yyyy-MM-ddThh:mm:ss");
+    output.departureScheduled=qTimeToQDateTimeToday( selectedStopPoinDestination.stopPoint.departureToQTime()).toString("yyyy-MM-ddThh:mm:ss");
 
     // DepartureExpected
-    output.departureExpected=qTimeToQDateTimeToday( currentStopPoinDestination.stopPoint.departureToQTime()).toString("yyyy-MM-ddThh:mm:ss");
+    output.departureExpected=qTimeToQDateTimeToday( selectedStopPoinDestination.stopPoint.departureToQTime()).toString("yyyy-MM-ddThh:mm:ss");
 
     // RecordedArrivalTime not implemented
     // DistanceToNextStop not implemented
 
     // Connection
-    if(currentStopIndex==currentStopPoinDestination.stopPoint.StopIndex)
+    if(currentStopIndex==stopPointIterator)
     {
         output.connectionList=connectionList;
     }
 
     // FareZone
-    foreach(QString dFareZone, FareZoneInformationStructure2_3CZ1_0new(currentStopPoinDestination.stopPoint.fareZoneList) )
+    foreach(QString dFareZone, FareZoneInformationStructure2_3CZ1_0new(selectedStopPoinDestination.stopPoint.fareZoneList) )
     {
         Vdv301InternationalText fareZone;
         fareZone.text=dFareZone;
