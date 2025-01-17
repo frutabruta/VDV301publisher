@@ -62,7 +62,7 @@ QStringList XmlCommon2_3CZ1_0::FareZoneInformationStructure2_3CZ1_0new( QVector<
         if(systems.count()>1)
         {
             result+=key;
-            result+=": ";
+            result+=" ";
         }
         result+=fareZoneByType[key].join(",");
 

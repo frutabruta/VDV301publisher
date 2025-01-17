@@ -769,15 +769,14 @@ QDomElement XmlCommon2_3::AdditionalTextMessage2_3(QDomDocument &xmlDocument, QS
 QString XmlCommon2_3::stopPropertiesToString2_3(StopPoint stopPoint)
 {
     QString output="";
-
-    output+=xxxProperty2_3("c_RequestStop","ŕ",stopPoint.onRequest);
-    output+=xxxProperty2_3("c_Air","\\",stopPoint.transferAirplane);
-    output+=xxxProperty2_3("c_Ferry","Ĺ",stopPoint.transferFerry);
     output+=xxxProperty2_3("c_UndergroundA","[A]",stopPoint.transferMetroA);
     output+=xxxProperty2_3("c_UndergroundB","[B]",stopPoint.transferMetroB );
     output+=xxxProperty2_3("c_UndergroundC","[C]",stopPoint.transferMetroC);
     output+=xxxProperty2_3("c_UndergroundD","[D]",stopPoint.transferMetroD);
     output+=xxxProperty2_3("c_Train","~",stopPoint.transferTrain);
+    output+=xxxProperty2_3("c_Ferry","Ĺ",stopPoint.transferFerry);
+    output+=xxxProperty2_3("c_Air","\\",stopPoint.transferAirplane);
+    output+=xxxProperty2_3("c_RequestStop","ŕ",stopPoint.onRequest);
     return output;
 }
 

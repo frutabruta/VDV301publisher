@@ -8,6 +8,11 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20250114_1851
+    - XmlCommon2_3::stopPropertiesToString2_3
+        - fix icons order
+    - XmlCommon2_3CZ1_0::FareZoneInformationStructure2_3CZ1_0new
+        - remove colon from fareZone name
 - 20250110_1517
     - XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new
         - fix index issue - Connection inserting to correct StopPoint 
