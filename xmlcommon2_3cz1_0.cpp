@@ -3,7 +3,41 @@
 XmlCommon2_3CZ1_0::XmlCommon2_3CZ1_0() {}
 
 
+QDomElement XmlCommon2_3CZ1_0::AddtitionalAnnoucement2_3CZ1_0gen(QDomDocument  &xmlDocument, Vdv301AdditionalAnnouncement2_3CZ1_0 vdv301AdditionalAnnoucement)
+{
+    QDomElement additionaAnnoucement=xmlDocument.createElement("AdditionalAnnouncement");
+    additionaAnnoucement.appendChild(ref(xmlDocument,"AnnouncementText",vdv301AdditionalAnnoucement.announcementRef));
 
+    foreach (Vdv301InternationalText announcementText, vdv301AdditionalAnnoucement.announcementTextList)
+    {
+        additionaAnnoucement.appendChild(internationalTextTypeToDom(xmlDocument,"AnnouncementText",announcementText));
+    }
+
+    foreach (Vdv301InternationalText announcementTtsText, vdv301AdditionalAnnoucement.announcementTTSTextList)
+    {
+        additionaAnnoucement.appendChild(internationalTextTypeToDom(xmlDocument,"AnnouncementTTSText",announcementTtsText));
+    }
+
+    if(vdv301AdditionalAnnoucement.immediateInformation)
+    {
+        additionaAnnoucement.appendChild(Value(xmlDocument,"ImmediateInformation","true"));
+    }
+
+    if(vdv301AdditionalAnnoucement.periodicalInformation>0)
+    {
+        additionaAnnoucement.appendChild(Value(xmlDocument,"ImmediateInformation",QString::number(vdv301AdditionalAnnoucement.periodicalInformation)));
+    }
+
+
+    /*
+    foreach (Vdv301InternationalText announcementTextHeader, vdv301AdditionalAnnoucement.announcementTextList) {
+        additionaAnnoucement.appendChild(internationalTextTypeToDom(xmlDocument,"AnnouncementText",announcementTextHeader));
+    }
+
+*/
+    return additionaAnnoucement;
+
+}
 
 
 QDomElement XmlCommon2_3CZ1_0::FareZoneChange2_3CZ1_0gen(QDomDocument  &xmlDocument,Vdv301FareZoneChange2_3CZ1_0 vdv301FareZoneChange)// QVector<Vdv301InternationalText> fareZoneFrom,QVector<Vdv301InternationalText> fareZoneTo)
@@ -311,7 +345,7 @@ QDomElement XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0gen(QDomDocument &xmlDocum
         dTripInformation.appendChild(dLocationState);
 
 
-
+/*
         if(!trip.additionalTextMessage.text.isEmpty())
         {
             QString specialAnnouncement=trip.additionalTextMessage.text;
@@ -319,12 +353,25 @@ QDomElement XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0gen(QDomDocument &xmlDocum
             dTripInformation.appendChild( internationalTextTypeToDom(xmlDocument,"AdditionalTextMessage",specialAnnouncement,trip.additionalTextMessage.language));
             //   dTripInformation.appendChild(AdditionalTextMessage2_3(xmlDocument,  vehicleState.currentSpecialAnnoucement.text));
         }
-        /*
-        else if (specialAnnouncement!="")
+*/
+
+        foreach(Vdv301AdditionalAnnouncement2_3CZ1_0 announcement,trip.additionalAnnouncementList)
         {
-            //   dTripInformation.appendChild(AdditionalTextMessage2_2CZ1_0(specialniOznameni));
+            dTripInformation.appendChild(AddtitionalAnnoucement2_3CZ1_0gen(xmlDocument,announcement));
         }
-        */
+
+
+        /*
+        if(!trip.additionalTextMessage.text.isEmpty())
+        {
+            QString specialAnnouncement=trip.additionalTextMessage.text;
+            qDebug()<<"special announcement="<<specialAnnouncement;
+            dTripInformation.appendChild( internationalTextTypeToDom(xmlDocument,"AdditionalTextMessage",specialAnnouncement,trip.additionalTextMessage.language));
+            //   dTripInformation.appendChild(AdditionalTextMessage2_3(xmlDocument,  vehicleState.currentSpecialAnnoucement.text));
+        }
+*/
+
+
     }
     else
     {
@@ -395,10 +442,11 @@ Vdv301Trip2_3CZ1_0 XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0new(QVector<Trip> t
 
         if(vehicleState.isSpecialAnnoucementUsed)
         {
-            vdv301trip.additionalTextMessage.text=vehicleState.currentSpecialAnnoucement.text;
-            vdv301trip.additionalTextMessage.language=language;
+            Vdv301AdditionalAnnouncement2_3CZ1_0 additionalAnnouncement;
+            additionalAnnouncement.announcementTextList<<Vdv301InternationalText(vehicleState.currentSpecialAnnoucement.text,language);
+            vdv301trip.additionalAnnouncementList<<additionalAnnouncement;
 
-            //   dTripInformation.appendChild(AdditionalTextMessage2_3(xmlDocument,  vehicleState.currentSpecialAnnoucement.text));
+
         }
         else if (specialAnnouncement!="")
         {

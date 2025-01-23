@@ -8,6 +8,11 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20250123_1345
+    - Vdv301DataStructures
+        - added Vdv301AdditionalAnnouncement
+    - new function XmlCommon2_3CZ1_0::AddtitionalAnnoucement2_3CZ1_0gen
+        - AdditionalAnnouncement added to tripInformation
 - 20250114_1851
     - XmlCommon2_3::stopPropertiesToString2_3
         - fix icons order

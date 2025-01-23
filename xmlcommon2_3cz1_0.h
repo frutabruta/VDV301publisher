@@ -4,6 +4,7 @@
 
 #include "xmlcommon2_3_new.h"
 #include "VDV301DataStructures/vdv301trip2_3cz1_0.h"
+#include "VDV301DataStructures/vdv301additionalannouncement2_3cz1_0.h"
 class XmlCommon2_3CZ1_0 : public XmlCommon2_3_new
 {
 public:
@@ -18,6 +19,7 @@ public:
     QStringList FareZoneInformationStructure2_3CZ1_0new(QVector<FareZone> fareZoneList);
     QVector<Vdv301InternationalText> fareZoneListToVdv301FareZoneList(QVector<FareZone> fareZoneList, QString language);
     QString vehicleRunToRunNumber(VehicleRun vehicleRun);
+    QDomElement AddtitionalAnnoucement2_3CZ1_0gen(QDomDocument &xmlDocument, Vdv301AdditionalAnnouncement2_3CZ1_0 vdv301AdditionalAnnoucement);
 };
 
 #endif // XMLCOMMON2_3CZ1_0_H
