@@ -3,29 +3,29 @@
 XmlCommon2_3CZ1_0::XmlCommon2_3CZ1_0() {}
 
 
-QDomElement XmlCommon2_3CZ1_0::AddtitionalAnnoucement2_3CZ1_0gen(QDomDocument  &xmlDocument, Vdv301AdditionalAnnouncement2_3CZ1_0 vdv301AdditionalAnnoucement)
+QDomElement XmlCommon2_3CZ1_0::AddtitionalAnnouncement2_3CZ1_0gen(QDomDocument  &xmlDocument, Vdv301AdditionalAnnouncement2_3CZ1_0 vdv301AdditionalAnnouncement)
 {
     QDomElement additionaAnnoucement=xmlDocument.createElement("AdditionalAnnouncement");
-    additionaAnnoucement.appendChild(ref(xmlDocument,"AnnouncementText",vdv301AdditionalAnnoucement.announcementRef));
+    additionaAnnoucement.appendChild(ref(xmlDocument,"AnnouncementRef",vdv301AdditionalAnnouncement.announcementRef));
 
-    foreach (Vdv301InternationalText announcementText, vdv301AdditionalAnnoucement.announcementTextList)
+    foreach (Vdv301InternationalText announcementText, vdv301AdditionalAnnouncement.announcementTextList)
     {
         additionaAnnoucement.appendChild(internationalTextTypeToDom(xmlDocument,"AnnouncementText",announcementText));
     }
 
-    foreach (Vdv301InternationalText announcementTtsText, vdv301AdditionalAnnoucement.announcementTTSTextList)
+    foreach (Vdv301InternationalText announcementTtsText, vdv301AdditionalAnnouncement.announcementTTSTextList)
     {
         additionaAnnoucement.appendChild(internationalTextTypeToDom(xmlDocument,"AnnouncementTTSText",announcementTtsText));
     }
 
-    if(vdv301AdditionalAnnoucement.immediateInformation)
+    if(vdv301AdditionalAnnouncement.immediateInformation)
     {
         additionaAnnoucement.appendChild(Value(xmlDocument,"ImmediateInformation","true"));
     }
 
-    if(vdv301AdditionalAnnoucement.periodicalInformation>0)
+    if(vdv301AdditionalAnnouncement.periodicalInformation>0)
     {
-        additionaAnnoucement.appendChild(Value(xmlDocument,"ImmediateInformation",QString::number(vdv301AdditionalAnnoucement.periodicalInformation)));
+        additionaAnnoucement.appendChild(Value(xmlDocument,"ImmediateInformation",QString::number(vdv301AdditionalAnnouncement.periodicalInformation)));
     }
 
 
@@ -357,7 +357,7 @@ QDomElement XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0gen(QDomDocument &xmlDocum
 
         foreach(Vdv301AdditionalAnnouncement2_3CZ1_0 announcement,trip.additionalAnnouncementList)
         {
-            dTripInformation.appendChild(AddtitionalAnnoucement2_3CZ1_0gen(xmlDocument,announcement));
+            dTripInformation.appendChild(AddtitionalAnnouncement2_3CZ1_0gen(xmlDocument,announcement));
         }
 
 

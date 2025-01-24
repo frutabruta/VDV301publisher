@@ -19,7 +19,7 @@ public:
     QStringList FareZoneInformationStructure2_3CZ1_0new(QVector<FareZone> fareZoneList);
     QVector<Vdv301InternationalText> fareZoneListToVdv301FareZoneList(QVector<FareZone> fareZoneList, QString language);
     QString vehicleRunToRunNumber(VehicleRun vehicleRun);
-    QDomElement AddtitionalAnnoucement2_3CZ1_0gen(QDomDocument &xmlDocument, Vdv301AdditionalAnnouncement2_3CZ1_0 vdv301AdditionalAnnoucement);
+    QDomElement AddtitionalAnnouncement2_3CZ1_0gen(QDomDocument &xmlDocument, Vdv301AdditionalAnnouncement2_3CZ1_0 vdv301AdditionalAnnouncement);
 };
 
 #endif // XMLCOMMON2_3CZ1_0_H

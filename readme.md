@@ -8,6 +8,9 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20250124_1437
+    - Vdv301DataStructures
+        - AdditionalAnnouncement variable names spelling fix
 - 20250123_1345
     - Vdv301DataStructures
         - added Vdv301AdditionalAnnouncement
