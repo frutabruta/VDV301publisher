@@ -8,6 +8,12 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20250223_1657
+    - XmlCommon2_3_new::TripInformation2_3gen
+        - additionalTextMessage1-9List
+    - XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0gen
+        - additionalTextMessage1-9List including fareZoneChange
+
 - 20250124_1437
     - Vdv301DataStructures
         - AdditionalAnnouncement variable names spelling fix

@@ -655,11 +655,11 @@ QDomElement XmlCommon2_3_new::TripInformation2_3gen(QDomDocument &xmlDocument, V
 
 
 
-        if(!trip.additionalTextMessage.text.isEmpty())
+        if(!trip.additionalTextMessageList.isEmpty())
         {
-            QString specialAnnouncement= trip.additionalTextMessage.text;
-            qDebug()<<"special announcement="<<specialAnnouncement;
-            dTripInformation.appendChild( internationalTextTypeToDom(xmlDocument,"AdditionalTextMessage",specialAnnouncement,trip.additionalTextMessage.language));
+
+            qDebug()<<"special announcement="<<trip.additionalTextMessageList.first().text;
+            dTripInformation.appendChild( internationalTextTypeToDom(xmlDocument,"AdditionalTextMessage",trip.additionalTextMessageList.first()));
             //   dTripInformation.appendChild(AdditionalTextMessage2_3(xmlDocument,  vehicleState.currentSpecialAnnoucement.text));
         }
         /*
@@ -732,8 +732,8 @@ Vdv301Trip XmlCommon2_3_new::TripInformation2_3new(QVector<Trip> tripList, QVect
 
         if(vehicleState.isSpecialAnnoucementUsed)
         {
-            vdv301trip.additionalTextMessage.text=vehicleState.currentSpecialAnnoucement.text;
-            vdv301trip.additionalTextMessage.language=language;
+            Vdv301InternationalText additionalTextMessage(vehicleState.currentSpecialAnnoucement.text,language);
+            vdv301trip.additionalTextMessageList<<additionalTextMessage;
 
             //   dTripInformation.appendChild(AdditionalTextMessage2_3(xmlDocument,  vehicleState.currentSpecialAnnoucement.text));
         }
