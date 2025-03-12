@@ -210,7 +210,7 @@ QString XmlCustomerInformationService2_3_new::CurrentDisplayContent2_3gen(QDomDo
     QDomElement dCustomerInformationService=xmlDocument.createElement("CustomerInformationService.GetCurrentDisplayContentResponse");
     QDomElement dCurrentDisplayContentData=xmlDocument.createElement("CurrentDisplayContentData");
 
-    dCurrentDisplayContentData.appendChild(xmlCommon2_3.TimeStampTag1_0(xmlDocument));
+    dCurrentDisplayContentData.appendChild(xmlCommon2_3_new.TimeStampTag1_0(xmlDocument));
 
 
 
@@ -229,7 +229,7 @@ QString XmlCustomerInformationService2_3_new::CurrentDisplayContent2_3gen(QDomDo
 
 
 
-    return xmlCommon2_3.qDomDocumentToQString(xmlDocument);
+    return xmlCommon2_3_new.qDomDocumentToQString(xmlDocument);
 }
 
 

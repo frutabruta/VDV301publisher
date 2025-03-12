@@ -4,7 +4,7 @@
 #include "httpservice.h"
 #include "xmlcustomerinformationservice.h"
 #include "xmlcustomerinformationservice2_2cz1_0.h"
-#include "xmlcustomerinformationservice2_3.h"
+//#include "xmlcustomerinformationservice2_3.h"
 #include "xmlcustomerinformationservice2_3cz1_0.h"
 
 class CustomerInformationService : public HttpService
@@ -23,7 +23,7 @@ private:
     //instance trid
     XmlCustomerInformationService xmlGenerator;
     XmlCustomerInformationService2_2CZ1_0 xmlGenerator2_2CZ1_0;
-    XmlCustomerInformationService2_3 xmlGenerator2_3;
+    //XmlCustomerInformationService2_3 xmlGenerator2_3;
     XmlCustomerInformationService2_3_new xmlGenerator2_3new;
     XmlCustomerInformationService2_3CZ1_0 xmlGenerator2_3CZ1_0;
     //variables

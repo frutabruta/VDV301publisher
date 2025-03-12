@@ -1,10 +1,10 @@
 #ifndef XMLCUSTOMERINFORMATIONSERVICE2_3_NEW_H
 #define XMLCUSTOMERINFORMATIONSERVICE2_3_NEW_H
 
-#include "xmlcustomerinformationservice2_3.h"
+//#include "xmlcustomerinformationservice2_3.h"
 #include "xmlcommon2_3_new.h"
 #include "VDV301DataStructures/vdv301alldata.h"
-class XmlCustomerInformationService2_3_new : public XmlCustomerInformationService2_3
+class XmlCustomerInformationService2_3_new// : public XmlCustomerInformationService2_3
 {
 public:
     XmlCustomerInformationService2_3_new();

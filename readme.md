@@ -8,9 +8,11 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
-- 20250312_2219
+- 20250312_2247
     - removed old XmlCommon2_3, all code migrated to XmlCommon2_3_new
-    
+- 20250312_2219
+    - removed old XmlCustomerInformationService2_3, all code migrated to XmlCustomerInformationService2_3_new
+
 - 20250312_1856
     - XmlCommon2_3::stopPropertiesToString2_3
         - added neozn="true" implemenentation
