@@ -8,6 +8,17 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20250312_1856
+    - XmlCommon2_3::stopPropertiesToString2_3
+        - added neozn="true" implemenentation
+    - XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0new
+        - formatted fare zone change text
+
+    - VDV301DataStructures    
+        - stoppoint
+            - all bool values default to false
+            - isViapoint changed data type to bool
+            - added neozn and zast sttributes
 - 20250223_1657
     - XmlCommon2_3_new::TripInformation2_3gen
         - additionalTextMessage1-9List

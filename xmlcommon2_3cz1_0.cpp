@@ -519,7 +519,14 @@ Vdv301Trip2_3CZ1_0 XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0new(QVector<Trip> t
     {
         vdv301trip.fareZoneChange.active=true;
         
-        vdv301trip.additionalTextMessageList<<Vdv301InternationalText("Pozor, změna pásma",language);
+
+        QString fareZoneChangeText=R"(
+<font size="90"><color fg="#ffffff">Prosím pozor! Změna tarifního pásma.</color></font><br>
+<font size="68"><color fg="#969696">Attention please! Change of fare zone.</color></font>
+        )";
+
+
+        vdv301trip.additionalTextMessageList<<Vdv301InternationalText(fareZoneChangeText,language);
 
         vdv301trip.additionalTextMessage4List<<Vdv301InternationalText("FareZoneChange",language);
 

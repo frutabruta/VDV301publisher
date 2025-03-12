@@ -229,7 +229,7 @@ nedodelane priznaky:
     if ((appendNextStopToViapoints==true)&&((currentStopIndex+1)<stopPointDestinationList.count()))
     {
         StopPointDestination nextStopPointDestination=stopPointDestinationList.at(currentStopIndex+1);
-        if (nextStopPointDestination.stopPoint.isViapoint==0)
+        if (nextStopPointDestination.stopPoint.isViapoint==false)
         {
             dDisplayContent.appendChild(ViaPoint2_2CZ1_0(xmlDocument,nextStopPointDestination.stopPoint,language));
         }
@@ -238,7 +238,7 @@ nedodelane priznaky:
 
     for (int j=currentStopIndex+1;j<stopPointDestinationList.count() ;j++)
     {
-        if(stopPointDestinationList.at(j).stopPoint.isViapoint == 1)
+        if(stopPointDestinationList.at(j).stopPoint.isViapoint == true)
         {
             StopPointDestination viaPoint=stopPointDestinationList.at(j);
             dDisplayContent.appendChild(ViaPoint2_2CZ1_0(xmlDocument,viaPoint.stopPoint,language));

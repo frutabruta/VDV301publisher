@@ -215,7 +215,7 @@ QDomElement XmlCommon::DisplayContent1_0(QString tagName, QDomDocument &xmlDocum
     if ((appendNextStopToViaPoints==true)&&((currentStopIndex+1)<stopPointDestinationList.count()))
     {
         StopPointDestination nextStopPoint=stopPointDestinationList.at(currentStopIndex+1);
-        if (nextStopPoint.stopPoint.isViapoint==0)
+        if (nextStopPoint.stopPoint.isViapoint==false)
         {
             dDisplayContent.appendChild(ViaPoint1_0(xmlDocument,nextStopPoint.stopPoint,language));
         }
@@ -224,7 +224,7 @@ QDomElement XmlCommon::DisplayContent1_0(QString tagName, QDomDocument &xmlDocum
 
     for (int j=currentStopIndex+1;j<stopPointDestinationList.count() ;j++)
     {
-        if(stopPointDestinationList.at(j).stopPoint.isViapoint == 1)
+        if(stopPointDestinationList.at(j).stopPoint.isViapoint == true)
         {
             StopPointDestination viaPoint=stopPointDestinationList.at(j);
             dDisplayContent.appendChild(ViaPoint1_0(xmlDocument,viaPoint.stopPoint,language));

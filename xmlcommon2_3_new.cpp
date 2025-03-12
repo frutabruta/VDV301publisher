@@ -218,7 +218,7 @@ QVector<Vdv301DisplayContent> XmlCommon2_3_new::DisplayContentViaPointDestinatio
     if ((appendNextStopToViapoints==true)&&((currentStopIndex+1)<stopPointDestinationList.count()))
     {
         StopPointDestination nextStopPointDestination=stopPointDestinationList.at(currentStopIndex+1);
-        if (nextStopPointDestination.stopPoint.isViapoint==0)
+        if (nextStopPointDestination.stopPoint.isViapoint==false)
         {
             viaPointListVdv.append(stopPointDestinationToVdv301ViaPoint(nextStopPointDestination.stopPoint,language));
             viaPointList.append(nextStopPointDestination);
@@ -228,7 +228,7 @@ QVector<Vdv301DisplayContent> XmlCommon2_3_new::DisplayContentViaPointDestinatio
 
     for (int j=currentStopIndex+1;j<stopPointDestinationList.count() ;j++)
     {
-        if(stopPointDestinationList.at(j).stopPoint.isViapoint == 1)
+        if(stopPointDestinationList.at(j).stopPoint.isViapoint == true)
         {
             StopPointDestination viaPoint=stopPointDestinationList.at(j);
             viaPointListVdv.append(stopPointDestinationToVdv301ViaPoint(viaPoint.stopPoint,language));

@@ -185,7 +185,7 @@ QDomElement XmlCommon2_3::DisplayContent2_3(QDomDocument  &xmlDocument, QString 
     if ((appendNextStopToViapoints==true)&&((currentStopIndex+1)<stopPointDestinationList.count()))
     {
         StopPointDestination nextStopPointDestination=stopPointDestinationList.at(currentStopIndex+1);
-        if (nextStopPointDestination.stopPoint.isViapoint==0)
+        if (nextStopPointDestination.stopPoint.isViapoint==false)
         {
             viaPointList.append(ViaPoint2_3(xmlDocument,nextStopPointDestination.stopPoint,language));
         }
@@ -194,7 +194,7 @@ QDomElement XmlCommon2_3::DisplayContent2_3(QDomDocument  &xmlDocument, QString 
 
     for (int j=currentStopIndex+1;j<stopPointDestinationList.count() ;j++)
     {
-        if(stopPointDestinationList.at(j).stopPoint.isViapoint == 1)
+        if(stopPointDestinationList.at(j).stopPoint.isViapoint == true)
         {
             StopPointDestination viaPoint=stopPointDestinationList.at(j);
             viaPointList.append(ViaPoint2_3(xmlDocument,viaPoint.stopPoint,language));
@@ -324,7 +324,7 @@ QVector<QDomElement> XmlCommon2_3::DisplayContentViaPointDestination2_3(QDomDocu
     if ((appendNextStopToViapoints==true)&&((currentStopIndex+1)<stopPointDestinationList.count()))
     {
         StopPointDestination nextStopPointDestination=stopPointDestinationList.at(currentStopIndex+1);
-        if (nextStopPointDestination.stopPoint.isViapoint==0)
+        if (nextStopPointDestination.stopPoint.isViapoint==false)
         {
             viaPointListDom.append(ViaPoint2_3(xmlDocument,nextStopPointDestination.stopPoint,language));
             viaPointList.append(nextStopPointDestination);
@@ -334,7 +334,7 @@ QVector<QDomElement> XmlCommon2_3::DisplayContentViaPointDestination2_3(QDomDocu
 
     for (int j=currentStopIndex+1;j<stopPointDestinationList.count() ;j++)
     {
-        if(stopPointDestinationList.at(j).stopPoint.isViapoint == 1)
+        if(stopPointDestinationList.at(j).stopPoint.isViapoint == true)
         {
             StopPointDestination viaPoint=stopPointDestinationList.at(j);
             viaPointListDom.append(ViaPoint2_3(xmlDocument,viaPoint.stopPoint,language));
@@ -776,7 +776,7 @@ QString XmlCommon2_3::stopPropertiesToString2_3(StopPoint stopPoint)
     output+=xxxProperty2_3("c_Train","~",stopPoint.transferTrain);
     output+=xxxProperty2_3("c_Ferry","Ĺ",stopPoint.transferFerry);
     output+=xxxProperty2_3("c_Air","\\",stopPoint.transferAirplane);
-    output+=xxxProperty2_3("c_RequestStop","ŕ",stopPoint.onRequest);
+    output+=xxxProperty2_3("c_RequestStop","ŕ",stopPoint.onRequest&&(!stopPoint.neozn));
     return output;
 }
 
