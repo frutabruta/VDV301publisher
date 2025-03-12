@@ -426,6 +426,111 @@ QStringList XmlCommon2_3_new::FareZoneInformationStructure2_3new( QVector<FareZo
 
 
 
+QString XmlCommon2_3_new::xxxProperty2_3(QString icon, QString text,bool value)
+{
+    QString output="";
+    if(value)
+    {
+        output="<icon type=\""+icon+"\" >"+text+"</icon>";
+
+    }
+    return output;
+}
+
+QString XmlCommon2_3_new::lineToIcon(Line &line, QString subMode)
+{
+    QString output="";
+
+    if(subMode=="metro")
+    {
+        output="<icon type=\"c_Underground"+line.lineName+"\">["+line.lineName+"]</icon>";
+    }
+    else
+    {
+        output=line.lineName;
+    }
+
+
+    return output;
+}
+
+
+Vdv301Line XmlCommon2_3_new::lineToVdv301Line2_3(Line &line, bool addStyle)
+{
+    Vdv301Line output;
+
+    QString lineName="";
+
+    if(addStyle)
+    {
+        lineName=colorDisplayRules.styleToString(line.lineName,colorDisplayRules.lineToStyle(line));
+    }
+    else
+    {
+        lineName=line.lineName;
+    }
+
+    output.lineNumber=line.lineNumber;
+
+    output.lineNameList<<Vdv301InternationalText(lineName,defaultLanguage2_3);
+    output.lineRef=line.ref();
+
+    return output;
+}
+
+
+
+Vdv301Line XmlCommon2_3_new::lineToVdv301Line2_3(Line &line, QString subMode, bool addStyle)
+{
+    Vdv301Line output;
+
+    QString lineName="";
+
+    if(subMode=="metro")
+    {
+        lineName=lineToIcon(line,subMode);
+    }
+    else
+    {
+        if(addStyle)
+        {
+            lineName=colorDisplayRules.styleToString(line.lineName,colorDisplayRules.lineToStyle(line,subMode));
+        }
+        else
+        {
+            lineName=line.lineName;
+        }
+    }
+
+
+
+
+    output.lineNumber=line.lineNumber;
+
+    output.lineNameList<<Vdv301InternationalText(lineName,defaultLanguage2_3);
+    output.lineRef=line.ref();
+
+    return output;
+}
+
+
+
+QString XmlCommon2_3_new::stopPropertiesToString2_3(StopPoint stopPoint)
+{
+    QString output="";
+    output+=xxxProperty2_3("c_UndergroundA","[A]",stopPoint.transferMetroA);
+    output+=xxxProperty2_3("c_UndergroundB","[B]",stopPoint.transferMetroB );
+    output+=xxxProperty2_3("c_UndergroundC","[C]",stopPoint.transferMetroC);
+    output+=xxxProperty2_3("c_UndergroundD","[D]",stopPoint.transferMetroD);
+    output+=xxxProperty2_3("c_Train","~",stopPoint.transferTrain);
+    output+=xxxProperty2_3("c_Ferry","Ĺ",stopPoint.transferFerry);
+    output+=xxxProperty2_3("c_Air","\\",stopPoint.transferAirplane);
+    output+=xxxProperty2_3("c_RequestStop","ŕ",stopPoint.onRequest&&(!stopPoint.neozn));
+    return output;
+}
+
+
+
 
 
 Vdv301StopPoint XmlCommon2_3_new::StopPoint2_3new( QVector<StopPointDestination> stopPointDestinationList,int stopPointIterator, QVector<Vdv301Connection> connectionList, QString language,int currentStopIndex)

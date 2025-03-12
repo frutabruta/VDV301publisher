@@ -75,10 +75,9 @@ void CustomerInformationService::updateInternalVariables(QVector<Connection> con
         QDomDocument xmlDocument;
         //special options for XML in this version can be placed here
 
-        bool useVdv301AllData=true;
 
-        if(useVdv301AllData)
-        {
+
+
             Vdv301AllData vdv301allData=xmlGenerator2_3new.AllData2_3new(tripList,connectionList,vehicleState,globalDisplayContentList);
 
             QDomDocument xmlDocument2;
@@ -86,12 +85,9 @@ void CustomerInformationService::updateInternalVariables(QVector<Connection> con
            // bodyCurrentDisplayContent=xmlGenerator2_3new.CurrentDisplayContent2_3(xmlDocument,stopPointDestinationList,vehicleState);
             QVector<Vdv301DisplayContent> currentDisplayContentList=xmlGenerator2_3new.CurrentDisplayContentFromAllData2_3new(vdv301allData);
             bodyCurrentDisplayContent=xmlGenerator2_3new.CurrentDisplayContent2_3gen(xmlDocument,currentDisplayContentList);
-        }
-        else
-        {
-            bodyAllData=xmlGenerator2_3.AllData2_3(xmlDocument, tripList,connectionList,vehicleState);
-            bodyCurrentDisplayContent=xmlGenerator2_3.CurrentDisplayContent2_3(xmlDocument,stopPointDestinationList,vehicleState);
-        }
+
+           // bodyAllData=xmlGenerator2_3.AllData2_3(xmlDocument, tripList,connectionList,vehicleState);
+           // bodyCurrentDisplayContent=xmlGenerator2_3.CurrentDisplayContent2_3(xmlDocument,stopPointDestinationList,vehicleState);
 
     }
     else if (mVersion=="2.3CZ1.0")

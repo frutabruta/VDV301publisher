@@ -3,12 +3,14 @@
 #include "xmlcommon2_3.h"
 #include "VDV301DataStructures/vdv301trip.h"
 
-class XmlCommon2_3_new : public XmlCommon2_3
+class XmlCommon2_3_new : public XmlCommon// : public XmlCommon2_3
 {
 public:
     XmlCommon2_3_new();
 
     DisplayContentClass lcdClass=DisplayContentInterior;
+
+    bool addLineStyle=true; //setting to enable/disable line coloring using inline formatting
 
     QDomElement ViaPoint2_3def(QDomDocument &xmlDocument, Vdv301ViaPoint viaPoint);
     QDomElement Connection2_3gen(QDomDocument &xmlDocument, Vdv301Connection connection);
@@ -23,6 +25,11 @@ public:
     QDomElement StopPoint2_3gen(QDomDocument &xmlDocument, Vdv301StopPoint vdv301StopPoint);
     Vdv301ViaPoint stopPointDestinationToVdv301ViaPoint(StopPoint stopPoint, QString &language);
     Vdv301Connection connectionToVdv301Connection(Connection connection, DisplayContentClass displayClass); //unused
+    QString stopPropertiesToString2_3(StopPoint stopPoint);
+    QString xxxProperty2_3(QString icon, QString text, bool value);
+    Vdv301Line lineToVdv301Line2_3(Line &line, bool addStyle);
+    Vdv301Line lineToVdv301Line2_3(Line &line, QString subMode, bool addStyle);
+    QString lineToIcon(Line &line, QString subMode);
 };
 
 #endif // XMLCOMMON2_3_NEW_H
