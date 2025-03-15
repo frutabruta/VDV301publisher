@@ -442,12 +442,7 @@ QDomElement XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0gen(QDomDocument &xmlDocum
     QDomElement dRunNumber=Value(xmlDocument,"RunNumber",trip.runNumber);
     dTripInformation.appendChild(dRunNumber);
 
-    if(trip.fareZoneChange.active)
-    {
-        /*
-        dTripInformation.appendChild(FareZoneChange2_3CZ1_0gen(xmlDocument,trip.fareZoneChange));
-    */
-    }
+
 
     return dTripInformation;
 }
@@ -502,8 +497,25 @@ Vdv301Trip2_3CZ1_0 XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0new(QVector<Trip> t
             additionalAnnouncement.announcementTextList<<Vdv301InternationalText(vehicleState.currentSpecialAnnoucement.text,language);
             vdv301trip.additionalAnnouncementList<<additionalAnnouncement;
 */
-            vdv301trip.additionalTextMessageList<<Vdv301InternationalText(vehicleState.currentSpecialAnnoucement.text,language);
-            vdv301trip.additionalTextMessage1List<<Vdv301InternationalText(vehicleState.currentSpecialAnnoucement.type,language);
+            AdditionalAnnoucement currentAnnouncement=vehicleState.currentSpecialAnnoucement;
+
+            vdv301trip.additionalTextMessageList<<Vdv301InternationalText(currentAnnouncement.text,language);
+            if(!currentAnnouncement.icon.isEmpty())
+            {
+                vdv301trip.additionalTextMessage1List<<Vdv301InternationalText(vehicleState.currentSpecialAnnoucement.icon,language);
+            }
+            if(!currentAnnouncement.changeFrom.isEmpty())
+            {
+                vdv301trip.additionalTextMessage2List<<Vdv301InternationalText(vehicleState.currentSpecialAnnoucement.changeFrom,language);
+            }
+            if(!currentAnnouncement.changeTo.isEmpty())
+            {
+                vdv301trip.additionalTextMessage3List<<Vdv301InternationalText(vehicleState.currentSpecialAnnoucement.changeTo,language);
+            }
+            if(!currentAnnouncement.type.isEmpty())
+            {
+                vdv301trip.additionalTextMessage4List<<Vdv301InternationalText(vehicleState.currentSpecialAnnoucement.type,language);
+            }
 
         }
         else if (specialAnnouncement!="")
@@ -517,10 +529,12 @@ Vdv301Trip2_3CZ1_0 XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0new(QVector<Trip> t
     }
 
 
+
+    /*
     if((currentStopIndex+1)<stopPointDestinationList.length()&&(vehicleState.showFareZoneChange==true))
     {
-        vdv301trip.fareZoneChange.active=true;
-        
+
+
 
         QString fareZoneChangeText=R"(
 <font size="90"><color fg="#ffffff">Prosím pozor! Změna tarifního pásma.</color></font><br>
@@ -553,7 +567,7 @@ Vdv301Trip2_3CZ1_0 XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0new(QVector<Trip> t
 
         }
 
-     }
+    }
     else
     {
         vdv301trip.fareZoneChange.active=false;
@@ -561,6 +575,77 @@ Vdv301Trip2_3CZ1_0 XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0new(QVector<Trip> t
         vdv301trip.fareZoneChange.toFareZone.clear();
     }
 
+    */
+
+
+
+    /*
+
+    if((currentStopIndex+1)<stopPointDestinationList.length()&&(vehicleState.showLineChange==true))
+    {
+
+        QString fareLineChangeText=R"(
+<font size="90"><color fg="#ffffff">Prosím pozor! Změna čísla linky.</color></font><br>
+<font size="72"><color fg="#969696">Attention please! Line number change.</color></font>
+        )";
+
+
+        vdv301trip.additionalTextMessageList<<Vdv301InternationalText(fareLineChangeText,language);
+
+        vdv301trip.additionalTextMessage4List<<Vdv301InternationalText("LineChange",language);
+
+
+        if(isInRange(currentStopIndex-1,stopPointDestinationList.count(),Q_FUNC_INFO))
+        {
+            StopPointDestination currentStopPointDestination=stopPointDestinationList.at(currentStopIndex-1);
+            vdv301trip.additionalTextMessage2List<<Vdv301InternationalText(currentStopPointDestination.line.lineName,language);
+
+
+
+            if(!fareZoneListToVdv301FareZoneList(FareZone::filterZonesFromSystem(stopPointDestinationList.at(currentStopIndex-1).stopPoint.fareZoneList,"PID"),language).isEmpty())
+            {
+                vdv301trip.additionalTextMessage2List=fareZoneListToVdv301FareZoneList(FareZone::filterZonesFromSystem(stopPointDestinationList.at(currentStopIndex-1).stopPoint.fareZoneList,"PID"),language);
+            }
+
+        }
+
+
+
+        if(isInRange(currentStopIndex,stopPointDestinationList.count(),Q_FUNC_INFO))
+        {
+            //vdv301trip.additionalTextMessage3List<<
+
+
+            //   vdv301trip.fareZoneChange.toFareZone=fareZoneListToVdv301FareZoneList(FareZone::filterZonesFromSystem(stopPointDestinationList.at(currentStopIndex).stopPoint.fareZoneList,"PID"),language);
+            Trip nextTrip;
+
+
+            if (isInRange(tripIndex+1,tripList.count(),Q_FUNC_INFO))
+            {
+                nextTrip=tripList.at(tripIndex+1);
+
+                if(!nextTrip.globalStopPointDestinationList.isEmpty())
+                {
+                    StopPointDestination firstStopOfNextTrip;
+                    firstStopOfNextTrip=nextTrip.globalStopPointDestinationList.first();
+                    vdv301trip.additionalTextMessage2List<<Vdv301InternationalText(firstStopOfNextTrip.line.lineName,language);                }
+
+            }
+
+            else
+            {
+                return vdv301trip;
+            }
+        }
+
+    }
+    else
+    {
+        vdv301trip.fareZoneChange.fromFareZone.clear();
+        vdv301trip.fareZoneChange.toFareZone.clear();
+    }
+
+    */
 
     return vdv301trip;
 }

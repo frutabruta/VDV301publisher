@@ -364,7 +364,7 @@ QDomElement XmlCommon2_2CZ1_0::TripInformation2_2CZ1_0(QDomDocument &xmlDocument
 
         if(vehicleState.isSpecialAnnoucementUsed)
         {
-            dTripInformation.appendChild(AdditionalTextMessage2_2CZ1_0(xmlDocument,vehicleState.currentSpecialAnnoucement.type, vehicleState.currentSpecialAnnoucement.title, vehicleState.currentSpecialAnnoucement.text));
+            dTripInformation.appendChild(AdditionalTextMessage2_2CZ1_0(xmlDocument,vehicleState.currentSpecialAnnoucement.type, vehicleState.currentSpecialAnnoucement.type, vehicleState.currentSpecialAnnoucement.text));
         }
         else if (specialAnnoucement!="")
         {

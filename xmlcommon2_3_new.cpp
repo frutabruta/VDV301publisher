@@ -831,7 +831,7 @@ Vdv301Trip XmlCommon2_3_new::TripInformation2_3new(QVector<Trip> tripList, QVect
     if (followingTrip==false)
     {
 
-
+/*
         QString specialAnnouncement=stopPointDestinationList.at(vehicleState.currentStopIndex0).stopPoint.additionalTextMessage;
         qDebug()<<"special announcement="<<specialAnnouncement;
 
@@ -846,6 +846,7 @@ Vdv301Trip XmlCommon2_3_new::TripInformation2_3new(QVector<Trip> tripList, QVect
         {
             //   dTripInformation.appendChild(AdditionalTextMessage2_2CZ1_0(specialniOznameni));
         }
+*/
     }
     else
     {

@@ -8,6 +8,8 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20250315_1940
+    - 2.3CZ1.0 farezone change as an additionalTextMessage
 - 20250312_2247
     - removed old XmlCommon2_3, all code migrated to XmlCommon2_3_new
 - 20250312_2219
