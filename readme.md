@@ -8,6 +8,9 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20250403_2142
+    - Vdv301DataStructures
+        - added Vdv301CurrentDisplayContent
 - 20250403_2119
     - XmlCustomerInformationService2_3_new::CurrentDisplayContent2_3gen
         - CurrentDisplayContent element name fix
