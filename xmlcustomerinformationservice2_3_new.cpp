@@ -218,7 +218,7 @@ QString XmlCustomerInformationService2_3_new::CurrentDisplayContent2_3gen(QDomDo
 
     foreach(Vdv301DisplayContent displayContent, vdv301displayContentList )
     {
-       dCurrentDisplayContentData.appendChild(xmlCommon2_3_new.DisplayContentViaPointDestination2_3gen(xmlDocument,"DisplayContent", displayContent));
+       dCurrentDisplayContentData.appendChild(xmlCommon2_3_new.DisplayContentViaPointDestination2_3gen(xmlDocument,"CurrentDisplayContent", displayContent));
     }
 
 

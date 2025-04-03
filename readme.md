@@ -8,6 +8,9 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20250403_2119
+    - XmlCustomerInformationService2_3_new::CurrentDisplayContent2_3gen
+        - CurrentDisplayContent element name fix
 - 20250315_1940
     - 2.3CZ1.0 farezone change as an additionalTextMessage
 - 20250312_2247
