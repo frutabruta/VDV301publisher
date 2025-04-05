@@ -1,9 +1,9 @@
 #ifndef XMLCOMMON2_3_NEW_H
 #define XMLCOMMON2_3_NEW_H
-#include "xmlcommon.h"
+#include "xmlcommonvehiclestate.h"
 #include "VDV301DataStructures/vdv301trip.h"
 
-class XmlCommon2_3_new : public XmlCommon
+class XmlCommon2_3_new : public XmlCommonVehicleState
 {
 public:
     XmlCommon2_3_new();

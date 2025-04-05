@@ -9,7 +9,7 @@
 #include "VDV301DataStructures/farezone.h"
 
 
-class XmlCommonVehicleState : XmlCommon
+class XmlCommonVehicleState : public XmlCommon
 {
 public:
     XmlCommonVehicleState();

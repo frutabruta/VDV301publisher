@@ -1,9 +1,9 @@
 #ifndef XMLCUSTOMERINFORMATIONSERVICE_H
 #define XMLCUSTOMERINFORMATIONSERVICE_H
-#include "xmlcommon.h"
+#include "xmlcommonvehiclestate.h"
 #include <QObject>
 
-class XmlCustomerInformationService : XmlCommon
+class XmlCustomerInformationService : public XmlCommonVehicleState
 {
 public:
     XmlCustomerInformationService();

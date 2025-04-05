@@ -1,9 +1,8 @@
 #ifndef XMLCOMMON2_2CZ1_0_H
 #define XMLCOMMON2_2CZ1_0_H
 
-#include  "xmlcommon.h"
-
-class XmlCommon2_2CZ1_0 : public XmlCommon
+#include  "xmlcommonvehiclestate.h"
+class XmlCommon2_2CZ1_0 : public XmlCommonVehicleState
 {
 public:
     XmlCommon2_2CZ1_0();
