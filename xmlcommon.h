@@ -8,13 +8,9 @@
 #include <QtXml>
 #include <QDomDocument>
 
-#include "VDV301DataStructures/stoppoint.h"
-#include "VDV301DataStructures/stoppointdestination.h"
-#include "VDV301DataStructures/vehiclestate.h"
-#include "VDV301DataStructures/farezone.h"
 
 #include "colordisplayrules.h"
-
+#include "VDV301DataStructures/vdv301internationaltext.h"
 
 
 class XmlCommon : public QObject
@@ -37,7 +33,7 @@ public:
     //pomocneFce
     QString createTimestamp();
     QDomElement internationalTextTypeToDom(QDomDocument &xmlDocument, QString name, QString value, QString language);
-    QVector<QDomElement> lineToLineProperties(QDomDocument xmlDocument, Line line); //unused
+
     QDomElement rawInsert(QString input); //unused
     QDomElement ref(QDomDocument &xmlDocument, QString name, QString value);
     QDomProcessingInstruction createProcessingInformation(QDomDocument &xmlDocument, QString encoding);
@@ -46,26 +42,18 @@ public:
     //VDV301 struktury
     QDomElement AdditionalTextMessage1_0(QString messageContent, bool isScrolling);
 
-    QVector<QDomElement> Connections1_0(QDomDocument &xmlDocument, QVector<Connection> connectionList);
 
-    QDomElement DisplayContent1_0(QString tagName, QDomDocument &xmlDocument, QVector<StopPointDestination> stopPointDestinationList, QString language, int stopPointIterator, int currentStopIndex);
-    QDomElement DoorOpenState(QDomDocument &xmlDocument, QString content);
+     QDomElement DoorOpenState(QDomDocument &xmlDocument, QString content);
 
     QDomElement FareZone1_0(QDomDocument &xmlDocument, QString shortName);
-    QVector<QDomElement> FareZoneInformationStructure1_0(QDomDocument &xmlDocument, QVector<FareZone> fareZoneList);
 
     QDomElement MyOwnVehicleMode(QDomDocument &xmlDocument, QString mode, QString subMode);
 
-    QDomElement StopPoint1_0(QDomDocument &xmlDocument, QVector<StopPointDestination> stopPointDestinationList, int stopPointIterator, QVector<Connection> connectionList, QString language, int currentStopIndex, VehicleState vehicleState);
-    QDomElement StopSequence1_0(QDomDocument &xmlDocument, QVector<StopPointDestination> stopPointDestinationList, QString language, int currentStopIndex, QVector<Connection> connectionList, VehicleState vehicleState);
 
     QDomElement RouteDeviation(QDomDocument &xmlDocument, QString content);
 
     QDomElement TimeStampTag1_0(QDomDocument &xmlDocument);
-    QDomElement TripInformation1_0(QDomDocument &xmlDocument, QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState, int indexSpoje);
-
-    QDomElement ViaPoint1_0(QDomDocument &xmlDocument, StopPoint viaPoint, QString language);
-    QDomElement Value(QDomDocument &xmlDocument, QString elementName, QString content);
+     QDomElement Value(QDomDocument &xmlDocument, QString elementName, QString content);
 
     //WORK IN PROGRESS
     QString escapeHtml(QString input); //unused
@@ -73,16 +61,13 @@ public:
     QString qDomDocumentToQString(QDomDocument &input);
     QString qStringXmlEscape(QString input);
 
-    Vdv301ViaPoint stopPointDestinationToVdv301ViaPoint(StopPoint stopPoint, QString &language);
-
     QDomElement namedElement(QDomDocument &xmlDocument, QString name, QString value); //unused
 
     int isInRange(int index, int valueCount, QString nameOfFunction);
 
     QDomElement internationalTextTypeToDom(QDomDocument &xmlDocument, QString name, Vdv301InternationalText internationalText);
 
-    QString vehicleRunToRunNumber(VehicleRun vehicleRun);
-private:
+ private:
 
     QDomCDATASection createEscapedValueCdata(QDomDocument &document, QString input);
 

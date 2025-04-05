@@ -8,6 +8,9 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20250405_2143
+    - removed dependency of XmlCommon on VehicleState variables
+    - new class XmlCommonVehicleState containing function, which are VehicleState dependent
 - 20250403_2142
     - Vdv301DataStructures
         - added Vdv301CurrentDisplayContent
