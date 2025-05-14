@@ -65,9 +65,7 @@ void CustomerInformationService::updateInternalVariables(QVector<Connection> con
     
     if (mVersion=="2.2CZ1.0")
     {
-        QDomDocument xmlDocument;
-        bodyAllData=xmlGenerator2_2CZ1_0.AllData2_2CZ1_0(xmlDocument,tripList,connectionList,vehicleState);
-        bodyCurrentDisplayContent=xmlGenerator2_2CZ1_0.CurrentDisplayContent2_2CZ1_0(xmlDocument,stopPointDestinationList,vehicleState);
+        qDebug()<<"VERSION 2.2CZ1.0 IS DEPRECATED";
     }
     else if (mVersion=="2.3")
     {

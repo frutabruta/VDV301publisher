@@ -25,11 +25,13 @@ void TicketValidationService::updateInternalVariables(QVector<Connection> connec
     
     if (mVersion=="2.2CZ1.0")
     {
+        qDebug()<<"VERISON 2.2CZ1.0 IS DEPRACATED";
+        /*
         QDomDocument xmlDocument;
         bodyCurrentTariffStopResponse=xmlGenerator2_2CZ1_0.TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(xmlDocument,vehicleState.currentStopIndex0,stopDestinationList,connectionList);
         bodyVehicleDataResponse=xmlGenerator2_2CZ1_0.TicketValidationService_GetVehicleDataResponse2_2CZ1_0(xmlDocument,vehicleState);
         bodyRazziaResponse=xmlGenerator2_2CZ1_0.TicketValidationService_GetRazziaResponse2_2CZ1_0(xmlDocument,vehicleState);
-
+*/
     }
     else
     {

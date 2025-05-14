@@ -8,9 +8,11 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20250514_1700
+    - all includes of 2.2CZ1.0 versions from CIS and TicketValidationService
 - 20250514_1632 
     - last version supporting 2.2CZ1.0
-    
+
 - 20250405_2213
     - dependency on XmlCommonVehicleState fixes
 - 20250405_2143
