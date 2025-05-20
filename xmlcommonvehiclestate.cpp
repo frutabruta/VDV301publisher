@@ -20,7 +20,7 @@ QVector<QDomElement> XmlCommonVehicleState::Connections1_0(QDomDocument  &xmlDoc
     for (int i=0;i<connectionMpvList.count();i++)
     {
 */
-    foreach(Connection selectedConnection, connectionList)
+    for( Connection &selectedConnection : connectionList) //possible problem with connections not being overwritten
     {
         //selectedConnection.lin=selectedConnection.lin.number(10);
         QDomElement dConnection=xmlDocument.createElement("Connection");
@@ -149,7 +149,7 @@ QDomElement XmlCommonVehicleState::DisplayContent1_0(QString tagName, QDomDocume
 
 
 
-                foreach (QString selectedDestination, frontDestinations)
+                for (const QString &selectedDestination : frontDestinations)
                 {
                     QDomElement dDestinationName=internationalTextTypeToDom(xmlDocument,"DestinationName",selectedDestination,language);
                     dDestination.appendChild(dDestinationName);
@@ -201,7 +201,7 @@ QVector<QDomElement> XmlCommonVehicleState::FareZoneInformationStructure1_0(QDom
 {
     QVector<QDomElement> dFareZoneList;
 
-    foreach( FareZone selectedFareZone, fareZoneList)
+    for(const FareZone &selectedFareZone : fareZoneList)
     {
         QDomElement dFareZone=FareZone1_0(xmlDocument,selectedFareZone.name );
         dFareZoneList.append(dFareZone);
@@ -258,17 +258,19 @@ QDomElement XmlCommonVehicleState::StopPoint1_0(QDomDocument &xmlDocument, QVect
     if (cCurrentStopIndex.toInt()==(currentStopIndex+1))
     {
 
-        foreach(QDomElement dConnection,Connections1_0(xmlDocument,connectionList))
+        for(const QDomElement &dConnection : Connections1_0(xmlDocument,connectionList))
         {
             dStopPoint.appendChild(dConnection );
         }
     }
 
     QVector<QDomElement> dFareZoneList=FareZoneInformationStructure1_0(xmlDocument,selectedStopPointDestination.stopPoint.fareZoneList);
-    for (int i=0;i<dFareZoneList.length();i++)
+
+    for (const QDomElement &selectedFareZone : dFareZoneList)
     {
-        dStopPoint.appendChild(dFareZoneList.at(i));
+           dStopPoint.appendChild(selectedFareZone);
     }
+
 
     return dStopPoint;
 }

@@ -8,12 +8,12 @@ QDomElement XmlCommon2_3CZ1_0::AddtitionalAnnouncement2_3CZ1_0gen(QDomDocument  
     QDomElement additionaAnnoucement=xmlDocument.createElement("AdditionalAnnouncement");
     additionaAnnoucement.appendChild(ref(xmlDocument,"AnnouncementRef",vdv301AdditionalAnnouncement.announcementRef));
 
-    foreach (Vdv301InternationalText announcementText, vdv301AdditionalAnnouncement.announcementTextList)
+    for(const Vdv301InternationalText &announcementText : vdv301AdditionalAnnouncement.announcementTextList)
     {
         additionaAnnoucement.appendChild(internationalTextTypeToDom(xmlDocument,"AnnouncementText",announcementText));
     }
 
-    foreach (Vdv301InternationalText announcementTtsText, vdv301AdditionalAnnouncement.announcementTTSTextList)
+    for(const Vdv301InternationalText &announcementTtsText : vdv301AdditionalAnnouncement.announcementTTSTextList)
     {
         additionaAnnoucement.appendChild(internationalTextTypeToDom(xmlDocument,"AnnouncementTTSText",announcementTtsText));
     }
@@ -49,7 +49,7 @@ QDomElement XmlCommon2_3CZ1_0::FareZoneChange2_3CZ1_0gen(QDomDocument  &xmlDocum
     QDomElement fromFareZones=xmlDocument.createElement("FromFareZones");
 
 
-    foreach(Vdv301InternationalText selectedFareZone, vdv301FareZoneChange.fromFareZone )
+    for(const Vdv301InternationalText &selectedFareZone : vdv301FareZoneChange.fromFareZone )
     {
         fromFareZones.appendChild(internationalTextTypeToDom(xmlDocument,"FareZone",selectedFareZone));
     }
@@ -63,7 +63,7 @@ QDomElement XmlCommon2_3CZ1_0::FareZoneChange2_3CZ1_0gen(QDomDocument  &xmlDocum
 
 
 
-    foreach(Vdv301InternationalText selectedFareZone, vdv301FareZoneChange.toFareZone )
+    for(const Vdv301InternationalText &selectedFareZone : vdv301FareZoneChange.toFareZone )
     {
         toFareZones.appendChild(internationalTextTypeToDom(xmlDocument,"FareZone",selectedFareZone));
     }
@@ -82,7 +82,7 @@ QStringList XmlCommon2_3CZ1_0::FareZoneInformationStructure2_3CZ1_0new( QVector<
     QStringList output;
 
 
-    foreach( FareZone selectedFareZone, fareZoneList)
+    for(const FareZone &selectedFareZone : fareZoneList)
     {
         fareZoneByType[selectedFareZone.system].append(selectedFareZone.name);
     }
@@ -90,7 +90,7 @@ QStringList XmlCommon2_3CZ1_0::FareZoneInformationStructure2_3CZ1_0new( QVector<
     //bool generateSystemName=if(farezonebyt)
 
     QStringList systems=fareZoneByType.keys();
-    foreach(QString key,systems)
+    for(const QString &key : systems)
     {
         QString result="";
         if(systems.count()>1)
@@ -111,7 +111,7 @@ QVector<Vdv301InternationalText> XmlCommon2_3CZ1_0::fareZoneListToVdv301FareZone
     QVector<Vdv301InternationalText> output;
 
 
-    foreach(QString dFareZone, FareZoneInformationStructure2_3CZ1_0new(fareZoneList) )
+    for(const QString &dFareZone : FareZoneInformationStructure2_3CZ1_0new(fareZoneList) )
     {
         Vdv301InternationalText fareZone;
         fareZone.text=dFareZone;
@@ -188,7 +188,7 @@ Vdv301StopPoint2_3CZ1_0 XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new( QVector<StopPoi
     }
 
     // FareZone
-    foreach(QString dFareZone, FareZoneInformationStructure2_3CZ1_0new(selectedStopPoinDestination.stopPoint.fareZoneList) )
+    for(const QString &dFareZone : FareZoneInformationStructure2_3CZ1_0new(selectedStopPoinDestination.stopPoint.fareZoneList) )
     {
         Vdv301InternationalText fareZone;
         fareZone.text=dFareZone;
@@ -210,7 +210,7 @@ QDomElement XmlCommon2_3CZ1_0::StopSequence2_3CZ1_0gen(QDomDocument &xmlDocument
     QDomElement dStopSequence=xmlDocument.createElement("StopSequence");
 
 
-    foreach(Vdv301StopPoint2_3CZ1_0 stopPointDestination, stopPointDestinationList)
+    for(const Vdv301StopPoint2_3CZ1_0 &stopPointDestination : stopPointDestinationList)
     {
 
         dStopSequence.appendChild(StopPoint2_3CZ1_0gen(xmlDocument,stopPointDestination));
@@ -234,7 +234,7 @@ QDomElement XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0gen(QDomDocument &xmlDocument, V
     dStopPoint.appendChild(ref(xmlDocument, "GlobalStopRef",stopPointDestination.globalStopRef));
 
     // StopName
-    foreach (Vdv301InternationalText stopName, stopPointDestination.stopNameList) {
+    for(const Vdv301InternationalText &stopName : stopPointDestination.stopNameList) {
 
         QDomElement dStopLcdName=internationalTextTypeToDom(xmlDocument,"StopName",stopName);
 
@@ -252,12 +252,12 @@ QDomElement XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0gen(QDomDocument &xmlDocument, V
     // DisplayContent
     QVector<QDomElement> dDisplayContentList;
 
-    foreach(Vdv301DisplayContent displayContent, stopPointDestination.displayContentList)
+    for(const Vdv301DisplayContent &displayContent : stopPointDestination.displayContentList)
     {
         dStopPoint.appendChild(DisplayContentViaPointDestination2_3gen(xmlDocument,"DisplayContent", displayContent));
     }
 
-    foreach(QDomElement dDisplayContentSide, dDisplayContentList)
+    for(const QDomElement &dDisplayContentSide : dDisplayContentList)
     {
         dStopPoint.appendChild(dDisplayContentSide);
     }
@@ -297,13 +297,13 @@ QDomElement XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0gen(QDomDocument &xmlDocument, V
     // DistanceToNextStop minOccurs="0" not implemented
 
     // Connection minOccurs="0"
-    foreach(Vdv301Connection connection, stopPointDestination.connectionList)
+    for(const Vdv301Connection &connection : stopPointDestination.connectionList)
     {
         dStopPoint.appendChild(Connection2_3gen(xmlDocument,connection));
     }
 
     // FareZone minOccurs="0"
-    foreach(Vdv301InternationalText fareZone, stopPointDestination.fareZoneList )
+    for(const Vdv301InternationalText &fareZone : stopPointDestination.fareZoneList )
     {
         dStopPoint.appendChild(internationalTextTypeToDom(xmlDocument,"FareZone",fareZone));
     }
@@ -347,7 +347,7 @@ QDomElement XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0gen(QDomDocument &xmlDocum
         dTripInformation.appendChild(dLocationState);
         
 
-        foreach (Vdv301InternationalText selectedAdditionalTextMessage, trip.additionalTextMessageList)
+        for (const Vdv301InternationalText &selectedAdditionalTextMessage : trip.additionalTextMessageList)
         {
             if(!selectedAdditionalTextMessage.text.isEmpty())
             {
@@ -355,7 +355,7 @@ QDomElement XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0gen(QDomDocument &xmlDocum
             }
         }
 
-        foreach (Vdv301InternationalText selectedAdditionalTextMessage, trip.additionalTextMessage1List)
+        for (const Vdv301InternationalText &selectedAdditionalTextMessage : trip.additionalTextMessage1List)
         {
             if(!selectedAdditionalTextMessage.text.isEmpty())
             {
@@ -363,7 +363,7 @@ QDomElement XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0gen(QDomDocument &xmlDocum
             }
         }
 
-        foreach (Vdv301InternationalText selectedAdditionalTextMessage, trip.additionalTextMessage2List)
+        for (const Vdv301InternationalText &selectedAdditionalTextMessage : trip.additionalTextMessage2List)
         {
             if(!selectedAdditionalTextMessage.text.isEmpty())
             {
@@ -371,7 +371,7 @@ QDomElement XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0gen(QDomDocument &xmlDocum
             }
         }
 
-        foreach (Vdv301InternationalText selectedAdditionalTextMessage, trip.additionalTextMessage3List)
+        for (const Vdv301InternationalText &selectedAdditionalTextMessage : trip.additionalTextMessage3List)
         {
             if(!selectedAdditionalTextMessage.text.isEmpty())
             {
@@ -379,7 +379,7 @@ QDomElement XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0gen(QDomDocument &xmlDocum
             }
         }
 
-        foreach (Vdv301InternationalText selectedAdditionalTextMessage, trip.additionalTextMessage4List)
+        for (const Vdv301InternationalText &selectedAdditionalTextMessage : trip.additionalTextMessage4List)
         {
             if(!selectedAdditionalTextMessage.text.isEmpty())
             {
@@ -387,7 +387,7 @@ QDomElement XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0gen(QDomDocument &xmlDocum
             }
         }
 
-        foreach (Vdv301InternationalText selectedAdditionalTextMessage, trip.additionalTextMessage5List)
+        for (const Vdv301InternationalText &selectedAdditionalTextMessage : trip.additionalTextMessage5List)
         {
             if(!selectedAdditionalTextMessage.text.isEmpty())
             {
@@ -395,7 +395,7 @@ QDomElement XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0gen(QDomDocument &xmlDocum
             }
         }
 
-        foreach (Vdv301InternationalText selectedAdditionalTextMessage, trip.additionalTextMessage6List)
+        for (const Vdv301InternationalText &selectedAdditionalTextMessage : trip.additionalTextMessage6List)
         {
             if(!selectedAdditionalTextMessage.text.isEmpty())
             {
@@ -403,7 +403,7 @@ QDomElement XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0gen(QDomDocument &xmlDocum
             }
         }
 
-        foreach (Vdv301InternationalText selectedAdditionalTextMessage, trip.additionalTextMessage7List)
+        for (const Vdv301InternationalText &selectedAdditionalTextMessage : trip.additionalTextMessage7List)
         {
             if(!selectedAdditionalTextMessage.text.isEmpty())
             {
@@ -411,7 +411,7 @@ QDomElement XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0gen(QDomDocument &xmlDocum
             }
         }
 
-        foreach (Vdv301InternationalText selectedAdditionalTextMessage, trip.additionalTextMessage8List)
+        for (const Vdv301InternationalText &selectedAdditionalTextMessage : trip.additionalTextMessage8List)
         {
             if(!selectedAdditionalTextMessage.text.isEmpty())
             {
@@ -419,7 +419,7 @@ QDomElement XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0gen(QDomDocument &xmlDocum
             }
         }
 
-        foreach (Vdv301InternationalText selectedAdditionalTextMessage, trip.additionalTextMessage9List)
+        for (const Vdv301InternationalText &selectedAdditionalTextMessage : trip.additionalTextMessage9List)
         {
             if(!selectedAdditionalTextMessage.text.isEmpty())
             {
@@ -427,7 +427,7 @@ QDomElement XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0gen(QDomDocument &xmlDocum
             }
         }
 
-        foreach(Vdv301AdditionalAnnouncement2_3CZ1_0 announcement,trip.additionalAnnouncementList)
+        for (const Vdv301AdditionalAnnouncement2_3CZ1_0 &announcement : trip.additionalAnnouncementList)
         {
             dTripInformation.appendChild(AddtitionalAnnouncement2_3CZ1_0gen(xmlDocument,announcement));
         }

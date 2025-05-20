@@ -76,16 +76,16 @@ void CustomerInformationService::updateInternalVariables(QVector<Connection> con
 
 
 
-            Vdv301AllData vdv301allData=xmlGenerator2_3new.AllData2_3new(tripList,connectionList,vehicleState,globalDisplayContentList);
+        Vdv301AllData vdv301allData=xmlGenerator2_3new.AllData2_3new(tripList,connectionList,vehicleState,globalDisplayContentList);
 
-            QDomDocument xmlDocument2;
-            bodyAllData=xmlGenerator2_3new.AllData2_3gen(xmlDocument2,vdv301allData);
-           // bodyCurrentDisplayContent=xmlGenerator2_3new.CurrentDisplayContent2_3(xmlDocument,stopPointDestinationList,vehicleState);
-            QVector<Vdv301DisplayContent> currentDisplayContentList=xmlGenerator2_3new.CurrentDisplayContentFromAllData2_3new(vdv301allData);
-            bodyCurrentDisplayContent=xmlGenerator2_3new.CurrentDisplayContent2_3gen(xmlDocument,currentDisplayContentList);
+        QDomDocument xmlDocument2;
+        bodyAllData=xmlGenerator2_3new.AllData2_3gen(xmlDocument2,vdv301allData);
+        // bodyCurrentDisplayContent=xmlGenerator2_3new.CurrentDisplayContent2_3(xmlDocument,stopPointDestinationList,vehicleState);
+        QVector<Vdv301DisplayContent> currentDisplayContentList=xmlGenerator2_3new.CurrentDisplayContentFromAllData2_3new(vdv301allData);
+        bodyCurrentDisplayContent=xmlGenerator2_3new.CurrentDisplayContent2_3gen(xmlDocument,currentDisplayContentList);
 
-           // bodyAllData=xmlGenerator2_3.AllData2_3(xmlDocument, tripList,connectionList,vehicleState);
-           // bodyCurrentDisplayContent=xmlGenerator2_3.CurrentDisplayContent2_3(xmlDocument,stopPointDestinationList,vehicleState);
+        // bodyAllData=xmlGenerator2_3.AllData2_3(xmlDocument, tripList,connectionList,vehicleState);
+        // bodyCurrentDisplayContent=xmlGenerator2_3.CurrentDisplayContent2_3(xmlDocument,stopPointDestinationList,vehicleState);
 
     }
     else if (mVersion=="2.3CZ1.0")
@@ -94,7 +94,7 @@ void CustomerInformationService::updateInternalVariables(QVector<Connection> con
         QDomDocument xmlDocument;
         //special options for XML in this version can be placed here
 
-       // bodyCurrentDisplayContent=xmlGenerator2_3CZ1_0.CurrentDisplayContent2_3(xmlDocument,stopPointDestinationList,vehicleState);
+        // bodyCurrentDisplayContent=xmlGenerator2_3CZ1_0.CurrentDisplayContent2_3(xmlDocument,stopPointDestinationList,vehicleState);
 
         Vdv301AllData2_3CZ1_0 vdv301allData=xmlGenerator2_3CZ1_0.AllData2_3CZ1_0new(tripList,connectionList,vehicleState,globalDisplayContentList);
 
@@ -108,9 +108,30 @@ void CustomerInformationService::updateInternalVariables(QVector<Connection> con
     }
     else
     {
+        // Version 1.0!
+
+        //     bodyAllData=xmlGenerator.AllData1_0(xmlDocument,tripList,connectionList,vehicleState);
+        //     bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent1_0(xmlDocument,stopPointDestinationList,vehicleState);
+
+
+        //Work in progress
         QDomDocument xmlDocument;
-        bodyAllData=xmlGenerator.AllData1_0(xmlDocument,tripList,connectionList,vehicleState);
-        bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent1_0(xmlDocument,stopPointDestinationList,vehicleState);
+        //special options for XML in this version can be placed here
+
+
+
+
+        Vdv301AllData vdv301allData=xmlGenerator1_0new.AllData1_0new(tripList,connectionList,vehicleState,globalDisplayContentList);
+
+        QDomDocument xmlDocument2;
+        bodyAllData=xmlGenerator1_0new.AllData1_0gen(xmlDocument2,vdv301allData);
+        // bodyCurrentDisplayContent=xmlGenerator2_3new.CurrentDisplayContent2_3(xmlDocument,stopPointDestinationList,vehicleState);
+        QVector<Vdv301DisplayContent> currentDisplayContentList=xmlGenerator1_0new.CurrentDisplayContentFromAllData1_0new(vdv301allData);
+        bodyCurrentDisplayContent=xmlGenerator1_0new.CurrentDisplayContent1_0gen(xmlDocument,currentDisplayContentList);
+
+        // bodyAllData=xmlGenerator2_3.AllData2_3(xmlDocument, tripList,connectionList,vehicleState);
+        // bodyCurrentDisplayContent=xmlGenerator2_3.CurrentDisplayContent2_3(xmlDocument,stopPointDestinationList,vehicleState);
+
     }
 
     this->setBodyContent("AllData",bodyAllData);

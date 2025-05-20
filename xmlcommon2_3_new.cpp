@@ -67,7 +67,7 @@ QDomElement XmlCommon2_3_new::Connection2_3gen(QDomDocument  &xmlDocument, Vdv30
     // DisplayContent minOccurs="0"
 
 
-    foreach(Vdv301DisplayContent displayContent, connection.vdv301displayContentList)
+    for(const Vdv301DisplayContent &displayContent : connection.vdv301displayContentList)
     {
         QDomElement dDisplayContent=DisplayContentViaPointDestination2_3gen(xmlDocument,"DisplayContent",displayContent);
         dConnection.appendChild(dDisplayContent);
@@ -143,7 +143,7 @@ QDomElement XmlCommon2_3_new::DisplayContentViaPointDestination2_3gen(QDomDocume
     QDomElement dLineInformation=xmlDocument.createElement("LineInformation");
     dLineInformation.appendChild(ref(xmlDocument,"LineRef",displayContent.lineInformation.lineRef));
 
-    foreach(Vdv301InternationalText lineName, displayContent.lineInformation.lineNameList)
+    for(const Vdv301InternationalText &lineName : displayContent.lineInformation.lineNameList)
     {
         QDomElement dLineName=internationalTextTypeToDom(xmlDocument,"LineName",lineName.text,lineName.language);
         dLineInformation.appendChild(dLineName);
@@ -167,7 +167,7 @@ QDomElement XmlCommon2_3_new::DisplayContentViaPointDestination2_3gen(QDomDocume
 
     dDestination.appendChild(ref(xmlDocument,"DestinationRef", displayContent.destination.destinationRef));
 
-    foreach(Vdv301InternationalText destinationName, displayContent.destination.destinationNameList)
+    for(const Vdv301InternationalText &destinationName : displayContent.destination.destinationNameList)
     {
         QDomElement dDestinationName;
         dDestinationName=internationalTextTypeToDom(xmlDocument,"DestinationName",destinationName.text,destinationName.language);
@@ -178,7 +178,7 @@ QDomElement XmlCommon2_3_new::DisplayContentViaPointDestination2_3gen(QDomDocume
 
 
     // ViaPoint minOccurs="0"
-    foreach(Vdv301ViaPoint viaPoint, displayContent.viaPointList)
+    for(const Vdv301ViaPoint &viaPoint : displayContent.viaPointList)
     {
         dDisplayContent.appendChild(ViaPoint2_3def(xmlDocument,viaPoint));
     }
@@ -405,12 +405,12 @@ QStringList XmlCommon2_3_new::FareZoneInformationStructure2_3new( QVector<FareZo
     QStringList output;
 
 
-    foreach( FareZone selectedFareZone, fareZoneList)
+    for(const FareZone &selectedFareZone : fareZoneList)
     {
         fareZoneByType[selectedFareZone.system].append(selectedFareZone.name);
     }
 
-    foreach(QString key,fareZoneByType.keys())
+    for(const QString &key : fareZoneByType.keys())
     {
         QString result="";
         result+=key;
@@ -419,6 +419,8 @@ QStringList XmlCommon2_3_new::FareZoneInformationStructure2_3new( QVector<FareZo
 
         output<<result;
     }
+
+
 
     return output;
 }
@@ -592,7 +594,7 @@ Vdv301StopPoint XmlCommon2_3_new::StopPoint2_3new( QVector<StopPointDestination>
     }
 
     // FareZone
-    foreach(QString dFareZone, FareZoneInformationStructure2_3new(currentStopPoinDestination.stopPoint.fareZoneList) )
+    for(const QString &dFareZone : FareZoneInformationStructure2_3new(currentStopPoinDestination.stopPoint.fareZoneList) )
     {
         output.fareZoneList<<dFareZone;
     }
@@ -613,7 +615,7 @@ QDomElement XmlCommon2_3_new::StopPoint2_3gen(QDomDocument &xmlDocument, Vdv301S
     dStopPoint.appendChild(ref(xmlDocument, "StopRef",vdv301StopPoint.stopRef));
 
     // StopName
-    foreach (Vdv301InternationalText stopName, vdv301StopPoint.stopNameList) {
+    for(const Vdv301InternationalText &stopName : vdv301StopPoint.stopNameList) {
 
         QDomElement dStopLcdName=internationalTextTypeToDom(xmlDocument,"StopName",stopName);
 
@@ -631,7 +633,7 @@ QDomElement XmlCommon2_3_new::StopPoint2_3gen(QDomDocument &xmlDocument, Vdv301S
     // DisplayContent
 
 
-    foreach(Vdv301DisplayContent displayContent, vdv301StopPoint.displayContentList)
+    for(const Vdv301DisplayContent &displayContent : vdv301StopPoint.displayContentList)
     {
         dStopPoint.appendChild(DisplayContentViaPointDestination2_3gen(xmlDocument,"DisplayContent", displayContent));
     }
@@ -672,13 +674,13 @@ QDomElement XmlCommon2_3_new::StopPoint2_3gen(QDomDocument &xmlDocument, Vdv301S
     // DistanceToNextStop minOccurs="0" not implemented
 
     // Connection minOccurs="0"
-    foreach(Vdv301Connection connection, vdv301StopPoint.connectionList)
+    for(const Vdv301Connection &connection : vdv301StopPoint.connectionList)
     {
         dStopPoint.appendChild(Connection2_3gen(xmlDocument,connection));
     }
 
     // FareZone minOccurs="0"
-    foreach(QString fareZone, vdv301StopPoint.fareZoneList )
+    for(const QString &fareZone : vdv301StopPoint.fareZoneList )
     {
         dStopPoint.appendChild(Value(xmlDocument,"FareZone",fareZone));
     }
@@ -716,7 +718,7 @@ QDomElement XmlCommon2_3_new::StopSequence2_3gen(QDomDocument &xmlDocument,QVect
     QDomElement dStopSequence=xmlDocument.createElement("StopSequence");
 
 
-    foreach(Vdv301StopPoint stopPointDestination, stopPointDestinationList)
+    for(const Vdv301StopPoint &stopPointDestination : stopPointDestinationList)
     {
 
         dStopSequence.appendChild(StopPoint2_3gen(xmlDocument,stopPointDestination));
@@ -872,7 +874,7 @@ QDomElement XmlCommon2_3_new::ViaPoint2_3def(QDomDocument &xmlDocument, Vdv301Vi
     dViaPoint.appendChild(ref(xmlDocument,"ViaPointRef",viaPoint.viaPointRef));
 
 
-    foreach(Vdv301InternationalText viaPointName, viaPoint.placeNameList )
+    for(const Vdv301InternationalText &viaPointName : viaPoint.placeNameList )
     {
         QDomElement dPlaceLcdName=internationalTextTypeToDom(xmlDocument,"PlaceName",viaPointName.text ,viaPointName.language);
         dViaPoint.appendChild(dPlaceLcdName);
@@ -880,4 +882,11 @@ QDomElement XmlCommon2_3_new::ViaPoint2_3def(QDomDocument &xmlDocument, Vdv301Vi
 
 
     return dViaPoint;
+}
+
+
+QString XmlCommon2_3_new::vehicleRunToRunNumber(VehicleRun vehicleRun)
+{
+    //   return QString::number(vehicleRun.rootLine.c)+"_"+QString::number(vehicleRun.order);
+    return QString::number(vehicleRun.rootLine.c)+QString::number(vehicleRun.order).rightJustified(3,'0');
 }

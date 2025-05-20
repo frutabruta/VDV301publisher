@@ -8,6 +8,24 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+
+- 20250520_1625
+    - VDV301Datastructures
+        - Vdv301Connection
+            - new variables added comply with 1.0 
+    - switching to new XML generating system for version 1.0
+    - new class XmlCommon1_0_new
+    - new class XmlCustomerInformationService1_0_new
+    - CustomerInformationService 
+        - use of XmlCustomerInformationService1_0_new 
+    - XmlCommon2_3_new
+        - replaced for each loops with c++ range iterators
+        - removed dependency on XmlCommonVehicleState
+        - new function vehicleRunToRunNumber
+    - XmlCommonVehicleState
+        - replaced for each loops with c++ range iterators
+         
+    - XmlCommon2_3_new 
 - 20250514_1700
     - all includes of 2.2CZ1.0 versions from CIS and TicketValidationService
 - 20250514_1632 

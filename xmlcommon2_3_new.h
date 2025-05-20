@@ -1,9 +1,10 @@
 #ifndef XMLCOMMON2_3_NEW_H
 #define XMLCOMMON2_3_NEW_H
-#include "xmlcommonvehiclestate.h"
+#include "xmlcommon.h"
 #include "VDV301DataStructures/vdv301trip.h"
+#include "VDV301DataStructures/vehiclestate.h"
 
-class XmlCommon2_3_new : public XmlCommonVehicleState
+class XmlCommon2_3_new : public XmlCommon // XmlCommonVehicleState
 {
 public:
     XmlCommon2_3_new();
@@ -30,6 +31,7 @@ public:
     Vdv301Line lineToVdv301Line2_3(Line &line, bool addStyle);
     Vdv301Line lineToVdv301Line2_3(Line &line, QString subMode, bool addStyle);
     QString lineToIcon(Line &line, QString subMode);
+    QString vehicleRunToRunNumber(VehicleRun vehicleRun);
 };
 
 #endif // XMLCOMMON2_3_NEW_H
