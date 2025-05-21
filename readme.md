@@ -8,7 +8,9 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
-
+- 20250521_1654
+    - VDV301Datastructures
+        - ConnectionGolemio new variables
 - 20250520_1625
     - VDV301Datastructures
         - Vdv301Connection
