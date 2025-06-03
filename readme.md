@@ -8,6 +8,10 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20250603_1901
+    - VDV301DataStructures
+        - stopPoint
+            - added S_JTSK coordinates
 - 20250521_1654
     - VDV301Datastructures
         - ConnectionGolemio new variables
