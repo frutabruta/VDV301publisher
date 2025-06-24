@@ -22,8 +22,11 @@ void TicketValidationService::updateInternalVariables(QVector<Connection> connec
     
     
     
-    
-    if (mVersion=="2.2CZ1.0")
+    if(mVersion=="1.0")
+    {
+
+    }
+    else if (mVersion=="2.2CZ1.0")
     {
         qDebug()<<"VERISON 2.2CZ1.0 IS DEPRACATED";
         /*
@@ -33,9 +36,18 @@ void TicketValidationService::updateInternalVariables(QVector<Connection> connec
         bodyRazziaResponse=xmlGenerator2_2CZ1_0.TicketValidationService_GetRazziaResponse2_2CZ1_0(xmlDocument,vehicleState);
 */
     }
+    else if(mVersion=="2.3")
+    {
+
+    }
+    else if(mVersion=="2.3CZ1.0")
+    {
+
+    }
+
     else
     {
-        //other versions
+        qDebug()<<"unsupported version!";
     }
 
 

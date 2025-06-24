@@ -603,10 +603,10 @@ Vdv301StopPoint XmlCommon2_3_new::StopPoint2_3new( QVector<StopPointDestination>
     return output;
 }
 
-QDomElement XmlCommon2_3_new::StopPoint2_3gen(QDomDocument &xmlDocument, Vdv301StopPoint vdv301StopPoint)
+QDomElement XmlCommon2_3_new::StopPoint2_3gen(QDomDocument &xmlDocument, Vdv301StopPoint vdv301StopPoint, QString elementName)
 {
     qDebug()<<Q_FUNC_INFO;
-    QDomElement dStopPoint=xmlDocument.createElement("StopPoint");
+    QDomElement dStopPoint=xmlDocument.createElement(elementName);
 
     // StopIndex
     dStopPoint.appendChild(Value(xmlDocument,"StopIndex",QString::number(vdv301StopPoint.stopIndex)));

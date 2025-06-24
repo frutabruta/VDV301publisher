@@ -23,7 +23,7 @@ public:
     QVector<Vdv301StopPoint> StopSequence2_3new(QVector<StopPointDestination> stopPointDestinationList, QString language, int currentStopIndex, QVector<Vdv301Connection> connectionList);
     QDomElement StopSequence2_3gen(QDomDocument &xmlDocument, QVector<Vdv301StopPoint> stopPointDestinationList);
     Vdv301StopPoint StopPoint2_3new(QVector<StopPointDestination> stopPointDestinationList, int stopPointIterator, QVector<Vdv301Connection> connectionList, QString language, int currentStopIndex);
-    QDomElement StopPoint2_3gen(QDomDocument &xmlDocument, Vdv301StopPoint vdv301StopPoint);
+    QDomElement StopPoint2_3gen(QDomDocument &xmlDocument, Vdv301StopPoint vdv301StopPoint, QString elementName="StopPoint");
     Vdv301ViaPoint stopPointDestinationToVdv301ViaPoint(StopPoint stopPoint, QString &language);
     Vdv301Connection connectionToVdv301Connection(Connection connection, DisplayContentClass displayClass); //unused
     QString stopPropertiesToString2_3(StopPoint stopPoint);

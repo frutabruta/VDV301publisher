@@ -8,6 +8,15 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20250623_1921
+    - TimeService
+        - new class draft, only publishes the service, does not provide NTP server
+    - XmlCommon2_3_new::StopPoint2_3gen
+        - added element name attribute as a preparation for TicketValidationService
+    - work in progress:
+        - XmlTicketValidationService1_0_new
+        - XmlTicketValidationService2_3_new
+
 - 20250603_1901
     - VDV301DataStructures
         - stopPoint
