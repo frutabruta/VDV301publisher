@@ -8,6 +8,11 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20250828_1811
+    - ColorDisplayRules
+        - added new rules in ColorDisplayRules::fillColorMap
+        - modified order of replacement/diversion in ColorDisplayRules::lineToStyle
+        
 - 20250623_1921
     - TimeService
         - new class draft, only publishes the service, does not provide NTP server
