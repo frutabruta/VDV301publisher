@@ -2,506 +2,511 @@
 Qt library for VDV301 devices used as publisher
 
 - CustomerInformationService (1.0, 2.2CZ1.0, 2.3)
-    - GetAllData
-    - GetCurrentDisplayContent
+  - GetAllData
+  - GetCurrentDisplayContent
 - DeviceManagementService (1.0)
 
 
 ## Changelog:
+- 20250924_1900
+  - HttpService::slotDumpRequestContent
+    - added support for  replyPath including /
+    - fixed else if statement to prevent response clash
+    
 - 20250828_1811
-    - ColorDisplayRules
-        - added new rules in ColorDisplayRules::fillColorMap
-        - modified order of replacement/diversion in ColorDisplayRules::lineToStyle
-        
+  - ColorDisplayRules
+    - added new rules in ColorDisplayRules::fillColorMap
+    - modified order of replacement/diversion in ColorDisplayRules::lineToStyle
+    
 - 20250623_1921
-    - TimeService
-        - new class draft, only publishes the service, does not provide NTP server
-    - XmlCommon2_3_new::StopPoint2_3gen
-        - added element name attribute as a preparation for TicketValidationService
-    - work in progress:
-        - XmlTicketValidationService1_0_new
-        - XmlTicketValidationService2_3_new
+  - TimeService
+    - new class draft, only publishes the service, does not provide NTP server
+  - XmlCommon2_3_new::StopPoint2_3gen
+    - added element name attribute as a preparation for TicketValidationService
+  - work in progress:
+    - XmlTicketValidationService1_0_new
+    - XmlTicketValidationService2_3_new
 
 - 20250603_1901
-    - VDV301DataStructures
-        - stopPoint
-            - added S_JTSK coordinates
+  - VDV301DataStructures
+    - stopPoint
+      - added S_JTSK coordinates
 - 20250521_1654
-    - VDV301Datastructures
-        - ConnectionGolemio new variables
+  - VDV301Datastructures
+    - ConnectionGolemio new variables
 - 20250520_1625
-    - VDV301Datastructures
-        - Vdv301Connection
-            - new variables added comply with 1.0 
-    - switching to new XML generating system for version 1.0
-    - new class XmlCommon1_0_new
-    - new class XmlCustomerInformationService1_0_new
-    - CustomerInformationService 
-        - use of XmlCustomerInformationService1_0_new 
-    - XmlCommon2_3_new
-        - replaced for each loops with c++ range iterators
-        - removed dependency on XmlCommonVehicleState
-        - new function vehicleRunToRunNumber
-    - XmlCommonVehicleState
-        - replaced for each loops with c++ range iterators
-         
-    - XmlCommon2_3_new 
+  - VDV301Datastructures
+    - Vdv301Connection
+      - new variables added comply with 1.0 
+  - switching to new XML generating system for version 1.0
+  - new class XmlCommon1_0_new
+  - new class XmlCustomerInformationService1_0_new
+  - CustomerInformationService 
+    - use of XmlCustomerInformationService1_0_new 
+  - XmlCommon2_3_new
+    - replaced for each loops with c++ range iterators
+    - removed dependency on XmlCommonVehicleState
+    - new function vehicleRunToRunNumber
+  - XmlCommonVehicleState
+    - replaced for each loops with c++ range iterators
+     
+  - XmlCommon2_3_new 
 - 20250514_1700
-    - all includes of 2.2CZ1.0 versions from CIS and TicketValidationService
+  - all includes of 2.2CZ1.0 versions from CIS and TicketValidationService
 - 20250514_1632 
-    - last version supporting 2.2CZ1.0
+  - last version supporting 2.2CZ1.0
 
 - 20250405_2213
-    - dependency on XmlCommonVehicleState fixes
+  - dependency on XmlCommonVehicleState fixes
 - 20250405_2143
-    - removed dependency of XmlCommon on VehicleState variables
-    - new class XmlCommonVehicleState containing function, which are VehicleState dependent
+  - removed dependency of XmlCommon on VehicleState variables
+  - new class XmlCommonVehicleState containing function, which are VehicleState dependent
 - 20250403_2142
-    - Vdv301DataStructures
-        - added Vdv301CurrentDisplayContent
+  - Vdv301DataStructures
+    - added Vdv301CurrentDisplayContent
 - 20250403_2119
-    - XmlCustomerInformationService2_3_new::CurrentDisplayContent2_3gen
-        - CurrentDisplayContent element name fix
+  - XmlCustomerInformationService2_3_new::CurrentDisplayContent2_3gen
+    - CurrentDisplayContent element name fix
 - 20250315_1940
-    - 2.3CZ1.0 farezone change as an additionalTextMessage
+  - 2.3CZ1.0 farezone change as an additionalTextMessage
 - 20250312_2247
-    - removed old XmlCommon2_3, all code migrated to XmlCommon2_3_new
+  - removed old XmlCommon2_3, all code migrated to XmlCommon2_3_new
 - 20250312_2219
-    - removed old XmlCustomerInformationService2_3, all code migrated to XmlCustomerInformationService2_3_new
+  - removed old XmlCustomerInformationService2_3, all code migrated to XmlCustomerInformationService2_3_new
 
 - 20250312_1856
-    - XmlCommon2_3::stopPropertiesToString2_3
-        - added neozn="true" implemenentation
-    - XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0new
-        - formatted fare zone change text
+  - XmlCommon2_3::stopPropertiesToString2_3
+    - added neozn="true" implemenentation
+  - XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0new
+    - formatted fare zone change text
 
-    - VDV301DataStructures    
-        - stoppoint
-            - all bool values default to false
-            - isViapoint changed data type to bool
-            - added neozn and zast sttributes
+  - VDV301DataStructures  
+    - stoppoint
+      - all bool values default to false
+      - isViapoint changed data type to bool
+      - added neozn and zast sttributes
 - 20250223_1657
-    - XmlCommon2_3_new::TripInformation2_3gen
-        - additionalTextMessage1-9List
-    - XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0gen
-        - additionalTextMessage1-9List including fareZoneChange
+  - XmlCommon2_3_new::TripInformation2_3gen
+    - additionalTextMessage1-9List
+  - XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0gen
+    - additionalTextMessage1-9List including fareZoneChange
 
 - 20250124_1437
-    - Vdv301DataStructures
-        - AdditionalAnnouncement variable names spelling fix
+  - Vdv301DataStructures
+    - AdditionalAnnouncement variable names spelling fix
 - 20250123_1345
-    - Vdv301DataStructures
-        - added Vdv301AdditionalAnnouncement
-    - new function XmlCommon2_3CZ1_0::AddtitionalAnnoucement2_3CZ1_0gen
-        - AdditionalAnnouncement added to tripInformation
+  - Vdv301DataStructures
+    - added Vdv301AdditionalAnnouncement
+  - new function XmlCommon2_3CZ1_0::AddtitionalAnnoucement2_3CZ1_0gen
+    - AdditionalAnnouncement added to tripInformation
 - 20250114_1851
-    - XmlCommon2_3::stopPropertiesToString2_3
-        - fix icons order
-    - XmlCommon2_3CZ1_0::FareZoneInformationStructure2_3CZ1_0new
-        - remove colon from fareZone name
+  - XmlCommon2_3::stopPropertiesToString2_3
+    - fix icons order
+  - XmlCommon2_3CZ1_0::FareZoneInformationStructure2_3CZ1_0new
+    - remove colon from fareZone name
 - 20250110_1517
-    - XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new
-        - fix index issue - Connection inserting to correct StopPoint 
+  - XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new
+    - fix index issue - Connection inserting to correct StopPoint 
 - 20241213_0100
-    - XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0new
-        - added fareZoneChange out of range check
+  - XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0new
+    - added fareZoneChange out of range check
 - 20241206_1818
-    - Vdv301DataStructures
-        - fixed all occurancies of DisplayContentInner to DisplayContentInterior
-    - XmlCommon2_3_new 
-        - - fixed all occurancies of DisplayContentInner to DisplayContentInterior
+  - Vdv301DataStructures
+    - fixed all occurancies of DisplayContentInner to DisplayContentInterior
+  - XmlCommon2_3_new 
+    - - fixed all occurancies of DisplayContentInner to DisplayContentInterior
 
 - 20241206_0023
-    - XmlCommon2_3_new
-        - changed default lcdClass to DisplayContentInner
-    - XmlCustomerInformationService2_3_new
-        - new function CurrentDisplayContentFromAllData2_3new
-        - new function CurrentDisplayContent2_3gen
-    - XmlCustomerInformationService2_3CZ1_0
-        - new function CurrentDisplayContentFromAllData2_3new
+  - XmlCommon2_3_new
+    - changed default lcdClass to DisplayContentInner
+  - XmlCustomerInformationService2_3_new
+    - new function CurrentDisplayContentFromAllData2_3new
+    - new function CurrentDisplayContent2_3gen
+  - XmlCustomerInformationService2_3CZ1_0
+    - new function CurrentDisplayContentFromAllData2_3new
 - 20241205_1450
-    - Vdv301DataStructures
-        - Vdv301Trip2_3CZ1_0
-            - added runNumber, formally changed to IBIS-IP.string (was already represented by QString)
-    - XmlCommon2_3CZ1_0
-        - new function vehicleRunToRunNumber generating rootLine_order
-    - fixes of include files in Xml Generators
+  - Vdv301DataStructures
+    - Vdv301Trip2_3CZ1_0
+      - added runNumber, formally changed to IBIS-IP.string (was already represented by QString)
+  - XmlCommon2_3CZ1_0
+    - new function vehicleRunToRunNumber generating rootLine_order
+  - fixes of include files in Xml Generators
 - 20241205
-    - Vdv301DataStructures
-        - StopPoint2_3CZ1_0
-            - added GlobalStopRef
-    - XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new
-        - generates GlobalStopRef to Xml
+  - Vdv301DataStructures
+    - StopPoint2_3CZ1_0
+      - added GlobalStopRef
+  - XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new
+    - generates GlobalStopRef to Xml
 - 20241103
-    - XmlCommon
-        - removed unused includes
-    - QtZeroConf newer version
+  - XmlCommon
+    - removed unused includes
+  - QtZeroConf newer version
 - 20241102_3
-    - XmlCommon2_3
-        - modifications to change metro into icons
-            - lineToVdv301Line2_3
-            - lineToIcon
+  - XmlCommon2_3
+    - modifications to change metro into icons
+      - lineToVdv301Line2_3
+      - lineToIcon
 - 20241102
-    - Connection line style fix
-    - CustomerInformationService
-        - deleted unused function updateInternalVariablesEmpty
-    - HttpService
-        - marked unused functions for future deletion
-    - XmlCommon
-        - marked unused functions for future deletion
-    - XmlCommon2_2CZ1_0
-        - marked unused functions for future deletion
-    - XmlCommon2_3_new
-        - new function connectionToVdv301Connection
-    - XmlCommon2_3
-        - added attribute addStyle to lineToVdv301Line2_3
-        - added function lineToVdv301Line2_3(Line &line, QString subMode, bool addStyle)
-        - marked unused functions for future deletion
-    - XmlCommon2_3CZ1_0
-        - marked unused functions for future deletion
-    - XmlCustomerInformationService2_3_new 
-        - connection conversion fix
-    - XmlCustomerInformationService2_3CZ1_0
-        - connection conversion fix
-        
+  - Connection line style fix
+  - CustomerInformationService
+    - deleted unused function updateInternalVariablesEmpty
+  - HttpService
+    - marked unused functions for future deletion
+  - XmlCommon
+    - marked unused functions for future deletion
+  - XmlCommon2_2CZ1_0
+    - marked unused functions for future deletion
+  - XmlCommon2_3_new
+    - new function connectionToVdv301Connection
+  - XmlCommon2_3
+    - added attribute addStyle to lineToVdv301Line2_3
+    - added function lineToVdv301Line2_3(Line &line, QString subMode, bool addStyle)
+    - marked unused functions for future deletion
+  - XmlCommon2_3CZ1_0
+    - marked unused functions for future deletion
+  - XmlCustomerInformationService2_3_new 
+    - connection conversion fix
+  - XmlCustomerInformationService2_3CZ1_0
+    - connection conversion fix
+    
 - 20241102
-    - VDV301structures
-        - added .ref() functions to enable changes in text generation
-    - CustomerInformationService
-        - changes to switch between old and new way of generating xml files from VDV301 structures instead of VehicleState (ASW) variables
-    - XmlCommon2_3_new
-        - functions reorder by alphabet
-        - added descriptions of elements from XSD
-        - added variable lcdClass to choose later on what DisplayContent class will be used for LCD screens
-    - XmlCommon2_3 
-        - usage of .ref functions
-    - XmlCommon2_3CZ1_0
-        - functions reorder by alphabet
-        - usage of .ref functions
-        - usage of lcdClass to choose LCD displayContent
-    - XmlCustomerInformationService2_3_new
-        - usage of lcdClass
-    - XmlCustomerInformationService2_3CZ1_0
-        - usage of lcdClass
+  - VDV301structures
+    - added .ref() functions to enable changes in text generation
+  - CustomerInformationService
+    - changes to switch between old and new way of generating xml files from VDV301 structures instead of VehicleState (ASW) variables
+  - XmlCommon2_3_new
+    - functions reorder by alphabet
+    - added descriptions of elements from XSD
+    - added variable lcdClass to choose later on what DisplayContent class will be used for LCD screens
+  - XmlCommon2_3 
+    - usage of .ref functions
+  - XmlCommon2_3CZ1_0
+    - functions reorder by alphabet
+    - usage of .ref functions
+    - usage of lcdClass to choose LCD displayContent
+  - XmlCustomerInformationService2_3_new
+    - usage of lcdClass
+  - XmlCustomerInformationService2_3CZ1_0
+    - usage of lcdClass
 - 20241030
-    - XmlCommon2_3CZ1_0
-        - refactoring, added platform generating
-            - XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new
+  - XmlCommon2_3CZ1_0
+    - refactoring, added platform generating
+      - XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new
 
 - 20241018_2
-    - Vdv301DataStructures
-        - new class Vdv301FareZoneChange2_3CZ1_0
-        - Vdv301Trip2_3CZ1_0
-        - added fareZoneChange variable
-    - XmlCommon2_3CZ1_0
-        - added generating of FareZoneChange
-        - new function fareZoneListToVdv301FareZoneList
+  - Vdv301DataStructures
+    - new class Vdv301FareZoneChange2_3CZ1_0
+    - Vdv301Trip2_3CZ1_0
+    - added fareZoneChange variable
+  - XmlCommon2_3CZ1_0
+    - added generating of FareZoneChange
+    - new function fareZoneListToVdv301FareZoneList
 - 20241018
-    - 2.3CZ1.0 FareZone changed to InternationalText
-        - CustomerInformationService
-            - using VDV301 2.3CZ1.0 derived classes
-        - XmlCommon2_3CZ1_0
-            - using VDV301 2.3CZ1.0 derived classes
-            - new function FareZoneInformationStructure2_3CZ1_0new
-        - XmlCustomerInformationService2_3CZ1_0 
-            - using VDV301 2.3CZ1.0 derived classes
-- 20241017
-    - XmlCommon split into classes
-        - XmlCommon
-        - XmlCommon2_2CZ1_0
-        - XmlCommon2_3
-        - XmlCommon2_3_new
-        - XmlCommon2_3CZ1_0
-    - XmlCustomerInformationService split into classes
-        - XmlCustomerInformationService
-        - XmlCustomerInformationService2_2CZ1_0
-        - XmlCustomerInformationService2_3
-        - XmlCustomerInformationService2_3_new
-        - XmlCustomerInformationService2_3CZ1_0
-    - XmlTicketValidationService split into classes
-        - XmlTicketValidationService
-        - XmlTicketValidationService2_2CZ1_0
-    - TicketValidationService
-        - usage of new XML classes
+  - 2.3CZ1.0 FareZone changed to InternationalText
     - CustomerInformationService
-        - usage of new XML classes
+      - using VDV301 2.3CZ1.0 derived classes
+    - XmlCommon2_3CZ1_0
+      - using VDV301 2.3CZ1.0 derived classes
+      - new function FareZoneInformationStructure2_3CZ1_0new
+    - XmlCustomerInformationService2_3CZ1_0 
+      - using VDV301 2.3CZ1.0 derived classes
+- 20241017
+  - XmlCommon split into classes
     - XmlCommon
-        - function internationalTextType renamed to internationalTextTypeToDom
-        - vehicleRunToRunNumber move to public from private
+    - XmlCommon2_2CZ1_0
+    - XmlCommon2_3
+    - XmlCommon2_3_new
+    - XmlCommon2_3CZ1_0
+  - XmlCustomerInformationService split into classes
+    - XmlCustomerInformationService
+    - XmlCustomerInformationService2_2CZ1_0
+    - XmlCustomerInformationService2_3
+    - XmlCustomerInformationService2_3_new
+    - XmlCustomerInformationService2_3CZ1_0
+  - XmlTicketValidationService split into classes
+    - XmlTicketValidationService
+    - XmlTicketValidationService2_2CZ1_0
+  - TicketValidationService
+    - usage of new XML classes
+  - CustomerInformationService
+    - usage of new XML classes
+  - XmlCommon
+    - function internationalTextType renamed to internationalTextTypeToDom
+    - vehicleRunToRunNumber move to public from private
 
 - 20241016
-    - XmlCommon
-        - XmlCommon::Connections2_3
-            - default language fix
-            - StopRef fix
-            - ConnectionRef fix
-            - LineRef fix
+  - XmlCommon
+    - XmlCommon::Connections2_3
+      - default language fix
+      - StopRef fix
+      - ConnectionRef fix
+      - LineRef fix
 
 - 20240823
-    - CustomerInformationService
-        - CustomerInformationService::updateInternalVariables
-            - fixed not generating any XML when the stoplist is empty
-            - empty triplist out of range fix
-            - empty stopPointDestination out of range fix
-        - CustomerInformationService::outOfService()
-            - change from updateInternalVariablesEmpty to updateInternalVariables
-        - CustomerInformationService::slotSendDataToSubscribers
-            - change from updateInternalVariablesEmpty to updateInternalVariables
+  - CustomerInformationService
+    - CustomerInformationService::updateInternalVariables
+      - fixed not generating any XML when the stoplist is empty
+      - empty triplist out of range fix
+      - empty stopPointDestination out of range fix
+    - CustomerInformationService::outOfService()
+      - change from updateInternalVariablesEmpty to updateInternalVariables
+    - CustomerInformationService::slotSendDataToSubscribers
+      - change from updateInternalVariablesEmpty to updateInternalVariables
 
-    - HttpService
-        - new function HttpService::isInRange
-    - TicketValidationService
-        - TicketValidationService::updateServiceContent
-            - empty triplist out of range fix
-    - XmlCommon
-        - XmlCommon::TripInformation1_0
-            - empty triplist out of range fix
-            - create two dummy stops when the triplist is empty to comply with XSD
-        - XmlCommon::TripInformation2_2CZ1_0
-            - empty triplist out of range fix
-        - new function XmlCommon::isInRange
-        - now inherits from QObject instead of QMainWindow
-        - new signal signalErrorMessage
-    - XmlCustomerInformationService
-        -  XmlCustomerInformationService::AllData1_0
-            - empty triplist out of range fix
-        - XmlCustomerInformationService::AllData2_2CZ1_0
-            - empty triplist out of range fix
+  - HttpService
+    - new function HttpService::isInRange
+  - TicketValidationService
+    - TicketValidationService::updateServiceContent
+      - empty triplist out of range fix
+  - XmlCommon
+    - XmlCommon::TripInformation1_0
+      - empty triplist out of range fix
+      - create two dummy stops when the triplist is empty to comply with XSD
+    - XmlCommon::TripInformation2_2CZ1_0
+      - empty triplist out of range fix
+    - new function XmlCommon::isInRange
+    - now inherits from QObject instead of QMainWindow
+    - new signal signalErrorMessage
+  - XmlCustomerInformationService
+    -  XmlCustomerInformationService::AllData1_0
+      - empty triplist out of range fix
+    - XmlCustomerInformationService::AllData2_2CZ1_0
+      - empty triplist out of range fix
 
 
 - 20240823_2
-    - Vdv301DataStructures
-        - new function DoorOpenStateEnumerationFromQString
+  - Vdv301DataStructures
+    - new function DoorOpenStateEnumerationFromQString
 - 20240823
-    - CustomerInformationService
-        - CustomerInformationService::updateInternalVariables
-            - added 2.3CZ1.0 option  
-        - test implementation of xmlGenerator.AllData2_3gen
-        - new variable mGlobalDisplayContentList
-        - new function CustomerInformationService::setGlobalDisplayContentList
-        - CustomerInformationService::updateInternalVariables
-            - new parameter globalDisplayContentList
-        - CustomerInformationService::updateInternalVariablesEmpty
-            - new parameter globalDisplayContentList
+  - CustomerInformationService
+    - CustomerInformationService::updateInternalVariables
+      - added 2.3CZ1.0 option  
+    - test implementation of xmlGenerator.AllData2_3gen
+    - new variable mGlobalDisplayContentList
+    - new function CustomerInformationService::setGlobalDisplayContentList
+    - CustomerInformationService::updateInternalVariables
+      - new parameter globalDisplayContentList
+    - CustomerInformationService::updateInternalVariablesEmpty
+      - new parameter globalDisplayContentList
    
-    - XmlCommon
-        - new variable defaultLanguage2_3CZ1_0
-        - XmlCommon::DisplayContentViaPointDestination2_3new
-            - displayContentRefFix       
-        - XmlCommon::DisplayContentViaPointDestination2_3
-            - empty second Destination element fixed
-        - XmlCommon::DisplayContentViaPointDestination2_3new
-            - empty displayContentRef fix
-        - XmlCommon::stopPointDestinationToVdv301ViaPoint
-            - viapoint icon fix
-        - XmlCommon::TripInformation2_3new
-            - removed unused QDomDocument
-        - XmlCommon::StopPoint2_3new
-            - FareZone fix
-         - new functions
-            - XmlCommon::Connection2_3gen
-            - XmlCommon::DisplayContentViaPointDestination2_3gen
-            - XmlCommon::FareZoneInformationStructure2_3new
-            - XmlCommon::TripInformation2_3gen
-            - XmlCommon::StopSequence2_3gen
-            - XmlCommon::StopPoint2_3gen
-            - XmlCommon::ViaPoint2_3def
-            - XmlCommon::namedElement
-    - XmlCustomerInformationService
-        - XmlCustomerInformationService::CurrentDisplayContent2_3¨
-            - all Displays now generated with DisplayContentViaPointDestination2_3
-            - XmlCustomerInformationService::AllData2_3new
-            - removed unused QDomDocument
-            - vehicleMode and vehicleSubMode moved farther in the function to ensure correct data (ddDoVehicleMode)
-        - new function XmlCustomerInformationService::AllData2_3gen
-    - VDV301DataStructures
-        - displayContentClassEnumerationToQString
+  - XmlCommon
+    - new variable defaultLanguage2_3CZ1_0
+    - XmlCommon::DisplayContentViaPointDestination2_3new
+      - displayContentRefFix     
+    - XmlCommon::DisplayContentViaPointDestination2_3
+      - empty second Destination element fixed
+    - XmlCommon::DisplayContentViaPointDestination2_3new
+      - empty displayContentRef fix
+    - XmlCommon::stopPointDestinationToVdv301ViaPoint
+      - viapoint icon fix
+    - XmlCommon::TripInformation2_3new
+      - removed unused QDomDocument
+    - XmlCommon::StopPoint2_3new
+      - FareZone fix
+     - new functions
+      - XmlCommon::Connection2_3gen
+      - XmlCommon::DisplayContentViaPointDestination2_3gen
+      - XmlCommon::FareZoneInformationStructure2_3new
+      - XmlCommon::TripInformation2_3gen
+      - XmlCommon::StopSequence2_3gen
+      - XmlCommon::StopPoint2_3gen
+      - XmlCommon::ViaPoint2_3def
+      - XmlCommon::namedElement
+  - XmlCustomerInformationService
+    - XmlCustomerInformationService::CurrentDisplayContent2_3¨
+      - all Displays now generated with DisplayContentViaPointDestination2_3
+      - XmlCustomerInformationService::AllData2_3new
+      - removed unused QDomDocument
+      - vehicleMode and vehicleSubMode moved farther in the function to ensure correct data (ddDoVehicleMode)
+    - new function XmlCustomerInformationService::AllData2_3gen
+  - VDV301DataStructures
+    - displayContentClassEnumerationToQString
   
 - 20240702
-    - CustomerInformationService::updateInternalVariables
-        - usage of xmlGenerator.AllData2_3new
-    
-    - XmlCommon::DisplayContentViaPointDestination2_3new
-        - QDomDocument removed from function parameters
-        - added RunNumber
-    - XmlCommon::TripInformation2_3new
-    - new function XmlCommon::vehicleRunToRunNumber
-    - XmlCommon::StopSequence2_3new
-        - QDomDocument removed from function parameters
-        - removed ExpectedDepartureTime
-        - changed ScheduledDepartureTime to DepartureScheduled
-        - added ArrivalScheduled
-    - XmlCommon::StopPoint2_3new
-        - QDomDocument removed from function parameters
-        - adding connections to current stop only
-    - XmlCustomerInformationService::AllData2_3new
-        - fix of  allData.tripInformationList
+  - CustomerInformationService::updateInternalVariables
+    - usage of xmlGenerator.AllData2_3new
+  
+  - XmlCommon::DisplayContentViaPointDestination2_3new
+    - QDomDocument removed from function parameters
+    - added RunNumber
+  - XmlCommon::TripInformation2_3new
+  - new function XmlCommon::vehicleRunToRunNumber
+  - XmlCommon::StopSequence2_3new
+    - QDomDocument removed from function parameters
+    - removed ExpectedDepartureTime
+    - changed ScheduledDepartureTime to DepartureScheduled
+    - added ArrivalScheduled
+  - XmlCommon::StopPoint2_3new
+    - QDomDocument removed from function parameters
+    - adding connections to current stop only
+  - XmlCustomerInformationService::AllData2_3new
+    - fix of  allData.tripInformationList
 
 - 20240620
-    - VDV301DataStructures
-        - VehicleState::doorState changed to Vdv301Enumerations
-    - XmlCustomerInformationService
-        - applied changes ov doorState data type
-        - XmlCustomerInformationService::AllData2_3new
-            - removed remnats of QDomElements    
-            - changed result data type to Vdv301AllData
-        
+  - VDV301DataStructures
+    - VehicleState::doorState changed to Vdv301Enumerations
+  - XmlCustomerInformationService
+    - applied changes ov doorState data type
+    - XmlCustomerInformationService::AllData2_3new
+      - removed remnats of QDomElements  
+      - changed result data type to Vdv301AllData
+    
 
 
 - 20240619_2
-    - RouteDeviationEnumeration
-    - XmlCustomerInformationService::AllData2_3new
-        - removed unnecessary DOM elements
+  - RouteDeviationEnumeration
+  - XmlCustomerInformationService::AllData2_3new
+    - removed unnecessary DOM elements
 - 20240619
-    - VDV301DataStructures
-        - vehicleState.locationState changed to VDV301LocationStateEnumeration
-    - XmlCommon
-        - changes to comply with the data tye change above
-    - XmlCustomerInformationService
-        - XmlCustomerInformationService::AllData2_3new
-            - few changes to create Vdv301AllData allData
+  - VDV301DataStructures
+    - vehicleState.locationState changed to VDV301LocationStateEnumeration
+  - XmlCommon
+    - changes to comply with the data tye change above
+  - XmlCustomerInformationService
+    - XmlCustomerInformationService::AllData2_3new
+      - few changes to create Vdv301AllData allData
 - 20240618
-    - new approcah to XML generating from VDV301structures
-    - VDV301DataStructures
-        - dev branch
-        - new class Vdv301AllData
-        - new class Vdv301VehicleInformationGroup
-        - new class Vdv301Connection
-        - new class Vdv301Enumerations
-    - XmlCommon
-        - XmlCommon::DisplayContentViaPointDestination2_3
-            - removed ViaPoint element generation
-        - new function XmlCommon::DisplayContentViaPointDestination2_3new
-        - new function XmlCommon::lineToVdv301Line2_3
-        - new function XmlCommon::stopPointDestinationToVdv301ViaPoint
-        - new function XmlCommon::TripInformation2_3new
-        - new function XmlCommon::StopSequence2_3new
-        - new function XmlCommon::StopPoint2_3new
+  - new approcah to XML generating from VDV301structures
+  - VDV301DataStructures
+    - dev branch
+    - new class Vdv301AllData
+    - new class Vdv301VehicleInformationGroup
+    - new class Vdv301Connection
+    - new class Vdv301Enumerations
+  - XmlCommon
+    - XmlCommon::DisplayContentViaPointDestination2_3
+      - removed ViaPoint element generation
+    - new function XmlCommon::DisplayContentViaPointDestination2_3new
+    - new function XmlCommon::lineToVdv301Line2_3
+    - new function XmlCommon::stopPointDestinationToVdv301ViaPoint
+    - new function XmlCommon::TripInformation2_3new
+    - new function XmlCommon::StopSequence2_3new
+    - new function XmlCommon::StopPoint2_3new
 
-        - XmlCommon::StopPoint2_3
-            - simplified using DisplayContentViaPointDestination2_3
-    - XmlCustomerInformationService
-        - new functionXmlCustomerInformationService::AllData2_3new
+    - XmlCommon::StopPoint2_3
+      - simplified using DisplayContentViaPointDestination2_3
+  - XmlCustomerInformationService
+    - new functionXmlCustomerInformationService::AllData2_3new
 
 - 20240617
-    - VDV301DataStructures
-        - added ArrivalTime to StopPoint
-    - XmlCommon
-        - removed FareZoneChange from XmlCommon::TripInformation2_3 to comply with VDV.de XSD files
-        - foreach changed to for in XmlCommon::DisplayContentViaPointDestination2_3 (caused crash for unknown reason)
+  - VDV301DataStructures
+    - added ArrivalTime to StopPoint
+  - XmlCommon
+    - removed FareZoneChange from XmlCommon::TripInformation2_3 to comply with VDV.de XSD files
+    - foreach changed to for in XmlCommon::DisplayContentViaPointDestination2_3 (caused crash for unknown reason)
 - 20240607
-    - included VDV301DataStructures as a submodule
-    - added examples folder
-        - Vdv301PublisherMinimalExample with CustomerInformationService 2.2CZ1.0
-            - pregenerated XML content
-        - Vdv301PublisherCisExample with CustomerInformationService 2.2CZ1.0
-            - generating of data using VDV301Structures
-    - new functions
-        - HttpService::retrieveStructureContentMapValue
-        - HttpService::updateStructureMap
-        - HttpService::postToAllSubscribers
+  - included VDV301DataStructures as a submodule
+  - added examples folder
+    - Vdv301PublisherMinimalExample with CustomerInformationService 2.2CZ1.0
+      - pregenerated XML content
+    - Vdv301PublisherCisExample with CustomerInformationService 2.2CZ1.0
+      - generating of data using VDV301Structures
+  - new functions
+    - HttpService::retrieveStructureContentMapValue
+    - HttpService::updateStructureMap
+    - HttpService::postToAllSubscribers
 
 - 20240514
-    - added conditions to succesfully compile with 5.15 (functionality with 5.15 not tested!)
+  - added conditions to succesfully compile with 5.15 (functionality with 5.15 not tested!)
 - 20240506
-    - fix of escaping < in international text type by CDATA section (used for icon and color tags)
-        - new functions
-            - XmlCommon::createEscapedValueCdata
-            - XmlCommon::qStringXmlEscape
-            - XmlCommon::qDomDocumentToQString
+  - fix of escaping < in international text type by CDATA section (used for icon and color tags)
+    - new functions
+      - XmlCommon::createEscapedValueCdata
+      - XmlCommon::qStringXmlEscape
+      - XmlCommon::qDomDocumentToQString
 - 20240422
-    - globalVersion changed to private (mVersion), added getter and setter
+  - globalVersion changed to private (mVersion), added getter and setter
 - 20240208
-    - 2.3
-        - CurrentDisplayContent fix
+  - 2.3
+    - CurrentDisplayContent fix
 - 20240203
-    - 2.3 out of service Xml generator fix
+  - 2.3 out of service Xml generator fix
 - 20240131
-    - XmlCommon 
-        - XmlCommon::DisplayContent2_3
-            - two row destination fix
-        - XmlCommon::DisplayContentViaPointDestination2_3
-            - new function to accomodate storing viaPoints as second row of destination, cycling through different DisplayContents 
-        - XmlCommon::StopPoint2_3
-            - modified to accomodate storing viaPoints as second row of destination, cycling through different DisplayContents 
-        - XmlCommon::StopPoint2_2CZ1_0
-            - expected departure added
-            - scheduled departure added (now same value is stored in both)
-        
+  - XmlCommon 
+    - XmlCommon::DisplayContent2_3
+      - two row destination fix
+    - XmlCommon::DisplayContentViaPointDestination2_3
+      - new function to accomodate storing viaPoints as second row of destination, cycling through different DisplayContents 
+    - XmlCommon::StopPoint2_3
+      - modified to accomodate storing viaPoints as second row of destination, cycling through different DisplayContents 
+    - XmlCommon::StopPoint2_2CZ1_0
+      - expected departure added
+      - scheduled departure added (now same value is stored in both)
+    
 - 20240117
-    - DeviceManagementService
-        - device status support
-            - status can be changed externally
+  - DeviceManagementService
+    - device status support
+      - status can be changed externally
 - 20240104
-    - application of functions
-        - HttpServerPublisher::createSubscribeResponse
-        - HttpServerPublisher::createUnsubscribeResponse
-    - HttpServerPublisher
-        - Active=false if unsubscription is successful 
-        - changed response header from UTF-16 to UTF-8
+  - application of functions
+    - HttpServerPublisher::createSubscribeResponse
+    - HttpServerPublisher::createUnsubscribeResponse
+  - HttpServerPublisher
+    - Active=false if unsubscription is successful 
+    - changed response header from UTF-16 to UTF-8
 
 
 - 20231214
-    - HttpServerPublisher
-        - HttpServerPublisher::route
-            - now reacts to Unsubscribe requests
-        - HttpService
-            - HttpService::slotDumpRequestContent
-            - new overloaded function HttpService::removeSubscriber(Subscriber selectedSubscriber)
-        - Subscriber
-            - added == operator
-        - XmlCommon
-            - fixed two row destination generator for front display 
-    
+  - HttpServerPublisher
+    - HttpServerPublisher::route
+      - now reacts to Unsubscribe requests
+    - HttpService
+      - HttpService::slotDumpRequestContent
+      - new overloaded function HttpService::removeSubscriber(Subscriber selectedSubscriber)
+    - Subscriber
+      - added == operator
+    - XmlCommon
+      - fixed two row destination generator for front display 
+  
 
 - 20231108
-    - all functions in version 2.4 have been renamed to 2.4, because they were made to comply with 2.3 version XSDs and 2.4 specification is not finished yet
-    - 2.3
-        - AdditionalTextMessageFix
+  - all functions in version 2.4 have been renamed to 2.4, because they were made to comply with 2.3 version XSDs and 2.4 specification is not finished yet
+  - 2.3
+    - AdditionalTextMessageFix
 
 - 20231103
-    - XmlCommon::AdditionalTextMessage1_0
-        - display of AdditionalAnouncements (scrolling/not scrolling)
-    - XmlCommon::Connections1_0
-        - fix of bus pictogram
-    - XmlCommon::DisplayContent1_0
-        - fix of Destination name for LCD
-    - XmlCommon::FareZone2_3
-        - new function
-    - XmlCommon::FareZoneInformationStructure2_3
-        - new function
+  - XmlCommon::AdditionalTextMessage1_0
+    - display of AdditionalAnouncements (scrolling/not scrolling)
+  - XmlCommon::Connections1_0
+    - fix of bus pictogram
+  - XmlCommon::DisplayContent1_0
+    - fix of Destination name for LCD
+  - XmlCommon::FareZone2_3
+    - new function
+  - XmlCommon::FareZoneInformationStructure2_3
+    - new function
 - 20231102
-    - VDV301 1.0 Connections fix
-    - VDV301 2.4 added required tags to comply with official XSD files for VDV301 2.3
+  - VDV301 1.0 Connections fix
+  - VDV301 2.4 added required tags to comply with official XSD files for VDV301 2.3
 - 20231030
-    - fix of generating Xml responses (change of passing xmlDocument by reference)
-    
+  - fix of generating Xml responses (change of passing xmlDocument by reference)
+  
 - 20231006
-    - complete translation of sourcecode to English
-    - passing XmlDocument as parameter
-    - generation of processingInformation by separate function
+  - complete translation of sourcecode to English
+  - passing XmlDocument as parameter
+  - generation of processingInformation by separate function
 
 - 20230907
-    - ColorDisplayRules
-        - fix of unknown submode colors
-        - new function linkaDoStylu(Linka linka, QString subMode)
-    - XmlCommon 
-        - metroSubmode icon replacement
+  - ColorDisplayRules
+    - fix of unknown submode colors
+    - new function linkaDoStylu(Linka linka, QString subMode)
+  - XmlCommon 
+    - metroSubmode icon replacement
 
 - 20230831
-    - 2.4
-        - inline color formatting (new class ColorDisplayRules)
-        - removal of line property
+  - 2.4
+    - inline color formatting (new class ColorDisplayRules)
+    - removal of line property
 
 - 20230622
-    - 2.4
-        - DisplayContent
+  - 2.4
+    - DisplayContent
 - 20230607
-    - nová verze QtZeroConf
-    - příprava pro verzi 2.4
-    - příprava pro start v 
-    - HttpSluzba
-        - nový slot HttpSluzba::slotSluzbaPublikovana
-        - nový signál signalSluzbaPublikovana(QString nazevSluzby)
+  - nová verze QtZeroConf
+  - příprava pro verzi 2.4
+  - příprava pro start v 
+  - HttpSluzba
+    - nový slot HttpSluzba::slotSluzbaPublikovana
+    - nový signál signalSluzbaPublikovana(QString nazevSluzby)
 
 

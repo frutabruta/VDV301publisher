@@ -211,6 +211,11 @@ void HttpService::slotDumpRequestContent(QByteArray request,QString structureNam
         QString address=subscribeRequest.firstChildElement("Client-IP-Address").firstChildElement().text() ;
         QString port=subscribeRequest.elementsByTagName("ReplyPort").at(0).toElement().firstChildElement().text() ;
         QString path=subscribeRequest.firstChildElement("ReplyPath").toElement().firstChildElement("Value").firstChild().nodeValue();
+
+            if(path.startsWith("/"))
+            {
+            path.removeFirst();
+            }
         QString fullAddress="http://"+address+":"+port+"/"+path;
 
         if(address.contains("%")) //IP v fixM  ?
@@ -227,7 +232,7 @@ void HttpService::slotDumpRequestContent(QByteArray request,QString structureNam
         candidateToSubscribe.structure=structureName;
         handleNewSubscriber(candidateToSubscribe);
     }
-    if(firstTag=="UnsubscribeRequest")
+    else if(firstTag=="UnsubscribeRequest")
     {
         QDomElement subscribeRequest=xmlRequest.firstChildElement("UnsubscribeRequest");
 
@@ -273,6 +278,8 @@ void HttpService::slotDumpRequestContent(QByteArray request,QString structureNam
     else
     {
         qDebug()<<"unknown request";
+        qDebug()<<"first tag content: "<<firstTag;
+
     }
 
 
