@@ -8,6 +8,11 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20250925_1824
+  - ColorDisplayRules::fillColorMap()
+    - fixed regionalBus color
+    - added railReplacementBusReplacementDiversion
+    
 - 20250924_1900
   - HttpService::slotDumpRequestContent
     - added support for  replyPath including /

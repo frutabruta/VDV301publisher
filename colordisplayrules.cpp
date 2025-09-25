@@ -31,11 +31,11 @@ void ColorDisplayRules::fillColorMap()
 
 
     //dd4 Denní příměstská nebo regionální linka (day regional bus)
-    colorsText["regionalBus"]=color_black_0_0_0;
+    colorsText["regionalBus"]=color_BackgroundA_25_25_25;
     colorsBackground["regionalBus"]=color_white_255_255_255;
 
 
-    colorsText["regionalBusDiversion"]=color_black_0_0_0;
+    colorsText["regionalBusDiversion"]=color_BackgroundA_25_25_25;
     colorsBackground["regionalBusDiversion"]=color_Vyluky_255_170_30;
 
     //dd5 Noční městská autobusová linka (night city bus)
@@ -116,6 +116,10 @@ void ColorDisplayRules::fillColorMap()
 */
     colorsText["railReplacementBusDiversion"]=color_Vyluky_255_170_30;
     colorsBackground["railReplacementBusDiversion"]=color_white_255_255_255;
+
+
+    colorsText["railReplacementBusReplacementDiversion"]=color_Vyluky_255_170_30;
+    colorsBackground["railReplacementBusReplacementDiversion"]=color_white_255_255_255;
 
 
     //dd15 Linka náhradní dopravy, Tram
