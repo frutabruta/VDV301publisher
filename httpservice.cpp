@@ -19,7 +19,7 @@ HttpService::HttpService(QString serviceName,QString serviceType, int portNumber
     mVersion=version;
 
     //qDebug()<<"xxx"<<
-    connect(&httpServerPublisher ,&HttpServerPublisher::signalServerRuns ,this,&HttpService::slotServerReady, Qt::QueuedConnection);
+    connect(&httpServerPublisher ,&HttpServerPublisher::signalServerRuns ,this,&HttpService::slotServerReady, Qt::QueuedConnection); //might cause server startup issues
 
     connect(&httpServerPublisher ,&HttpServerPublisher::signalContentChanged,this,&HttpService::slotDumpRequestContent);
 
@@ -125,13 +125,19 @@ void HttpService::bonjourStartPublish(QString serviceName, QString serviceType,i
 {
     qDebug() <<  Q_FUNC_INFO<<" "<<serviceName<<" "<<version<<" "<<serviceType<<" "<<port;
 
+    if(!blockBonjour)
+    {
+        qZeroConf.clearServiceTxtRecords();
+        qZeroConf.addServiceTxtRecord("ver", version);
+        qDebug()<<"Txt record added";
 
-    qZeroConf.clearServiceTxtRecords();
-    qZeroConf.addServiceTxtRecord("ver", version);
-    qDebug()<<"Txt record added";
-
-    qZeroConf.startServicePublish(serviceName.toUtf8(), serviceType.toUtf8(), "local", port,0);
-    //  void QZeroConf::startServicePublish(const char *name, const char *type, const char *domain, quint16 port, quint32 interface)
+        qZeroConf.startServicePublish(serviceName.toUtf8(), serviceType.toUtf8(), "local", port,0);
+        //  void QZeroConf::startServicePublish(const char *name, const char *type, const char *domain, quint16 port, quint32 interface)
+    }
+    else
+    {
+        qDebug()<<"bonjour blocked";
+    }
 
 
 
@@ -463,7 +469,15 @@ void HttpService::setVersion(const QString &newVersion)
 void HttpService::stopBonjourService()
 {
     qDebug() <<  Q_FUNC_INFO<<mServiceName<<" "<<mVersion<<" "<<mPortNumber;
-    zeroConf.stopServicePublish();
+    if(!blockBonjour)
+    {
+        zeroConf.stopServicePublish();
+    }
+    else
+    {
+        qDebug()<<"bonjour blocked";
+    }
+
 
 }
 

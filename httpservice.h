@@ -27,6 +27,9 @@ public:
 
     QString mServiceName="";
 
+    //settings
+    bool blockBonjour=false;
+
     //functions
     void postToSubscriber(QUrl subscriberAddress, QString contentToPost);
     int setBodyContent(QString key, QString content);

@@ -1,6 +1,7 @@
 #include "customerinformationservice.h"
 #include "httpservice.h"
 
+Q_LOGGING_CATEGORY(customerInformationServiceLog, "CustomerInformationService")
 
 /*!
  * \brief CustomerInformationService::CustomerInformationService
@@ -11,8 +12,9 @@
  */
 CustomerInformationService::CustomerInformationService(QString serviceName, QString serviceType, int portNumber,QString version):HttpService( serviceName,serviceType, portNumber,version)
 {
-    qDebug() <<  Q_FUNC_INFO<<" "<<serviceName<<" "<<version;
+    qCDebug(customerInformationServiceLog) <<  Q_FUNC_INFO<<" "<<serviceName<<" "<<version;
     connect(&timer, &QTimer::timeout, this, &CustomerInformationService::slotSendDataToSubscribers);
+
 
     //filling of empty data structures
 
@@ -32,15 +34,15 @@ CustomerInformationService::CustomerInformationService(QString serviceName, QStr
  */
 void CustomerInformationService::updateInternalVariables(QVector<Connection> connectionList, VehicleState &vehicleState, QVector<Trip>  tripList, QVector<Vdv301DisplayContent> globalDisplayContentList ) //novy
 {
-    qDebug() <<  Q_FUNC_INFO<<" "<<mServiceName<<" "<<mVersion;
-    qDebug()<<"velikost seznamTripu"<<tripList.size()<<" index"<<vehicleState.currentTripIndex;
+    qCDebug(customerInformationServiceLog) <<  Q_FUNC_INFO<<" "<<mServiceName<<" "<<mVersion;
+    qCDebug(customerInformationServiceLog)<<"velikost seznamTripu"<<tripList.size()<<" index"<<vehicleState.currentTripIndex;
 
     QVector<StopPointDestination>  stopPointDestinationList;
 
 
     if (tripList.isEmpty())
     {
-        qDebug()<<"current triplist is empty";
+        qCDebug(customerInformationServiceLog)<<"current triplist is empty";
 
     }
     else
@@ -65,7 +67,7 @@ void CustomerInformationService::updateInternalVariables(QVector<Connection> con
     
     if (mVersion=="2.2CZ1.0")
     {
-        qDebug()<<"VERSION 2.2CZ1.0 IS DEPRECATED";
+        qCDebug(customerInformationServiceLog)<<"VERSION 2.2CZ1.0 IS DEPRECATED";
     }
     else if (mVersion=="2.3")
     {
@@ -150,7 +152,7 @@ void CustomerInformationService::updateInternalVariables(QVector<Connection> con
  */
 void CustomerInformationService::updateServiceContent(QVector<Connection> connectionList, VehicleState &vehicleState ) //novy
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(customerInformationServiceLog) <<  Q_FUNC_INFO;
     mConnectionList=connectionList;
     mVehicleState=vehicleState;
     mTripList=vehicleState.currentVehicleRun.tripList;
@@ -161,7 +163,7 @@ void CustomerInformationService::updateServiceContent(QVector<Connection> connec
 
 void CustomerInformationService::outOfService()
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(customerInformationServiceLog) <<  Q_FUNC_INFO;
     // updateInternalVariablesEmpty(mVehicleState,mTripList,mGlobalDisplayContentList);
     updateInternalVariables(mConnectionList,mVehicleState,mTripList,mGlobalDisplayContentList);
 }
@@ -178,7 +180,7 @@ void CustomerInformationService::setGlobalDisplayContentList(const QVector<Vdv30
 
 void CustomerInformationService::slotSendDataToSubscribers()
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(customerInformationServiceLog) <<  Q_FUNC_INFO;
     updateInternalVariables(mConnectionList,mVehicleState,mTripList,mGlobalDisplayContentList );
     /*
     if (mTripList.isEmpty())

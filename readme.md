@@ -8,6 +8,14 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20251021_0115
+  - CustomerInformationService
+    - implemented qCDebug
+  - HttpService
+    - added block bonjour functionality
+  - VDV301Datastructures update
+    - StopPoint polygon etc.
+
 - 20250925_1824
   - ColorDisplayRules::fillColorMap()
     - fixed regionalBus color
