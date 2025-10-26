@@ -27,7 +27,7 @@ HttpService::HttpService(QString serviceName,QString serviceType, int portNumber
 
     connect(&zeroConf,&QZeroConf::servicePublished,this,&HttpService::slotServicePublished);
 
-    connect(qNetworkAccessManager,&QNetworkAccessManager::finished,this,&HttpService::slotReplyToPostReceived);
+    connect(&qNetworkAccessManager,&QNetworkAccessManager::finished,this,&HttpService::slotReplyToPostReceived);
 
 
 
@@ -314,7 +314,7 @@ void HttpService::postToSubscriber(QUrl subscriberAddress, QString contentToPost
     //pozadavekPOST.setRawHeader("Accept-Encoding", "gzip, deflate");
 
     QByteArray contentToPostQByteArray=contentToPost.toUtf8() ;
-    qNetworkAccessManager->post(requestToPost,contentToPostQByteArray);
+    qNetworkAccessManager.post(requestToPost,contentToPostQByteArray);
 
 }
 

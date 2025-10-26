@@ -64,7 +64,8 @@ private:
     //instance knihoven
     QZeroConf zeroConf;
     HttpServerPublisher httpServerPublisher ;
-    QNetworkAccessManager *qNetworkAccessManager = new QNetworkAccessManager();
+    //QNetworkAccessManager *qNetworkAccessManager = new QNetworkAccessManager();
+    QNetworkAccessManager qNetworkAccessManager;
 
     //promenne
     int mPortNumber=0;

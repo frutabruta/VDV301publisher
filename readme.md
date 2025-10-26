@@ -8,6 +8,9 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20251027_0040
+  - qNetworkAccessManager not a pointer anymore
+  
 - 20251021_0115
   - CustomerInformationService
     - implemented qCDebug
