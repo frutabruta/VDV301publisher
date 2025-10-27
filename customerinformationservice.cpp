@@ -10,7 +10,7 @@ Q_LOGGING_CATEGORY(customerInformationServiceLog, "CustomerInformationService")
  * \param cisloPortu
  * \param verze
  */
-CustomerInformationService::CustomerInformationService(QString serviceName, QString serviceType, int portNumber,QString version):HttpService( serviceName,serviceType, portNumber,version)
+CustomerInformationService::CustomerInformationService(QString serviceName, QString serviceType, int portNumber,QString version, QString serviceNamePostFix):HttpService( serviceName,serviceType, portNumber,version, serviceNamePostFix)
 {
     qCDebug(customerInformationServiceLog) <<  Q_FUNC_INFO<<" "<<serviceName<<" "<<version;
     connect(&timer, &QTimer::timeout, this, &CustomerInformationService::slotSendDataToSubscribers);

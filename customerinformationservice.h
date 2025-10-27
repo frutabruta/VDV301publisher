@@ -11,7 +11,7 @@ class CustomerInformationService : public HttpService
 {
 public:
     //constructor
-    explicit CustomerInformationService(QString serviceName, QString serviceType, int portNumber, QString version);
+    explicit CustomerInformationService(QString serviceName, QString serviceType, int portNumber, QString version, QString serviceNamePostFix="");
 
     //functions
     void updateServiceContent(QVector<Connection> connectionList, VehicleState &vehicleState);

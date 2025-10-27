@@ -1,7 +1,7 @@
 #include "devicemanagementservice.h"
 
 
-DeviceManagementService::DeviceManagementService(QString serviceName, QString serviceType, int portNumber,QString version):HttpService( serviceName,serviceType, portNumber,version)
+DeviceManagementService::DeviceManagementService(QString serviceName, QString serviceType, int portNumber,QString version, QString serviceNamePostfix):HttpService( serviceName,serviceType, portNumber,version, serviceNamePostfix)
 {
     qDebug()<<Q_FUNC_INFO;
     // connect(timer, &QTimer::timeout, this, &CustomerInformationService::slotTedOdesliNaPanely);

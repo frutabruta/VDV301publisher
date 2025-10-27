@@ -10,13 +10,14 @@
  * \param cisloPortu
  * \param verze
  */
-HttpService::HttpService(QString serviceName,QString serviceType, int portNumber,QString version):httpServerPublisher (portNumber,serviceName)
+HttpService::HttpService(QString serviceName,QString serviceType, int portNumber,QString version,QString serviceNamePostfix):httpServerPublisher (portNumber,serviceName)
 {
     qDebug() <<  Q_FUNC_INFO <<" "<< serviceName <<" "<<QString::number(portNumber);
     mPortNumber=portNumber;
     mServiceName=serviceName;
     mServiceType=serviceType;
     mVersion=version;
+    mServiceNamePostFix=serviceNamePostfix;
 
     //qDebug()<<"xxx"<<
     connect(&httpServerPublisher ,&HttpServerPublisher::signalServerRuns ,this,&HttpService::slotServerReady, Qt::QueuedConnection); //might cause server startup issues
@@ -109,7 +110,7 @@ void HttpService::bonjourStartAll()
 {
     qDebug() <<  Q_FUNC_INFO;
     //zeroConf.clearServiceTxtRecords();
-    this->bonjourStartPublish(this->mServiceName,this->mServiceType,this->mPortNumber,this->mVersion ,zeroConf);
+    this->bonjourStartPublish(this->mServiceName+this->mServiceNamePostFix,this->mServiceType,this->mPortNumber,this->mVersion ,zeroConf);
 }
 
 

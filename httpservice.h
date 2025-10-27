@@ -20,12 +20,13 @@ class HttpService: public QObject
 {
     Q_OBJECT
 public:
-    HttpService(QString serviceName,QString serviceType, int portNumber,QString version);
+    HttpService(QString serviceName, QString serviceType, int portNumber, QString version, QString serviceNamePostfix="");
 
     //structures
     QVector<Subscriber> subscriberList;
 
     QString mServiceName="";
+    QString mServiceNamePostFix="";
 
     //settings
     bool blockBonjour=false;

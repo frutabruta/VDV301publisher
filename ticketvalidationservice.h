@@ -12,7 +12,7 @@ class TicketValidationService : public HttpService
 public:
     //konstruktor
     TicketValidationService();
-    explicit TicketValidationService(QString serviceName, QString serviceType, int portNumber, QString version);
+    explicit TicketValidationService(QString serviceName, QString serviceType, int portNumber, QString version, QString serviceNamePostfix="");
 
 
     //instance knihoven

@@ -8,6 +8,13 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20251027_1950
+  - added serviceNamePostfix parameter
+    - HttpService
+    - CustomerInformationService
+    - DeviceManagementService
+    - TicketValidationService
+    
 - 20251027_0040
   - qNetworkAccessManager not a pointer anymore
   

@@ -2,7 +2,7 @@
 
 
 
-TicketValidationService::TicketValidationService(QString serviceName, QString serviceType, int portNumber,QString version):HttpService( serviceName,serviceType, portNumber,version)
+TicketValidationService::TicketValidationService(QString serviceName, QString serviceType, int portNumber, QString version, QString serviceNamePostfix):HttpService( serviceName,serviceType, portNumber,version,serviceNamePostfix)
 {
     connect(&timer, &QTimer::timeout, this, &TicketValidationService::slotSendDataToSubscribers);
     timer.start(60000);
