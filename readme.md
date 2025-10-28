@@ -8,6 +8,10 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20251028_1432
+  - VDV301Datastructures
+    - vehicleState reset doesn't reset vehicleRef now
+    
 - 20251027_1950
   - added serviceNamePostfix parameter
     - HttpService
