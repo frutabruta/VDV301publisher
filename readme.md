@@ -8,6 +8,10 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog:
+- 20251028_1912
+  - VDV301DataStructures
+    - Trip == operator fixed (now is based on s.id instead of s.c + l)
+    
 - 20251028_1432
   - VDV301Datastructures
     - vehicleState reset doesn't reset vehicleRef now
