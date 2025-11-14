@@ -7,7 +7,13 @@ Qt library for VDV301 devices used as publisher
 - DeviceManagementService (1.0)
 
 
-## Changelog:
+## Changelog
+- 20251114_1859
+  - HttpService::slotDumpRequestContent
+    - fixed to support Qt below 6.5
+  - VDV301DataStructures
+    - polygon out support
+
 - 20251028_1912
   - VDV301DataStructures
     - Trip == operator fixed (now is based on s.id instead of s.c + l)

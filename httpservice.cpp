@@ -219,11 +219,11 @@ void HttpService::slotDumpRequestContent(QByteArray request,QString structureNam
         QString port=subscribeRequest.elementsByTagName("ReplyPort").at(0).toElement().firstChildElement().text() ;
         QString path=subscribeRequest.firstChildElement("ReplyPath").toElement().firstChildElement("Value").firstChild().nodeValue();
 
-            if(path.startsWith("/"))
+            if(!path.startsWith("/"))
             {
-            path.removeFirst();
+            path="/"+path;
             }
-        QString fullAddress="http://"+address+":"+port+"/"+path;
+        QString fullAddress="http://"+address+":"+port+path;
 
         if(address.contains("%")) //IP v fixM  ?
         {
