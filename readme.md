@@ -8,6 +8,9 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog
+- 20251118_1245
+  - HttpService::slotDumpRequestContent
+    - added replyPath support to IPv6 part of the code
 - 20251114_1859
   - HttpService::slotDumpRequestContent
     - fixed to support Qt below 6.5

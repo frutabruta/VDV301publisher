@@ -228,7 +228,7 @@ void HttpService::slotDumpRequestContent(QByteArray request,QString structureNam
         if(address.contains("%")) //IP v fixM  ?
         {
             qDebug()<<" percent sign detected";
-            fullAddress="http://["+address+"]:"+port;
+            fullAddress="http://["+address+"]:"+port+path;
         }
 
         QUrl fullAddressUrl=fullAddress;
