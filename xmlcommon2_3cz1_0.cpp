@@ -250,17 +250,14 @@ QDomElement XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0gen(QDomDocument &xmlDocument, V
     }
 
     // DisplayContent
-    QVector<QDomElement> dDisplayContentList;
+
+
 
     for(const Vdv301DisplayContent &displayContent : stopPointDestination.displayContentList)
     {
         dStopPoint.appendChild(DisplayContentViaPointDestination2_3gen(xmlDocument,"DisplayContent", displayContent));
     }
 
-    for(const QDomElement &dDisplayContentSide : dDisplayContentList)
-    {
-        dStopPoint.appendChild(dDisplayContentSide);
-    }
 
     // StopAnnouncement minOccurs="0" not implemented
 

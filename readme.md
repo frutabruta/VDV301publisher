@@ -8,6 +8,12 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog
+- 20260108_1758
+  - ColorDisplayRules::fillColorMap
+    - regionalRail color fix
+    - regionalRailDiversion color fix
+  - XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0gen
+    - removed double displaycontent side generating
 - 20251118_1245
   - HttpService::slotDumpRequestContent
     - added replyPath support to IPv6 part of the code

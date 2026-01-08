@@ -52,10 +52,12 @@ public:
     QColor color_Tramvaj_120_2_0 =QColor(120,2,0); // tram
     QColor color_Trolejbus_128_22_111 =QColor(128,22,111); //trolleybus
     QColor color_Autobus_0_120_160 =QColor(0,120,160); // bus
-    QColor color_Vlak_15_30_65 =QColor(15,30,65); // train
+    QColor color_Vlak_15_30_65 =QColor(15,30,65); // train pictogram
+    QColor color_Vlak_30_60_120 =QColor(30,60,120); // train background color
+
     QColor color_Lanovka_201_208_34 =QColor(201,208,34); //funicular
     QColor color_Privoz_0_164_167 =QColor(0,164,167); //ferry
-    QColor color_Nocni_9_0_62 =QColor(9,0,62); //ngiht
+    QColor color_Nocni_9_0_62 =QColor(9,0,62); //night
     QColor color_Letiste_155_203_234 =QColor(155,203,234); //airport
     QColor color_Specialni_143_188_25 =QColor(143,188,25); //special
 

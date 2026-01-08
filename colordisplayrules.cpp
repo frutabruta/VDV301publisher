@@ -102,10 +102,10 @@ void ColorDisplayRules::fillColorMap()
 
 
     colorsText["regionalRail"]=color_white_255_255_255;
-    colorsBackground["regionalRail"]=color_Vlak_15_30_65;
+    colorsBackground["regionalRail"]=color_Vlak_30_60_120;
 
     colorsText["regionalRailDiversion"]=color_Vyluky_255_170_30;
-    colorsBackground["regionalRailDiversion"]=color_Vlak_15_30_65;
+    colorsBackground["regionalRailDiversion"]=color_Vlak_30_60_120;
 
     //dd14 Linka náhradní dopravy, NAD za vlak (rail replacement bus)
     colorsText["railReplacementBus"]=color_Vyluky_255_170_30;
