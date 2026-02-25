@@ -8,6 +8,18 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog
+- 20260225_1807
+  - XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new
+    - added parameter delaySeconds  
+    - using useDelay parameter to create predicted arrival and departure time
+  - XmlCommon2_3CZ1_0::StopSequence2_3CZ1_0new
+    - added parameter delaySeconds  
+  - DataStructures
+    - StopPoint
+      - added function StopPoint::arrivalToQTime
+    - VehicleState
+      - added secondsDelay
+
 - 20260108_1758
   - ColorDisplayRules::fillColorMap
     - regionalRail color fix

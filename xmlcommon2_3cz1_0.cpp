@@ -126,7 +126,7 @@ QVector<Vdv301InternationalText> XmlCommon2_3CZ1_0::fareZoneListToVdv301FareZone
 
 
 
-Vdv301StopPoint2_3CZ1_0 XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new( QVector<StopPointDestination> stopPointDestinationList,int stopPointIterator, QVector<Vdv301Connection> connectionList, QString language,int currentStopIndex)
+Vdv301StopPoint2_3CZ1_0 XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new( QVector<StopPointDestination> stopPointDestinationList,int stopPointIterator, QVector<Vdv301Connection> connectionList, QString language,int currentStopIndex,int delaySeconds)
 {
     qDebug()<<Q_FUNC_INFO;
     Vdv301StopPoint2_3CZ1_0 output;
@@ -171,12 +171,33 @@ Vdv301StopPoint2_3CZ1_0 XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new( QVector<StopPoi
     // StopAnnouncement not implemented
 
     // ArrivalScheduled
+    output.arrivalScheduled=qTimeToQDateTimeToday( selectedStopPoinDestination.stopPoint.arrivalToQTime()).toString("yyyy-MM-ddThh:mm:ss");
+
     // ArrivalExpected
+    if(useDelay)
+    {
+        output.arrivalExpected=qTimeToQDateTimeToday( selectedStopPoinDestination.stopPoint.arrivalToQTime()).addSecs(delaySeconds).toString("yyyy-MM-ddThh:mm:ss");
+    }
+    else
+    {
+        output.arrivalExpected=qTimeToQDateTimeToday( selectedStopPoinDestination.stopPoint.arrivalToQTime()).toString("yyyy-MM-ddThh:mm:ss");
+    }
+
+
     // DepartureScheduled
     output.departureScheduled=qTimeToQDateTimeToday( selectedStopPoinDestination.stopPoint.departureToQTime()).toString("yyyy-MM-ddThh:mm:ss");
 
     // DepartureExpected
-    output.departureExpected=qTimeToQDateTimeToday( selectedStopPoinDestination.stopPoint.departureToQTime()).toString("yyyy-MM-ddThh:mm:ss");
+    if(useDelay)
+    {
+        output.departureExpected=qTimeToQDateTimeToday( selectedStopPoinDestination.stopPoint.departureToQTime()).addSecs(delaySeconds).toString("yyyy-MM-ddThh:mm:ss");
+
+    }
+    else
+    {
+       output.departureExpected=qTimeToQDateTimeToday( selectedStopPoinDestination.stopPoint.departureToQTime()).toString("yyyy-MM-ddThh:mm:ss");
+    }
+
 
     // RecordedArrivalTime not implemented
     // DistanceToNextStop not implemented
@@ -309,14 +330,14 @@ QDomElement XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0gen(QDomDocument &xmlDocument, V
 }
 
 
-QVector<Vdv301StopPoint2_3CZ1_0> XmlCommon2_3CZ1_0::StopSequence2_3CZ1_0new(QVector<StopPointDestination> stopPointDestinationList,QString language, int currentStopIndex, QVector<Vdv301Connection> connectionList)
+QVector<Vdv301StopPoint2_3CZ1_0> XmlCommon2_3CZ1_0::StopSequence2_3CZ1_0new(QVector<StopPointDestination> stopPointDestinationList,QString language, int currentStopIndex, QVector<Vdv301Connection> connectionList, int delaySeconds)
 {
 
     QVector<Vdv301StopPoint2_3CZ1_0> output;
 
     for (int i=0 ; i<stopPointDestinationList.count();i++)
     {
-        output<<StopPoint2_3CZ1_0new(stopPointDestinationList,i,connectionList,language,currentStopIndex);
+        output<<StopPoint2_3CZ1_0new(stopPointDestinationList,i,connectionList,language,currentStopIndex, delaySeconds);
     }
     return output;
 }
@@ -477,7 +498,7 @@ Vdv301Trip2_3CZ1_0 XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0new(QVector<Trip> t
 
 
     //stop sequence
-    vdv301trip.stopPointList<<StopSequence2_3CZ1_0new(stopPointDestinationList,language,currentStopIndex,connectionList);
+    vdv301trip.stopPointList<<StopSequence2_3CZ1_0new(stopPointDestinationList,language,currentStopIndex,connectionList,vehicleState.secondsDelay);
 
 
     if (followingTrip==false)
