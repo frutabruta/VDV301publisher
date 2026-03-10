@@ -57,7 +57,17 @@ Vdv301AllData XmlCustomerInformationService2_3_new::AllData2_3new( QVector<Trip>
             vdv301TripList<<xmlCommon2_3_new.TripInformation2_3new(tripList,vdv301ConnectionList,vehicleState,vehicleState.currentTripIndex+1,true);
 
         }
-        ConnectionMPV::ddDoVehicleMode(stopPointDestinationList.at(vehicleState.currentStopIndex0).line.kli,vehicleState.vehicleMode,vehicleState.vehicleSubMode,stopPointDestinationList[vehicleState.currentStopIndex0].line);
+
+
+        if(!stopPointDestinationList.isEmpty())
+        {
+            ConnectionMPV::ddDoVehicleMode(stopPointDestinationList.at(vehicleState.currentStopIndex0).line.kli,vehicleState.vehicleMode,vehicleState.vehicleSubMode,stopPointDestinationList[vehicleState.currentStopIndex0].line);
+        }
+        else
+        {
+            qDebug()<<"empty stopPointDestinationList";
+        }
+
 
     }
 
@@ -89,7 +99,7 @@ QString XmlCustomerInformationService2_3_new::AllData2_3gen(QDomDocument xmlDocu
     QString routeDeviation=Vdv301Enumerations::RouteDeviationEnumerationToQString(allData.vehicleInformationGroup.routeDeviation);
     QString vehicleStopRequested=QString::number(allData.vehicleInformationGroup.vehicleStopRequested);
     QString exitSide="right";
-        //Vdv301Enumerations:: allData.vehicleInformationGroup.exitSide ;
+    //Vdv301Enumerations:: allData.vehicleInformationGroup.exitSide ;
 
     QDomProcessingInstruction dHlavicka=xmlCommon2_3_new.createProcessingInformation(xmlDocument,xmlCommon2_3_new.mDefaultEncoding);
     xmlDocument.appendChild(dHlavicka);
@@ -218,7 +228,7 @@ QString XmlCustomerInformationService2_3_new::CurrentDisplayContent2_3gen(QDomDo
 
     foreach(Vdv301DisplayContent displayContent, vdv301displayContentList )
     {
-       dCurrentDisplayContentData.appendChild(xmlCommon2_3_new.DisplayContentViaPointDestination2_3gen(xmlDocument,"CurrentDisplayContent", displayContent));
+        dCurrentDisplayContentData.appendChild(xmlCommon2_3_new.DisplayContentViaPointDestination2_3gen(xmlDocument,"CurrentDisplayContent", displayContent));
     }
 
 

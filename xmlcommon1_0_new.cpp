@@ -34,7 +34,7 @@ Vdv301Connection XmlCommon1_0_new::connectionToVdv301Connection(Connection conne
 
 
 
-     QString wuppertalMeanOfTransport="";
+    QString wuppertalMeanOfTransport="";
 
     if (connection.subMode.contains("Bus"))
     {
@@ -144,7 +144,7 @@ QDomElement XmlCommon1_0_new::Connection1_0gen(QDomDocument  &xmlDocument, Vdv30
     //TransportMode" type="VehicleStructure" minOccurs="0">
 
 
-   QDomElement dTransportMode = xmlDocument.createElement("TransportMode");
+    QDomElement dTransportMode = xmlDocument.createElement("TransportMode");
 
     //mean of transport
     dTransportMode.appendChild(this->ref(xmlDocument,"VehicleTypeRef",connection.vehicleTypeRef));
@@ -524,7 +524,7 @@ Vdv301Line XmlCommon1_0_new::lineToVdv301Line1_0(Line &line, QString subMode, bo
     Vdv301Line output;
 
     QString lineName="";
-/*
+    /*
     if(subMode=="metro")
     {
         lineName=lineToIcon(line,subMode);
@@ -545,7 +545,7 @@ Vdv301Line XmlCommon1_0_new::lineToVdv301Line1_0(Line &line, QString subMode, bo
     {
         if(subMode=="metro")
         {
-             lineName=lineToIcon(line,subMode);
+            lineName=lineToIcon(line,subMode);
         }
         else
         {
@@ -575,14 +575,14 @@ QString XmlCommon1_0_new::stopPropertiesToString1_0(StopPoint stopPoint)
     QString output="";
     if(addIconsInline)
     {
-    output+=xxxProperty1_0("c_UndergroundA","[A]",stopPoint.transferMetroA);
-    output+=xxxProperty1_0("c_UndergroundB","[B]",stopPoint.transferMetroB );
-    output+=xxxProperty1_0("c_UndergroundC","[C]",stopPoint.transferMetroC);
-    output+=xxxProperty1_0("c_UndergroundD","[D]",stopPoint.transferMetroD);
-    output+=xxxProperty1_0("c_Train","~",stopPoint.transferTrain);
-    output+=xxxProperty1_0("c_Ferry","Ĺ",stopPoint.transferFerry);
-    output+=xxxProperty1_0("c_Air","\\",stopPoint.transferAirplane);
-    output+=xxxProperty1_0("c_RequestStop","ŕ",stopPoint.onRequest&&(!stopPoint.neozn));
+        output+=xxxProperty1_0("c_UndergroundA","[A]",stopPoint.transferMetroA);
+        output+=xxxProperty1_0("c_UndergroundB","[B]",stopPoint.transferMetroB );
+        output+=xxxProperty1_0("c_UndergroundC","[C]",stopPoint.transferMetroC);
+        output+=xxxProperty1_0("c_UndergroundD","[D]",stopPoint.transferMetroD);
+        output+=xxxProperty1_0("c_Train","~",stopPoint.transferTrain);
+        output+=xxxProperty1_0("c_Ferry","Ĺ",stopPoint.transferFerry);
+        output+=xxxProperty1_0("c_Air","\\",stopPoint.transferAirplane);
+        output+=xxxProperty1_0("c_RequestStop","ŕ",stopPoint.onRequest&&(!stopPoint.neozn));
     }
 
     if(addIconsWuppertal)
@@ -641,11 +641,11 @@ Vdv301StopPoint XmlCommon1_0_new::StopPoint1_0new( QVector<StopPointDestination>
     // DisplayContent" type="DisplayContentStructure" maxOccurs="unbounded"
     QVector<Vdv301DisplayContent> vdvDisplayContentList;
 
-     vdvDisplayContentList<<DisplayContentViaPointDestination1_0new(stopPointDestinationList, language,stopPointIterator,currentStopIndex,lcdClass); //changed order because older LCD screeens use first occurance of display content
+    vdvDisplayContentList<<DisplayContentViaPointDestination1_0new(stopPointDestinationList, language,stopPointIterator,currentStopIndex,lcdClass); //changed order because older LCD screeens use first occurance of display content
     vdvDisplayContentList<<DisplayContentViaPointDestination1_0new(stopPointDestinationList, language,stopPointIterator,currentStopIndex,DisplayContentFront);
     vdvDisplayContentList<<DisplayContentViaPointDestination1_0new(stopPointDestinationList, language,stopPointIterator,currentStopIndex,DisplayContentSide);
     vdvDisplayContentList<<DisplayContentViaPointDestination1_0new(stopPointDestinationList, language,stopPointIterator,currentStopIndex,DisplayContentRear);
-   // vdvDisplayContentList<<DisplayContentViaPointDestination1_0new(stopPointDestinationList, language,stopPointIterator,currentStopIndex,lcdClass);
+    // vdvDisplayContentList<<DisplayContentViaPointDestination1_0new(stopPointDestinationList, language,stopPointIterator,currentStopIndex,lcdClass);
     output.displayContentList=vdvDisplayContentList;
 
     // StopAnnouncement" type="AnnouncementStructure" minOccurs="0" maxOccurs="unbounded" not implemented
@@ -879,24 +879,29 @@ Vdv301Trip XmlCommon1_0_new::TripInformation1_0new(QVector<Trip> tripList, QVect
         }
 */
 
+        StopPointDestination currentStopPointDestination;
+        QString specialAnnouncement="";
 
-
-
-        QString specialAnnouncement=stopPointDestinationList.at(vehicleState.currentStopIndex0).stopPoint.additionalTextMessage;
-        qDebug()<<"special announcement="<<specialAnnouncement;
-
-        if(vehicleState.isSpecialAnnoucementUsed)
+        if(vehicleState.currentStopIndex0<stopPointDestinationList.count()&&(vehicleState.currentStopIndex0>=0))
         {
-            /*
+            specialAnnouncement=currentStopPointDestination.stopPoint.additionalTextMessage;
+
+
+            specialAnnouncement=stopPointDestinationList.at(vehicleState.currentStopIndex0).stopPoint.additionalTextMessage;
+            qDebug()<<"special announcement="<<specialAnnouncement;
+
+            if(vehicleState.isSpecialAnnoucementUsed)
+            {
+                /*
             Vdv301AdditionalAnnouncement2_3CZ1_0 additionalAnnouncement;
             additionalAnnouncement.announcementTextList<<Vdv301InternationalText(vehicleState.currentSpecialAnnoucement.text,language);
             vdv301trip.additionalAnnouncementList<<additionalAnnouncement;
 */
-            AdditionalAnnoucement currentAnnouncement=vehicleState.currentSpecialAnnoucement;
+                AdditionalAnnoucement currentAnnouncement=vehicleState.currentSpecialAnnoucement;
 
-            vdv301trip.additionalTextMessageList<<Vdv301InternationalText(currentAnnouncement.text,language);
+                vdv301trip.additionalTextMessageList<<Vdv301InternationalText(currentAnnouncement.text,language);
 
-
+            }
         }
         else if (specialAnnouncement!="")
         {

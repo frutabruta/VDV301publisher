@@ -56,6 +56,7 @@ Vdv301AllData XmlCustomerInformationService1_0_new::AllData1_0new( QVector<Trip>
     {
         QVector<StopPointDestination> stopPointDestinationList=tripList.at(vehicleState.currentTripIndex).globalStopPointDestinationList;
 
+
         vdv301TripList<<xmlCommon1_0_new.TripInformation1_0new(tripList,vdv301ConnectionList,vehicleState,vehicleState.currentTripIndex,false);
 
         if (tripList.at(vehicleState.currentTripIndex).continuesWithNextTrip)
@@ -64,7 +65,14 @@ Vdv301AllData XmlCustomerInformationService1_0_new::AllData1_0new( QVector<Trip>
             vdv301TripList<<xmlCommon1_0_new.TripInformation1_0new(tripList,vdv301ConnectionList,vehicleState,vehicleState.currentTripIndex+1,true);
 
         }
-        ConnectionMPV::ddDoVehicleMode(stopPointDestinationList.at(vehicleState.currentStopIndex0).line.kli,vehicleState.vehicleMode,vehicleState.vehicleSubMode,stopPointDestinationList[vehicleState.currentStopIndex0].line);
+        if(!stopPointDestinationList.isEmpty())
+        {
+            ConnectionMPV::ddDoVehicleMode(stopPointDestinationList.at(vehicleState.currentStopIndex0).line.kli,vehicleState.vehicleMode,vehicleState.vehicleSubMode,stopPointDestinationList[vehicleState.currentStopIndex0].line);
+        }
+        else
+        {
+            qDebug()<<"empty stopPointDestinationList";
+        }
 
     }
 
@@ -96,7 +104,7 @@ QString XmlCustomerInformationService1_0_new::AllData1_0gen(QDomDocument xmlDocu
     QString routeDeviation=Vdv301Enumerations::RouteDeviationEnumerationToQString(allData.vehicleInformationGroup.routeDeviation);
     QString vehicleStopRequested=QString::number(allData.vehicleInformationGroup.vehicleStopRequested);
     QString exitSide="right";
-        //Vdv301Enumerations:: allData.vehicleInformationGroup.exitSide ;
+    //Vdv301Enumerations:: allData.vehicleInformationGroup.exitSide ;
 
     QDomProcessingInstruction dHlavicka=xmlCommon1_0_new.createProcessingInformation(xmlDocument,xmlCommon1_0_new.mDefaultEncoding);
     xmlDocument.appendChild(dHlavicka);
@@ -152,7 +160,7 @@ QString XmlCustomerInformationService1_0_new::AllData1_0gen(QDomDocument xmlDocu
     dExitSide.appendChild(xmlDocument.createTextNode(exitSide));
     dAllData.appendChild(dExitSide);
 
-   // dAllData.appendChild(xmlCommon1_0_new.MyOwnVehicleMode(xmlDocument,allData.vehicleInformationGroup.vehicleMode, allData.vehicleInformationGroup.vehicleSubMode));
+    // dAllData.appendChild(xmlCommon1_0_new.MyOwnVehicleMode(xmlDocument,allData.vehicleInformationGroup.vehicleMode, allData.vehicleInformationGroup.vehicleSubMode));
 
     QDomElement dVehicleMode = xmlDocument.createElement("VehicleMode").appendChild(xmlDocument.createTextNode("bus")).toElement();
 

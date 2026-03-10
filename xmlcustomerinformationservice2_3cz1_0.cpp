@@ -25,7 +25,7 @@ QString XmlCustomerInformationService2_3CZ1_0::AllData2_3CZ1_0gen(QDomDocument x
     QString routeDeviation=Vdv301Enumerations::RouteDeviationEnumerationToQString(allData.vehicleInformationGroup.routeDeviation);
     QString vehicleStopRequested=QString::number(allData.vehicleInformationGroup.vehicleStopRequested);
     QString exitSide="right";
-        //Vdv301Enumerations:: allData.vehicleInformationGroup.exitSide ;
+    //Vdv301Enumerations:: allData.vehicleInformationGroup.exitSide ;
 
     QDomProcessingInstruction dHlavicka=xmlCommon2_3CZ1_0.createProcessingInformation(xmlDocument,xmlCommon2_3CZ1_0.mDefaultEncoding);
     xmlDocument.appendChild(dHlavicka);
@@ -149,7 +149,15 @@ Vdv301AllData2_3CZ1_0 XmlCustomerInformationService2_3CZ1_0::AllData2_3CZ1_0new(
             vdv301TripList<<xmlCommon2_3CZ1_0.TripInformation2_3CZ1_0new(tripList,vdv301ConnectionList,vehicleState,vehicleState.currentTripIndex+1,true);
 
         }
-        ConnectionMPV::ddDoVehicleMode(stopPointDestinationList.at(vehicleState.currentStopIndex0).line.kli,vehicleState.vehicleMode,vehicleState.vehicleSubMode,stopPointDestinationList[vehicleState.currentStopIndex0].line);
+
+        if(!stopPointDestinationList.isEmpty())
+        {
+            ConnectionMPV::ddDoVehicleMode(stopPointDestinationList.at(vehicleState.currentStopIndex0).line.kli,vehicleState.vehicleMode,vehicleState.vehicleSubMode,stopPointDestinationList[vehicleState.currentStopIndex0].line);
+        }
+        else
+        {
+            qDebug()<<"empty stopPointDestinationList";
+        }
 
     }
 

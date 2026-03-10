@@ -8,6 +8,18 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog
+- 20260310_1758
+  - XmlCommon1_0_new::TripInformation1_0new
+    - fix of not hiding announcement
+  - XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0new
+    - crash prevention when trip is empty
+  - XmlCustomerInformationService1_0_new::AllData1_0new
+    - crash prevention when trip is empty
+  - XmlCustomerInformationService2_3_new::AllData2_3new
+    - crash prevention when trip is empty
+  - XmlCustomerInformationService2_3CZ1_0::AllData2_3CZ1_0new
+    - crash prevention when trip is empty
+
 - 20260225_1807
   - XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new
     - added parameter delaySeconds  

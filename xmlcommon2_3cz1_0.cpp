@@ -503,37 +503,43 @@ Vdv301Trip2_3CZ1_0 XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0new(QVector<Trip> t
 
     if (followingTrip==false)
     {
+        StopPointDestination currentStopPointDestination;
+        QString specialAnnouncement="";
 
-
-        QString specialAnnouncement=stopPointDestinationList.at(vehicleState.currentStopIndex0).stopPoint.additionalTextMessage;
-        qDebug()<<"special announcement="<<specialAnnouncement;
-
-        if(vehicleState.isSpecialAnnoucementUsed)
+        if(vehicleState.currentStopIndex0<stopPointDestinationList.count()&&(vehicleState.currentStopIndex0>=0))
         {
-            /*
+            specialAnnouncement=currentStopPointDestination.stopPoint.additionalTextMessage;
+            qDebug()<<"special announcement="<<specialAnnouncement;
+
+            if(vehicleState.isSpecialAnnoucementUsed)
+            {
+                /*
             Vdv301AdditionalAnnouncement2_3CZ1_0 additionalAnnouncement;
             additionalAnnouncement.announcementTextList<<Vdv301InternationalText(vehicleState.currentSpecialAnnoucement.text,language);
             vdv301trip.additionalAnnouncementList<<additionalAnnouncement;
 */
-            AdditionalAnnoucement currentAnnouncement=vehicleState.currentSpecialAnnoucement;
+                AdditionalAnnoucement currentAnnouncement=vehicleState.currentSpecialAnnoucement;
 
-            vdv301trip.additionalTextMessageList<<Vdv301InternationalText(currentAnnouncement.text,language);
-            if(!currentAnnouncement.icon.isEmpty())
-            {
-                vdv301trip.additionalTextMessage1List<<Vdv301InternationalText(vehicleState.currentSpecialAnnoucement.icon,language);
+                vdv301trip.additionalTextMessageList<<Vdv301InternationalText(currentAnnouncement.text,language);
+                if(!currentAnnouncement.icon.isEmpty())
+                {
+                    vdv301trip.additionalTextMessage1List<<Vdv301InternationalText(vehicleState.currentSpecialAnnoucement.icon,language);
+                }
+                if(!currentAnnouncement.changeFrom.isEmpty())
+                {
+                    vdv301trip.additionalTextMessage2List<<Vdv301InternationalText(vehicleState.currentSpecialAnnoucement.changeFrom,language);
+                }
+                if(!currentAnnouncement.changeTo.isEmpty())
+                {
+                    vdv301trip.additionalTextMessage3List<<Vdv301InternationalText(vehicleState.currentSpecialAnnoucement.changeTo,language);
+                }
+                if(!currentAnnouncement.type.isEmpty())
+                {
+                    vdv301trip.additionalTextMessage4List<<Vdv301InternationalText(vehicleState.currentSpecialAnnoucement.type,language);
+                }
             }
-            if(!currentAnnouncement.changeFrom.isEmpty())
-            {
-                vdv301trip.additionalTextMessage2List<<Vdv301InternationalText(vehicleState.currentSpecialAnnoucement.changeFrom,language);
-            }
-            if(!currentAnnouncement.changeTo.isEmpty())
-            {
-                vdv301trip.additionalTextMessage3List<<Vdv301InternationalText(vehicleState.currentSpecialAnnoucement.changeTo,language);
-            }
-            if(!currentAnnouncement.type.isEmpty())
-            {
-                vdv301trip.additionalTextMessage4List<<Vdv301InternationalText(vehicleState.currentSpecialAnnoucement.type,language);
-            }
+
+
 
         }
         else if (specialAnnouncement!="")
