@@ -8,6 +8,9 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog
+- 20260310_1846
+  - XmlCommon2_3_new::stopPropertiesToString2_3
+    - changed c_Train to c_SBahn
 - 20260310_1758
   - XmlCommon1_0_new::TripInformation1_0new
     - fix of not hiding announcement

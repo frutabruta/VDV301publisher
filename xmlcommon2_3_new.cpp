@@ -524,7 +524,8 @@ QString XmlCommon2_3_new::stopPropertiesToString2_3(StopPoint stopPoint)
     output+=xxxProperty2_3("c_UndergroundB","[B]",stopPoint.transferMetroB );
     output+=xxxProperty2_3("c_UndergroundC","[C]",stopPoint.transferMetroC);
     output+=xxxProperty2_3("c_UndergroundD","[D]",stopPoint.transferMetroD);
-    output+=xxxProperty2_3("c_Train","~",stopPoint.transferTrain);
+    //output+=xxxProperty2_3("c_Train","~",stopPoint.transferTrain);
+    output+=xxxProperty2_3("c_SBahn","~",stopPoint.transferTrain);
     output+=xxxProperty2_3("c_Ferry","Ĺ",stopPoint.transferFerry);
     output+=xxxProperty2_3("c_Air","\\",stopPoint.transferAirplane);
     output+=xxxProperty2_3("c_RequestStop","ŕ",stopPoint.onRequest&&(!stopPoint.neozn));
