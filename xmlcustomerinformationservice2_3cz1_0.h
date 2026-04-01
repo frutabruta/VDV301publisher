@@ -12,8 +12,9 @@ public:
     XmlCommon2_3CZ1_0 xmlCommon2_3CZ1_0;
 
     QString AllData2_3CZ1_0gen(QDomDocument xmlDocument, Vdv301AllData2_3CZ1_0 allData);
-    Vdv301AllData2_3CZ1_0 AllData2_3CZ1_0new(QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState, QVector<Vdv301DisplayContent> globalDisplayContentList);
-    QVector<Vdv301DisplayContent> CurrentDisplayContentFromAllData2_3new(Vdv301AllData2_3CZ1_0 vdv301AllData);
+    Vdv301AllData2_3CZ1_0 AllData2_3CZ1_0new(QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState, QVector<Vdv301DisplayContent2_3CZ1_0> globalDisplayContentList);
+    QVector<Vdv301DisplayContent2_3CZ1_0> CurrentDisplayContentFromAllData2_3new(Vdv301AllData2_3CZ1_0 vdv301AllData);
+    QString CurrentDisplayContent2_3CZ1_0gen(QDomDocument xmlDocument, QVector<Vdv301DisplayContent2_3CZ1_0> vdv301displayContentList);
 };
 
 #endif // XMLCUSTOMERINFORMATIONSERVICE2_3CZ1_0_H

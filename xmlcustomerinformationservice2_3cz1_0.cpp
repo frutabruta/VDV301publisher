@@ -96,7 +96,7 @@ QString XmlCustomerInformationService2_3CZ1_0::AllData2_3CZ1_0gen(QDomDocument x
 }
 
 
-Vdv301AllData2_3CZ1_0 XmlCustomerInformationService2_3CZ1_0::AllData2_3CZ1_0new( QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState, QVector<Vdv301DisplayContent> globalDisplayContentList )
+Vdv301AllData2_3CZ1_0 XmlCustomerInformationService2_3CZ1_0::AllData2_3CZ1_0new( QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState, QVector<Vdv301DisplayContent2_3CZ1_0> globalDisplayContentList )
 {
     qDebug()<<Q_FUNC_INFO;
 
@@ -170,10 +170,10 @@ Vdv301AllData2_3CZ1_0 XmlCustomerInformationService2_3CZ1_0::AllData2_3CZ1_0new(
 
 
 
-QVector<Vdv301DisplayContent> XmlCustomerInformationService2_3CZ1_0::CurrentDisplayContentFromAllData2_3new(Vdv301AllData2_3CZ1_0 vdv301AllData )
+QVector<Vdv301DisplayContent2_3CZ1_0> XmlCustomerInformationService2_3CZ1_0::CurrentDisplayContentFromAllData2_3new(Vdv301AllData2_3CZ1_0 vdv301AllData )
 {
     qDebug()<<Q_FUNC_INFO;
-    QVector<Vdv301DisplayContent> output;
+    QVector<Vdv301DisplayContent2_3CZ1_0> output;
 
     if(!vdv301AllData.globalDisplayContentList.isEmpty())
     {
@@ -202,4 +202,31 @@ QVector<Vdv301DisplayContent> XmlCustomerInformationService2_3CZ1_0::CurrentDisp
         }
     }
     return output;
+}
+
+
+QString XmlCustomerInformationService2_3CZ1_0::CurrentDisplayContent2_3CZ1_0gen(QDomDocument xmlDocument, QVector<Vdv301DisplayContent2_3CZ1_0> vdv301displayContentList )
+{
+    qDebug()<<Q_FUNC_INFO;
+
+    QString language=xmlCommon2_3_new.defaultLanguage2_3;
+
+    QDomProcessingInstruction dProcessingInformation=xmlCommon2_3_new.createProcessingInformation(xmlDocument,xmlCommon2_3_new.mDefaultEncoding);
+    xmlDocument.appendChild(dProcessingInformation);
+
+    QDomElement dCustomerInformationService=xmlDocument.createElement("CustomerInformationService.GetCurrentDisplayContentResponse");
+    QDomElement dCurrentDisplayContentData=xmlDocument.createElement("CurrentDisplayContentData");
+
+    dCurrentDisplayContentData.appendChild(xmlCommon2_3_new.TimeStampTag1_0(xmlDocument));
+
+    foreach(Vdv301DisplayContent displayContent, vdv301displayContentList )
+    {
+        dCurrentDisplayContentData.appendChild(xmlCommon2_3_new.DisplayContentViaPointDestination2_3gen(xmlDocument,"CurrentDisplayContent", displayContent));
+    }
+
+
+    dCustomerInformationService.appendChild(dCurrentDisplayContentData);
+    xmlDocument.appendChild(dCustomerInformationService);
+
+    return xmlCommon2_3_new.qDomDocumentToQString(xmlDocument);
 }

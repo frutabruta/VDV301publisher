@@ -170,8 +170,6 @@ QString XmlCustomerInformationService2_3_new::AllData2_3gen(QDomDocument xmlDocu
 }
 
 
-
-
 QVector<Vdv301DisplayContent> XmlCustomerInformationService2_3_new::CurrentDisplayContentFromAllData2_3new(Vdv301AllData vdv301AllData )
 {
     qDebug()<<Q_FUNC_INFO;
@@ -222,10 +220,6 @@ QString XmlCustomerInformationService2_3_new::CurrentDisplayContent2_3gen(QDomDo
 
     dCurrentDisplayContentData.appendChild(xmlCommon2_3_new.TimeStampTag1_0(xmlDocument));
 
-
-
-
-
     foreach(Vdv301DisplayContent displayContent, vdv301displayContentList )
     {
         dCurrentDisplayContentData.appendChild(xmlCommon2_3_new.DisplayContentViaPointDestination2_3gen(xmlDocument,"CurrentDisplayContent", displayContent));
@@ -235,14 +229,5 @@ QString XmlCustomerInformationService2_3_new::CurrentDisplayContent2_3gen(QDomDo
     dCustomerInformationService.appendChild(dCurrentDisplayContentData);
     xmlDocument.appendChild(dCustomerInformationService);
 
-
-
-
-
     return xmlCommon2_3_new.qDomDocumentToQString(xmlDocument);
 }
-
-
-
-
-

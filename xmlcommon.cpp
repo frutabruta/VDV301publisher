@@ -266,6 +266,22 @@ QDateTime XmlCommon::qTimeToQDateTimeToday(QTime input)
 
 }
 
+
+QString XmlCommon::qTimeToQDateTimeTodayQString(QTime input)
+{
+    // over midnight fix is not implemented!
+
+    if(input.isValid())
+    {
+        QDateTime output;
+        output=QDateTime::currentDateTime();
+        output.setTime(input);
+        return output.toString("yyyy-MM-ddThh:mm:ss");
+    }
+
+    return "";
+}
+
 /*
 QTime StopPoint::secondsToQtime(QString vstup)
 {

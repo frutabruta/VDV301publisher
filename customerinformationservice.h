@@ -28,11 +28,16 @@ private:
     QVector<Connection> mConnectionList;
     QVector<Trip> mTripList;
     QVector<Vdv301DisplayContent> mGlobalDisplayContentList;
+    QVector<Vdv301DisplayContent2_3CZ1_0> mGlobalDisplayContentList2_3CZ1_0;
+
+
+    void setGlobalDisplayContentList(const QVector<Vdv301DisplayContent2_3CZ1_0> &newGlobalDisplayContentList);
     VehicleState mVehicleState;
 
 
     //functions
-    void updateInternalVariables(QVector<Connection> connectionList, VehicleState &vehicleState, QVector<Trip> tripList , QVector<Vdv301DisplayContent> globalDisplayContentList);
+    void updateInternalVariables(QVector<Connection> connectionList, VehicleState &vehicleState, QVector<Trip> tripList , QVector<Vdv301DisplayContent> globalDisplayContentList, QVector<Vdv301DisplayContent2_3CZ1_0> globalDisplayContentList2_3CZ1_0);
+
 
 
 public slots:

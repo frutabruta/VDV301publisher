@@ -8,6 +8,14 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog
+- 20260401_1542
+  - usage of QVector<Vdv301DisplayContent2_3CZ1_0
+  - new function XmlCommon::qTimeToQDateTimeTodayQString
+  - new function DisplayContentViaPointDestination2_3CZ1_0new::DisplayContentViaPointDestination2_3CZ1_0new
+  - XmlCommon2_3CZ1_0::DisplayContentViaPointDestination2_3CZ1_0new
+    - implemented viaPoint departure times
+
+
 - 20260310_1846
   - XmlCommon2_3_new::stopPropertiesToString2_3
     - changed c_Train to c_SBahn
