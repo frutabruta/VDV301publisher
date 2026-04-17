@@ -43,7 +43,66 @@ QDomElement XmlCommon2_3CZ1_0::AddtitionalAnnouncement2_3CZ1_0gen(QDomDocument  
 
 
 
-QVector<Vdv301DisplayContent2_3CZ1_0> XmlCommon2_3CZ1_0::DisplayContentViaPointDestination2_3CZ1_0new(QVector<StopPointDestination> stopPointDestinationList, QString language,int stopPointIterator,int currentStopIndex, DisplayContentClass displayContentClass)
+
+QDomElement XmlCommon2_3CZ1_0::DisplayContentViaPointDestination2_3gen(QDomDocument  &xmlDocument, QString tagName, Vdv301DisplayContent2_3CZ1_0 displayContent)
+{
+
+    // DisplayContentRef minOccurs="0"
+
+
+    // LineInformation
+    QDomElement dLineInformation=xmlDocument.createElement("LineInformation");
+    dLineInformation.appendChild(ref(xmlDocument,"LineRef",displayContent.lineInformation.lineRef));
+
+    for(const Vdv301InternationalText &lineName : displayContent.lineInformation.lineNameList)
+    {
+        QDomElement dLineName=internationalTextTypeToDom(xmlDocument,"LineName",lineName.text,lineName.language);
+        dLineInformation.appendChild(dLineName);
+    }
+
+    QString lineNumber=displayContent.lineInformation.lineNumber;
+    if(!lineNumber.isEmpty())
+    {
+        QDomElement dLineNumber=Value(xmlDocument,"LineNumber",lineNumber);
+        dLineInformation.appendChild(dLineNumber);
+    }
+
+
+    // Destination
+    QDomElement dDestination=xmlDocument.createElement("Destination");
+
+
+    QDomElement dDisplayContent=xmlDocument.createElement(tagName);
+    dDisplayContent.appendChild(ref(xmlDocument,"DisplayContentRef",Vdv301DisplayContent::displayContentClassEnumerationToQString( displayContent.displayContentType)));
+    dDisplayContent.appendChild(dLineInformation);
+
+    dDestination.appendChild(ref(xmlDocument,"DestinationRef", displayContent.destination.destinationRef));
+
+    for(const Vdv301InternationalText &destinationName : displayContent.destination.destinationNameList)
+    {
+        QDomElement dDestinationName;
+        dDestinationName=internationalTextTypeToDom(xmlDocument,"DestinationName",destinationName.text,destinationName.language);
+        dDestination.appendChild(dDestinationName);
+    }
+
+    dDisplayContent.appendChild(dDestination);
+
+
+    // ViaPoint minOccurs="0"
+    for(const Vdv301ViaPoint2_3CZ1_0 &viaPoint : displayContent.viaPointList)
+    {
+        dDisplayContent.appendChild(ViaPoint2_3def(xmlDocument,viaPoint));
+    }
+
+    // AdditionalInformation minOccurs="0"
+    // RunNumber minOccurs="0"
+    // DisplayPolicyGroup minOccurs="0"
+
+
+    return dDisplayContent;
+}
+
+QVector<Vdv301DisplayContent2_3CZ1_0> XmlCommon2_3CZ1_0::DisplayContentViaPointDestination2_3new(QVector<StopPointDestination> stopPointDestinationList, QString language,int stopPointIterator,int currentStopIndex, DisplayContentClass displayContentClass, int delaySeconds)
 {
     QVector<Vdv301DisplayContent2_3CZ1_0> output;
     StopPointDestination selectedStopPointDestination=stopPointDestinationList.at(stopPointIterator);
@@ -63,7 +122,7 @@ QVector<Vdv301DisplayContent2_3CZ1_0> XmlCommon2_3CZ1_0::DisplayContentViaPointD
 
     // ViaPoint minOccurs="0"
     QDomElement viaPointObsah;
-    QVector<Vdv301ViaPoint> viaPointListVdv;
+    QVector<Vdv301ViaPoint2_3CZ1_0> viaPointListVdv;
 
     QVector<StopPointDestination> viaPointList;
 
@@ -72,7 +131,7 @@ QVector<Vdv301DisplayContent2_3CZ1_0> XmlCommon2_3CZ1_0::DisplayContentViaPointD
         StopPointDestination nextStopPointDestination=stopPointDestinationList.at(currentStopIndex+1);
         if (nextStopPointDestination.stopPoint.isViapoint==false)
         {
-            viaPointListVdv.append(stopPointDestinationToVdv301ViaPoint(nextStopPointDestination.stopPoint,language));
+            viaPointListVdv.append(stopPointDestinationToVdv301ViaPoint(nextStopPointDestination.stopPoint,language,delaySeconds));
             viaPointList.append(nextStopPointDestination);
         }
 
@@ -83,7 +142,217 @@ QVector<Vdv301DisplayContent2_3CZ1_0> XmlCommon2_3CZ1_0::DisplayContentViaPointD
         if(stopPointDestinationList.at(j).stopPoint.isViapoint == true)
         {
             StopPointDestination viaPoint=stopPointDestinationList.at(j);
-            viaPointListVdv.append(stopPointDestinationToVdv301ViaPoint(viaPoint.stopPoint,language));
+            viaPointListVdv.append(stopPointDestinationToVdv301ViaPoint(viaPoint.stopPoint,language,delaySeconds));
+            viaPointList.append(viaPoint);
+        }
+    }
+    // AdditionalInformation minOccurs="0"
+    // RunNumber minOccurs="0"
+    // DisplayPolicyGroup minOccurs="0"
+
+
+
+
+
+    if(selectedStopPointDestination.destination.NameFront.contains("|"))
+    {
+        QStringList frontNames=selectedStopPointDestination.destination.NameFront.split("|");
+        if(frontNames.count()>0)
+        {
+            selectedStopPointDestination.destination.NameFront=frontNames.first();
+        }
+        if(frontNames.count()>1)
+        {
+            selectedStopPointDestination.destination.NameFront2=frontNames.at(1);
+        }
+    }
+
+    switch(displayContentClass)
+    {
+    case DisplayContentFront:
+    {
+        Vdv301DisplayContent2_3CZ1_0 frontDisplayContent;
+
+        frontDisplayContent.displayContentType=displayContentClass;
+        frontDisplayContent.lineInformation=selectedLine;
+        frontDisplayContent.displayContentRef=displayContentClassString;
+
+        Vdv301Destination frontDestination;
+
+        frontDestination.destinationRef=selectedStopPointDestination.destination.ref();
+        frontDestination.destinationNameList<<Vdv301InternationalText(selectedStopPointDestination.destination.NameFront+stopPropertiesToString2_3(selectedStopPointDestination.destination),language);
+
+        QString destination2=selectedStopPointDestination.destination.NameFront2;
+        if(!destination2.isEmpty())
+        {
+            frontDestination.destinationNameList<<Vdv301InternationalText(destination2,language);
+
+        }
+
+        frontDisplayContent.destination=frontDestination;
+
+        output<<frontDisplayContent;
+
+        break;
+    }
+    case DisplayContentSide:
+    {
+        if(viaPointListVdv.isEmpty())
+        {
+            Vdv301DisplayContent2_3CZ1_0 sideDisplayContent;
+            sideDisplayContent.displayContentRef=displayContentClassString;
+            sideDisplayContent.displayContentType=displayContentClass;
+
+            sideDisplayContent.lineInformation=selectedLine;
+
+            Vdv301Destination sideDestination;
+
+            sideDestination.destinationRef=selectedStopPointDestination.destination.ref();
+            sideDestination.destinationNameList<<Vdv301InternationalText(selectedStopPointDestination.destination.NameSide+stopPropertiesToString2_3(selectedStopPointDestination.destination),language);
+
+            sideDisplayContent.destination=sideDestination;
+
+
+
+            output<<sideDisplayContent;
+
+
+        }
+        else
+        {
+            /* foreach crashes the program for an unknown reason
+
+            foreach(StopPointDestination viaPoint, viaPointList)
+            {*/
+
+            for(int i=0;i<viaPointListVdv.count();i++)
+            {
+                Vdv301DisplayContent2_3CZ1_0 sideDisplayContent;
+                sideDisplayContent.displayContentRef=displayContentClassString;
+                sideDisplayContent.displayContentType=displayContentClass;
+
+                sideDisplayContent.lineInformation=selectedLine;
+
+                Vdv301Destination sideDestination;
+                sideDestination.destinationRef=selectedStopPointDestination.destination.ref();
+                sideDestination.destinationNameList<<Vdv301InternationalText(selectedStopPointDestination.destination.NameSide+stopPropertiesToString2_3(selectedStopPointDestination.destination),language);
+
+                StopPointDestination viaPoint=viaPointList.at(i);
+
+                sideDestination.destinationNameList<<Vdv301InternationalText(viaPoint.stopPoint.NameSide+stopPropertiesToString2_3(viaPoint.stopPoint),language);
+
+                sideDisplayContent.destination=sideDestination;
+                output<<sideDisplayContent;
+            }
+        }
+
+        break;
+    }
+    case DisplayContentRear:
+    {
+        Vdv301DisplayContent2_3CZ1_0 rearDisplayContent;
+        rearDisplayContent.displayContentRef=displayContentClassString;
+        rearDisplayContent.displayContentType=displayContentClass;
+        rearDisplayContent.lineInformation=selectedLine;
+
+        Vdv301Destination rearDestination;
+
+        rearDestination.destinationRef=selectedStopPointDestination.destination.ref();
+        rearDestination.destinationNameList<<Vdv301InternationalText(selectedStopPointDestination.destination.NameRear+stopPropertiesToString2_3(selectedStopPointDestination.destination),language);
+
+        rearDisplayContent.destination=rearDestination;
+        output<<rearDisplayContent;
+
+        break;
+    }
+    case DisplayContentLcd:
+    {
+        Vdv301DisplayContent2_3CZ1_0 lcdDisplayContent;
+        lcdDisplayContent.displayContentRef=displayContentClassString;
+        lcdDisplayContent.displayContentType=displayContentClass;
+        lcdDisplayContent.lineInformation=selectedLine;
+
+        Vdv301Destination lcdDestination;
+
+        lcdDestination.destinationRef=selectedStopPointDestination.destination.ref();
+        lcdDestination.destinationNameList<<Vdv301InternationalText(selectedStopPointDestination.destination.NameLcd+stopPropertiesToString2_3(selectedStopPointDestination.destination),language);
+
+        lcdDisplayContent.destination=lcdDestination;
+        lcdDisplayContent.viaPointList=viaPointListVdv;
+        output<<lcdDisplayContent;
+
+        break;
+    }
+    case DisplayContentInterior: //copy of LCD
+    {
+        Vdv301DisplayContent2_3CZ1_0 lcdDisplayContent;
+        lcdDisplayContent.displayContentRef=displayContentClassString;
+        lcdDisplayContent.displayContentType=displayContentClass;
+        lcdDisplayContent.lineInformation=selectedLine;
+
+        Vdv301Destination lcdDestination;
+
+        lcdDestination.destinationRef=selectedStopPointDestination.destination.ref();
+        lcdDestination.destinationNameList<<Vdv301InternationalText(selectedStopPointDestination.destination.NameLcd+stopPropertiesToString2_3(selectedStopPointDestination.destination),language);
+
+        lcdDisplayContent.destination=lcdDestination;
+        lcdDisplayContent.viaPointList=viaPointListVdv;
+        output<<lcdDisplayContent;
+
+        break;
+    }
+    default:
+        qDebug()<<"break";
+        //   break;
+    }
+
+    return output;
+}
+
+
+
+
+QVector<Vdv301DisplayContent2_3CZ1_0> XmlCommon2_3CZ1_0::DisplayContentViaPointDestination2_3CZ1_0new(QVector<StopPointDestination> stopPointDestinationList, QString language,int stopPointIterator,int currentStopIndex, DisplayContentClass displayContentClass, int delaySeconds)
+{
+    QVector<Vdv301DisplayContent2_3CZ1_0> output;
+    StopPointDestination selectedStopPointDestination=stopPointDestinationList.at(stopPointIterator);
+    bool appendNextStopToViapoints=true;
+    QString placeholder="";
+    ConnectionMPV::ddDoVehicleMode(selectedStopPointDestination.line.kli,placeholder,placeholder,selectedStopPointDestination.line );
+
+
+    // DisplayContentRef minOccurs="0"
+    QString displayContentClassString=Vdv301DisplayContent::displayContentClassEnumerationToQString(displayContentClass);
+    // LineInformation
+    Vdv301Line selectedLine=lineToVdv301Line2_3(selectedStopPointDestination.line, addLineStyle);
+
+    // Destination
+
+
+
+    // ViaPoint minOccurs="0"
+    QDomElement viaPointObsah;
+    QVector<Vdv301ViaPoint2_3CZ1_0> viaPointListVdv;
+
+    QVector<StopPointDestination> viaPointList;
+
+    if ((appendNextStopToViapoints==true)&&((currentStopIndex+1)<stopPointDestinationList.count()))
+    {
+        StopPointDestination nextStopPointDestination=stopPointDestinationList.at(currentStopIndex+1);
+        if (nextStopPointDestination.stopPoint.isViapoint==false)
+        {
+            viaPointListVdv.append(stopPointDestinationToVdv301ViaPoint(nextStopPointDestination.stopPoint,language,delaySeconds));
+            viaPointList.append(nextStopPointDestination);
+        }
+
+    }
+
+    for (int j=currentStopIndex+1;j<stopPointDestinationList.count() ;j++)
+    {
+        if(stopPointDestinationList.at(j).stopPoint.isViapoint == true)
+        {
+            StopPointDestination viaPoint=stopPointDestinationList.at(j);
+            viaPointListVdv.append(stopPointDestinationToVdv301ViaPoint(viaPoint.stopPoint,language, delaySeconds));
             viaPointList.append(viaPoint);
         }
     }
@@ -315,6 +584,43 @@ QStringList XmlCommon2_3CZ1_0::FareZoneInformationStructure2_3CZ1_0new( QVector<
     return output;
 }
 
+
+Vdv301ViaPoint2_3CZ1_0 XmlCommon2_3CZ1_0::stopPointDestinationToVdv301ViaPoint(StopPoint stopPoint, QString &language, int delaySeconds)
+{
+    Vdv301ViaPoint2_3CZ1_0 output;
+    output.viaPointRef=stopPoint.ref();
+    output.placeNameList<<Vdv301InternationalText(stopPoint.NameLcd+stopPropertiesToString2_3(stopPoint),language);
+
+    output.arrivalScheduled=qTimeToQDateTimeTodayQString(stopPoint.arrivalToQTime());
+    // ArrivalExpected
+    if(useDelay)
+    {
+        output.arrivalExpected=qTimeToQDateTimeTodayQString(stopPoint.arrivalToQTime().addSecs(delaySeconds));
+    }
+    else
+    {
+        //output.arrivalExpected=qTimeToQDateTimeToday( selectedStopPoinDestination.stopPoint.arrivalToQTime()).toString("yyyy-MM-ddThh:mm:ss");
+        output.arrivalExpected=qTimeToQDateTimeTodayQString(stopPoint.arrivalToQTime());
+    }
+
+
+    // DepartureScheduled
+    //   output.departureScheduled=qTimeToQDateTimeToday( selectedStopPoinDestination.stopPoint.departureToQTime()).toString("yyyy-MM-ddThh:mm:ss");
+    output.departureScheduled=qTimeToQDateTimeTodayQString(stopPoint.departureToQTime());
+    // DepartureExpected
+    if(useDelay)
+    {
+        output.departureExpected=qTimeToQDateTimeTodayQString(stopPoint.departureToQTime().addSecs(delaySeconds));
+    }
+    else
+    {
+        //output.departureExpected=qTimeToQDateTimeToday( selectedStopPoinDestination.stopPoint.departureToQTime()).toString("yyyy-MM-ddThh:mm:ss");
+        output.departureExpected=qTimeToQDateTimeTodayQString(stopPoint.departureToQTime());
+    }
+    return output;
+}
+
+
 QVector<Vdv301InternationalText> XmlCommon2_3CZ1_0::fareZoneListToVdv301FareZoneList(QVector<FareZone> fareZoneList, QString language)
 {
     QVector<Vdv301InternationalText> output;
@@ -371,10 +677,10 @@ Vdv301StopPoint2_3CZ1_0 XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new( QVector<StopPoi
 
     // DisplayContent
     QVector<Vdv301DisplayContent2_3CZ1_0> vdvDisplayContentList;
-    vdvDisplayContentList<<DisplayContentViaPointDestination2_3CZ1_0new(stopPointDestinationList, language,stopPointIterator,currentStopIndex,DisplayContentFront);
-    vdvDisplayContentList<<DisplayContentViaPointDestination2_3CZ1_0new(stopPointDestinationList, language,stopPointIterator,currentStopIndex,DisplayContentSide);
-    vdvDisplayContentList<<DisplayContentViaPointDestination2_3CZ1_0new(stopPointDestinationList, language,stopPointIterator,currentStopIndex,DisplayContentRear);
-    vdvDisplayContentList<<DisplayContentViaPointDestination2_3CZ1_0new(stopPointDestinationList, language,stopPointIterator,currentStopIndex,lcdClass);
+    vdvDisplayContentList<<DisplayContentViaPointDestination2_3CZ1_0new(stopPointDestinationList, language,stopPointIterator,currentStopIndex,DisplayContentFront, delaySeconds);
+    vdvDisplayContentList<<DisplayContentViaPointDestination2_3CZ1_0new(stopPointDestinationList, language,stopPointIterator,currentStopIndex,DisplayContentSide, delaySeconds);
+    vdvDisplayContentList<<DisplayContentViaPointDestination2_3CZ1_0new(stopPointDestinationList, language,stopPointIterator,currentStopIndex,DisplayContentRear, delaySeconds);
+    vdvDisplayContentList<<DisplayContentViaPointDestination2_3CZ1_0new(stopPointDestinationList, language,stopPointIterator,currentStopIndex,lcdClass,delaySeconds);
     output.displayContentList=vdvDisplayContentList;
 
     // StopAnnouncement not implemented
@@ -485,7 +791,7 @@ QDomElement XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0gen(QDomDocument &xmlDocument, V
 
 
 
-    for(const Vdv301DisplayContent &displayContent : stopPointDestination.displayContentList)
+    for(const Vdv301DisplayContent2_3CZ1_0 &displayContent : stopPointDestination.displayContentList)
     {
         dStopPoint.appendChild(DisplayContentViaPointDestination2_3gen(xmlDocument,"DisplayContent", displayContent));
     }
@@ -883,6 +1189,55 @@ Vdv301Trip2_3CZ1_0 XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0new(QVector<Trip> t
     */
 
     return vdv301trip;
+}
+
+
+QDomElement XmlCommon2_3CZ1_0::ViaPoint2_3def(QDomDocument &xmlDocument, Vdv301ViaPoint2_3CZ1_0 viaPoint)
+{
+    QDomElement dViaPoint=xmlDocument.createElement("ViaPoint");
+
+    dViaPoint.appendChild(ref(xmlDocument,"ViaPointRef",viaPoint.viaPointRef));
+
+
+    for(const Vdv301InternationalText &viaPointName : viaPoint.placeNameList )
+    {
+        QDomElement dPlaceLcdName=internationalTextTypeToDom(xmlDocument,"PlaceName",viaPointName.text ,viaPointName.language);
+        dViaPoint.appendChild(dPlaceLcdName);
+    }
+
+
+
+    // ArrivalScheduled minOccurs="0"
+    if(!viaPoint.arrivalScheduled.isEmpty())
+    {
+        QDomElement dArrivalScheduled=Value(xmlDocument,"ArrivalScheduled",viaPoint.arrivalScheduled);
+        dViaPoint.appendChild(dArrivalScheduled);
+    }
+
+    // ArrivalExpected minOccurs="0"
+    if(!viaPoint.arrivalExpected.isEmpty())
+    {
+        QDomElement dArrivalExpected=Value(xmlDocument,"ArrivalExpected",viaPoint.arrivalExpected);
+        dViaPoint.appendChild(dArrivalExpected);
+    }
+
+    // DepartureScheduled minOccurs="0"
+    if(!viaPoint.departureScheduled.isEmpty())
+    {
+        QDomElement dDepartureScheduled=Value(xmlDocument,"DepartureScheduled",viaPoint.departureScheduled);
+        dViaPoint.appendChild(dDepartureScheduled);
+    }
+
+    // DepartureExpected minOccurs="0"
+    if(!viaPoint.departureExpected.isEmpty())
+    {
+        QDomElement dDepartureExpected=Value(xmlDocument,"DepartureExpected",viaPoint.departureExpected);
+        dViaPoint.appendChild(dDepartureExpected);
+    }
+
+
+
+    return dViaPoint;
 }
 
 QString XmlCommon2_3CZ1_0::vehicleRunToRunNumber(VehicleRun vehicleRun)

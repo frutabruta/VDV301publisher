@@ -23,7 +23,11 @@ public:
     QDomElement AddtitionalAnnouncement2_3CZ1_0gen(QDomDocument &xmlDocument, Vdv301AdditionalAnnouncement2_3CZ1_0 vdv301AdditionalAnnouncement);
 
     int minutesBetweenStops(StopPoint firstStop, StopPoint secondStop);
-    QVector<Vdv301DisplayContent2_3CZ1_0> DisplayContentViaPointDestination2_3CZ1_0new(QVector<StopPointDestination> stopPointDestinationList, QString language, int stopPointIterator, int currentStopIndex, DisplayContentClass displayContentClass);
+    QVector<Vdv301DisplayContent2_3CZ1_0> DisplayContentViaPointDestination2_3CZ1_0new(QVector<StopPointDestination> stopPointDestinationList, QString language, int stopPointIterator, int currentStopIndex, DisplayContentClass displayContentClass, int delaySeconds);
+    Vdv301ViaPoint2_3CZ1_0 stopPointDestinationToVdv301ViaPoint(StopPoint stopPoint, QString &language, int delaySeconds);
+    QDomElement DisplayContentViaPointDestination2_3gen(QDomDocument &xmlDocument, QString tagName, Vdv301DisplayContent2_3CZ1_0 displayContent);
+    QVector<Vdv301DisplayContent2_3CZ1_0> DisplayContentViaPointDestination2_3new(QVector<StopPointDestination> stopPointDestinationList, QString language, int stopPointIterator, int currentStopIndex, DisplayContentClass displayContentClass, int delaySeconds);
+    QDomElement ViaPoint2_3def(QDomDocument &xmlDocument, Vdv301ViaPoint2_3CZ1_0 viaPoint);
 };
 
 #endif // XMLCOMMON2_3CZ1_0_H

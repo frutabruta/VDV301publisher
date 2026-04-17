@@ -8,6 +8,17 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog
+- 20260417_1900
+  - departure time to viaPoint implementation
+    - VDV301DataStructures
+      - Vdv301ViaPoint2_3CZ1_0 usage
+    - new function XmlCommon2_3CZ1_0::DisplayContentViaPointDestination2_3gen
+    - new function XmlCommon2_3CZ1_0::DisplayContentViaPointDestination2_3CZ1_0new
+    - new function XmlCommon2_3CZ1_0::stopPointDestinationToVdv301ViaPoint
+    - new function XmlCommon2_3CZ1_0::ViaPoint2_3def
+    - XmlCustomerInformationService2_3CZ1_0
+      - xmlCommon2_3CZ1_0 usage
+  
 - 20260401_1542
   - usage of QVector<Vdv301DisplayContent2_3CZ1_0
   - new function XmlCommon::qTimeToQDateTimeTodayQString

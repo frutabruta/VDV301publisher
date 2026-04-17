@@ -85,7 +85,7 @@ QString XmlCustomerInformationService2_3CZ1_0::AllData2_3CZ1_0gen(QDomDocument x
 
 
 
-    foreach(Vdv301DisplayContent displayContent, allData.globalDisplayContentList)
+    foreach(Vdv301DisplayContent2_3CZ1_0 displayContent, allData.globalDisplayContentList)
     {
         dAllData.appendChild(xmlCommon2_3CZ1_0.DisplayContentViaPointDestination2_3gen(xmlDocument,"GlobalDisplayContent", displayContent));
     }
@@ -108,7 +108,7 @@ Vdv301AllData2_3CZ1_0 XmlCustomerInformationService2_3CZ1_0::AllData2_3CZ1_0new(
 
     foreach(Connection connection, connectionList)
     {
-        vdv301ConnectionList<<xmlCommon2_3_new.connectionToVdv301Connection(connection,xmlCommon2_3_new.lcdClass);
+        vdv301ConnectionList<<xmlCommon2_3CZ1_0.connectionToVdv301Connection(connection,xmlCommon2_3CZ1_0.lcdClass);
     }
 
 
@@ -127,7 +127,7 @@ Vdv301AllData2_3CZ1_0 XmlCustomerInformationService2_3CZ1_0::AllData2_3CZ1_0new(
 
 
     allData.vehicleRef=QString::number(vehicleState.vehicleNumber);
-    allData.defaultLanguage=xmlCommon2_3_new.defaultLanguage2_3;
+    allData.defaultLanguage=xmlCommon2_3CZ1_0.defaultLanguage2_3;
     allData.currentStopIndex=vehicleState.currentStopIndex0+1; //úprava pro indexování zastávek od 1 vs od 0 pro pole
     allData.vehicleInformationGroup.vehicleStopRequested=vehicleState.isVehicleStopRequested;
     allData.vehicleInformationGroup.exitSide=Vdv301Enumerations::ExitSideRight;
@@ -209,24 +209,24 @@ QString XmlCustomerInformationService2_3CZ1_0::CurrentDisplayContent2_3CZ1_0gen(
 {
     qDebug()<<Q_FUNC_INFO;
 
-    QString language=xmlCommon2_3_new.defaultLanguage2_3;
+    QString language=xmlCommon2_3CZ1_0.defaultLanguage2_3;
 
-    QDomProcessingInstruction dProcessingInformation=xmlCommon2_3_new.createProcessingInformation(xmlDocument,xmlCommon2_3_new.mDefaultEncoding);
+    QDomProcessingInstruction dProcessingInformation=xmlCommon2_3CZ1_0.createProcessingInformation(xmlDocument,xmlCommon2_3CZ1_0.mDefaultEncoding);
     xmlDocument.appendChild(dProcessingInformation);
 
     QDomElement dCustomerInformationService=xmlDocument.createElement("CustomerInformationService.GetCurrentDisplayContentResponse");
     QDomElement dCurrentDisplayContentData=xmlDocument.createElement("CurrentDisplayContentData");
 
-    dCurrentDisplayContentData.appendChild(xmlCommon2_3_new.TimeStampTag1_0(xmlDocument));
+    dCurrentDisplayContentData.appendChild(xmlCommon2_3CZ1_0.TimeStampTag1_0(xmlDocument));
 
-    foreach(Vdv301DisplayContent displayContent, vdv301displayContentList )
+    foreach(Vdv301DisplayContent2_3CZ1_0 displayContent, vdv301displayContentList )
     {
-        dCurrentDisplayContentData.appendChild(xmlCommon2_3_new.DisplayContentViaPointDestination2_3gen(xmlDocument,"CurrentDisplayContent", displayContent));
+        dCurrentDisplayContentData.appendChild(xmlCommon2_3CZ1_0.DisplayContentViaPointDestination2_3gen(xmlDocument,"CurrentDisplayContent", displayContent));
     }
 
 
     dCustomerInformationService.appendChild(dCurrentDisplayContentData);
     xmlDocument.appendChild(dCustomerInformationService);
 
-    return xmlCommon2_3_new.qDomDocumentToQString(xmlDocument);
+    return xmlCommon2_3CZ1_0.qDomDocumentToQString(xmlDocument);
 }
