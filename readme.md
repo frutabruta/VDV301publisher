@@ -8,6 +8,11 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog
+- 20260513_1935
+  - XmlCommon
+    - added bool appendNextStopToViapoints, default value false
+    - usage in all derived classes
+  
 - 20260417_1900
   - departure time to viaPoint implementation
     - VDV301DataStructures

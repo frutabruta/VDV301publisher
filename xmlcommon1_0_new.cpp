@@ -171,7 +171,7 @@ QVector<Vdv301DisplayContent> XmlCommon1_0_new::DisplayContentViaPointDestinatio
 {
     QVector<Vdv301DisplayContent> output;
     StopPointDestination selectedStopPointDestination=stopPointDestinationList.at(stopPointIterator);
-    bool appendNextStopToViapoints=true;
+
     QString placeholder="";
     ConnectionMPV::ddDoVehicleMode(selectedStopPointDestination.line.kli,placeholder,placeholder,selectedStopPointDestination.line );
 

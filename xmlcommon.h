@@ -29,6 +29,8 @@ public:
     QString defaultLanguage2_3CZ1_0="cs";
     QString mDefaultEncoding="utf-8";
 
+    bool appendNextStopToViapoints=false;
+
 
     //pomocneFce
     QString createTimestamp();

@@ -19,6 +19,7 @@ public:
 
     bool addIconsWuppertal=true;
 
+
     Vdv301Connection connectionToVdv301Connection(Connection connection, DisplayContentClass displayClass);
     QDomElement Connection1_0gen(QDomDocument &xmlDocument, Vdv301Connection connection);
     QDomElement DisplayContentViaPointDestination1_0gen(QDomDocument &xmlDocument, QString tagName, Vdv301DisplayContent displayContent);
