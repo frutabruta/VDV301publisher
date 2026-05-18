@@ -2,6 +2,8 @@
 
 #include "VDV301DataStructures/connectionmpv.cpp"
 
+Q_LOGGING_CATEGORY(XmlCommon2_3CZ1_0Log, "XmlCommon2_3CZ1_0")
+
 XmlCommon2_3CZ1_0::XmlCommon2_3CZ1_0() {}
 
 
@@ -118,8 +120,6 @@ QVector<Vdv301DisplayContent2_3CZ1_0> XmlCommon2_3CZ1_0::DisplayContentViaPointD
 
     // Destination
 
-
-
     // ViaPoint minOccurs="0"
     QDomElement viaPointObsah;
     QVector<Vdv301ViaPoint2_3CZ1_0> viaPointListVdv;
@@ -149,9 +149,6 @@ QVector<Vdv301DisplayContent2_3CZ1_0> XmlCommon2_3CZ1_0::DisplayContentViaPointD
     // AdditionalInformation minOccurs="0"
     // RunNumber minOccurs="0"
     // DisplayPolicyGroup minOccurs="0"
-
-
-
 
 
     if(selectedStopPointDestination.destination.NameFront.contains("|"))
@@ -302,8 +299,7 @@ QVector<Vdv301DisplayContent2_3CZ1_0> XmlCommon2_3CZ1_0::DisplayContentViaPointD
         break;
     }
     default:
-        qDebug()<<"break";
-        //   break;
+        qCDebug(XmlCommon2_3CZ1_0Log)<<"break";
     }
 
     return output;
@@ -320,15 +316,12 @@ QVector<Vdv301DisplayContent2_3CZ1_0> XmlCommon2_3CZ1_0::DisplayContentViaPointD
     QString placeholder="";
     ConnectionMPV::ddDoVehicleMode(selectedStopPointDestination.line.kli,placeholder,placeholder,selectedStopPointDestination.line );
 
-
     // DisplayContentRef minOccurs="0"
     QString displayContentClassString=Vdv301DisplayContent::displayContentClassEnumerationToQString(displayContentClass);
     // LineInformation
     Vdv301Line selectedLine=lineToVdv301Line2_3(selectedStopPointDestination.line, addLineStyle);
 
     // Destination
-
-
 
     // ViaPoint minOccurs="0"
     QDomElement viaPointObsah;
@@ -361,9 +354,6 @@ QVector<Vdv301DisplayContent2_3CZ1_0> XmlCommon2_3CZ1_0::DisplayContentViaPointD
     // DisplayPolicyGroup minOccurs="0"
 
 
-
-
-
     if(selectedStopPointDestination.destination.NameFront.contains("|"))
     {
         QStringList frontNames=selectedStopPointDestination.destination.NameFront.split("|");
@@ -396,7 +386,6 @@ QVector<Vdv301DisplayContent2_3CZ1_0> XmlCommon2_3CZ1_0::DisplayContentViaPointD
         if(!destination2.isEmpty())
         {
             frontDestination.destinationNameList<<Vdv301InternationalText(destination2,language);
-
         }
 
         frontDisplayContent.destination=frontDestination;
@@ -512,7 +501,7 @@ QVector<Vdv301DisplayContent2_3CZ1_0> XmlCommon2_3CZ1_0::DisplayContentViaPointD
         break;
     }
     default:
-        qDebug()<<"break";
+        qCDebug(XmlCommon2_3CZ1_0Log)<<"break";
         //   break;
     }
 
@@ -534,12 +523,7 @@ QDomElement XmlCommon2_3CZ1_0::FareZoneChange2_3CZ1_0gen(QDomDocument  &xmlDocum
 
     fareZoneChange.appendChild(fromFareZones);
 
-
-
     QDomElement toFareZones=xmlDocument.createElement("ToFareZones");
-
-
-
 
     for(const Vdv301InternationalText &selectedFareZone : vdv301FareZoneChange.toFareZone )
     {
@@ -637,22 +621,18 @@ QVector<Vdv301InternationalText> XmlCommon2_3CZ1_0::fareZoneListToVdv301FareZone
 
 }
 
-
-
-
-
 Vdv301StopPoint2_3CZ1_0 XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new( QVector<StopPointDestination> stopPointDestinationList,int stopPointIterator, QVector<Vdv301Connection> connectionList, QString language,int currentStopIndex,int delaySeconds)
 {
-    qDebug()<<Q_FUNC_INFO;
+    qCDebug(XmlCommon2_3CZ1_0Log)<<Q_FUNC_INFO;
     Vdv301StopPoint2_3CZ1_0 output;
     if (stopPointDestinationList.isEmpty())
     {
-        qDebug()<<"stop list is empty";
+        qCDebug(XmlCommon2_3CZ1_0Log)<<"stop list is empty";
         return output;
     }
     if (stopPointIterator>=stopPointDestinationList.length())
     {
-        qDebug()<<"stop index is out of range";
+        qCDebug(XmlCommon2_3CZ1_0Log)<<"stop index is out of range";
         return output;
     }
 
@@ -738,11 +718,6 @@ Vdv301StopPoint2_3CZ1_0 XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new( QVector<StopPoi
     return output;
 }
 
-
-
-
-
-
 QDomElement XmlCommon2_3CZ1_0::StopSequence2_3CZ1_0gen(QDomDocument &xmlDocument,QVector<Vdv301StopPoint2_3CZ1_0> stopPointDestinationList)
 {
     QDomElement dStopSequence=xmlDocument.createElement("StopSequence");
@@ -759,7 +734,7 @@ QDomElement XmlCommon2_3CZ1_0::StopSequence2_3CZ1_0gen(QDomDocument &xmlDocument
 
 QDomElement XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0gen(QDomDocument &xmlDocument, Vdv301StopPoint2_3CZ1_0 stopPointDestination)
 {
-    qDebug()<<Q_FUNC_INFO;
+    qCDebug(XmlCommon2_3CZ1_0Log)<<Q_FUNC_INFO;
     QDomElement dStopPoint=xmlDocument.createElement("StopPoint");
 
     // StopIndex
@@ -970,7 +945,7 @@ QDomElement XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0gen(QDomDocument &xmlDocum
     }
     else
     {
-        qDebug()<<"followingTrip==true";
+        qCDebug(XmlCommon2_3CZ1_0Log)<<"followingTrip==true";
     }
 
 
@@ -981,8 +956,6 @@ QDomElement XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0gen(QDomDocument &xmlDocum
 
     return dTripInformation;
 }
-
-
 
 
 Vdv301Trip2_3CZ1_0 XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0new(QVector<Trip> tripList, QVector<Vdv301Connection> connectionList, VehicleState vehicleState, int tripIndex, bool followingTrip)
@@ -1005,7 +978,6 @@ Vdv301Trip2_3CZ1_0 XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0new(QVector<Trip> t
     QString tripRef=selectedTrip.ref();
     QVector<StopPointDestination> stopPointDestinationList=selectedTrip.globalStopPointDestinationList;
 
-
     vdv301trip.tripRef=tripRef;
     vdv301trip.locationState=Vdv301Enumerations::LocationStateEnumerationFromQString(Vdv301Enumerations::LocationStateEnumerationToQString(vehicleState.locationState));
     //vdv301trip.additionalTextMessage=
@@ -1026,7 +998,7 @@ Vdv301Trip2_3CZ1_0 XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0new(QVector<Trip> t
         if(vehicleState.currentStopIndex0<stopPointDestinationList.count()&&(vehicleState.currentStopIndex0>=0))
         {
             specialAnnouncement=currentStopPointDestination.stopPoint.additionalTextMessage;
-            qDebug()<<"special announcement="<<specialAnnouncement;
+            qCDebug(XmlCommon2_3CZ1_0Log)<<"special announcement="<<specialAnnouncement;
 
             if(vehicleState.isSpecialAnnoucementUsed)
             {
@@ -1066,7 +1038,7 @@ Vdv301Trip2_3CZ1_0 XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0new(QVector<Trip> t
     }
     else
     {
-        qDebug()<<"followingTrip==true";
+        qCDebug(XmlCommon2_3CZ1_0Log)<<"followingTrip==true";
     }
 
 
@@ -1205,8 +1177,6 @@ QDomElement XmlCommon2_3CZ1_0::ViaPoint2_3def(QDomDocument &xmlDocument, Vdv301V
         dViaPoint.appendChild(dPlaceLcdName);
     }
 
-
-
     // ArrivalScheduled minOccurs="0"
     if(!viaPoint.arrivalScheduled.isEmpty())
     {
@@ -1245,7 +1215,3 @@ QString XmlCommon2_3CZ1_0::vehicleRunToRunNumber(VehicleRun vehicleRun)
     //   return QString::number(vehicleRun.rootLine.c)+"_"+QString::number(vehicleRun.order);
     return QString::number(vehicleRun.rootLine.c)+"_"+QString::number(vehicleRun.order);
 }
-
-
-
-

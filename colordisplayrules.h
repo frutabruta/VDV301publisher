@@ -5,6 +5,7 @@
 #include <QMap>
 #include <QString>
 #include <QDebug>
+#include <QLoggingCategory>
 #include "VDV301DataStructures/line.h"
 
 

@@ -8,6 +8,26 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog
+- 20260518_1057
+  - POST queue slowdown fix
+  - ColorDisplayRules
+    - implemented QLoggingCategory
+  - HttpService
+    - implemented QLoggingCategory
+    - HttpService::postToSubscriber
+    - postToSubscriber
+      - rework to support reply connected slot
+      - reworked slotReplyToPostReceived
+  - XmlCommon
+    - implemented QLoggingCategory
+  - XmlCommon1_0_new
+    - implemented QLoggingCategory
+  - XmlCommon2_3_new
+    - implemented QLoggingCategory 
+  - VDV301DisplayStructures
+    - ConnectionMPV
+      - implemented QLoggingCategory
+  
 - 20260513_1935
   - XmlCommon
     - added bool appendNextStopToViapoints, default value false

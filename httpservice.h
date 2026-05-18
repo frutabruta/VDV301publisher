@@ -5,6 +5,7 @@
 #include <QtXml>
 #include <QtHttpServer>
 #include <QMap>
+#include <QLoggingCategory>
 
 #include "QtZeroConf/qzeroconf.h"
 
@@ -13,7 +14,6 @@
 
 //#include "VDV301DataStructures/vehiclestate.h"
 //#include "VDV301DataStructures/stoppointdestination.h"
-
 
 
 class HttpService: public QObject
@@ -78,6 +78,7 @@ private:
 
     QByteArray createGetHeader(); // unused
     QString createSubscribeHeader(); //unused
+
 protected:
 
     QMap<QString,QString> structureContentMap; //contains payload and a key(AllData etc.)
@@ -90,23 +91,23 @@ public slots:
     void slotStop(bool parameter);
     void slotStartDnsSd(bool parameter);
     void slotRemoveAllSubscribers();
+    void slotReplyToPostReceived();
     void slotStopTimer();
     void slotServerReady(int portNumber);
     void slotStartServer();
 
-
 private slots:
     void slotTimerTimeout(); // unused
-    void slotReplyToPostReceived(QNetworkReply *reply);
-
     void slotServicePublished();
+
 signals:
     void signalSubscriberAdded(QUrl subscriberSddress); // unused
     void signalDumpSubscriberList(QVector<Subscriber> subscriberList);
     void signalStav(bool stav);
     void signalStart(); // unused
     void signalStop(); // unused
-    void signalReplyToPostReceived(QNetworkReply *reply);
+    //void signalReplyToPostReceived(QNetworkReply *reply);
+    void signalPostResult(const QUrl &url, int httpStatus, QNetworkReply::NetworkError error, const QString &errorString, const QByteArray &body);
     void signalParameterChange(QMap<QString,QString> values);
     void signalServicePublished(QString serviceName);
     void signalErrorMessage(QString message);

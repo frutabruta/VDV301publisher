@@ -5,7 +5,6 @@
 #include "xmlcustomerinformationservice1_0_new.h"
 #include "xmlcustomerinformationservice2_3cz1_0.h"
 
-#include <QLoggingCategory>
 
 class CustomerInformationService : public HttpService
 {

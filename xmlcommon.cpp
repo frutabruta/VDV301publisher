@@ -1,7 +1,7 @@
 #include "xmlcommon.h"
 
 
-
+Q_LOGGING_CATEGORY(XmlCommonLog, "XmlCommon")
 
 XmlCommon::XmlCommon()
 {
@@ -22,15 +22,9 @@ QDomElement XmlCommon::AdditionalTextMessage1_0(QString messageContent,bool isSc
     return TextMessage;
 }
 
-
-
-
-
-
-
 QString XmlCommon::createTimestamp()
 {
-    qDebug()<<Q_FUNC_INFO;
+    qCDebug(XmlCommonLog)<<Q_FUNC_INFO;
     QDateTime timeStamp = QDateTime::currentDateTime();
     QString formattedTimeStamp= timeStamp.toString("yyyy-MM-ddThh:mm:ss");
     return formattedTimeStamp;
@@ -38,30 +32,13 @@ QString XmlCommon::createTimestamp()
 
 
 
-
-
-
-
-
-
-
 //work in progress
-
-
-
-
-
-
 QDomElement XmlCommon::DoorOpenState(QDomDocument &xmlDocument,QString content)
 {
     QDomElement dRouteDeviation = xmlDocument.createElement("DoorOpenState");
     dRouteDeviation.appendChild(xmlDocument.createTextNode(content));
     return dRouteDeviation;
 }
-
-
-
-
 
 /////////////////////////////////////////////
 QDomElement XmlCommon::FareZone1_0(QDomDocument  &xmlDocument, QString shortName)
@@ -71,11 +48,6 @@ QDomElement XmlCommon::FareZone1_0(QDomDocument  &xmlDocument, QString shortName
 
     return pasmo;
 }
-
-
-
-
-
 
 
 QDomElement XmlCommon::MyOwnVehicleMode(QDomDocument &xmlDocument, QString subMode, QString mode)
@@ -89,7 +61,6 @@ QDomElement XmlCommon::MyOwnVehicleMode(QDomDocument &xmlDocument, QString subMo
     output.appendChild(dSubMode);
     return output;
 }
-
 
 
 ///////////////////////////////
@@ -118,25 +89,12 @@ QDomElement XmlCommon::RouteDeviation(QDomDocument &xmlDocument,QString content)
 }
 
 
-
-
-
-
-
-
-
-
-
-
 QDomElement XmlCommon::TimeStampTag1_0(QDomDocument &xmlDocument)
 {
     QDomElement dTimeStamp=Value(xmlDocument,"TimeStamp",this->createTimestamp());
     return dTimeStamp;
 
 }
-
-
-
 
 
 QDomElement XmlCommon::internationalTextTypeToDom(QDomDocument &xmlDocument,QString name,QString value,QString language)
@@ -247,10 +205,6 @@ QDomElement XmlCommon::Value(QDomDocument &xmlDocument, QString elementName, QSt
 }
 
 
-
-
-
-
 QDomProcessingInstruction XmlCommon::createProcessingInformation(QDomDocument &xmlDocument, QString encoding)
 {
     return xmlDocument.createProcessingInstruction("xml","version=\"1.0\" encoding=\""+encoding+"\" ");
@@ -296,7 +250,7 @@ QTime StopPoint::secondsToQtime(QString vstup)
 
 int XmlCommon::isInRange(int index, int valueCount, QString nameOfFunction)
 {
-    qDebug()<<Q_FUNC_INFO;
+    qCDebug(XmlCommonLog)<<Q_FUNC_INFO;
     if((index<valueCount)&&(index>=0))
     {
         return 1;
@@ -305,8 +259,7 @@ int XmlCommon::isInRange(int index, int valueCount, QString nameOfFunction)
     {
         QString errorText="value "+QString::number(index)+" is out of range "+ QString::number(valueCount)+" "+nameOfFunction;
         emit signalErrorMessage(errorText);
-        qDebug()<<errorText;
+        qCDebug(XmlCommonLog)<<errorText;
         return 0;
     }
-
 }

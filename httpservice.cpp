@@ -1,6 +1,7 @@
 #include "httpservice.h"
 
 
+Q_LOGGING_CATEGORY(HttpServiceLog, "HttpService")
 
 
 /*!
@@ -12,28 +13,19 @@
  */
 HttpService::HttpService(QString serviceName,QString serviceType, int portNumber,QString version,QString serviceNamePostfix):httpServerPublisher (portNumber,serviceName)
 {
-    qDebug() <<  Q_FUNC_INFO <<" "<< serviceName <<" "<<QString::number(portNumber);
+    qCDebug(HttpServiceLog) <<  Q_FUNC_INFO <<" "<< serviceName <<" "<<QString::number(portNumber);
     mPortNumber=portNumber;
     mServiceName=serviceName;
     mServiceType=serviceType;
     mVersion=version;
     mServiceNamePostFix=serviceNamePostfix;
 
-    //qDebug()<<"xxx"<<
+    //qCDebug(HttpServiceLog)<<"xxx"<<
     connect(&httpServerPublisher ,&HttpServerPublisher::signalServerRuns ,this,&HttpService::slotServerReady, Qt::QueuedConnection); //might cause server startup issues
-
     connect(&httpServerPublisher ,&HttpServerPublisher::signalContentChanged,this,&HttpService::slotDumpRequestContent);
-
     connect(&zeroConf,&QZeroConf::error,this,&HttpService::slotDumpZeroConfigError);
-
     connect(&zeroConf,&QZeroConf::servicePublished,this,&HttpService::slotServicePublished);
-
-    connect(&qNetworkAccessManager,&QNetworkAccessManager::finished,this,&HttpService::slotReplyToPostReceived);
-
-
-
-
-
+    //connect(&qNetworkAccessManager,&QNetworkAccessManager::finished,this,&HttpService::slotReplyToPostReceived);
 }
 
 /*!
@@ -42,7 +34,7 @@ HttpService::HttpService(QString serviceName,QString serviceType, int portNumber
 HttpService::~HttpService()
 {
     stopBonjourService();
-    qDebug()<<Q_FUNC_INFO;
+    qCDebug(HttpServiceLog)<<Q_FUNC_INFO;
 }
 
 
@@ -51,7 +43,7 @@ HttpService::~HttpService()
  */
 void HttpService::slotTimerTimeout()
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(HttpServiceLog) <<  Q_FUNC_INFO;
 }
 
 
@@ -62,7 +54,7 @@ void HttpService::slotTimerTimeout()
  */
 QByteArray HttpService::createGetHeader()
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(HttpServiceLog) <<  Q_FUNC_INFO;
     QByteArray header;
 
     header+=("HTTP/1.1 200 OK\r\n");       // \r needs to be before \n
@@ -82,7 +74,7 @@ QByteArray HttpService::createGetHeader()
 
 QString HttpService::createSubscribeHeader()
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(HttpServiceLog) <<  Q_FUNC_INFO;
     QByteArray header;
     //this->hlavickaInterni="";
     header+=("HTTP/1.1 200 OK\r\n");       // \r needs to be before \n
@@ -101,14 +93,14 @@ QString HttpService::createSubscribeHeader()
 
 void HttpService::slotServerReady(int portNumber)
 {
-    qDebug() <<  Q_FUNC_INFO << " "<<QString::number(portNumber);
+    qCDebug(HttpServiceLog) <<  Q_FUNC_INFO << " "<<QString::number(portNumber);
     mPortNumber=portNumber;
     slotStartDnsSd(true);
 }
 
 void HttpService::bonjourStartAll()
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(HttpServiceLog) <<  Q_FUNC_INFO;
     //zeroConf.clearServiceTxtRecords();
     this->bonjourStartPublish(this->mServiceName+this->mServiceNamePostFix,this->mServiceType,this->mPortNumber,this->mVersion ,zeroConf);
 }
@@ -124,20 +116,20 @@ void HttpService::bonjourStartAll()
  */
 void HttpService::bonjourStartPublish(QString serviceName, QString serviceType,int port,QString version, QZeroConf &qZeroConf)
 {
-    qDebug() <<  Q_FUNC_INFO<<" "<<serviceName<<" "<<version<<" "<<serviceType<<" "<<port;
+    qCDebug(HttpServiceLog) <<  Q_FUNC_INFO<<" "<<serviceName<<" "<<version<<" "<<serviceType<<" "<<port;
 
     if(!blockBonjour)
     {
         qZeroConf.clearServiceTxtRecords();
         qZeroConf.addServiceTxtRecord("ver", version);
-        qDebug()<<"Txt record added";
+        qCDebug(HttpServiceLog)<<"Txt record added";
 
         qZeroConf.startServicePublish(serviceName.toUtf8(), serviceType.toUtf8(), "local", port,0);
         //  void QZeroConf::startServicePublish(const char *name, const char *type, const char *domain, quint16 port, quint32 interface)
     }
     else
     {
-        qDebug()<<"bonjour blocked";
+        qCDebug(HttpServiceLog)<<"bonjour blocked";
     }
 
 
@@ -146,7 +138,7 @@ void HttpService::bonjourStartPublish(QString serviceName, QString serviceType,i
 
 void HttpService::slotServicePublished()
 {
-    qDebug() <<  Q_FUNC_INFO <<" "<<this->mServiceName<<" "<<this->mVersion ;
+    qCDebug(HttpServiceLog) <<  Q_FUNC_INFO <<" "<<this->mServiceName<<" "<<this->mVersion ;
     emit signalServicePublished(this->mServiceName+" "+this->mVersion);
 }
 
@@ -156,7 +148,7 @@ void HttpService::slotServicePublished()
  */
 void HttpService::slotDumpZeroConfigError()
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(HttpServiceLog) <<  Q_FUNC_INFO;
 }
 
 
@@ -169,7 +161,7 @@ void HttpService::slotDumpZeroConfigError()
 QByteArray HttpService::createSubscribeResponseBody(int desiredResult)
 {
 
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(HttpServiceLog) <<  Q_FUNC_INFO;
     QByteArray textResult="true";
     if (desiredResult!=1)
     {
@@ -193,21 +185,21 @@ QByteArray HttpService::createSubscribeResponseBody(int desiredResult)
  */
 void HttpService::slotDumpRequestContent(QByteArray request,QString structureName)
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(HttpServiceLog) <<  Q_FUNC_INFO;
     QByteArray previousRequest=httpServerPublisher.requestBody;
     QDomDocument xmlRequest;
-    qDebug()<<"length of last Request "<<QString::number(previousRequest.length())<<" length of result "<<QString::number(request.length());
+    qCDebug(HttpServiceLog)<<"length of last Request "<<QString::number(previousRequest.length())<<" length of result "<<QString::number(request.length());
 
 
     if(!xmlRequest.setContent(QString(request))) // UTF-16 fix
     {
-        qDebug()<<"QByteArray could not be imported to QDomDocument";
+        qCDebug(HttpServiceLog)<<"QByteArray could not be imported to QDomDocument";
         return;
     }
 
     QString firstTag=xmlRequest.firstChildElement().tagName();
-    qDebug().noquote()<<"prvni tag "<<firstTag;
-    qDebug().noquote()<<"body pozadavku"<<previousRequest;
+    qCDebug(HttpServiceLog).noquote()<<"prvni tag "<<firstTag;
+    qCDebug(HttpServiceLog).noquote()<<"body pozadavku"<<previousRequest;
 
 
 
@@ -227,12 +219,12 @@ void HttpService::slotDumpRequestContent(QByteArray request,QString structureNam
 
         if(address.contains("%")) //IP v fixM  ?
         {
-            qDebug()<<" percent sign detected";
+            qCDebug(HttpServiceLog)<<" percent sign detected";
             fullAddress="http://["+address+"]:"+port+path;
         }
 
         QUrl fullAddressUrl=fullAddress;
-        qDebug()<<"komplet adresa subscribera "<<fullAddress;
+        qCDebug(HttpServiceLog)<<"komplet adresa subscribera "<<fullAddress;
 
         Subscriber candidateToSubscribe;
         candidateToSubscribe.address=fullAddressUrl;
@@ -250,12 +242,12 @@ void HttpService::slotDumpRequestContent(QByteArray request,QString structureNam
 
         if(address.contains("%")) //IP v fixM  ?
         {
-            qDebug()<<" percent sign detected";
+            qCDebug(HttpServiceLog)<<" percent sign detected";
             fullAddress="http://["+address+"]:"+port;
         }
 
         QUrl fullAddressUrl=fullAddress;
-        qDebug()<<"komplet adresa subscribera "<<fullAddress;
+        qCDebug(HttpServiceLog)<<"komplet adresa subscribera "<<fullAddress;
 
         Subscriber candidateToSubscribe;
         candidateToSubscribe.address=fullAddressUrl;
@@ -277,15 +269,15 @@ void HttpService::slotDumpRequestContent(QByteArray request,QString structureNam
             QString value=parameter.firstChildElement("Value").firstChild().nodeValue();
             values[key]=value;
 
-            qDebug()<<"parameter: "<<key<<" "<<value;
+            qCDebug(HttpServiceLog)<<"parameter: "<<key<<" "<<value;
         }
         emit signalParameterChange(values);
 
     }
     else
     {
-        qDebug()<<"unknown request";
-        qDebug()<<"first tag content: "<<firstTag;
+        qCDebug(HttpServiceLog)<<"unknown request";
+        qCDebug(HttpServiceLog)<<"first tag content: "<<firstTag;
 
     }
 
@@ -304,18 +296,26 @@ void HttpService::slotDumpRequestContent(QByteArray request,QString structureNam
 
 void HttpService::postToSubscriber(QUrl subscriberAddress, QString contentToPost)
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(HttpServiceLog) <<  Q_FUNC_INFO;
     //QByteArray postDataSize = QByteArray::number(dataDoPostu.size());
     QNetworkRequest requestToPost(subscriberAddress);
 
     //pozadavekPOST.setRawHeader("Content-Length", postDataSize );
     requestToPost.setRawHeader("Content-Type", "text/xml");
-    requestToPost.setRawHeader("Expect", "100-continue");
-    requestToPost.setRawHeader("Connection", "keep-Alive");
+
+    //requestToPost.setRawHeader("Expect", "100-continue");
+    //requestToPost.setRawHeader("Connection", "keep-Alive");
+
     //pozadavekPOST.setRawHeader("Accept-Encoding", "gzip, deflate");
 
     QByteArray contentToPostQByteArray=contentToPost.toUtf8() ;
-    qNetworkAccessManager.post(requestToPost,contentToPostQByteArray);
+   // qNetworkAccessManager.post(requestToPost,contentToPostQByteArray);
+
+
+    QNetworkReply *reply = qNetworkAccessManager.post(requestToPost, contentToPostQByteArray);
+
+    connect(reply, &QNetworkReply::finished, this, &HttpService::slotReplyToPostReceived);
+    //connect(reply, &QNetworkReply::finished, reply, &QNetworkReply::deleteLater);
 
 }
 
@@ -326,12 +326,69 @@ void HttpService::postToSubscriber(QUrl subscriberAddress, QString contentToPost
  * \param reply
  */
 
-void HttpService::slotReplyToPostReceived(QNetworkReply* reply)
+
+
+void HttpService::slotReplyToPostReceived()
 {
-    qDebug() <<  Q_FUNC_INFO;
-    emit this->signalReplyToPostReceived(reply);
+    qCDebug(HttpServiceLog)<<Q_FUNC_INFO;
+    QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
+
+
+    if (reply == nullptr)
+    {
+        qCWarning(HttpServiceLog) << "slotReplyToPostReceived(): sender() is not a QNetworkReply";
+        return;
+    }
+
+
+    const QNetworkReply::NetworkError err = reply->error();
+    const int errInt = static_cast<int>(err);
+    const QString errStr = reply->errorString();
+
+    const QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+    const int httpStatus = statusCode.isValid() ? statusCode.toInt() : -1;
+
+    qCDebug(HttpServiceLog) << "URL:" << reply->url();
+    qCDebug(HttpServiceLog) << "HTTP status:" << httpStatus;
+    qCDebug(HttpServiceLog) << "Network error enum:" << errInt;
+
+    if (err != QNetworkReply::NoError)
+    {
+        qCWarning(HttpServiceLog) << "Network error:" << errInt << errStr;
+        emit signalErrorMessage(errStr);
+    }
+    else if (httpStatus < 200 || httpStatus >= 300)
+    {
+        const QString httpError = QStringLiteral("HTTP error status %1").arg(httpStatus);
+        qCWarning(HttpServiceLog) << httpError;
+        emit signalErrorMessage(httpError);
+    }
+
+    const QByteArray responseBody = reply->readAll();
+
+    emit this->signalPostResult(reply->url(), httpStatus, err, errStr, responseBody);
+
+    reply->deleteLater();
 }
 
+/*
+void HttpService::slotReplyToPostReceived(QNetworkReply *reply)
+{
+    qCDebug(HttpServiceLog) << Q_FUNC_INFO;
+
+    const QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+    const int httpStatus = statusCode.isValid() ? statusCode.toInt() : -1;
+
+    const QNetworkReply::NetworkError err = reply->error();
+    const QString errStr = reply->errorString();
+
+    const QByteArray responseBody = reply->readAll();
+
+    emit this->signalPostResult(reply->url(), httpStatus, err, errStr, responseBody);
+
+    reply->deleteLater();
+}
+*/
 
 /*!
  * \brief HttpSluzba::novySubscriber
@@ -340,7 +397,7 @@ void HttpService::slotReplyToPostReceived(QNetworkReply* reply)
  */
 QString HttpService::handleNewSubscriber(Subscriber subscriber)
 {
-    qDebug() <<  Q_FUNC_INFO<<" "<<subscriber.address;
+    qCDebug(HttpServiceLog) <<  Q_FUNC_INFO<<" "<<subscriber.address;
     QString output;
     if(subscriber.address.toString()=="")
     {
@@ -361,7 +418,6 @@ QString HttpService::handleNewSubscriber(Subscriber subscriber)
 
     emit signalDumpSubscriberList(subscriberList);
     return output;
-
 }
 
 
@@ -374,7 +430,7 @@ QString HttpService::handleNewSubscriber(Subscriber subscriber)
  */
 int HttpService::isSubscriberOnTheList(QVector<Subscriber> subscriberList ,Subscriber testedSubscriber)
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(HttpServiceLog) <<  Q_FUNC_INFO;
     for(int i =0;i<subscriberList.length();i++)
     {
         if((subscriberList[i].address==testedSubscriber.address)&&(subscriberList[i].structure==testedSubscriber.structure ))
@@ -391,10 +447,10 @@ int HttpService::isSubscriberOnTheList(QVector<Subscriber> subscriberList ,Subsc
  */
 int HttpService::removeSubscriber(int index)
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(HttpServiceLog) <<  Q_FUNC_INFO;
     if ((index<subscriberList.size())&&(index>=0))
     {
-        qDebug()<<"removing "<<subscriberList.at(index).address<<subscriberList.at(index).structure;
+        qCDebug(HttpServiceLog)<<"removing "<<subscriberList.at(index).address<<subscriberList.at(index).structure;
 
         subscriberList.removeAt(index);
         emit signalDumpSubscriberList(subscriberList);
@@ -402,14 +458,14 @@ int HttpService::removeSubscriber(int index)
     }
     else
     {
-        qDebug()<<"out of range";
+        qCDebug(HttpServiceLog)<<"out of range";
     }
     return 0;
 }
 
 int HttpService::removeSubscriber(Subscriber selectedSubscriber)
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(HttpServiceLog) <<  Q_FUNC_INFO;
 
     int index=subscriberList.indexOf(selectedSubscriber);
     if(index>=0)
@@ -432,7 +488,7 @@ int HttpService::removeSubscriber(Subscriber selectedSubscriber)
 int HttpService::setBodyContent(QString key, QString content)
 {
 
-    qDebug() <<  Q_FUNC_INFO<<" "<<key;
+    qCDebug(HttpServiceLog) <<  Q_FUNC_INFO<<" "<<key;
     structureContentMap.insert(key,content);
 
     return 1;
@@ -469,14 +525,14 @@ void HttpService::setVersion(const QString &newVersion)
  */
 void HttpService::stopBonjourService()
 {
-    qDebug() <<  Q_FUNC_INFO<<mServiceName<<" "<<mVersion<<" "<<mPortNumber;
+    qCDebug(HttpServiceLog) <<  Q_FUNC_INFO<<mServiceName<<" "<<mVersion<<" "<<mPortNumber;
     if(!blockBonjour)
     {
         zeroConf.stopServicePublish();
     }
     else
     {
-        qDebug()<<"bonjour blocked";
+        qCDebug(HttpServiceLog)<<"bonjour blocked";
     }
 
 
@@ -497,7 +553,7 @@ void HttpService::slotStartServer()
 
 void HttpService::slotStartDnsSd(bool parameter)
 {
-    qDebug() <<  Q_FUNC_INFO<<" "<<this->mServiceName<<" "<<this->mVersion;
+    qCDebug(HttpServiceLog) <<  Q_FUNC_INFO<<" "<<this->mServiceName<<" "<<this->mVersion;
     bonjourStartAll();
     emit this->signalStav(true);
     //emit this->startSignal();
@@ -511,7 +567,7 @@ void HttpService::slotStartDnsSd(bool parameter)
  */
 void HttpService::slotStop(bool parameter)
 {
-    qDebug() <<  Q_FUNC_INFO<<" "<<this->mServiceName<<" "<<this->mVersion;
+    qCDebug(HttpServiceLog) <<  Q_FUNC_INFO<<" "<<this->mServiceName<<" "<<this->mVersion;
     timer.stop();
     stopBonjourService();
     emit this->signalStav(false);
@@ -527,7 +583,7 @@ void HttpService::slotStop(bool parameter)
  */
 void HttpService::slotRemoveAllSubscribers()
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(HttpServiceLog) <<  Q_FUNC_INFO;
     subscriberList.clear();
 
 
@@ -539,7 +595,7 @@ void HttpService::slotRemoveAllSubscribers()
  */
 void HttpService::slotStopTimer()
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(HttpServiceLog) <<  Q_FUNC_INFO;
     timer.stop();
 
 }
@@ -558,7 +614,7 @@ int HttpService::portNumber() const
 
 void HttpService::setPortNumber(int newPortNumber)
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(HttpServiceLog) <<  Q_FUNC_INFO;
     mPortNumber = newPortNumber;
     httpServerPublisher.setPortNumber(mPortNumber);
 }
@@ -588,7 +644,7 @@ void HttpService::postToAllSubscribers()
 
 int HttpService::isInRange(int index, int valueCount, QString nameOfFunction)
 {
-    qDebug()<<Q_FUNC_INFO;
+    qCDebug(HttpServiceLog)<<Q_FUNC_INFO;
     if((index<valueCount)&&(index>=0))
     {
         return 1;
@@ -597,7 +653,7 @@ int HttpService::isInRange(int index, int valueCount, QString nameOfFunction)
     {
         QString errorText="value "+QString::number(index)+" is out of range "+ QString::number(valueCount)+" "+nameOfFunction;
         emit signalErrorMessage(errorText);
-        qDebug()<<errorText;
+        qCDebug(HttpServiceLog)<<errorText;
         return 0;
     }
 

@@ -1,5 +1,8 @@
 #include "colordisplayrules.h"
 
+Q_LOGGING_CATEGORY(ColorDisplayRulesLog, "ColorDisplayRules")
+
+
 ColorDisplayRules::ColorDisplayRules()
 {
     fillColorMap();
@@ -10,7 +13,8 @@ ColorDisplayRules::ColorDisplayRules()
 
 void ColorDisplayRules::fillColorMap()
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(ColorDisplayRulesLog) <<  Q_FUNC_INFO;
+
     //dd1 Metro, nahrazuje se piktogramem (metro, replaced with icon)
     colorsText["metro"]=color_black_0_0_0;
     colorsBackground["metro"]=color_white_255_255_255;
@@ -173,7 +177,7 @@ void ColorDisplayRules::fillColorMap()
 
 StylLinky ColorDisplayRules::lineToStyle(Line line )
 {
-    qDebug()<<Q_FUNC_INFO;
+    qCDebug(ColorDisplayRulesLog)<<Q_FUNC_INFO;
     StylLinky vystup;
 
 
@@ -205,7 +209,7 @@ StylLinky ColorDisplayRules::lineToStyle(Line line )
     {
         subMode=subMode+"Diversion";
         //  pozadi="background-color:"+barva_Vyluky_255_170_30+";";
-        qDebug()<<"linka je vylukova";
+        qCDebug(ColorDisplayRulesLog)<<"linka je vylukova";
     }
 
     if(colorsBackground.contains(subMode))
@@ -226,7 +230,7 @@ StylLinky ColorDisplayRules::lineToStyle(Line line )
         vystup.text=color_black_0_0_0;
     }
 
-    qDebug()<<"linka "<<line.lineName<<" submode "<<subMode;
+    qCDebug(ColorDisplayRulesLog)<<"linka "<<line.lineName<<" submode "<<subMode;
 
     return vystup;
 
@@ -234,7 +238,7 @@ StylLinky ColorDisplayRules::lineToStyle(Line line )
 
 StylLinky ColorDisplayRules::lineToStyle(Line line , QString subMode )
 {
-    qDebug()<<Q_FUNC_INFO;
+    qCDebug(ColorDisplayRulesLog)<<Q_FUNC_INFO;
     StylLinky vystup;
 
     if(line.isNight==true)
@@ -256,7 +260,7 @@ StylLinky ColorDisplayRules::lineToStyle(Line line , QString subMode )
     {
         subMode=subMode+"Diversion";
         //  pozadi="background-color:"+barva_Vyluky_255_170_30+";";
-        qDebug()<<"linka je vylukova";
+        qCDebug(ColorDisplayRulesLog)<<"linka je vylukova";
     }
 
 
@@ -268,7 +272,7 @@ StylLinky ColorDisplayRules::lineToStyle(Line line , QString subMode )
     {
         vystup.text=colorsText[subMode];
     }
-    qDebug()<<"linka "<<line.lineName<<" submode "<<subMode;
+    qCDebug(ColorDisplayRulesLog)<<"linka "<<line.lineName<<" submode "<<subMode;
 
     return vystup;
 }
@@ -291,7 +295,7 @@ QString ColorDisplayRules::qColorToRgbString(QColor input)
 
 void ColorDisplayRules::ddDoVehicleMode(QString &mainMode, QString &subMode, Line &line)
 {
-    qDebug()<<"PrestupMPV::ddDoVehicleMode "<<line.kli;
+    qCDebug(ColorDisplayRulesLog)<<"PrestupMPV::ddDoVehicleMode "<<line.kli;
 
     /*
     bool isDiversion=false;
@@ -366,7 +370,7 @@ void ColorDisplayRules::ddDoVehicleMode(QString &mainMode, QString &subMode, Lin
         mainMode="BusSubmode";
         subMode="localBus";
         line.isSpecial=true;
-        qDebug()<<"linka je specialni";
+        qCDebug(ColorDisplayRulesLog)<<"linka je specialni";
 
 
         break;
