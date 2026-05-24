@@ -8,6 +8,10 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog
+- 20260524_2129
+  - XmlCommon::MyOwnVehicleMode
+    - empty submode check
+  - 
 - 20260524_1845
   - reworked HttpService::slotDumpZeroConfigError
   

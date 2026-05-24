@@ -52,13 +52,22 @@ QDomElement XmlCommon::FareZone1_0(QDomDocument  &xmlDocument, QString shortName
 
 QDomElement XmlCommon::MyOwnVehicleMode(QDomDocument &xmlDocument, QString subMode, QString mode)
 {
-    QDomElement output=xmlDocument.createElement("MyOwnVehicleMode");
-    QDomElement dPtMainMode=xmlDocument.createElement("PtMainMode");
-    dPtMainMode.appendChild(xmlDocument.createTextNode(subMode));
-    output.appendChild(dPtMainMode);
-    QDomElement dSubMode=xmlDocument.createElement(subMode);
-    dSubMode.appendChild(xmlDocument.createTextNode(mode));
-    output.appendChild(dSubMode);
+    QDomElement output;
+    if(mode.isEmpty()||subMode.isEmpty())
+    {
+        output=xmlDocument.createElement("MyOwnVehicleMode");
+        QDomElement dPtMainMode=xmlDocument.createElement("PtMainMode");
+        dPtMainMode.appendChild(xmlDocument.createTextNode(subMode));
+        output.appendChild(dPtMainMode);
+        QDomElement dSubMode=xmlDocument.createElement(subMode);
+        dSubMode.appendChild(xmlDocument.createTextNode(mode));
+        output.appendChild(dSubMode);
+    }
+    else
+    {
+        qCWarning(XmlCommonLog)<<"subMode or mode is not set";
+    }
+
     return output;
 }
 
