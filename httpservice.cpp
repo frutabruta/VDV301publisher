@@ -140,15 +140,33 @@ void HttpService::slotServicePublished()
 {
     qCDebug(HttpServiceLog) <<  Q_FUNC_INFO <<" "<<this->mServiceName<<" "<<this->mVersion ;
     emit signalServicePublished(this->mServiceName+" "+this->mVersion);
+    emit signalPortUpdate(mPortNumber);
 }
 
 
 /*!
  * \brief HttpSluzba::slotVypisChybuZeroConfig
  */
-void HttpService::slotDumpZeroConfigError()
+void HttpService::slotDumpZeroConfigError(QZeroConf::error_t error)
 {
     qCDebug(HttpServiceLog) <<  Q_FUNC_INFO;
+
+    switch(error)
+    {
+    case QZeroConf::noError:
+        qCDebug(HttpServiceLog) << "no error";
+        break;
+    case QZeroConf::serviceRegistrationFailed:
+        qCritical(HttpServiceLog) << "service registration failed";
+        break;
+    case QZeroConf::serviceNameCollision:
+        qCWarning(HttpServiceLog) << "service name collision";
+        break;
+    case QZeroConf::browserFailed:
+        qCWarning(HttpServiceLog) << "service browser failed";
+        break;
+    }
+
 }
 
 

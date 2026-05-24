@@ -8,6 +8,9 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog
+- 20260524_1845
+  - reworked HttpService::slotDumpZeroConfigError
+  
 - 20260518_1057
   - POST queue slowdown fix
   - ColorDisplayRules

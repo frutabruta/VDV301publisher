@@ -21,10 +21,13 @@ class HttpService: public QObject
     Q_OBJECT
 public:
     HttpService(QString serviceName, QString serviceType, int portNumber, QString version, QString serviceNamePostfix="");
+    ~HttpService();
+
+    //periodic data send timer
+    QTimer timer;
 
     //structures
     QVector<Subscriber> subscriberList;
-
     QString mServiceName="";
     QString mServiceNamePostFix="";
 
@@ -32,9 +35,13 @@ public:
     bool blockBonjour=false;
 
     //functions
-    void postToSubscriber(QUrl subscriberAddress, QString contentToPost);
-    int setBodyContent(QString key, QString content);
     void bonjourStartAll();
+    int isInRange(int index, int valueCount, QString nameOfFunction);
+    void postToSubscriber(QUrl subscriberAddress, QString contentToPost);
+    QString retrieveStructureContentMapValue(QString key); //unused
+    int setBodyContent(QString key, QString content);
+    void updateStructureMap();
+
 
     //funkce subscriber
     QString handleNewSubscriber(Subscriber subscriber);
@@ -44,28 +51,18 @@ public:
 
     QByteArray createSubscribeResponseBody(int desiredResult);  // unused
 
-    //casovac pro periodicke odesilani dat
-    QTimer timer;
-
-    ~HttpService();
-
     QString StringToNmToken(QString input);
 
+    //setters and getters
     int portNumber() const;
     void setPortNumber(int newPortNumber);
 
-
     QString version() const;
-    void setVersion(const QString &newVersion);
-
-    QString retrieveStructureContentMapValue(QString key); //unused
-    void updateStructureMap();
-    int isInRange(int index, int valueCount, QString nameOfFunction);
+    void setVersion(const QString &newVersion);    
 private:
     //instance knihoven
     QZeroConf zeroConf;
     HttpServerPublisher httpServerPublisher ;
-    //QNetworkAccessManager *qNetworkAccessManager = new QNetworkAccessManager();
     QNetworkAccessManager qNetworkAccessManager;
 
     //promenne
@@ -87,7 +84,7 @@ protected:
     void postToAllSubscribers();
 public slots:
     void slotDumpRequestContent(QByteArray request, QString structureName);
-    void slotDumpZeroConfigError();
+    void slotDumpZeroConfigError(QZeroConf::error_t error);
     void slotStop(bool parameter);
     void slotStartDnsSd(bool parameter);
     void slotRemoveAllSubscribers();
@@ -110,8 +107,8 @@ signals:
     void signalPostResult(const QUrl &url, int httpStatus, QNetworkReply::NetworkError error, const QString &errorString, const QByteArray &body);
     void signalParameterChange(QMap<QString,QString> values);
     void signalServicePublished(QString serviceName);
+    void signalPortUpdate(int port);
     void signalErrorMessage(QString message);
-
 };
 
 #endif // HTTPSERVICE_H
