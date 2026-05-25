@@ -86,6 +86,17 @@ QString HttpService::createSubscribeHeader()
 }
 
 
+QString HttpService::dumpServiceParameters()
+{
+    QString output;
+    output+=QString("name\t%1\n"
+            "type\t%2\n"
+            "port\t%3\n"
+            "version\t%4\n").arg(this->mServiceName+this->mServiceNamePostFix,this->mServiceType,QString::number(this->mPortNumber),this->mVersion);
+
+    return output;
+}
+
 /*!
  * \brief HttpSluzba::bonjourStartKomplet
  */
@@ -103,6 +114,7 @@ void HttpService::bonjourStartAll()
     qCDebug(HttpServiceLog) <<  Q_FUNC_INFO;
     //zeroConf.clearServiceTxtRecords();
     this->bonjourStartPublish(this->mServiceName+this->mServiceNamePostFix,this->mServiceType,this->mPortNumber,this->mVersion ,zeroConf);
+    qCInfo(HttpServiceLog).noquote() << "starting service\n" <<dumpServiceParameters();
 }
 
 
@@ -216,8 +228,8 @@ void HttpService::slotDumpRequestContent(QByteArray request,QString structureNam
     }
 
     QString firstTag=xmlRequest.firstChildElement().tagName();
-    qCDebug(HttpServiceLog).noquote()<<"prvni tag "<<firstTag;
-    qCDebug(HttpServiceLog).noquote()<<"body pozadavku"<<previousRequest;
+    qCDebug(HttpServiceLog).noquote()<<"first tag "<<firstTag;
+    qCDebug(HttpServiceLog).noquote()<<"request body "<<previousRequest;
 
 
 
@@ -372,7 +384,7 @@ void HttpService::slotReplyToPostReceived()
 
     if (err != QNetworkReply::NoError)
     {
-        qCWarning(HttpServiceLog) << "Network error:" << errInt << errStr;
+        qCWarning(HttpServiceLog) << "Network error:"<< reply->url()<< " " << errInt << errStr;
         emit signalErrorMessage(errStr);
     }
     else if (httpStatus < 200 || httpStatus >= 300)
@@ -420,17 +432,20 @@ QString HttpService::handleNewSubscriber(Subscriber subscriber)
     if(subscriber.address.toString()=="")
     {
         output="wrong address";
+        qCWarning(HttpServiceLog)<<"new subscriber address is invalid";
         return output;
     }
 
     if(isSubscriberOnTheList(subscriberList,subscriber))
     {
-        output="subscriber is already on the list "+subscriber.address.toString()+""+subscriber.structure;
+        output="subscriber is already on the list "+subscriber.address.toString()+" "+subscriber.structure;
+        qCInfo(HttpServiceLog)<<output;
     }
     else
     {
         subscriberList.push_back(subscriber);
         output="new subscriber is "+subscriber.address.toString()+""+subscriber.structure;
+        qCInfo(HttpServiceLog)<<output;
         postToSubscriber(subscriber.address,structureContentMap.value(subscriber.structure)); //odeslání dat do zařízení hned po odběru
     }
 
@@ -468,7 +483,7 @@ int HttpService::removeSubscriber(int index)
     qCDebug(HttpServiceLog) <<  Q_FUNC_INFO;
     if ((index<subscriberList.size())&&(index>=0))
     {
-        qCDebug(HttpServiceLog)<<"removing "<<subscriberList.at(index).address<<subscriberList.at(index).structure;
+        qCInfo(HttpServiceLog)<<"removing subscriber "<<subscriberList.at(index).address<<subscriberList.at(index).structure;
 
         subscriberList.removeAt(index);
         emit signalDumpSubscriberList(subscriberList);
@@ -552,8 +567,6 @@ void HttpService::stopBonjourService()
     {
         qCDebug(HttpServiceLog)<<"bonjour blocked";
     }
-
-
 }
 
 
@@ -575,7 +588,6 @@ void HttpService::slotStartDnsSd(bool parameter)
     bonjourStartAll();
     emit this->signalStav(true);
     //emit this->startSignal();
-
 }
 
 
@@ -603,8 +615,6 @@ void HttpService::slotRemoveAllSubscribers()
 {
     qCDebug(HttpServiceLog) <<  Q_FUNC_INFO;
     subscriberList.clear();
-
-
 }
 
 
@@ -615,7 +625,6 @@ void HttpService::slotStopTimer()
 {
     qCDebug(HttpServiceLog) <<  Q_FUNC_INFO;
     timer.stop();
-
 }
 
 

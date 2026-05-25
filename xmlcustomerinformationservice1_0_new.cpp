@@ -5,12 +5,6 @@
 XmlCustomerInformationService1_0_new::XmlCustomerInformationService1_0_new() {}
 
 
-
-
-
-
-
-
 Vdv301AllData XmlCustomerInformationService1_0_new::AllData1_0new( QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState, QVector<Vdv301DisplayContent> globalDisplayContentList )
 {
     qDebug()<<Q_FUNC_INFO;
@@ -22,10 +16,8 @@ Vdv301AllData XmlCustomerInformationService1_0_new::AllData1_0new( QVector<Trip>
 
     foreach(Connection connection, connectionList)
     {
-
         vdv301ConnectionList<<xmlCommon1_0_new.connectionToVdv301Connection(connection,xmlCommon1_0_new.lcdClass);
     }
-
 
     QVector<Vdv301Trip> vdv301TripList;
 
@@ -63,7 +55,6 @@ Vdv301AllData XmlCustomerInformationService1_0_new::AllData1_0new( QVector<Trip>
         {
             //qDebug()<<"abcd navaz Spoj existuje "<<;
             vdv301TripList<<xmlCommon1_0_new.TripInformation1_0new(tripList,vdv301ConnectionList,vehicleState,vehicleState.currentTripIndex+1,true);
-
         }
         if(!stopPointDestinationList.isEmpty())
         {
@@ -78,7 +69,6 @@ Vdv301AllData XmlCustomerInformationService1_0_new::AllData1_0new( QVector<Trip>
 
     allData.tripInformationList=vdv301TripList;
     allData.globalDisplayContentList=globalDisplayContentList;
-
 
     return allData;
 }
@@ -134,11 +124,7 @@ QString XmlCustomerInformationService1_0_new::AllData1_0gen(QDomDocument xmlDocu
             dTripInformation=xmlCommon1_0_new.TripInformation1_0gen(xmlDocument,vdv301trip,isFollowing);
             dAllData.appendChild(dTripInformation);
             counter++;
-
         }
-
-
-
     }
 
     QDomElement dCurrentStopIndex=xmlCommon1_0_new.Value(xmlDocument,"CurrentStopIndex",QString::number(allData.currentStopIndex));
@@ -164,24 +150,15 @@ QString XmlCustomerInformationService1_0_new::AllData1_0gen(QDomDocument xmlDocu
 
     QDomElement dVehicleMode = xmlDocument.createElement("VehicleMode").appendChild(xmlDocument.createTextNode("bus")).toElement();
 
-
     dAllData.appendChild(dVehicleMode);
-
-
 
     foreach(Vdv301DisplayContent displayContent, allData.globalDisplayContentList)
     {
         dAllData.appendChild(xmlCommon1_0_new.DisplayContentViaPointDestination1_0gen(xmlDocument,"GlobalDisplayContent", displayContent));
     }
 
-
-
-
     return xmlCommon1_0_new.qDomDocumentToQString(xmlDocument);
-
 }
-
-
 
 
 QVector<Vdv301DisplayContent> XmlCustomerInformationService1_0_new::CurrentDisplayContentFromAllData1_0new(Vdv301AllData vdv301AllData )
@@ -212,7 +189,6 @@ QVector<Vdv301DisplayContent> XmlCustomerInformationService1_0_new::CurrentDispl
                 Vdv301StopPoint currentStop=currentTrip.stopPointList.at(vdv301AllData.currentStopIndex-1);
                 return currentStop.displayContentList;
             }
-
         }
     }
     return output;
@@ -234,10 +210,6 @@ QString XmlCustomerInformationService1_0_new::CurrentDisplayContent1_0gen(QDomDo
 
     dCurrentDisplayContentData.appendChild(xmlCommon1_0_new.TimeStampTag1_0(xmlDocument));
 
-
-
-
-
     foreach(Vdv301DisplayContent displayContent, vdv301displayContentList )
     {
         dCurrentDisplayContentData.appendChild(xmlCommon1_0_new.DisplayContentViaPointDestination1_0gen(xmlDocument,"CurrentDisplayContent", displayContent));
@@ -247,14 +219,5 @@ QString XmlCustomerInformationService1_0_new::CurrentDisplayContent1_0gen(QDomDo
     dCustomerInformationService.appendChild(dCurrentDisplayContentData);
     xmlDocument.appendChild(dCustomerInformationService);
 
-
-
-
-
     return xmlCommon1_0_new.qDomDocumentToQString(xmlDocument);
 }
-
-
-
-
-

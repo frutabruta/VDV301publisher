@@ -8,6 +8,10 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog
+- 20260525_1835
+  - new function HttpService::dumpServiceParameters
+  - adding qCInfo and qCWarning messages
+  
 - 20260524_2129
   - XmlCommon::MyOwnVehicleMode
     - empty submode check

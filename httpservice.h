@@ -58,7 +58,8 @@ public:
     void setPortNumber(int newPortNumber);
 
     QString version() const;
-    void setVersion(const QString &newVersion);    
+    void setVersion(const QString &newVersion);
+    QString dumpServiceParameters();
 private:
     //instance knihoven
     QZeroConf zeroConf;

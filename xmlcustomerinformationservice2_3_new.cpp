@@ -123,17 +123,12 @@ QString XmlCustomerInformationService2_3_new::AllData2_3gen(QDomDocument xmlDocu
         int counter=0;
         foreach(Vdv301Trip vdv301trip, allData.tripInformationList)
         {
-
             QDomElement dTripInformation;
             bool isFollowing=(counter>0);
             dTripInformation=xmlCommon2_3_new.TripInformation2_3gen(xmlDocument,vdv301trip,isFollowing);
             dAllData.appendChild(dTripInformation);
             counter++;
-
         }
-
-
-
     }
 
     QDomElement dCurrentStopIndex=xmlCommon2_3_new.Value(xmlDocument,"CurrentStopIndex",QString::number(allData.currentStopIndex));
@@ -198,7 +193,6 @@ QVector<Vdv301DisplayContent> XmlCustomerInformationService2_3_new::CurrentDispl
                 Vdv301StopPoint currentStop=currentTrip.stopPointList.at(vdv301AllData.currentStopIndex-1);
                 return currentStop.displayContentList;
             }
-
         }
     }
     return output;
