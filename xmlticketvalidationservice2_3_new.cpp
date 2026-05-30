@@ -9,31 +9,28 @@ XmlTicketValidationService2_3_new::XmlTicketValidationService2_3_new() {}
 
 // GetCurrentStopPoint provide information of current stop
 
-Vdv301StopPoint XmlTicketValidationService2_3_new::currentTariffStop(StopPointDestination stopPointDestination)
+Vdv301StopPoint XmlTicketValidationService2_3_new::currentTariffStop(StopPointDestination stopPointDestination,int stopPointIterator)
 {
-    Vdv301StopPoint result;
+    qDebug()<<Q_FUNC_INFO;
+    Vdv301StopPoint output;
 
-
-
-    return result;
+    return output;
 }
 
 
 QString XmlTicketValidationService2_3_new::currentTariffStopGen(QDomDocument xmlDocument, Vdv301StopPoint stopPointDestination, QString tripRef)
 {
-    Vdv301StopPoint result;
-
     QDomElement dCurrentStopPointResponse=xmlDocument.createElement("TicketValidationService.GetCurrentStopPointResponse");
 
     QDomElement dCurrentTariffStopData=xmlDocument.createElement("CurrentTariffStopData");
-
     dCurrentTariffStopData.appendChild(xmlCommon2_3_new.TimeStampTag1_0(xmlDocument));
-
     dCurrentTariffStopData.appendChild(xmlCommon2_3_new.StopPoint2_3gen(xmlDocument,stopPointDestination,"CurrentTariffStop"));
-
     dCurrentTariffStopData.appendChild(xmlCommon2_3_new.ref(xmlDocument,"CurrentTripRef",tripRef));
+    dCurrentStopPointResponse.appendChild(dCurrentTariffStopData);
+    xmlDocument.appendChild(dCurrentStopPointResponse);
 
-    return xmlCommon2_3_new.qDomDocumentToQString(xmlDocument);
+    QString result=xmlCommon2_3_new.qDomDocumentToQString(xmlDocument);
+    return result;
 }
 
 

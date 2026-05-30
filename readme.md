@@ -8,6 +8,11 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog
+- 20260530_2010
+  - TicketValidationService demo
+  - VDV301Datastructures
+    - added VehicleState::getCurrentStopPointDestination
+  
 - 20260525_1835
   - new function HttpService::dumpServiceParameters
   - adding qCInfo and qCWarning messages

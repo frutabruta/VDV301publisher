@@ -5,7 +5,7 @@
 //  #include "xmlticketvalidationservice.h"
 #include "VDV301DataStructures/vehiclestate.h"
 
-//#include "xmlticketvalidationservice2_2cz1_0.h"
+#include "xmlticketvalidationservice2_3_new.h"
 
 class TicketValidationService : public HttpService
 {
@@ -28,7 +28,8 @@ public:
 private:
 
     //instance knihoven
- //   XmlTicketValidationService2_2CZ1_0 xmlGenerator2_2CZ1_0;
+ //   XmlTicketValidationService2_2CZ1_0 xmlGenerator2_2;
+    XmlTicketValidationService2_3_new xmlGenerator2_2;
 
 
     //variables
