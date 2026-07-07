@@ -70,6 +70,7 @@ public:
     QDomElement internationalTextTypeToDom(QDomDocument &xmlDocument, QString name, Vdv301InternationalText internationalText);
 
     QString qTimeToQDateTimeTodayQString(QTime input);
+    QString qDateTimeQString(QDateTime input);
 private:
 
     QDomCDATASection createEscapedValueCdata(QDomDocument &document, QString input);

@@ -534,21 +534,21 @@ Vdv301StopPoint XmlCommon2_3_new::StopPoint2_3new( QVector<StopPointDestination>
         return output;
     }
 
-    StopPointDestination currentStopPoinDestination=stopPointDestinationList.at(stopPointIterator);
+    StopPointDestination currentStopPointDestination=stopPointDestinationList.at(stopPointIterator);
 
     // StopIndex
     output.stopIndex=stopPointIterator+1;
 
     // StopRef
-    output.stopRef=currentStopPoinDestination.stopPoint.ref();
+    output.stopRef=currentStopPointDestination.stopPoint.ref();
 
     // StopName
-    output.stopNameList<<Vdv301InternationalText(currentStopPoinDestination.stopPoint.NameLcd+stopPropertiesToString2_3(currentStopPoinDestination.stopPoint), language);
+    output.stopNameList<<Vdv301InternationalText(currentStopPointDestination.stopPoint.NameLcd+stopPropertiesToString2_3(currentStopPointDestination.stopPoint), language);
 
     // StopAlternativeName not implemented
 
     // Platform
-    output.platform=currentStopPoinDestination.stopPoint.platformName;
+    output.platform=currentStopPointDestination.stopPoint.platformName;
 
     // DisplayContent
     QVector<Vdv301DisplayContent> vdvDisplayContentList;
@@ -563,22 +563,22 @@ Vdv301StopPoint XmlCommon2_3_new::StopPoint2_3new( QVector<StopPointDestination>
     // ArrivalScheduled
     // ArrivalExpected
     // DepartureScheduled
-    output.departureScheduled=qTimeToQDateTimeToday( currentStopPoinDestination.stopPoint.departureToQTime()).toString("yyyy-MM-ddThh:mm:ss");
+    output.departureScheduled=qDateTimeQString(currentStopPointDestination.stopPoint.departureToQDateTime());
 
     // DepartureExpected
-    output.departureExpected=qTimeToQDateTimeToday( currentStopPoinDestination.stopPoint.departureToQTime()).toString("yyyy-MM-ddThh:mm:ss");
+    output.departureExpected=qDateTimeQString(currentStopPointDestination.stopPoint.departureToQDateTime());
 
     // RecordedArrivalTime not implemented
     // DistanceToNextStop not implemented
 
     // Connection
-    if(currentStopIndex==currentStopPoinDestination.stopPoint.StopIndex)
+    if(currentStopIndex==currentStopPointDestination.stopPoint.StopIndex)
     {
         output.connectionList=connectionList;
     }
 
     // FareZone
-    for(const QString &dFareZone : FareZoneInformationStructure2_3new(currentStopPoinDestination.stopPoint.fareZoneList) )
+    for(const QString &dFareZone : FareZoneInformationStructure2_3new(currentStopPointDestination.stopPoint.fareZoneList) )
     {
         output.fareZoneList<<dFareZone;
     }

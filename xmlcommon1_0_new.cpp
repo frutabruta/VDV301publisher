@@ -584,7 +584,7 @@ Vdv301StopPoint XmlCommon1_0_new::StopPoint1_0new( QVector<StopPointDestination>
 
     // ArrivalScheduled" type="IBIS-IP.dateTime" minOccurs="0"  not implemented
     // DepartureScheduled" type="IBIS-IP.dateTime" minOccurs="0"
-    output.departureScheduled=qTimeToQDateTimeToday( currentStopPoinDestination.stopPoint.departureToQTime()).toString("yyyy-MM-ddThh:mm:ss");
+    output.departureScheduled=qDateTimeQString(currentStopPoinDestination.stopPoint.departureToQDateTime());
 
     // RecordedArrivalTime" type="IBIS-IP.dateTime" minOccurs="0" not implemented
     // DistanceToNextStop" type="IBIS-IP.int" minOccurs="0" not implemented

@@ -575,31 +575,31 @@ Vdv301ViaPoint2_3CZ1_0 XmlCommon2_3CZ1_0::stopPointDestinationToVdv301ViaPoint(S
     output.viaPointRef=stopPoint.ref();
     output.placeNameList<<Vdv301InternationalText(stopPoint.NameLcd+stopPropertiesToString2_3(stopPoint),language);
 
-    output.arrivalScheduled=qTimeToQDateTimeTodayQString(stopPoint.arrivalToQTime());
+    output.arrivalScheduled=qDateTimeQString(stopPoint.arrivalToQDateTime());
     // ArrivalExpected
     if(useDelay)
     {
-        output.arrivalExpected=qTimeToQDateTimeTodayQString(stopPoint.arrivalToQTime().addSecs(delaySeconds));
+        output.arrivalExpected=qDateTimeQString(stopPoint.arrivalToQDateTime().addSecs(delaySeconds));
     }
     else
     {
         //output.arrivalExpected=qTimeToQDateTimeToday( selectedStopPoinDestination.stopPoint.arrivalToQTime()).toString("yyyy-MM-ddThh:mm:ss");
-        output.arrivalExpected=qTimeToQDateTimeTodayQString(stopPoint.arrivalToQTime());
+        output.arrivalExpected=qDateTimeQString(stopPoint.arrivalToQDateTime());
     }
 
 
     // DepartureScheduled
     //   output.departureScheduled=qTimeToQDateTimeToday( selectedStopPoinDestination.stopPoint.departureToQTime()).toString("yyyy-MM-ddThh:mm:ss");
-    output.departureScheduled=qTimeToQDateTimeTodayQString(stopPoint.departureToQTime());
+    output.departureScheduled=qDateTimeQString(stopPoint.departureToQDateTime());
     // DepartureExpected
     if(useDelay)
     {
-        output.departureExpected=qTimeToQDateTimeTodayQString(stopPoint.departureToQTime().addSecs(delaySeconds));
+        output.departureExpected=qDateTimeQString(stopPoint.departureToQDateTime().addSecs(delaySeconds));
     }
     else
     {
         //output.departureExpected=qTimeToQDateTimeToday( selectedStopPoinDestination.stopPoint.departureToQTime()).toString("yyyy-MM-ddThh:mm:ss");
-        output.departureExpected=qTimeToQDateTimeTodayQString(stopPoint.departureToQTime());
+        output.departureExpected=qDateTimeQString(stopPoint.departureToQDateTime());
     }
     return output;
 }
@@ -668,31 +668,31 @@ Vdv301StopPoint2_3CZ1_0 XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new( QVector<StopPoi
     // ArrivalScheduled
 
     // output.arrivalScheduled=qTimeToQDateTimeToday( selectedStopPoinDestination.stopPoint.arrivalToQTime()).toString("yyyy-MM-ddThh:mm:ss");
-    output.arrivalScheduled=qTimeToQDateTimeTodayQString(selectedStopPoinDestination.stopPoint.arrivalToQTime());
+    output.arrivalScheduled=qDateTimeQString(selectedStopPoinDestination.stopPoint.arrivalToQDateTime());
     // ArrivalExpected
     if(useDelay)
     {
-        output.arrivalExpected=qTimeToQDateTimeTodayQString(selectedStopPoinDestination.stopPoint.arrivalToQTime().addSecs(delaySeconds));
+        output.arrivalExpected=qDateTimeQString(selectedStopPoinDestination.stopPoint.arrivalToQDateTime().addSecs(delaySeconds));
     }
     else
     {        
         //output.arrivalExpected=qTimeToQDateTimeToday( selectedStopPoinDestination.stopPoint.arrivalToQTime()).toString("yyyy-MM-ddThh:mm:ss");
-        output.arrivalExpected=qTimeToQDateTimeTodayQString(selectedStopPoinDestination.stopPoint.arrivalToQTime());
+        output.arrivalExpected=qDateTimeQString(selectedStopPoinDestination.stopPoint.arrivalToQDateTime());
     }
 
 
     // DepartureScheduled
     //   output.departureScheduled=qTimeToQDateTimeToday( selectedStopPoinDestination.stopPoint.departureToQTime()).toString("yyyy-MM-ddThh:mm:ss");
-    output.departureScheduled=qTimeToQDateTimeTodayQString(selectedStopPoinDestination.stopPoint.departureToQTime());
+    output.departureScheduled=qDateTimeQString(selectedStopPoinDestination.stopPoint.departureToQDateTime());
     // DepartureExpected
     if(useDelay)
     {
-        output.departureExpected=qTimeToQDateTimeTodayQString(selectedStopPoinDestination.stopPoint.departureToQTime().addSecs(delaySeconds));
+        output.departureExpected=qDateTimeQString(selectedStopPoinDestination.stopPoint.departureToQDateTime().addSecs(delaySeconds));
     }
     else
     {
         //output.departureExpected=qTimeToQDateTimeToday( selectedStopPoinDestination.stopPoint.departureToQTime()).toString("yyyy-MM-ddThh:mm:ss");
-        output.departureExpected=qTimeToQDateTimeTodayQString(selectedStopPoinDestination.stopPoint.departureToQTime());
+        output.departureExpected=qDateTimeQString(selectedStopPoinDestination.stopPoint.departureToQDateTime());
     }
 
 

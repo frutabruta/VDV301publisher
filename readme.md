@@ -8,6 +8,18 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog
+- 20260707_1545
+  - timestamp fix of trips going through midnight 
+  - VDV301DataStructures
+    - StopPoint dateTime functions
+  - new function XmlCommon::qDateTimeQString
+  - XmlCommon1_0_new::StopPoint1_0new
+    - dateTime fix
+  - XmlCommon2_3_new::StopPoint2_3new
+    - dateTime fix
+  - XmlCommon2_3CZ1_0::stopPointDestinationToVdv301ViaPoint
+    - dateTime fix
+  
 - 20260530_2010
   - TicketValidationService demo
   - VDV301Datastructures
@@ -20,7 +32,7 @@ Qt library for VDV301 devices used as publisher
 - 20260524_2129
   - XmlCommon::MyOwnVehicleMode
     - empty submode check
-  - 
+  
 - 20260524_1845
   - reworked HttpService::slotDumpZeroConfigError
   
@@ -67,10 +79,10 @@ Qt library for VDV301 devices used as publisher
   - XmlCommon2_3CZ1_0::DisplayContentViaPointDestination2_3CZ1_0new
     - implemented viaPoint departure times
 
-
 - 20260310_1846
   - XmlCommon2_3_new::stopPropertiesToString2_3
     - changed c_Train to c_SBahn
+
 - 20260310_1758
   - XmlCommon1_0_new::TripInformation1_0new
     - fix of not hiding announcement
@@ -101,9 +113,11 @@ Qt library for VDV301 devices used as publisher
     - regionalRailDiversion color fix
   - XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0gen
     - removed double displaycontent side generating
+
 - 20251118_1245
   - HttpService::slotDumpRequestContent
     - added replyPath support to IPv6 part of the code
+
 - 20251114_1859
   - HttpService::slotDumpRequestContent
     - fixed to support Qt below 6.5
@@ -164,9 +178,11 @@ Qt library for VDV301 devices used as publisher
   - VDV301DataStructures
     - stopPoint
       - added S_JTSK coordinates
+
 - 20250521_1654
   - VDV301Datastructures
     - ConnectionGolemio new variables
+
 - 20250520_1625
   - VDV301Datastructures
     - Vdv301Connection
@@ -181,29 +197,36 @@ Qt library for VDV301 devices used as publisher
     - removed dependency on XmlCommonVehicleState
     - new function vehicleRunToRunNumber
   - XmlCommonVehicleState
-    - replaced for each loops with c++ range iterators
-     
+    - replaced for each loops with c++ range iterators     
   - XmlCommon2_3_new 
+
 - 20250514_1700
   - all includes of 2.2CZ1.0 versions from CIS and TicketValidationService
+
 - 20250514_1632 
   - last version supporting 2.2CZ1.0
 
 - 20250405_2213
   - dependency on XmlCommonVehicleState fixes
+
 - 20250405_2143
   - removed dependency of XmlCommon on VehicleState variables
   - new class XmlCommonVehicleState containing function, which are VehicleState dependent
+
 - 20250403_2142
   - Vdv301DataStructures
     - added Vdv301CurrentDisplayContent
+
 - 20250403_2119
   - XmlCustomerInformationService2_3_new::CurrentDisplayContent2_3gen
     - CurrentDisplayContent element name fix
+
 - 20250315_1940
   - 2.3CZ1.0 farezone change as an additionalTextMessage
+
 - 20250312_2247
   - removed old XmlCommon2_3, all code migrated to XmlCommon2_3_new
+
 - 20250312_2219
   - removed old XmlCustomerInformationService2_3, all code migrated to XmlCustomerInformationService2_3_new
 
@@ -212,12 +235,12 @@ Qt library for VDV301 devices used as publisher
     - added neozn="true" implemenentation
   - XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0new
     - formatted fare zone change text
-
   - VDV301DataStructures  
     - stoppoint
       - all bool values default to false
       - isViapoint changed data type to bool
       - added neozn and zast sttributes
+
 - 20250223_1657
   - XmlCommon2_3_new::TripInformation2_3gen
     - additionalTextMessage1-9List
@@ -227,27 +250,32 @@ Qt library for VDV301 devices used as publisher
 - 20250124_1437
   - Vdv301DataStructures
     - AdditionalAnnouncement variable names spelling fix
+
 - 20250123_1345
   - Vdv301DataStructures
     - added Vdv301AdditionalAnnouncement
   - new function XmlCommon2_3CZ1_0::AddtitionalAnnoucement2_3CZ1_0gen
     - AdditionalAnnouncement added to tripInformation
+
 - 20250114_1851
   - XmlCommon2_3::stopPropertiesToString2_3
     - fix icons order
   - XmlCommon2_3CZ1_0::FareZoneInformationStructure2_3CZ1_0new
     - remove colon from fareZone name
+
 - 20250110_1517
   - XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new
     - fix index issue - Connection inserting to correct StopPoint 
+
 - 20241213_0100
   - XmlCommon2_3CZ1_0::TripInformation2_3CZ1_0new
     - added fareZoneChange out of range check
+
 - 20241206_1818
   - Vdv301DataStructures
     - fixed all occurancies of DisplayContentInner to DisplayContentInterior
   - XmlCommon2_3_new 
-    - - fixed all occurancies of DisplayContentInner to DisplayContentInterior
+    -  fixed all occurancies of DisplayContentInner to DisplayContentInterior
 
 - 20241206_0023
   - XmlCommon2_3_new
@@ -257,6 +285,7 @@ Qt library for VDV301 devices used as publisher
     - new function CurrentDisplayContent2_3gen
   - XmlCustomerInformationService2_3CZ1_0
     - new function CurrentDisplayContentFromAllData2_3new
+
 - 20241205_1450
   - Vdv301DataStructures
     - Vdv301Trip2_3CZ1_0
@@ -264,21 +293,25 @@ Qt library for VDV301 devices used as publisher
   - XmlCommon2_3CZ1_0
     - new function vehicleRunToRunNumber generating rootLine_order
   - fixes of include files in Xml Generators
+
 - 20241205
   - Vdv301DataStructures
     - StopPoint2_3CZ1_0
       - added GlobalStopRef
   - XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0new
     - generates GlobalStopRef to Xml
+
 - 20241103
   - XmlCommon
     - removed unused includes
   - QtZeroConf newer version
+
 - 20241102_3
   - XmlCommon2_3
     - modifications to change metro into icons
       - lineToVdv301Line2_3
       - lineToIcon
+
 - 20241102
   - Connection line style fix
   - CustomerInformationService
@@ -321,6 +354,7 @@ Qt library for VDV301 devices used as publisher
     - usage of lcdClass
   - XmlCustomerInformationService2_3CZ1_0
     - usage of lcdClass
+
 - 20241030
   - XmlCommon2_3CZ1_0
     - refactoring, added platform generating
@@ -334,6 +368,7 @@ Qt library for VDV301 devices used as publisher
   - XmlCommon2_3CZ1_0
     - added generating of FareZoneChange
     - new function fareZoneListToVdv301FareZoneList
+
 - 20241018
   - 2.3CZ1.0 FareZone changed to InternationalText
     - CustomerInformationService
@@ -343,6 +378,7 @@ Qt library for VDV301 devices used as publisher
       - new function FareZoneInformationStructure2_3CZ1_0new
     - XmlCustomerInformationService2_3CZ1_0 
       - using VDV301 2.3CZ1.0 derived classes
+  
 - 20241017
   - XmlCommon split into classes
     - XmlCommon
@@ -385,7 +421,6 @@ Qt library for VDV301 devices used as publisher
       - change from updateInternalVariablesEmpty to updateInternalVariables
     - CustomerInformationService::slotSendDataToSubscribers
       - change from updateInternalVariablesEmpty to updateInternalVariables
-
   - HttpService
     - new function HttpService::isInRange
   - TicketValidationService
@@ -406,10 +441,10 @@ Qt library for VDV301 devices used as publisher
     - XmlCustomerInformationService::AllData2_2CZ1_0
       - empty triplist out of range fix
 
-
 - 20240823_2
   - Vdv301DataStructures
     - new function DoorOpenStateEnumerationFromQString
+
 - 20240823
   - CustomerInformationService
     - CustomerInformationService::updateInternalVariables
@@ -484,12 +519,11 @@ Qt library for VDV301 devices used as publisher
       - removed remnats of QDomElements  
       - changed result data type to Vdv301AllData
     
-
-
 - 20240619_2
   - RouteDeviationEnumeration
   - XmlCustomerInformationService::AllData2_3new
     - removed unnecessary DOM elements
+
 - 20240619
   - VDV301DataStructures
     - vehicleState.locationState changed to VDV301LocationStateEnumeration
@@ -498,6 +532,7 @@ Qt library for VDV301 devices used as publisher
   - XmlCustomerInformationService
     - XmlCustomerInformationService::AllData2_3new
       - few changes to create Vdv301AllData allData
+
 - 20240618
   - new approcah to XML generating from VDV301structures
   - VDV301DataStructures
@@ -527,6 +562,7 @@ Qt library for VDV301 devices used as publisher
   - XmlCommon
     - removed FareZoneChange from XmlCommon::TripInformation2_3 to comply with VDV.de XSD files
     - foreach changed to for in XmlCommon::DisplayContentViaPointDestination2_3 (caused crash for unknown reason)
+  
 - 20240607
   - included VDV301DataStructures as a submodule
   - added examples folder
@@ -547,13 +583,17 @@ Qt library for VDV301 devices used as publisher
       - XmlCommon::createEscapedValueCdata
       - XmlCommon::qStringXmlEscape
       - XmlCommon::qDomDocumentToQString
+
 - 20240422
   - globalVersion changed to private (mVersion), added getter and setter
+
 - 20240208
   - 2.3
     - CurrentDisplayContent fix
+
 - 20240203
   - 2.3 out of service Xml generator fix
+
 - 20240131
   - XmlCommon 
     - XmlCommon::DisplayContent2_3
@@ -570,6 +610,7 @@ Qt library for VDV301 devices used as publisher
   - DeviceManagementService
     - device status support
       - status can be changed externally
+
 - 20240104
   - application of functions
     - HttpServerPublisher::createSubscribeResponse
@@ -577,7 +618,6 @@ Qt library for VDV301 devices used as publisher
   - HttpServerPublisher
     - Active=false if unsubscription is successful 
     - changed response header from UTF-16 to UTF-8
-
 
 - 20231214
   - HttpServerPublisher
@@ -591,7 +631,6 @@ Qt library for VDV301 devices used as publisher
     - XmlCommon
       - fixed two row destination generator for front display 
   
-
 - 20231108
   - all functions in version 2.4 have been renamed to 2.4, because they were made to comply with 2.3 version XSDs and 2.4 specification is not finished yet
   - 2.3
@@ -608,9 +647,11 @@ Qt library for VDV301 devices used as publisher
     - new function
   - XmlCommon::FareZoneInformationStructure2_3
     - new function
+
 - 20231102
   - VDV301 1.0 Connections fix
   - VDV301 2.4 added required tags to comply with official XSD files for VDV301 2.3
+
 - 20231030
   - fix of generating Xml responses (change of passing xmlDocument by reference)
   
@@ -634,6 +675,7 @@ Qt library for VDV301 devices used as publisher
 - 20230622
   - 2.4
     - DisplayContent
+
 - 20230607
   - nová verze QtZeroConf
   - příprava pro verzi 2.4

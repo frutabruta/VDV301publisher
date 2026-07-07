@@ -245,6 +245,16 @@ QString XmlCommon::qTimeToQDateTimeTodayQString(QTime input)
     return "";
 }
 
+QString XmlCommon::qDateTimeQString(QDateTime input)
+{ 
+    if(input.isValid())
+    {
+        return input.toString("yyyy-MM-ddThh:mm:ss");
+    }
+
+    return "";
+}
+
 /*
 QTime StopPoint::secondsToQtime(QString vstup)
 {
