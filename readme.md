@@ -9,8 +9,9 @@ Qt library for VDV301 devices used as publisher
 
 ## Changelog
 - 20260728_1849
-  - VDV301Datastructures
-    - added stopNote
+  - VDV301publisher 
+    - VDV301Datastructures
+      - added stopNote
 
 - 20260707_1545
   - timestamp fix of trips going through midnight 
