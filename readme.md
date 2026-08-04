@@ -8,6 +8,10 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog
+- 20260804_1621
+  - VDV301DataStructures
+    - removed unused includes from StopPointDestinations
+    
 - 20260728_1849
   - VDV301publisher 
     - VDV301Datastructures
