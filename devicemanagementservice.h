@@ -15,7 +15,7 @@ class DeviceManagementService : public HttpService
 public:
 
 
-    explicit DeviceManagementService(QString serviceName, QString serviceType, int portNumber, QString version);
+    explicit DeviceManagementService(QString serviceName, QString serviceType, int portNumber, QString version, QString serviceNamePostfix="");
 
     enum DeviceStatus
     {

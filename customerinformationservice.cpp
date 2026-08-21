@@ -1,6 +1,7 @@
 #include "customerinformationservice.h"
 #include "httpservice.h"
 
+Q_LOGGING_CATEGORY(customerInformationServiceLog, "CustomerInformationService")
 
 /*!
  * \brief CustomerInformationService::CustomerInformationService
@@ -9,10 +10,11 @@
  * \param cisloPortu
  * \param verze
  */
-CustomerInformationService::CustomerInformationService(QString serviceName, QString serviceType, int portNumber,QString version):HttpService( serviceName,serviceType, portNumber,version)
+CustomerInformationService::CustomerInformationService(QString serviceName, QString serviceType, int portNumber,QString version, QString serviceNamePostFix):HttpService( serviceName,serviceType, portNumber,version, serviceNamePostFix)
 {
-    qDebug() <<  Q_FUNC_INFO<<" "<<serviceName<<" "<<version;
+    qCDebug(customerInformationServiceLog) <<  Q_FUNC_INFO<<" "<<serviceName<<" "<<version;
     connect(&timer, &QTimer::timeout, this, &CustomerInformationService::slotSendDataToSubscribers);
+
 
     //filling of empty data structures
 
@@ -30,15 +32,25 @@ CustomerInformationService::CustomerInformationService(QString serviceName, QStr
  * \param stav
  * \param seznamSpoju
  */
-void CustomerInformationService::updateInternalVariables(QVector<Connection> connectionList, VehicleState &vehicleState, QVector<Trip>  tripList ) //novy
+void CustomerInformationService::updateInternalVariables(QVector<Connection> connectionList, VehicleState &vehicleState, QVector<Trip>  tripList, QVector<Vdv301DisplayContent> globalDisplayContentList, QVector<Vdv301DisplayContent2_3CZ1_0> globalDisplayContentList2_3CZ1_0 ) //novy
 {
-    qDebug() <<  Q_FUNC_INFO<<" "<<mServiceName<<" "<<mVersion;
-    qDebug()<<"velikost seznamTripu"<<tripList.size()<<" index"<<vehicleState.currentTripIndex;
+    qCDebug(customerInformationServiceLog) <<  Q_FUNC_INFO<<" "<<mServiceName<<" "<<mVersion;
+    qCDebug(customerInformationServiceLog)<<"velikost seznamTripu"<<tripList.size()<<" index"<<vehicleState.currentTripIndex;
+
+    QVector<StopPointDestination>  stopPointDestinationList;
+
 
     if (tripList.isEmpty())
     {
-        qDebug()<<"seznam spoju je prazdny, ukoncuji CustomerInformationService::aktualizaceIntProm";
-        return;
+        qCDebug(customerInformationServiceLog)<<"current triplist is empty";
+
+    }
+    else
+    {
+        if(isInRange(vehicleState.currentTripIndex,tripList.count(),Q_FUNC_INFO))
+        {
+            stopPointDestinationList=tripList.at(vehicleState.currentTripIndex).globalStopPointDestinationList;
+        }
     }
 
     /*
@@ -49,30 +61,79 @@ void CustomerInformationService::updateInternalVariables(QVector<Connection> con
     */
 
 
-    QVector<StopPointDestination>  seznamZastavek=tripList.at(vehicleState.currentTripIndex).globalStopPointDestinationList;
+
     QString bodyAllData="";
     QString bodyCurrentDisplayContent="";
     
     if (mVersion=="2.2CZ1.0")
     {
-         QDomDocument xmlDocument;
-        bodyAllData=xmlGenerator.AllData2_2CZ1_0(xmlDocument,tripList,connectionList,vehicleState);
-        bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent2_2CZ1_0(xmlDocument,seznamZastavek,vehicleState);
+        qCDebug(customerInformationServiceLog)<<"VERSION 2.2CZ1.0 IS DEPRECATED";
     }
     else if (mVersion=="2.3")
     {
         //Work in progress
-         QDomDocument xmlDocument;
+        QDomDocument xmlDocument;
         //special options for XML in this version can be placed here
-        bodyAllData=xmlGenerator.AllData2_3(xmlDocument, tripList,connectionList,vehicleState);
-        bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent2_3(xmlDocument,seznamZastavek,vehicleState);
+
+
+
+
+        Vdv301AllData vdv301allData=xmlGenerator2_3new.AllData2_3new(tripList,connectionList,vehicleState,globalDisplayContentList);
+
+        QDomDocument xmlDocument2;
+        bodyAllData=xmlGenerator2_3new.AllData2_3gen(xmlDocument2,vdv301allData);
+        // bodyCurrentDisplayContent=xmlGenerator2_3new.CurrentDisplayContent2_3(xmlDocument,stopPointDestinationList,vehicleState);
+        QVector<Vdv301DisplayContent> currentDisplayContentList=xmlGenerator2_3new.CurrentDisplayContentFromAllData2_3new(vdv301allData);
+        bodyCurrentDisplayContent=xmlGenerator2_3new.CurrentDisplayContent2_3gen(xmlDocument,currentDisplayContentList);
+
+        // bodyAllData=xmlGenerator2_3.AllData2_3(xmlDocument, tripList,connectionList,vehicleState);
+        // bodyCurrentDisplayContent=xmlGenerator2_3.CurrentDisplayContent2_3(xmlDocument,stopPointDestinationList,vehicleState);
+
+    }
+    else if (mVersion=="2.3CZ1.0")
+    {
+        //Work in progress
+        QDomDocument xmlDocument;
+        //special options for XML in this version can be placed here
+
+        // bodyCurrentDisplayContent=xmlGenerator2_3CZ1_0.CurrentDisplayContent2_3(xmlDocument,stopPointDestinationList,vehicleState);
+
+        Vdv301AllData2_3CZ1_0 vdv301allData=xmlGenerator2_3CZ1_0.AllData2_3CZ1_0new(tripList,connectionList,vehicleState, globalDisplayContentList2_3CZ1_0);
+
+        QDomDocument xmlDocument2;
+        bodyAllData=xmlGenerator2_3CZ1_0.AllData2_3CZ1_0gen(xmlDocument2,vdv301allData);
+
+        QVector<Vdv301DisplayContent2_3CZ1_0> currentDisplayContentList=xmlGenerator2_3CZ1_0.CurrentDisplayContentFromAllData2_3new(vdv301allData);
+        bodyCurrentDisplayContent=xmlGenerator2_3CZ1_0.CurrentDisplayContent2_3CZ1_0gen(xmlDocument,currentDisplayContentList);
+
 
     }
     else
     {
+        // Version 1.0!
+
+        //     bodyAllData=xmlGenerator.AllData1_0(xmlDocument,tripList,connectionList,vehicleState);
+        //     bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent1_0(xmlDocument,stopPointDestinationList,vehicleState);
+
+
+        //Work in progress
         QDomDocument xmlDocument;
-        bodyAllData=xmlGenerator.AllData1_0(xmlDocument,tripList,connectionList,vehicleState);
-        bodyCurrentDisplayContent=xmlGenerator.CurrentDisplayContent1_0(xmlDocument,seznamZastavek,vehicleState);
+        //special options for XML in this version can be placed here
+
+
+
+
+        Vdv301AllData vdv301allData=xmlGenerator1_0new.AllData1_0new(tripList,connectionList,vehicleState,globalDisplayContentList);
+
+        QDomDocument xmlDocument2;
+        bodyAllData=xmlGenerator1_0new.AllData1_0gen(xmlDocument2,vdv301allData);
+        // bodyCurrentDisplayContent=xmlGenerator2_3new.CurrentDisplayContent2_3(xmlDocument,stopPointDestinationList,vehicleState);
+        QVector<Vdv301DisplayContent> currentDisplayContentList=xmlGenerator1_0new.CurrentDisplayContentFromAllData1_0new(vdv301allData);
+        bodyCurrentDisplayContent=xmlGenerator1_0new.CurrentDisplayContent1_0gen(xmlDocument,currentDisplayContentList);
+
+        // bodyAllData=xmlGenerator2_3.AllData2_3(xmlDocument, tripList,connectionList,vehicleState);
+        // bodyCurrentDisplayContent=xmlGenerator2_3.CurrentDisplayContent2_3(xmlDocument,stopPointDestinationList,vehicleState);
+
     }
 
     this->setBodyContent("AllData",bodyAllData);
@@ -85,61 +146,13 @@ void CustomerInformationService::updateInternalVariables(QVector<Connection> con
 
 
 /*!
- * \brief CustomerInformationService::aktualizaceIntPromEmpty
- * \param stav
- * \param seznamSpoju
- */
-void CustomerInformationService::updateInternalVariablesEmpty(VehicleState &vehicleState, QVector<Trip>  tripList ) //novy
-{
-    qDebug() <<  Q_FUNC_INFO<<" "<<mServiceName<<" "<<mVersion;
-
-    qDebug()<<"size of triplist "<<tripList.size()<<" index"<<vehicleState.currentTripIndex;
-
-    tripList.clear();
-    QVector<Connection> connectionList;
-
-    QString bodyAllData="";
-    QString bodyCurrentDisplayContent="";
-    
-    if (mVersion=="2.2CZ1.0")
-    {
-        QDomDocument xmlDocument;
-        bodyAllData=xmlGenerator.AllData_empty2_2CZ1_0(xmlDocument);
-    }
-    else if(mVersion=="2.3")
-    {
-        //bodyAllData=xmlGenerator.AllData_empty2_3(xmlDocument);
-        QDomDocument xmlDocument;
-
-        bodyAllData=xmlGenerator.AllData2_3(xmlDocument, tripList,connectionList,vehicleState);
-    }
-    else
-    {
-        QDomDocument xmlDocument;
-        bodyAllData=xmlGenerator.AllData_empty_1_0(xmlDocument);
-    }
-
-
-    this->setBodyContent("AllData",bodyAllData);
-    this->setBodyContent("CurrentDisplayContent",bodyCurrentDisplayContent);
-
-
-     updateStructureMap();
-
-}
-
-
-/*!
- * \brief CustomerInformationService::aktualizaceObsahuSluzby
+ * \brief CustomerInformationService::updateServiceContent
  * \param prestup
  * \param stav
  */
-
-
-
 void CustomerInformationService::updateServiceContent(QVector<Connection> connectionList, VehicleState &vehicleState ) //novy
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(customerInformationServiceLog) <<  Q_FUNC_INFO;
     mConnectionList=connectionList;
     mVehicleState=vehicleState;
     mTripList=vehicleState.currentVehicleRun.tripList;
@@ -150,10 +163,21 @@ void CustomerInformationService::updateServiceContent(QVector<Connection> connec
 
 void CustomerInformationService::outOfService()
 {
-    qDebug() <<  Q_FUNC_INFO;
-    updateInternalVariablesEmpty(mVehicleState,mTripList);
-
+    qCDebug(customerInformationServiceLog) <<  Q_FUNC_INFO;
+    // updateInternalVariablesEmpty(mVehicleState,mTripList,mGlobalDisplayContentList);
+    updateInternalVariables(mConnectionList,mVehicleState,mTripList,mGlobalDisplayContentList, mGlobalDisplayContentList2_3CZ1_0);
 }
+
+void CustomerInformationService::setGlobalDisplayContentList(const QVector<Vdv301DisplayContent> &newGlobalDisplayContentList)
+{
+    mGlobalDisplayContentList = newGlobalDisplayContentList;
+}
+
+void CustomerInformationService::setGlobalDisplayContentList(const QVector<Vdv301DisplayContent2_3CZ1_0> &newGlobalDisplayContentList)
+{
+    mGlobalDisplayContentList2_3CZ1_0 = newGlobalDisplayContentList;
+}
+
 
 
 /*!
@@ -162,14 +186,16 @@ void CustomerInformationService::outOfService()
 
 void CustomerInformationService::slotSendDataToSubscribers()
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(customerInformationServiceLog) <<  Q_FUNC_INFO;
+    updateInternalVariables(mConnectionList,mVehicleState,mTripList,mGlobalDisplayContentList,mGlobalDisplayContentList2_3CZ1_0 );
+    /*
     if (mTripList.isEmpty())
     {
-        updateInternalVariablesEmpty(mVehicleState,mTripList);
+        updateInternalVariablesEmpty(mVehicleState,mTripList,mGlobalDisplayContentList);
     }
     else
     {
-        updateInternalVariables(mConnectionList,mVehicleState,mTripList );
+        updateInternalVariables(mConnectionList,mVehicleState,mTripList,mGlobalDisplayContentList );
     }
-
+    */
 }

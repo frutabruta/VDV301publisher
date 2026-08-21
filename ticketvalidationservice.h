@@ -2,15 +2,17 @@
 #define TICKETVALIDATIONSERVICE_H
 
 #include "httpservice.h"
-#include "xmlticketvalidationservice.h"
-#include "VDV301DataStructures/connectionmpv.h"
+//  #include "xmlticketvalidationservice.h"
+#include "VDV301DataStructures/vehiclestate.h"
+
+#include "xmlticketvalidationservice2_3_new.h"
 
 class TicketValidationService : public HttpService
 {
 public:
     //konstruktor
     TicketValidationService();
-    explicit TicketValidationService(QString serviceName, QString serviceType, int portNumber, QString version);
+    explicit TicketValidationService(QString serviceName, QString serviceType, int portNumber, QString version, QString serviceNamePostfix="");
 
 
     //instance knihoven
@@ -26,7 +28,9 @@ public:
 private:
 
     //instance knihoven
-    XmlTicketValidationService xmlGenerator;
+ //   XmlTicketValidationService2_2CZ1_0 xmlGenerator2_2;
+    XmlTicketValidationService2_3_new xmlGenerator2_2;
+
 
     //variables
     VehicleState mVehicleState;

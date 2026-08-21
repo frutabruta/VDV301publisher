@@ -1,14 +1,14 @@
 #ifndef XMLCUSTOMERINFORMATIONSERVICE_H
 #define XMLCUSTOMERINFORMATIONSERVICE_H
-#include "xmlcommon.h"
+#include "xmlcommonvehiclestate.h"
 #include <QObject>
 
-class XmlCustomerInformationService : XmlCommon
+class XmlCustomerInformationService : public XmlCommonVehicleState
 {
 public:
     XmlCustomerInformationService();
     // QString AllData1_0(QVector<StopPointDestination> docasnySeznamZastavek, QString doorState, QString locationState, QVector<PrestupMPV> prestupy, CestaUdaje stav);
-
+    
     QString AllData1_0(QDomDocument xmlDocument, QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState);
     QString AllData2_2CZ1_0(QDomDocument xmlDocument, QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState);
     QString AllData_empty_1_0(QDomDocument xmlDocument);
@@ -20,7 +20,11 @@ public:
     //rozdelano
     QString CurrentDisplayContent2_3(QDomDocument xmlDocument, QVector<StopPointDestination> stopPointDestinationList, VehicleState vehicleState);
     QString AllData2_3(QDomDocument xmlDocument, QVector<Trip> tripList, QVector<Connection> connectionList, VehicleState vehicleState);
+/*
+    QString AllData2_3gen(QDomDocument xmlDocument, Vdv301AllData allData);
 
+    QString AllData2_3CZ1_0gen(QDomDocument xmlDocument, Vdv301AllData allData);
+*/
 private:
 
 };

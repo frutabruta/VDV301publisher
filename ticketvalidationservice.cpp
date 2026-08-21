@@ -2,7 +2,7 @@
 
 
 
-TicketValidationService::TicketValidationService(QString serviceName, QString serviceType, int portNumber,QString version):HttpService( serviceName,serviceType, portNumber,version)
+TicketValidationService::TicketValidationService(QString serviceName, QString serviceType, int portNumber, QString version, QString serviceNamePostfix):HttpService( serviceName,serviceType, portNumber,version,serviceNamePostfix)
 {
     connect(&timer, &QTimer::timeout, this, &TicketValidationService::slotSendDataToSubscribers);
     timer.start(60000);
@@ -15,6 +15,10 @@ TicketValidationService::TicketValidationService(QString serviceName, QString se
 void TicketValidationService::updateInternalVariables(QVector<Connection> connectionList, VehicleState &vehicleState, QVector<StopPointDestination>  stopDestinationList ) //novy
 {
     qDebug()<<Q_FUNC_INFO<<" "<<mServiceName<<" "<<mVersion;
+    mConnectionList=connectionList;
+    mVehicleState=vehicleState;
+    mStopPointDestinationList=stopDestinationList;
+
     // QByteArray zpracovanoMPV="";
     QString bodyCurrentTariffStopResponse="";
     QString bodyVehicleDataResponse="";
@@ -22,24 +26,81 @@ void TicketValidationService::updateInternalVariables(QVector<Connection> connec
     
     
     
-    
-    if (mVersion=="2.2CZ1.0")
+    if(mVersion=="1.0")
+    {
+        qDebug()<<"VERSION "<<mVersion<<" NOT IMPLEMENTED";
+    }
+    else if (mVersion=="2.2CZ1.0")
+    {
+        qDebug()<<"VERSION 2.2CZ1.0 IS DEPRACATED";
+        /*
+        QDomDocument xmlDocument;
+        bodyCurrentTariffStopResponse=xmlGenerator2_2CZ1_0.TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(xmlDocument,vehicleState.currentStopIndex0,stopDestinationList,connectionList);
+        bodyVehicleDataResponse=xmlGenerator2_2CZ1_0.TicketValidationService_GetVehicleDataResponse2_2CZ1_0(xmlDocument,vehicleState);
+        bodyRazziaResponse=xmlGenerator2_2CZ1_0.TicketValidationService_GetRazziaResponse2_2CZ1_0(xmlDocument,vehicleState);
+*/
+    }
+    else if (mVersion=="2.2")
     {
         QDomDocument xmlDocument;
-        bodyCurrentTariffStopResponse=xmlGenerator.TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(xmlDocument,vehicleState.currentStopIndex0,stopDestinationList,connectionList);
-        bodyVehicleDataResponse=xmlGenerator.TicketValidationService_GetVehicleDataResponse2_2CZ1_0(xmlDocument,vehicleState);
-        bodyRazziaResponse=xmlGenerator.TicketValidationService_GetRazziaResponse2_2CZ1_0(xmlDocument,vehicleState);
+
+        bool isCurrentStopEmpty=true;
+        StopPointDestination currentStop=mVehicleState.getCurrentStopPointDestination(isCurrentStopEmpty);
+
+        if(!isCurrentStopEmpty)
+        {
+            QVector<Vdv301Connection> emptyConnectionList;
+            Vdv301StopPoint stopPoint=xmlGenerator2_2.StopPoint2_3new(
+                mStopPointDestinationList,
+                mVehicleState.currentStopIndex0,
+                emptyConnectionList,
+                xmlGenerator2_2.defaultLanguage2_3,
+                mVehicleState.currentStopIndex0+1 );
+
+            bodyCurrentTariffStopResponse=xmlGenerator2_2.currentTariffStopGen(
+                xmlDocument,
+                stopPoint,
+                mVehicleState.currentTrip.ref());
+        }
+        else
+        {
+            bodyCurrentTariffStopResponse="";
+        }
+
+
+        //bodyCurrentTariffStopResponse=xmlGenerator2_2.TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(xmlDocument,vehicleState.currentStopIndex0,stopDestinationList,connectionList);
+        //bodyVehicleDataResponse=xmlGenerator2_2.TicketValidationService_GetVehicleDataResponse2_2CZ1_0(xmlDocument,vehicleState);
+        //bodyRazziaResponse=xmlGenerator2_2.TicketValidationService_GetRazziaResponse2_2CZ1_0(xmlDocument,vehicleState);
 
     }
+    else if (mVersion=="2.2CZ1.0")
+    {
+        qDebug()<<"VERISON 2.2CZ1.0 IS DEPRACATED";
+        /*
+        QDomDocument xmlDocument;
+        bodyCurrentTariffStopResponse=xmlGenerator2_2CZ1_0.TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(xmlDocument,vehicleState.currentStopIndex0,stopDestinationList,connectionList);
+        bodyVehicleDataResponse=xmlGenerator2_2CZ1_0.TicketValidationService_GetVehicleDataResponse2_2CZ1_0(xmlDocument,vehicleState);
+        bodyRazziaResponse=xmlGenerator2_2CZ1_0.TicketValidationService_GetRazziaResponse2_2CZ1_0(xmlDocument,vehicleState);
+*/
+    }
+    else if(mVersion=="2.3")
+    {
+        qDebug()<<"VERSION "<<mVersion<<" NOT IMPLEMENTED";
+    }
+    else if(mVersion=="2.3CZ1.0")
+    {
+        qDebug()<<"VERSION "<<mVersion<<" NOT IMPLEMENTED";
+    }
+
     else
     {
-        //other versions
+        qDebug()<<"unsupported version!";
     }
 
 
-    this->setBodyContent("CurrentTariffStopResponse",bodyCurrentTariffStopResponse);
-    this->setBodyContent("VehicleDataResponse",bodyVehicleDataResponse);
-    this->setBodyContent("RazziaResponse",bodyRazziaResponse);
+    this->setBodyContent("CurrentTariffStop",bodyCurrentTariffStopResponse);
+    this->setBodyContent("VehicleData",bodyVehicleDataResponse);
+    this->setBodyContent("Razzia",bodyRazziaResponse);
     this->updateServerContent(structureContentMap);
 
     for(int i=0;i<subscriberList.count();i++ )
@@ -60,9 +121,17 @@ void TicketValidationService::slotSendDataToSubscribers()
 void TicketValidationService::updateServiceContent(QVector<Connection> connectionList, VehicleState &vehicleState ) //novy
 {
     qDebug()<<Q_FUNC_INFO;
-    mConnectionList =connectionList;
+    mConnectionList=connectionList;
     mVehicleState=vehicleState;
-    mStopPointDestinationList=vehicleState.currentVehicleRun.tripList.at(vehicleState.currentTripIndex).globalStopPointDestinationList;
+    if(!vehicleState.currentVehicleRun.tripList.isEmpty())
+    {
+        mStopPointDestinationList=vehicleState.getCurrentTrip().globalStopPointDestinationList;
+    }
+    else
+    {
+        mStopPointDestinationList.clear();
+    }
+
     slotSendDataToSubscribers();
     timer.start(60000);
 }

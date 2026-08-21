@@ -17,7 +17,7 @@ public:
     QString DeviceConfigurationResponseStructure1_0(QDomDocument xmlDocument, QString deviceId);
     QString DeviceStatusResponse1_0(QDomDocument xmlDocument, QString status);
     QDomElement DeviceStatus(QDomDocument &xmlDocument, QString status);
-    QDomElement Restart();
+    QDomElement Restart(); //not finished
     QDomElement DeviceInformationGroup1_0(QDomDocument &xmlDocument, QString name, QString manufacturer, QString serialNumber, QString deviceClass, QString swVersion);
     QDomElement DeviceName1_0(QDomDocument &xmlDocument, QString deviceName);
     QDomElement Manufacturer1_0(QDomDocument &xmlDocument, QString manufacturerName);

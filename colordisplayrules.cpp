@@ -1,5 +1,8 @@
 #include "colordisplayrules.h"
 
+Q_LOGGING_CATEGORY(ColorDisplayRulesLog, "ColorDisplayRules")
+
+
 ColorDisplayRules::ColorDisplayRules()
 {
     fillColorMap();
@@ -10,7 +13,8 @@ ColorDisplayRules::ColorDisplayRules()
 
 void ColorDisplayRules::fillColorMap()
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(ColorDisplayRulesLog) <<  Q_FUNC_INFO;
+
     //dd1 Metro, nahrazuje se piktogramem (metro, replaced with icon)
     colorsText["metro"]=color_black_0_0_0;
     colorsBackground["metro"]=color_white_255_255_255;
@@ -31,11 +35,11 @@ void ColorDisplayRules::fillColorMap()
 
 
     //dd4 Denní příměstská nebo regionální linka (day regional bus)
-    colorsText["regionalBus"]=color_black_0_0_0;
+    colorsText["regionalBus"]=color_BackgroundA_25_25_25;
     colorsBackground["regionalBus"]=color_white_255_255_255;
 
 
-    colorsText["regionalBusDiversion"]=color_black_0_0_0;
+    colorsText["regionalBusDiversion"]=color_BackgroundA_25_25_25;
     colorsBackground["regionalBusDiversion"]=color_Vyluky_255_170_30;
 
     //dd5 Noční městská autobusová linka (night city bus)
@@ -58,36 +62,77 @@ void ColorDisplayRules::fillColorMap()
     colorsText["localBusReplacement"]=color_Vyluky_255_170_30;
     colorsBackground["localBusReplacement"]=color_white_255_255_255;
 
+    colorsText["localBusDiversionReplacement"]=color_Vyluky_255_170_30;
+    colorsBackground["localBusDiversionReplacement"]=color_white_255_255_255;
+
     //dd8 Lanovka (funicular)
     colorsText["funicular"]=color_Lanovka_201_208_34;
     colorsBackground["funicular"]=color_white_255_255_255;
+
+    colorsText["funicularDiversion"]=color_Lanovka_201_208_34;
+    colorsBackground["funicularDiversion"]=color_Vyluky_255_170_30;
+
+
     //dd9 Školní linka (school bus)
     colorsText["schoolBus"]=color_Autobus_0_120_160;
     colorsBackground["schoolBus"]=color_white_255_255_255;
+
+    colorsText["schoolBusDiversion"]=color_Autobus_0_120_160;
+    colorsBackground["schoolBusDiversion"]=color_Vyluky_255_170_30;
+
     //dd10 Invalidní (PRM line)
     colorsText["specialNeedsBus"]=color_Specialni_143_188_25;
     colorsBackground["specialNeedsBus"]=color_white_255_255_255;
+
+    colorsText["specialNeedsBusDiversion"]=color_Specialni_143_188_25;
+    colorsBackground["specialNeedsBusDiversion"]=color_Vyluky_255_170_30;
+
     //dd11 Smluvni (contract line)
     colorsText["localBusSpecial"]=color_Specialni_143_188_25;
     colorsBackground["localBusSpecial"]=color_white_255_255_255;
+
+    colorsText["localBusSpecialDiversion"]=color_Specialni_143_188_25;
+    colorsBackground["localBusSpecialDiversion"]=color_Vyluky_255_170_30;
+
+
     //dd12 Přívoz (ferry)
     colorsText["localPassengerFerry"]=color_Privoz_0_164_167;
     colorsBackground["localPassengerFerry"]=color_white_255_255_255;
+
+    colorsText["localPassengerFerryDiversion"]=color_Privoz_0_164_167;
+    colorsBackground["localPassengerFerryDiversion"]=color_Vyluky_255_170_30;
+
     //dd13 Vlaky PID – linky S nebo R (PID system  trains)
+
+
     colorsText["regionalRail"]=color_white_255_255_255;
-    colorsBackground["regionalRail"]=color_Vlak_15_30_65;
+    colorsBackground["regionalRail"]=color_Vlak_30_60_120;
+
+    colorsText["regionalRailDiversion"]=color_Vyluky_255_170_30;
+    colorsBackground["regionalRailDiversion"]=color_Vlak_30_60_120;
+
     //dd14 Linka náhradní dopravy, NAD za vlak (rail replacement bus)
     colorsText["railReplacementBus"]=color_Vyluky_255_170_30;
     colorsBackground["railReplacementBus"]=color_white_255_255_255;
-
+/*
     colorsText["railReplacementBusReplacement"]=color_Vyluky_255_170_30;
     colorsBackground["railReplacementBusReplacement"]=color_white_255_255_255;
+*/
+    colorsText["railReplacementBusDiversion"]=color_Vyluky_255_170_30;
+    colorsBackground["railReplacementBusDiversion"]=color_white_255_255_255;
 
+
+    colorsText["railReplacementBusReplacementDiversion"]=color_Vyluky_255_170_30;
+    colorsBackground["railReplacementBusReplacementDiversion"]=color_white_255_255_255;
 
 
     //dd15 Linka náhradní dopravy, Tram
     colorsText["localTramReplacement"]=color_Vyluky_255_170_30;
     colorsBackground["localTramReplacement"]=color_white_255_255_255;
+
+    colorsText["localTramReplacementDiversion"]=color_Vyluky_255_170_30;
+    colorsBackground["localTramReplacementDiversion"]=color_white_255_255_255;
+
     //dd16 Noční příměstská nebo regionální linka
     colorsText["regionalBusNight"]=color_white_255_255_255;
     colorsBackground["regionalBusNight"]=color_Nocni_9_0_62;
@@ -98,14 +143,24 @@ void ColorDisplayRules::fillColorMap()
     //dd17 Linka mimo systém PID (3 znaky)
     //  barvaTextu[""]=barva_PozadiD_150_150_150;
     //  barvaPozadi[""]=barva_bila_255_255_255;
-    colorsText["unknown"]=color_white_255_255_255;
-    colorsBackground["unknown"]=color_PozadiD_150_150_150;
+    colorsText["unknown"]=color_PozadiD_150_150_150;
+    colorsBackground["unknown"]=color_white_255_255_255;
+
+    colorsText["unknownDiversion"]=color_PozadiD_150_150_150;
+    colorsBackground["unknownDiversion"]=color_Vyluky_255_170_30;
 
     colorsText["undefined"]=color_PozadiD_150_150_150;
     colorsBackground["undefined"]=color_white_255_255_255;
+
+    colorsText["undefinedDiversion"]=color_PozadiD_150_150_150;
+    colorsBackground["undefinedDiversion"]=color_Vyluky_255_170_30;
+
     //dd18 Denní trolejbusová linka
     colorsText["localTrolleybus"]=color_Trolejbus_128_22_111;
     colorsBackground["localTrolleybus"]=color_white_255_255_255;
+
+    colorsText["localTrolleybusDiversion"]=color_Trolejbus_128_22_111;
+    colorsBackground["localTrolleybusDiversion"]=color_Vyluky_255_170_30;
 
 
     /*
@@ -122,7 +177,7 @@ void ColorDisplayRules::fillColorMap()
 
 StylLinky ColorDisplayRules::lineToStyle(Line line )
 {
-    qDebug()<<Q_FUNC_INFO;
+    qCDebug(ColorDisplayRulesLog)<<Q_FUNC_INFO;
     StylLinky vystup;
 
 
@@ -141,12 +196,6 @@ StylLinky ColorDisplayRules::lineToStyle(Line line )
         subMode=subMode+"Night";
     }
 
-    if(line.isDiversion)
-    {
-        subMode=subMode+"Diversion";
-        //  pozadi="background-color:"+barva_Vyluky_255_170_30+";";
-        qDebug()<<"linka je vylukova";
-    }
     if(line.isReplacement)
     {
         subMode=subMode+"Replacement";
@@ -156,6 +205,12 @@ StylLinky ColorDisplayRules::lineToStyle(Line line )
         subMode=subMode+"Special";
     }
 
+    if(line.isDiversion)
+    {
+        subMode=subMode+"Diversion";
+        //  pozadi="background-color:"+barva_Vyluky_255_170_30+";";
+        qCDebug(ColorDisplayRulesLog)<<"linka je vylukova";
+    }
 
     if(colorsBackground.contains(subMode))
     {
@@ -175,7 +230,7 @@ StylLinky ColorDisplayRules::lineToStyle(Line line )
         vystup.text=color_black_0_0_0;
     }
 
-    qDebug()<<"linka "<<line.lineName<<" submode "<<subMode;
+    qCDebug(ColorDisplayRulesLog)<<"linka "<<line.lineName<<" submode "<<subMode;
 
     return vystup;
 
@@ -183,30 +238,29 @@ StylLinky ColorDisplayRules::lineToStyle(Line line )
 
 StylLinky ColorDisplayRules::lineToStyle(Line line , QString subMode )
 {
-    qDebug()<<Q_FUNC_INFO;
+    qCDebug(ColorDisplayRulesLog)<<Q_FUNC_INFO;
     StylLinky vystup;
-
-
-
 
     if(line.isNight==true)
     {
         subMode=subMode+"Night";
     }
 
-    if(line.isDiversion)
-    {
-        subMode=subMode+"Diversion";
-        //  pozadi="background-color:"+barva_Vyluky_255_170_30+";";
-        qDebug()<<"linka je vylukova";
-    }
     if(line.isReplacement)
     {
         subMode=subMode+"Replacement";
     }
+
     if(line.isSpecial)
     {
         subMode=subMode+"Special";
+    }
+
+    if(line.isDiversion)
+    {
+        subMode=subMode+"Diversion";
+        //  pozadi="background-color:"+barva_Vyluky_255_170_30+";";
+        qCDebug(ColorDisplayRulesLog)<<"linka je vylukova";
     }
 
 
@@ -218,10 +272,9 @@ StylLinky ColorDisplayRules::lineToStyle(Line line , QString subMode )
     {
         vystup.text=colorsText[subMode];
     }
-    qDebug()<<"linka "<<line.lineName<<" submode "<<subMode;
+    qCDebug(ColorDisplayRulesLog)<<"linka "<<line.lineName<<" submode "<<subMode;
 
     return vystup;
-
 }
 
 QString ColorDisplayRules::styleToString(QString text, StylLinky style)
@@ -242,7 +295,7 @@ QString ColorDisplayRules::qColorToRgbString(QColor input)
 
 void ColorDisplayRules::ddDoVehicleMode(QString &mainMode, QString &subMode, Line &line)
 {
-    qDebug()<<"PrestupMPV::ddDoVehicleMode "<<line.kli;
+    qCDebug(ColorDisplayRulesLog)<<"PrestupMPV::ddDoVehicleMode "<<line.kli;
 
     /*
     bool isDiversion=false;
@@ -317,7 +370,7 @@ void ColorDisplayRules::ddDoVehicleMode(QString &mainMode, QString &subMode, Lin
         mainMode="BusSubmode";
         subMode="localBus";
         line.isSpecial=true;
-        qDebug()<<"linka je specialni";
+        qCDebug(ColorDisplayRulesLog)<<"linka je specialni";
 
 
         break;
