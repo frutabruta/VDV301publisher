@@ -20,7 +20,7 @@ Vdv301StopPoint XmlTicketValidationService2_3_new::currentTariffStop(StopPointDe
 
 QString XmlTicketValidationService2_3_new::currentTariffStopGen(QDomDocument xmlDocument, Vdv301StopPoint stopPointDestination, QString tripRef)
 {
-    QDomElement dCurrentStopPointResponse=xmlDocument.createElement("TicketValidationService.GetCurrentStopPointResponse");
+    QDomElement dCurrentStopPointResponse=xmlDocument.createElement("TicketValidationService.GetCurrentTariffStopResponse");
 
     QDomElement dCurrentTariffStopData=xmlDocument.createElement("CurrentTariffStopData");
     dCurrentTariffStopData.appendChild(xmlCommon2_3_new.TimeStampTag1_0(xmlDocument));

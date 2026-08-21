@@ -8,6 +8,12 @@ Qt library for VDV301 devices used as publisher
 
 
 ## Changelog
+- 20260821_2115
+  - TicketValidationService::updateInternalVariables
+    - StopPoint index fix
+  - XmlTicketValidationService2_3_new::currentTariffStopGen
+    - element name fix to TicketValidationService.GetCurrentTariffStopResponse
+
 - 20260804_1621
   - VDV301DataStructures
     - removed unused includes from StopPointDestinations
