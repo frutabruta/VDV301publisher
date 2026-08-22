@@ -15,6 +15,9 @@ public:
     ~TimeService();
     void bonjourStartAll();
 
+    int portNumber() const;
+    void setPortNumber(int newPortNumber);
+
 private:
     QString mServiceName="TimeService";
     QString mVersion="1.0";

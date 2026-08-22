@@ -40,6 +40,16 @@ void TimeService::bonjourStartAll()
     this->bonjourStartPublish(this->mServiceName,this->mServiceType,this->mPortNumber,this->mVersion ,zeroConf);
 }
 
+int TimeService::portNumber() const
+{
+    return mPortNumber;
+}
+
+void TimeService::setPortNumber(int newPortNumber)
+{
+    mPortNumber = newPortNumber;
+}
+
 /*!
  * \brief HttpSluzba::bonjourStartPublish
  * \param nazevSluzby

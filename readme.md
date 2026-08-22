@@ -5,9 +5,13 @@ Qt library for VDV301 devices used as publisher
   - GetAllData
   - GetCurrentDisplayContent
 - DeviceManagementService (1.0)
-
+- TimeService 1.0 (only publishes the service, NTP server must be installed separately)
 
 ## Changelog
+- 20260822_1019
+  - TimeService
+    - added port getter and setter
+
 - 20260821_2115
   - TicketValidationService::updateInternalVariables
     - StopPoint index fix
