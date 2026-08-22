@@ -39,6 +39,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    void createMessage(RemoteControlMessageType messageType, QString messageParameter);
+    void createMessage(Vdv301Enumerations::RemoteControlMessageTypeEnumeration messageType, QString messageParameter);
 };
 #endif // MAINWINDOW_H

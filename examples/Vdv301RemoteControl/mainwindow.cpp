@@ -23,50 +23,46 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::createMessage(RemoteControlMessageType messageType, QString messageParameter)
+void MainWindow::createMessage(Vdv301Enumerations::RemoteControlMessageTypeEnumeration messageType, QString messageParameter)
 {
-    qDebug() <<  Q_FUNC_INFO;
-
     QDomDocument document;
-
     QString vysledek=xmlGen.AllData2_3CZ1_0gen(document,messageType,messageParameter);
     remoteControlService2_3CZ1_0.setBodyContent("AllData",vysledek);
     remoteControlService2_3CZ1_0.updateStructureMap();
-
 }
 
 void MainWindow::on_pushButton_ok_clicked()
 {
-    createMessage(RemoteControlOk,"");
+    createMessage(Vdv301Enumerations::RemoteControlOk,"");
 }
 
 
 void MainWindow::on_pushButton_error_clicked()
 {
-    createMessage(RemoteControlError,"");
+    createMessage(Vdv301Enumerations::RemoteControlError,"");
 }
 
 
 void MainWindow::on_pushButton_destinationRequest_clicked()
 {
-    createMessage(RemoteControlDestinationRequest,"");
+    createMessage(Vdv301Enumerations::RemoteControlDestinationRequest,"");
 }
 
 
 void MainWindow::on_pushButton_getOnRequest_clicked()
 {
-    createMessage(RemoteControlGetOnRequest,"");
+    createMessage(Vdv301Enumerations::RemoteControlGetOnRequest,"");
 }
 
 
 void MainWindow::on_pushButton_startRazzia_clicked()
 {
-    createMessage(RemoteControlStartRazzia,ui->lineEdit_vehicleNumber->text());
+    createMessage(Vdv301Enumerations::RemoteControlStartRazzia,ui->lineEdit_vehicleNumber->text());
 }
 
 
 void MainWindow::on_pushButton_stopRazia_clicked()
 {
-    createMessage(RemoteControlStopRazzia,ui->lineEdit_vehicleNumber->text());
+    createMessage(Vdv301Enumerations::RemoteControlStopRazzia,ui->lineEdit_vehicleNumber->text());
 }
 

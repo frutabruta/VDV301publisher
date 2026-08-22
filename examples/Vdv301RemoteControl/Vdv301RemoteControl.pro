@@ -12,6 +12,7 @@ include(../../QtZeroConf/qtzeroconf.pri)
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    ../../VDV301DataStructures/vdv301enumerations.cpp \
     ../../VDV301DataStructures/vdv301internationaltext.cpp \
     ../../colordisplayrules.cpp \
     ../../httpserverpublisher.cpp \
@@ -24,6 +25,7 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    ../../VDV301DataStructures/vdv301enumerations.h \
     ../../VDV301DataStructures/vdv301internationaltext.h \
     ../../colordisplayrules.h \
     ../../httpserverpublisher.h \

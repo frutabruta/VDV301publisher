@@ -3,7 +3,7 @@
 XmlRemoteControlService2_3CZ1_0::XmlRemoteControlService2_3CZ1_0() {}
 
 
-QString XmlRemoteControlService2_3CZ1_0::AllData2_3CZ1_0gen(QDomDocument xmlDocument, RemoteControlMessageType messageType, QString messageParameter)//, VehicleState vehicleState )
+QString XmlRemoteControlService2_3CZ1_0::AllData2_3CZ1_0gen(QDomDocument xmlDocument, Vdv301Enumerations::RemoteControlMessageTypeEnumeration messageType, QString messageParameter)//, VehicleState vehicleState )
 {
     qDebug()<<Q_FUNC_INFO;
 
@@ -13,36 +13,9 @@ QString XmlRemoteControlService2_3CZ1_0::AllData2_3CZ1_0gen(QDomDocument xmlDocu
     xmlDocument.appendChild(dGetAllDataResponse);
     dGetAllDataResponse.appendChild(TimeStampTag1_0(xmlDocument));
 
-
     QDomElement dMessageContent=xmlDocument.createElement("MessageContent");
 
-
-
-
-    QString messageTypeString="";
-
-    switch (messageType)
-    {
-
-    case RemoteControlOk:
-        messageTypeString="Ok";
-        break;
-    case RemoteControlError:
-        messageTypeString="Error";
-        break;
-    case RemoteControlDestinationRequest:
-        messageTypeString="DestinationRequest";
-        break;
-    case RemoteControlGetOnRequest:
-        messageTypeString="GetOnRequest";
-        break;
-    case RemoteControlStartRazzia:
-        messageTypeString="StartRazzia";
-        break;
-    case RemoteControlStopRazzia:
-        messageTypeString="StopRazzia";
-        break;
-    }
+    QString messageTypeString=Vdv301Enumerations::RemoteControlMessageTypeToQString(messageType);
 
     QDomElement dMessageType=xmlDocument.createElement("MessageType");
 
