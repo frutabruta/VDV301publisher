@@ -8,6 +8,15 @@ Qt library for VDV301 devices used as publisher
 - TimeService 1.0 (only publishes the service, NTP server must be installed separately)
 
 ## Changelog
+- 20260822_2033
+  - new class RemoteControlService to simulate assistance tool for visualy impaired passengers
+  - new class XmlRemoteControlService2_3CZ1_0 to generate content
+  - XmlTicketValidationService2_3_new
+    - removed member xmlCommon2_3_new because the class already inherits from it
+  - Vdv301PublisherCisExample
+    - fixed dependencies
+  - new example Vdv301RemoteControl 
+
 - 20260822_1019
   - TimeService
     - added port getter and setter

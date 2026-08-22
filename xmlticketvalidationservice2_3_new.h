@@ -8,7 +8,6 @@ class XmlTicketValidationService2_3_new : public XmlCommon2_3_new
 {
 public:
     XmlTicketValidationService2_3_new();
-    XmlCommon2_3_new xmlCommon2_3_new;
     Vdv301StopPoint currentTariffStop(StopPointDestination stopPointDestination, int stopPointIterator);
     QString currentTariffStopGen(QDomDocument xmlDocument, Vdv301StopPoint stopPointDestination, QString tripRef);
 };

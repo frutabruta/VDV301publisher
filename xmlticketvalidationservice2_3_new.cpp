@@ -23,13 +23,13 @@ QString XmlTicketValidationService2_3_new::currentTariffStopGen(QDomDocument xml
     QDomElement dCurrentStopPointResponse=xmlDocument.createElement("TicketValidationService.GetCurrentTariffStopResponse");
 
     QDomElement dCurrentTariffStopData=xmlDocument.createElement("CurrentTariffStopData");
-    dCurrentTariffStopData.appendChild(xmlCommon2_3_new.TimeStampTag1_0(xmlDocument));
-    dCurrentTariffStopData.appendChild(xmlCommon2_3_new.StopPoint2_3gen(xmlDocument,stopPointDestination,"CurrentTariffStop"));
-    dCurrentTariffStopData.appendChild(xmlCommon2_3_new.ref(xmlDocument,"CurrentTripRef",tripRef));
+    dCurrentTariffStopData.appendChild(TimeStampTag1_0(xmlDocument));
+    dCurrentTariffStopData.appendChild(StopPoint2_3gen(xmlDocument,stopPointDestination,"CurrentTariffStop"));
+    dCurrentTariffStopData.appendChild(ref(xmlDocument,"CurrentTripRef",tripRef));
     dCurrentStopPointResponse.appendChild(dCurrentTariffStopData);
     xmlDocument.appendChild(dCurrentStopPointResponse);
 
-    QString result=xmlCommon2_3_new.qDomDocumentToQString(xmlDocument);
+    QString result=qDomDocumentToQString(xmlDocument);
     return result;
 }
 
