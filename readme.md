@@ -8,6 +8,14 @@ Qt library for VDV301 devices used as publisher
 - TimeService 1.0 (only publishes the service, NTP server must be installed separately)
 
 ## Changelog
+- 20260824_0112
+  -  VDV301DataStructures
+    -  added Vdv301VehicleData
+  - TicketValidationService
+    - now generating bodyVehicleDataResponse
+  - added XmlTicketValidationService2_3_new::vehicleData
+  - added XmlTicketValidationService2_3_new::vehicleDataGen
+
 - 20260823_2222
   - VDV301DataStructures
     - added TicketRazzia enumeration

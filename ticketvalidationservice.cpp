@@ -47,6 +47,8 @@ void TicketValidationService::updateInternalVariables(QVector<Connection> connec
         bool isCurrentStopEmpty=true;
         StopPointDestination currentStop=mVehicleState.getCurrentStopPointDestination(isCurrentStopEmpty);
 
+
+        Vdv301VehicleData vehicleData=xmlGenerator2_2.vehicleData(vehicleState);
         if(!isCurrentStopEmpty)
         {
             QVector<Vdv301Connection> emptyConnectionList;
@@ -68,7 +70,7 @@ void TicketValidationService::updateInternalVariables(QVector<Connection> connec
         }
 
         bodyRazziaResponse=xmlGenerator2_2.razziaGen(xmlDocument,mVehicleState.razziaState);
-
+        bodyVehicleDataResponse=xmlGenerator2_2.vehicleDataGen(xmlDocument,vehicleData);
 
         //bodyCurrentTariffStopResponse=xmlGenerator2_2.TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(xmlDocument,vehicleState.currentStopIndex0,stopDestinationList,connectionList);
         //bodyVehicleDataResponse=xmlGenerator2_2.TicketValidationService_GetVehicleDataResponse2_2CZ1_0(xmlDocument,vehicleState);
