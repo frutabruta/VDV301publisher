@@ -10,6 +10,7 @@ public:
     XmlTicketValidationService2_3_new();
     Vdv301StopPoint currentTariffStop(StopPointDestination stopPointDestination, int stopPointIterator);
     QString currentTariffStopGen(QDomDocument xmlDocument, Vdv301StopPoint stopPointDestination, QString tripRef);
+    QString razziaGen(QDomDocument xmlDocument, Vdv301Enumerations::TicketRazziaInformationEnumeration razziaState);
 };
 
 #endif // XMLTICKETVALIDATIONSERVICE2_3_NEW_H

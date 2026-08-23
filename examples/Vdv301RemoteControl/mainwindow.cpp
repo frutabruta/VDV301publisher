@@ -5,7 +5,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , remoteControlService2_3CZ1_0 ("RemoteControlService","_ibisip_http._tcp",47485,"2.3CZ1.0","_ropid_vdv301tester")
+    , remoteControlService2_3CZ1_0 ("RemoteControlService","_ibisip_http._tcp",47461,"2.3CZ1.0","_ropid_vdv301tester")
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);

@@ -8,6 +8,17 @@ Qt library for VDV301 devices used as publisher
 - TimeService 1.0 (only publishes the service, NTP server must be installed separately)
 
 ## Changelog
+- 20260823_2222
+  - VDV301DataStructures
+    - added TicketRazzia enumeration
+  - TicketValidationService
+    - fixed RazziaResponse
+  - XmlTicketValidationService2_3_new::currentTariffStopGen
+    - fixed processiing information
+  - added XmlTicketValidationService2_3_new::razziaGen
+  - Vdv301RemoteControl example
+    - changed default server port
+    
 - 20260822_2033
   - new class RemoteControlService to simulate assistance tool for visualy impaired passengers
   - new class XmlRemoteControlService2_3CZ1_0 to generate content

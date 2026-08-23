@@ -20,6 +20,8 @@ Vdv301StopPoint XmlTicketValidationService2_3_new::currentTariffStop(StopPointDe
 
 QString XmlTicketValidationService2_3_new::currentTariffStopGen(QDomDocument xmlDocument, Vdv301StopPoint stopPointDestination, QString tripRef)
 {
+    QDomProcessingInstruction dHlavicka=createProcessingInformation(xmlDocument,mDefaultEncoding);
+    xmlDocument.appendChild(dHlavicka);
     QDomElement dCurrentStopPointResponse=xmlDocument.createElement("TicketValidationService.GetCurrentTariffStopResponse");
 
     QDomElement dCurrentTariffStopData=xmlDocument.createElement("CurrentTariffStopData");
@@ -28,6 +30,23 @@ QString XmlTicketValidationService2_3_new::currentTariffStopGen(QDomDocument xml
     dCurrentTariffStopData.appendChild(ref(xmlDocument,"CurrentTripRef",tripRef));
     dCurrentStopPointResponse.appendChild(dCurrentTariffStopData);
     xmlDocument.appendChild(dCurrentStopPointResponse);
+
+    QString result=qDomDocumentToQString(xmlDocument);
+    return result;
+}
+
+QString XmlTicketValidationService2_3_new::razziaGen(QDomDocument xmlDocument, Vdv301Enumerations::TicketRazziaInformationEnumeration razziaState)
+{
+    QDomProcessingInstruction dHlavicka=createProcessingInformation(xmlDocument,mDefaultEncoding);
+    xmlDocument.appendChild(dHlavicka);
+
+    QDomElement dRazziaResponse=xmlDocument.createElement("TicketValidationService.GetRazziaResponse");
+
+    QDomElement dRazziaData=xmlDocument.createElement("RazziaData");
+    dRazziaData.appendChild(TimeStampTag1_0(xmlDocument));
+    dRazziaData.appendChild(namedElement(xmlDocument,"RazziaState",Vdv301Enumerations::TicketRazziaInformationEnumerationToQString(razziaState)));
+    dRazziaResponse.appendChild(dRazziaData);
+    xmlDocument.appendChild(dRazziaResponse);
 
     QString result=qDomDocumentToQString(xmlDocument);
     return result;

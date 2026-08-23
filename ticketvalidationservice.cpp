@@ -67,6 +67,8 @@ void TicketValidationService::updateInternalVariables(QVector<Connection> connec
             bodyCurrentTariffStopResponse="";
         }
 
+        bodyRazziaResponse=xmlGenerator2_2.razziaGen(xmlDocument,mVehicleState.razziaState);
+
 
         //bodyCurrentTariffStopResponse=xmlGenerator2_2.TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(xmlDocument,vehicleState.currentStopIndex0,stopDestinationList,connectionList);
         //bodyVehicleDataResponse=xmlGenerator2_2.TicketValidationService_GetVehicleDataResponse2_2CZ1_0(xmlDocument,vehicleState);
