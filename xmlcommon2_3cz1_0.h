@@ -16,7 +16,7 @@ public:
     Vdv301StopPoint2_3CZ1_0 StopPoint2_3CZ1_0new(QVector<StopPointDestination> stopPointDestinationList, int stopPointIterator, QVector<Vdv301Connection> connectionList, QString language, int currentStopIndex, int delaySeconds=0);
     Vdv301Trip2_3CZ1_0 TripInformation2_3CZ1_0new(QVector<Trip> tripList, QVector<Vdv301Connection> connectionList, VehicleState vehicleState, int tripIndex, bool followingTrip); //unused?
     QVector<Vdv301StopPoint2_3CZ1_0> StopSequence2_3CZ1_0new(QVector<StopPointDestination> stopPointDestinationList, QString language, int currentStopIndex, QVector<Vdv301Connection> connectionList,int delaySeconds=0);
-    QDomElement StopPoint2_3CZ1_0gen(QDomDocument &xmlDocument, Vdv301StopPoint2_3CZ1_0 stopPointDestination);
+    QDomElement StopPoint2_3CZ1_0gen(QDomDocument &xmlDocument, Vdv301StopPoint2_3CZ1_0 stopPointDestination, QString elementName = "StopPoint");
     QStringList FareZoneInformationStructure2_3CZ1_0new(QVector<FareZone> fareZoneList);
     QVector<Vdv301InternationalText> fareZoneListToVdv301FareZoneList(QVector<FareZone> fareZoneList, QString language);
     QString vehicleRunToRunNumber(VehicleRun vehicleRun);

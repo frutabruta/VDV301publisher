@@ -52,7 +52,7 @@ void TicketValidationService::updateInternalVariables(QVector<Connection> connec
         if(!isCurrentStopEmpty)
         {
             QVector<Vdv301Connection> emptyConnectionList;
-            Vdv301StopPoint stopPoint=xmlGenerator2_2.StopPoint2_3new(
+            Vdv301StopPoint2_3CZ1_0 stopPoint=xmlGenerator2_2.StopPoint2_3CZ1_0new(
                 mStopPointDestinationList,
                 mVehicleState.currentStopIndex0,
                 emptyConnectionList,

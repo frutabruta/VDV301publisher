@@ -1,10 +1,10 @@
-#include "xmlticketvalidationservice2_3_new.h"
+#include "xmlticketvalidationservice2_3cz1_0.h"
 
-XmlTicketValidationService2_3_new::XmlTicketValidationService2_3_new() {}
+XmlTicketValidationService2_3CZ1_0::XmlTicketValidationService2_3CZ1_0() {}
 
 // GetCurrentStopPoint provide information of current stop
 
-Vdv301StopPoint XmlTicketValidationService2_3_new::currentTariffStop(StopPointDestination stopPointDestination,int stopPointIterator)
+Vdv301StopPoint XmlTicketValidationService2_3CZ1_0::currentTariffStop(StopPointDestination stopPointDestination,int stopPointIterator)
 {
     qDebug()<<Q_FUNC_INFO;
     Vdv301StopPoint output;
@@ -13,7 +13,7 @@ Vdv301StopPoint XmlTicketValidationService2_3_new::currentTariffStop(StopPointDe
 }
 
 
-QString XmlTicketValidationService2_3_new::currentTariffStopGen(QDomDocument xmlDocument, Vdv301StopPoint stopPointDestination, QString tripRef)
+QString XmlTicketValidationService2_3CZ1_0::currentTariffStopGen(QDomDocument xmlDocument, Vdv301StopPoint2_3CZ1_0 stopPointDestination, QString tripRef)
 {
     QDomProcessingInstruction dHlavicka=createProcessingInformation(xmlDocument,mDefaultEncoding);
     xmlDocument.appendChild(dHlavicka);
@@ -21,7 +21,7 @@ QString XmlTicketValidationService2_3_new::currentTariffStopGen(QDomDocument xml
 
     QDomElement dCurrentTariffStopData=xmlDocument.createElement("CurrentTariffStopData");
     dCurrentTariffStopData.appendChild(TimeStampTag1_0(xmlDocument));
-    dCurrentTariffStopData.appendChild(StopPoint2_3gen(xmlDocument,stopPointDestination,"CurrentTariffStop"));
+    dCurrentTariffStopData.appendChild(StopPoint2_3CZ1_0gen(xmlDocument,stopPointDestination,"CurrentTariffStop"));
     dCurrentTariffStopData.appendChild(ref(xmlDocument,"CurrentTripRef",tripRef));
     dCurrentStopPointResponse.appendChild(dCurrentTariffStopData);
     xmlDocument.appendChild(dCurrentStopPointResponse);
@@ -30,7 +30,7 @@ QString XmlTicketValidationService2_3_new::currentTariffStopGen(QDomDocument xml
     return result;
 }
 
-Vdv301VehicleData XmlTicketValidationService2_3_new::vehicleData(VehicleState vehicleState)
+Vdv301VehicleData XmlTicketValidationService2_3CZ1_0::vehicleData(VehicleState vehicleState)
 {
     Vdv301VehicleData result;
     result.vehicleRef=QString::number(vehicleState.vehicleNumber);
@@ -45,7 +45,7 @@ Vdv301VehicleData XmlTicketValidationService2_3_new::vehicleData(VehicleState ve
     return result;
 }
 
-QString XmlTicketValidationService2_3_new::vehicleDataGen(QDomDocument xmlDocument, Vdv301VehicleData vehicleData)
+QString XmlTicketValidationService2_3CZ1_0::vehicleDataGen(QDomDocument xmlDocument, Vdv301VehicleData vehicleData)
 {
     QDomProcessingInstruction dHlavicka=createProcessingInformation(xmlDocument,mDefaultEncoding);
     xmlDocument.appendChild(dHlavicka);
@@ -92,7 +92,7 @@ QString XmlTicketValidationService2_3_new::vehicleDataGen(QDomDocument xmlDocume
     return result;
 }
 
-QString XmlTicketValidationService2_3_new::razziaGen(QDomDocument xmlDocument, Vdv301Enumerations::TicketRazziaInformationEnumeration razziaState)
+QString XmlTicketValidationService2_3CZ1_0::razziaGen(QDomDocument xmlDocument, Vdv301Enumerations::TicketRazziaInformationEnumeration razziaState)
 {
     QDomProcessingInstruction dHlavicka=createProcessingInformation(xmlDocument,mDefaultEncoding);
     xmlDocument.appendChild(dHlavicka);

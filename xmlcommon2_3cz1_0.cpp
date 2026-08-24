@@ -732,10 +732,10 @@ QDomElement XmlCommon2_3CZ1_0::StopSequence2_3CZ1_0gen(QDomDocument &xmlDocument
 }
 
 
-QDomElement XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0gen(QDomDocument &xmlDocument, Vdv301StopPoint2_3CZ1_0 stopPointDestination)
+QDomElement XmlCommon2_3CZ1_0::StopPoint2_3CZ1_0gen(QDomDocument &xmlDocument, Vdv301StopPoint2_3CZ1_0 stopPointDestination, QString elementName)
 {
     qCDebug(XmlCommon2_3CZ1_0Log)<<Q_FUNC_INFO;
-    QDomElement dStopPoint=xmlDocument.createElement("StopPoint");
+    QDomElement dStopPoint=xmlDocument.createElement(elementName);
 
     // StopIndex
     dStopPoint.appendChild(Value(xmlDocument,"StopIndex",QString::number(stopPointDestination.stopIndex)));
