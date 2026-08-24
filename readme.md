@@ -8,6 +8,10 @@ Qt library for VDV301 devices used as publisher
 - TimeService 1.0 (only publishes the service, NTP server must be installed separately)
 
 ## Changelog
+- 20260824_1131
+  - VDV301DataStructures
+    - added VehicleState::getNextStopPointDestination
+    
 - 20260824_0112
   -  VDV301DataStructures
     -  added Vdv301VehicleData
