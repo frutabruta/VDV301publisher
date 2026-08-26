@@ -207,6 +207,39 @@ QByteArray HttpService::createSubscribeResponseBody(int desiredResult)
     return response;
 }
 
+QString HttpService::getSubscriberPostAddress(const QDomElement& subUnsubRequest) {
+    QString address=subUnsubRequest.firstChildElement("Client-IP-Address").firstChildElement().text() ;
+    QString port=subUnsubRequest.elementsByTagName("ReplyPort").at(0).toElement().firstChildElement().text() ;
+    QString path=subUnsubRequest.firstChildElement("ReplyPath").toElement().firstChildElement("Value").firstChild().nodeValue();
+
+    if(!path.startsWith("/"))
+    {
+        path="/"+path;
+    }
+
+    if(address.contains("%")) //IP v fixM  ?
+    {
+        address = "[" + address + "]";
+    }
+
+    QString fullAddress="http://"+address+":"+port+path;
+
+    return fullAddress;
+}
+
+Subscriber HttpService::subscriberInfoFromRequest(const QDomElement& subUnsubRequest, QString structureName) {
+    QString fullAddress=getSubscriberPostAddress(subUnsubRequest);
+
+    QUrl fullAddressUrl=fullAddress;
+    qCDebug(HttpServiceLog)<<"komplet adresa subscribera "<<fullAddress;
+
+    Subscriber candidateToSubscribe;
+    candidateToSubscribe.address=fullAddressUrl;
+    candidateToSubscribe.structure=structureName;
+
+    return candidateToSubscribe;
+}
+
 
 /*!
  * \brief HttpSluzba::slotVypisObsahRequestu
@@ -231,65 +264,19 @@ void HttpService::slotDumpRequestContent(QByteArray request,QString structureNam
     qCDebug(HttpServiceLog).noquote()<<"first tag "<<firstTag;
     qCDebug(HttpServiceLog).noquote()<<"request body "<<previousRequest;
 
-
+    QDomElement requestXml=xmlRequest.firstChildElement();
 
     if(firstTag=="SubscribeRequest")
     {
-        QDomElement subscribeRequest=xmlRequest.firstChildElement("SubscribeRequest");
-
-        QString address=subscribeRequest.firstChildElement("Client-IP-Address").firstChildElement().text() ;
-        QString port=subscribeRequest.elementsByTagName("ReplyPort").at(0).toElement().firstChildElement().text() ;
-        QString path=subscribeRequest.firstChildElement("ReplyPath").toElement().firstChildElement("Value").firstChild().nodeValue();
-
-            if(!path.startsWith("/"))
-            {
-            path="/"+path;
-            }
-        QString fullAddress="http://"+address+":"+port+path;
-
-        if(address.contains("%")) //IP v fixM  ?
-        {
-            qCDebug(HttpServiceLog)<<" percent sign detected";
-            fullAddress="http://["+address+"]:"+port+path;
-        }
-
-        QUrl fullAddressUrl=fullAddress;
-        qCDebug(HttpServiceLog)<<"komplet adresa subscribera "<<fullAddress;
-
-        Subscriber candidateToSubscribe;
-        candidateToSubscribe.address=fullAddressUrl;
-        candidateToSubscribe.structure=structureName;
-        handleNewSubscriber(candidateToSubscribe);
+        handleNewSubscriber(subscriberInfoFromRequest(requestXml, structureName));
     }
     else if(firstTag=="UnsubscribeRequest")
     {
-        QDomElement subscribeRequest=xmlRequest.firstChildElement("UnsubscribeRequest");
-
-        QString address=subscribeRequest.firstChildElement("Client-IP-Address").firstChildElement().text() ;
-        QString port=subscribeRequest.elementsByTagName("ReplyPort").at(0).toElement().firstChildElement().text() ;
-        QString path=subscribeRequest.firstChildElement("ReplyPath").toElement().firstChildElement("Value").firstChild().nodeValue();
-        QString fullAddress="http://"+address+":"+port+"/"+path;
-
-        if(address.contains("%")) //IP v fixM  ?
-        {
-            qCDebug(HttpServiceLog)<<" percent sign detected";
-            fullAddress="http://["+address+"]:"+port;
-        }
-
-        QUrl fullAddressUrl=fullAddress;
-        qCDebug(HttpServiceLog)<<"komplet adresa subscribera "<<fullAddress;
-
-        Subscriber candidateToSubscribe;
-        candidateToSubscribe.address=fullAddressUrl;
-        candidateToSubscribe.structure=structureName;
-
-        removeSubscriber(candidateToSubscribe);
-
+        removeSubscriber(subscriberInfoFromRequest(requestXml, structureName));
     }
     else if(firstTag=="DeviceManagementService.SetDeviceConfigurationRequest")
     {
-        QDomElement subscribeRequest=xmlRequest.firstChildElement("DeviceManagementService.SetDeviceConfigurationRequest");
-        QDomNodeList parameters=subscribeRequest.childNodes();
+        QDomNodeList parameters=requestXml.childNodes();
         QMap<QString,QString> values;
 
         for(int i=0;i<parameters.count();i++)

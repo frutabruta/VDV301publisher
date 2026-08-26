@@ -49,6 +49,9 @@ public:
     int removeSubscriber(int index);
     int removeSubscriber(Subscriber selectedSubscriber);
 
+    QString getSubscriberPostAddress(const QDomElement& subUnsubRequest);
+    Subscriber subscriberInfoFromRequest(const QDomElement& subUnsubRequest, QString structureName);
+
     QByteArray createSubscribeResponseBody(int desiredResult);  // unused
 
     QString StringToNmToken(QString input);
