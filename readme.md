@@ -8,6 +8,10 @@ Qt library for VDV301 devices used as publisher
 - TimeService 1.0 (only publishes the service, NTP server must be installed separately)
 
 ## Changelog
+- 20260830_1913
+  - added TimeService timezone TXT record
+  - added TimeService sntp-server TXT record
+
 - 20260824_2210
   - XmlTicketValidationService2_3 renamed to XmlTicketValidationService2_3CZ1_0
   - XmlTicketValidationService2_3CZ1_0 now uses 2.3CZ1.0 Xml generator

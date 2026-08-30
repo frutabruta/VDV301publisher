@@ -50,6 +50,30 @@ void TimeService::setPortNumber(int newPortNumber)
     mPortNumber = newPortNumber;
 }
 
+QHostAddress TimeService::timeServerIp() const {
+    return mTimeServerIP;
+}
+
+void TimeService::setTimeServerIp(QHostAddress addr) {
+    mTimeServerIP = addr;
+}
+
+QTimeZone TimeService::timeZone() const {
+    return mTimeZone;
+}
+
+QTimeZone TimeService::resolveTimeZone() const {
+    if (mTimeZone.isValid()) {
+        return mTimeZone;
+    } else {
+        return QTimeZone::systemTimeZone();
+    }
+}
+
+void TimeService::setTimeZone(QTimeZone timeZone) {
+    mTimeZone = timeZone;
+}
+
 /*!
  * \brief HttpSluzba::bonjourStartPublish
  * \param nazevSluzby
@@ -65,6 +89,10 @@ void TimeService::bonjourStartPublish(QString serviceName, QString serviceType,i
 
     qZeroConf.clearServiceTxtRecords();
     qZeroConf.addServiceTxtRecord("ver", version);
+    if (!mTimeServerIP.isNull()) {
+        qZeroConf.addServiceTxtRecord("sntp-server", mTimeServerIP.toString());
+    }
+    qZeroConf.addServiceTxtRecord("timezone", timeZoneToIbis(resolveTimeZone()));
     qDebug()<<"Txt record added";
 
     qZeroConf.startServicePublish(serviceName.toUtf8(), serviceType.toUtf8(), "local", port,0);
@@ -74,8 +102,20 @@ void TimeService::bonjourStartPublish(QString serviceName, QString serviceType,i
 
 }
 
-
-
+QString TimeService::timeZoneToIbis(QTimeZone timeZone) {
+    int offset = timeZone.offsetFromUtc(QDateTime::currentDateTime(timeZone));
+    QString desc = "UTC";
+    if (offset != 0) {
+        desc += offset > 0 ? "+" : "-";
+        QTime time = QTime::fromMSecsSinceStartOfDay(qAbs(offset) * 1000);
+        if (time.minute() != 0) {
+            desc += time.toString("h:mm");
+        } else {
+            desc += time.toString("h");
+        }
+    }
+    return desc;
+}
 
 /*!
  * \brief HttpSluzba::slotVypisChybuZeroConfig
