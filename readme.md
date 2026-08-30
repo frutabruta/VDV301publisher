@@ -8,6 +8,9 @@ Qt library for VDV301 devices used as publisher
 - TimeService 1.0 (only publishes the service, NTP server must be installed separately)
 
 ## Changelog
+- 20260830_1951
+  - time service refactoring
+  
 - 20260830_1913
   - added TimeService timezone TXT record
   - added TimeService sntp-server TXT record

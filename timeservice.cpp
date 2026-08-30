@@ -17,13 +17,8 @@ TimeService::TimeService(QString serviceName,QString serviceType, int portNumber
     mServiceType=serviceType;
     mVersion=version;
 
-    //qDebug()<<"xxx"<<
-
     connect(&zeroConf,&QZeroConf::error,this,&TimeService::slotDumpZeroConfigError);
-
     connect(&zeroConf,&QZeroConf::servicePublished,this,&TimeService::slotServicePublished);
-
-
 }
 
 TimeService::~TimeService()
@@ -50,27 +45,35 @@ void TimeService::setPortNumber(int newPortNumber)
     mPortNumber = newPortNumber;
 }
 
-QHostAddress TimeService::timeServerIp() const {
+QHostAddress TimeService::timeServerIp() const 
+{
     return mTimeServerIP;
 }
 
-void TimeService::setTimeServerIp(QHostAddress addr) {
+void TimeService::setTimeServerIp(QHostAddress addr) 
+{
     mTimeServerIP = addr;
 }
 
-QTimeZone TimeService::timeZone() const {
+QTimeZone TimeService::timeZone() const 
+{
     return mTimeZone;
 }
 
-QTimeZone TimeService::resolveTimeZone() const {
-    if (mTimeZone.isValid()) {
+QTimeZone TimeService::resolveTimeZone() const 
+{
+    if (mTimeZone.isValid()) 
+    {
         return mTimeZone;
-    } else {
+    } 
+    else 
+    {
         return QTimeZone::systemTimeZone();
     }
 }
 
-void TimeService::setTimeZone(QTimeZone timeZone) {
+void TimeService::setTimeZone(QTimeZone timeZone) 
+{
     mTimeZone = timeZone;
 }
 
@@ -86,10 +89,10 @@ void TimeService::bonjourStartPublish(QString serviceName, QString serviceType,i
 {
     qDebug() <<  Q_FUNC_INFO<<" "<<serviceName<<" "<<version<<" "<<serviceType<<" "<<port;
 
-
     qZeroConf.clearServiceTxtRecords();
     qZeroConf.addServiceTxtRecord("ver", version);
-    if (!mTimeServerIP.isNull()) {
+    if (!mTimeServerIP.isNull()) 
+    {
         qZeroConf.addServiceTxtRecord("sntp-server", mTimeServerIP.toString());
     }
     qZeroConf.addServiceTxtRecord("timezone", timeZoneToIbis(resolveTimeZone()));
@@ -97,20 +100,21 @@ void TimeService::bonjourStartPublish(QString serviceName, QString serviceType,i
 
     qZeroConf.startServicePublish(serviceName.toUtf8(), serviceType.toUtf8(), "local", port,0);
     //  void QZeroConf::startServicePublish(const char *name, const char *type, const char *domain, quint16 port, quint32 interface)
-
-
-
 }
 
 QString TimeService::timeZoneToIbis(QTimeZone timeZone) {
     int offset = timeZone.offsetFromUtc(QDateTime::currentDateTime(timeZone));
     QString desc = "UTC";
-    if (offset != 0) {
+    if (offset != 0) 
+    {
         desc += offset > 0 ? "+" : "-";
         QTime time = QTime::fromMSecsSinceStartOfDay(qAbs(offset) * 1000);
-        if (time.minute() != 0) {
+        if (time.minute() != 0) 
+        {
             desc += time.toString("h:mm");
-        } else {
+        }
+        else 
+        {
             desc += time.toString("h");
         }
     }
@@ -126,7 +130,6 @@ void TimeService::slotDumpZeroConfigError()
 }
 
 
-
 /*!
  * \brief HttpSluzba::zastavBonjourSluzbu
  */
@@ -134,7 +137,6 @@ void TimeService::stopBonjourService()
 {
     qDebug() <<  Q_FUNC_INFO<<mServiceName<<" "<<mVersion<<" "<<mPortNumber;
     zeroConf.stopServicePublish();
-
 }
 
 
@@ -144,7 +146,6 @@ void TimeService::slotStartDnsSd(bool parameter)
     bonjourStartAll();
     emit this->signalStav(true);
     //emit this->startSignal();
-
 }
 
 void TimeService::slotStop(bool parameter)
@@ -160,4 +161,3 @@ void TimeService::slotServicePublished()
     qDebug() <<  Q_FUNC_INFO <<" "<<this->mServiceName<<" "<<this->mVersion ;
     emit signalServicePublished(this->mServiceName+" "+this->mVersion);
 }
-
