@@ -3,6 +3,7 @@
 
 
 #include <QObject>
+#include <QTimeZone>
 
 #include "QtZeroConf/qzeroconf.h"
 
@@ -18,6 +19,13 @@ public:
     int portNumber() const;
     void setPortNumber(int newPortNumber);
 
+    QHostAddress timeServerIp() const;
+    void setTimeServerIp(QHostAddress addr);
+
+    QTimeZone timeZone() const;
+    QTimeZone resolveTimeZone() const;
+    void setTimeZone(QTimeZone timeZone);
+
 private:
     QString mServiceName="TimeService";
     QString mVersion="1.0";
@@ -31,10 +39,14 @@ private:
     //promenne
     int mPortNumber=123;
     QString mServiceType="_ibisip_udp._udp";
+    QHostAddress mTimeServerIP;
+    QTimeZone mTimeZone;
 
     //funkce
     void bonjourStartPublish(QString serviceName, QString serviceType, int port, QString version, QZeroConf &qZeroConf);
     void stopBonjourService();
+
+    static QString timeZoneToIbis(QTimeZone timeZone);
 public slots:
     void slotServicePublished();
     void slotDumpZeroConfigError();
