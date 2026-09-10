@@ -102,8 +102,11 @@ void TimeService::bonjourStartPublish(QString serviceName, QString serviceType,i
     //  void QZeroConf::startServicePublish(const char *name, const char *type, const char *domain, quint16 port, quint32 interface)
 }
 
-QString TimeService::timeZoneToIbis(QTimeZone timeZone) {
-    int offset = timeZone.offsetFromUtc(QDateTime::currentDateTime(timeZone));
+QString TimeService::timeZoneToIbis(QTimeZone timeZone)
+{
+    QDateTime now = QDateTime::currentDateTimeUtc().toTimeZone(timeZone); //Qt5.15 fix
+    int offset = timeZone.offsetFromUtc(now);
+
     QString desc = "UTC";
     if (offset != 0) 
     {

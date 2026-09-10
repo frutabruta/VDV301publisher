@@ -8,6 +8,12 @@ Qt library for VDV301 devices used as publisher
 - TimeService 1.0 (only publishes the service, NTP server must be installed separately)
 
 ## Changelog
+- 20260910_2137
+  - HttpServerPublisher
+    - added compatibility with Qt 6.11 (might need QtZeroConf fix)
+  - TimeService
+    - modified TimeService::timeZoneToIbis to work with Qt 5.15
+
 - 20260830_1951
   - time service refactoring
   

@@ -47,6 +47,12 @@ private:
 
     QString createSubscribeResponse(QString result);
     QString createUnsubscribeResponse(QString result);
+
+    #if QT_VERSION > QT_VERSION_CHECK(6, 8, 0)
+    QPointer<QTcpServer> mTcpServer;
+    void addServerHeaders(const QHttpServerRequest &request, QHttpServerResponse &resp);
+    #endif
+
 signals:
     void signalContentChanged(QByteArray result,QString structure) ;
     void signalDataReceived(QString result) ;
