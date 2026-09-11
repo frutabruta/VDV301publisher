@@ -8,6 +8,9 @@ Qt library for VDV301 devices used as publisher
 - TimeService 1.0 (only publishes the service, NTP server must be installed separately)
 
 ## Changelog
+- 20260911_1657
+  - switched to https://github.com/HelloOO7/QtZeroConf to allow native windows DNS-SD
+  
 - 20260910_2137
   - HttpServerPublisher
     - added compatibility with Qt 6.11 (might need QtZeroConf fix)

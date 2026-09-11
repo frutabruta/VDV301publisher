@@ -4,3 +4,4 @@
 [submodule "QtZeroConf"]
 	path = QtZeroConf
 	url = https://github.com/HelloOO7/QtZeroConf
+	branch = master
