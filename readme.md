@@ -8,6 +8,10 @@ Qt library for VDV301 devices used as publisher
 - TimeService 1.0 (only publishes the service, NTP server must be installed separately)
 
 ## Changelog
+- 20260921_1844
+  - Vdv301RemoteControl example
+    - fix of first empty message
+    
 - 20260911_1657
   - switched to https://github.com/HelloOO7/QtZeroConf to allow native windows DNS-SD
   

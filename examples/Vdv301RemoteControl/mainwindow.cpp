@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    createMessage(Vdv301Enumerations::RemoteControlOk,"");
     remoteControlService2_3CZ1_0.slotStartServer();
 
 
