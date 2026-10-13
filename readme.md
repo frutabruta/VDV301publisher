@@ -8,6 +8,9 @@ Qt library for VDV301 devices used as publisher
 - TimeService 1.0 (only publishes the service, NTP server must be installed separately)
 
 ## Changelog
+- 20261013_2102
+  - VDV301RemoteControl example modified service name suffix
+
 - 20260921_1844
   - Vdv301RemoteControl example
     - fix of first empty message
