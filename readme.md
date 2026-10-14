@@ -8,6 +8,12 @@ Qt library for VDV301 devices used as publisher
 - TimeService 1.0 (only publishes the service, NTP server must be installed separately)
 
 ## Changelog
+- 20261014_1529
+  - added RemoteControlService::postToSubscribers(QMap<QString,QString> structureContentMap) to allow POST without affecting GET structures
+  - RemoteControl example
+    - MainWindow::createMessage
+        - modified not to affect GET structures
+
 - 20261013_2102
   - VDV301RemoteControl example modified service name suffix
 

@@ -28,8 +28,33 @@ void MainWindow::createMessage(Vdv301Enumerations::RemoteControlMessageTypeEnume
 {
     QDomDocument document;
     QString vysledek=xmlGen.AllData2_3CZ1_0gen(document,messageType,messageParameter);
-    remoteControlService2_3CZ1_0.setBodyContent("AllData",vysledek);
-    remoteControlService2_3CZ1_0.updateStructureMap();
+    QMap<QString,QString> structureContentMap;
+    structureContentMap.insert("AllData",vysledek);
+    switch(messageType)
+    {
+
+    case Vdv301Enumerations::RemoteControlOk:
+        remoteControlService2_3CZ1_0.setBodyContent("AllData",vysledek);
+        remoteControlService2_3CZ1_0.updateStructureMap();
+        break;
+    case Vdv301Enumerations::RemoteControlError:
+        remoteControlService2_3CZ1_0.setBodyContent("AllData",vysledek);
+        remoteControlService2_3CZ1_0.updateStructureMap();
+        break;
+    case Vdv301Enumerations::RemoteControlDestinationRequest:
+        remoteControlService2_3CZ1_0.postToSubscribers(structureContentMap);
+        break;
+    case Vdv301Enumerations::RemoteControlGetOnRequest:
+        remoteControlService2_3CZ1_0.postToSubscribers(structureContentMap);
+        break;
+    case Vdv301Enumerations::RemoteControlStartRazzia:
+        remoteControlService2_3CZ1_0.postToSubscribers(structureContentMap);
+        break;
+    case Vdv301Enumerations::RemoteControlStopRazzia:
+        remoteControlService2_3CZ1_0.postToSubscribers(structureContentMap);
+        break;
+    }
+
 }
 
 void MainWindow::on_pushButton_ok_clicked()

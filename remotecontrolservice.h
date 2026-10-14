@@ -8,6 +8,7 @@ class RemoteControlService : public HttpService
 public:
     RemoteControlService();
     explicit RemoteControlService(QString serviceName, QString serviceType, int portNumber, QString version, QString serviceNamePostfix="");
+    void postToSubscribers(QMap<QString, QString> structureContentMap);
 };
 
 #endif // REMOTECONTROLSERVICE_H
