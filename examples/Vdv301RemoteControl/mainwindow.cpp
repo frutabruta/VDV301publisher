@@ -1,7 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QLoggingCategory>
 
+Q_LOGGING_CATEGORY(MainWindowLog, "MainWindow")
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -9,8 +11,15 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->label_version->setText(textVerze());
+    ui->label_version->setTextInteractionFlags(Qt::TextSelectableByMouse);
+
+
 
     createMessage(Vdv301Enumerations::RemoteControlOk,"");
+
+    connect(&remoteControlService2_3CZ1_0,&HttpService::signalDumpSubscriberList,this,&MainWindow::dumpSubscribersRcs2_3CZ1_0);
+
     remoteControlService2_3CZ1_0.slotStartServer();
 
 
@@ -57,6 +66,44 @@ void MainWindow::createMessage(Vdv301Enumerations::RemoteControlMessageTypeEnume
 
 }
 
+
+void MainWindow::dumpSubscribersRcs2_3CZ1_0(QVector<Subscriber> adresy)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    dumpSubscribersToTable(adresy,ui->tableWidget_subscribers);
+}
+
+void MainWindow::dumpSubscribersToTable(QVector<Subscriber> adresy, QTableWidget* tabulka)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    tabulka->setRowCount(0);
+    qCDebug(MainWindowLog)<<"smazano"<<" adresy.size="<<adresy.size();
+    if (adresy.size()==0)
+    {
+        qCDebug(MainWindowLog)<<"vracim 0";
+    }
+    else
+    {
+        for (int i = 0;  i < adresy.count(); i++)
+        {
+            Subscriber odberatel=adresy.at(i);
+
+            qint32 row;
+            QTableWidgetItem *cell;
+            row = tabulka->rowCount();
+            tabulka->insertRow(row);
+            cell = new QTableWidgetItem(odberatel.address.toString());
+            tabulka->setItem(row, 0, cell);
+
+
+            cell = new QTableWidgetItem(odberatel.structure);
+            tabulka->setItem(row, 1, cell);
+            tabulka->resizeColumnsToContents();
+        }
+        qCDebug(MainWindowLog)<<"vracim 1";
+    }
+}
+
 void MainWindow::on_pushButton_ok_clicked()
 {
     createMessage(Vdv301Enumerations::RemoteControlOk,"");
@@ -90,5 +137,14 @@ void MainWindow::on_pushButton_startRazzia_clicked()
 void MainWindow::on_pushButton_stopRazia_clicked()
 {
     createMessage(Vdv301Enumerations::RemoteControlStopRazzia,ui->lineEdit_vehicleNumber->text());
+}
+
+QString MainWindow::textVerze()
+{
+    QDate datumKompilace=QLocale("en_US").toDate(QString(__DATE__).simplified(), "MMM d yyyy");
+    QTime casKompilace=QTime::fromString(__TIME__,"hh:mm:ss");
+    qCDebug(MainWindowLog)<<" date:"<<datumKompilace<<" time:"<<casKompilace;
+    QString verze=datumKompilace.toString("yyyyMMdd")+"_"+casKompilace.toString("hhmm");
+    return verze;
 }
 

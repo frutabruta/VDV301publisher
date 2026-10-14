@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTableWidget>
 
 #include "../remotecontrolservice.h"
 #include "../xmlremotecontrolservice2_3cz1_0.h"
@@ -40,5 +41,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
     void createMessage(Vdv301Enumerations::RemoteControlMessageTypeEnumeration messageType, QString messageParameter);
+    void dumpSubscribersRcs2_3CZ1_0(QVector<Subscriber> adresy);
+    void dumpSubscribersToTable(QVector<Subscriber> adresy, QTableWidget *tabulka);
+    QString textVerze();
 };
 #endif // MAINWINDOW_H
